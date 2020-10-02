@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<th:block th:replace="/layout_header.html :: head_tag" />
+	<link rel="stylesheet" href="/css/site_manager.css" type="text/css">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+	<div class="wrapper">
+
+		<th:block th:replace="/layout_menu.html :: menu_tag" />
+		<div class="content-wrapper">
+			<div class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6">
+							<h1 class="m-0 text-dark" th:text="#{site.title}"></h1>
+						</div>
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-right">
+								<li class="breadcrumb-item">
+									<a href="/user" th:text="#{home}"></a>
+								</li>
+								<li class="breadcrumb-item active" th:text="#{site.title}"/>
+							</ol>
+						</div>
+					</div>
+				</div>
+			</div>
+			<section class="content">
+				<div class="container-fluid">
+					<div class="card card-default">
+						<form class="form-horizontal" id="form_data">
+							<div class="card-body">
+								<input type="hidden" id="inputId">
+								<div class="form-row">
+									<div class="form-group col-md-6">
+										<label for="inputSiteCode" th:text="#{site.site_code}"></label>
+										<input type="text" class="form-control" id="inputSiteCode" th:placeholder="#{site.site_code}">
+									</div>
+									<div class="form-group col-md-6">
+										<label for="inputSiteName" th:text="#{site.site_name}"></label>
+										<input type="text" class="form-control" id="inputSiteName" th:placeholder="#{site.site_name}">
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="form-group col-md-6">
+										<label for="selectGroupId" th:text="#{site.group_name}"></label>
+										<select id="selectGroupId" class="form-control select2 " multiple="multiple" data-placeholder="" >
+											<option value="" th:text="#{select.option.default}">--- choose ---</option>
+											<option th:each="groupMail: ${listGroupMail}" th:value="${groupMail.id}" th:text="${groupMail.name}"></option>
+										</select>
+									</div>
+									<div class="form-group col-md-6">
+										<label for="inputSiteIp" th:text="#{site.site_ip}"></label>
+										<input type="text" class="form-control" id="inputSiteIp" th:placeholder="#{site.site_ip}">
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="form-group col-md-6">
+										<label for="inputCgiIp" th:text="#{site.cgi_ip}"></label>
+										<input type="text" class="form-control" id="inputCgiIp" th:placeholder="#{site.cgi_ip}">
+									</div>
+									
+									<div class="form-group col-md-6">
+										<label for="inputCgiPort" th:text="#{site.cgi_port}"></label>
+										<input type="text" class="form-control" id="inputCgiPort" th:placeholder="#{site.cgi_port}">
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="form-group col-md-12">
+										<label for="inputAddress" th:text="#{site.address}"></label>
+										<input type="text" class="form-control" id="inputAddress" th:placeholder="#{site.address}">
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="form-group col-md-12">
+										<label for="inputDescription" th:text="#{site.description}"></label>
+										<input type="text" class="form-control" id="inputDescription" th:placeholder="#{site.description}">
+									</div>
+								</div>
+							</div>
+							<!-- /.card-body -->
+							<div class="card-footer">
+								<div class="wrap-button-control">
+									<button class="btn btn-primary" id="btnCreate">
+										<i class="fas fa-plus"></i>
+										<span th:text="#{button.add}"></span>
+									</button>
+									<button class="btn btn-warning" id="btnEdit">
+										<i class="far fa-edit"></i>
+										<span th:text="#{button.edit}"></span>
+									</button>
+									<button class="btn btn-default" id="btnCopy">
+										<i class="fas fa-copy"></i>
+										<span th:text="#{button.copy}"></span>
+									</button>
+									<button class="btn btn-danger" id="btnDelete">
+										<i class="far fa-trash-alt"></i>
+										<span th:text="#{button.delete}"></span>
+									</button>
+									<button class="btn btn-success" id="btnSaveCreate" style="display: none;">
+										<i class="fas fa-check-circle"></i>
+										<span th:text="#{button.save}"></span>
+									</button>
+									<button class="btn btn-default" id="btnBackCreate" style="display: none;">
+										<i class="fas fa-undo-alt"></i>
+										<span th:text="#{button.back}"></span>
+									</button>
+									<button class="btn btn-success" id="btnSaveEdit" style="display: none;">
+										<i class="fas fa-check-circle"></i>
+										<span th:text="#{button.save}"></span>
+									</button>
+									<button class="btn btn-default" id="btnBackEdit" style="display: none;">
+										<i class="fas fa-undo-alt"></i>
+										<span th:text="#{button.back}"></span>
+									</button>
+									<button class="btn btn-success" id="btnSaveCopy" style="display: none;">
+										<i class="fas fa-check-circle"></i>
+										<span th:text="#{button.save}"></span>
+									</button>
+									<button class="btn btn-default" id="btnBackCopy" style="display: none;">
+										<i class="fas fa-undo-alt"></i>
+										<span th:text="#{button.back}"></span>
+									</button>
+								</div>
+							</div>
+							<!-- /.card-footer -->
+						</form>
+					</div>
+					<!-- Main content -->
+					<section class="content" id="wrap_table_data">
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-12">
+									<div class="card">
+										<div class="card-header">
+											<h3 class="card-title" th:text="#{user.table_info}"></h3>
+										</div>
+										<!-- /.card-header -->
+										<div class="card-body">
+											<table id="tableDataView" class="table table-bordered table-hover">
+												<thead>
+													<tr>
+														<th>#</th>
+														<th th:text="#{site.site_code}">Site Code</th>
+														<th th:text="#{site.site_name}">Site Name</th>
+														<th th:text="#{site.site_ip}">Site Ip</th>
+														<th th:text="#{site.cgi_ip}">cgi ip</th>
+														<th th:text="#{site.cgi_port}">cgi port</th>
+														<th th:text="#{site.group_mail}">group_mail</th>
+														<th th:text="#{site.address}">Address</th>
+														<th th:text="#{site.description}">Description</th>
+														<th th:text="#{site.create_time}">Create time</th>
+														<th th:text="#{site.id}">ID</th>
+														<th th:text="#{site.group_mail_id}">group_mail_id</th>
+													</tr>
+												</thead>
+												<tbody>
+												</tbody>
+											</table>
+										</div>
+										<!-- /.card-body -->
+									</div>
+									<!-- /.card -->
+								</div>
+								<!-- /.col -->
+							</div>
+							<!-- /.row -->
+						</div>
+						<!-- /.container-fluid -->
+					</section>
+				</div>
+			</section>
+			<div class="popup-loading">
+				<div class="wrapper-loading">
+					<div class="sub-wrapper-loading">
+						<div class="d-flex justify-content-center">
+							<div class="spinner-border" role="status">
+								<span class="sr-only" th:text="#{action.loading}">Loading...</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Control Sidebar -->
+		<aside class="control-sidebar control-sidebar-dark">
+			<!-- Control sidebar content goes here -->
+		</aside>
+		<th:block th:replace="layout_footer.html :: footer_tag" />
+		<script src="/js/site.js"></script>
+	</div>
+</body>
+</html>

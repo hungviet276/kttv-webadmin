@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<th:block th:replace="/layout_header.html :: head_tag" />
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+	<div class="wrapper">
+		<th:block th:replace="/layout_menu.html :: menu_tag" />
+		<div class="content-wrapper">
+			<div class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6">
+							<h1 class="m-0 text-dark" th:text="#{ctl_relay.title}"></h1>
+						</div>
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-right">
+								<li class="breadcrumb-item"><a href="/" th:text="#{home}"></a></li>
+								<li class="breadcrumb-item active" th:text="#{ctl_relay.title}" />
+							</ol>
+						</div>
+					</div>
+				</div>
+			</div>
+			<section class="content">
+				<div class="container-fluid">
+					<div class="card card-default">
+						<div class="card-header">
+							<h3 class="card-title" th:text="#{ctl_relay.title}"></h3>
+						</div>
+						<div class="card-body">
+							<button id="create" class="btn btn-primary">Thêm mới</button>
+							<button id="controlCTL" class="btn btn-primary">Control</button>
+							<div class="form-row" style="overflow-x:scroll;">
+								<table style="width: 100% !important"
+									class="table table-hover table-bordered table-striped"
+									id="table_ctlrelay"></table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+		<div class="modal" style="display: none;width: 70%; height:500px; margin-left: 25%; margin-top: 5%; overflow-y: scroll; " id="addCTLRelay">
+			<section class="content">
+				<div class="container-fluid">
+					<div class="card card-default">
+						<div class="card-header">
+							<h3 class="card-title" th:text="#{ctl_relay.title}"></h3>
+							<button type="button" class="close" onclick="closeModal()">×</button>
+						</div>
+						<div class="card-body">
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<label for="inputSiteInfo" th:text="#{ctl_relay.siteinfo}"></label>
+									<select class="form-control select2" id="inputSiteInfo"	onchange="getDeviceInfo()">
+										<option value="" th:text="#{selection}"></option>
+										<option th:each="siteInfo : ${listSites}"
+											th:value="${siteInfo.id}" th:utext="${siteInfo.siteName}" />
+									</select>
+								</div>
+								<div class="form-group col-md-6">
+									<label for="inputDeviceInfo" th:text="#{ctl_relay.deviceinfo}"></label>
+									<select class="form-control select2" id="inputDeviceInfo">
+										<option value="" th:text="#{selection}"></option>
+									</select>
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group col-md-3">
+									<label >DI 0</label>
+									<select class="form-control di_list" id="di0">
+										<option value="-1">Không hoạt động</option>
+										<option value="0">Không kích hoạt</option>
+										<option value="1">Kích hoạt</option>
+									</select>
+								</div>
+								<div class="form-group col-md-3">
+									<label >DI 1</label>
+									<select class="form-control di_list" id="di1">
+										<option value="-1">Không hoạt động</option>
+										<option value="0">Không kích hoạt</option>
+										<option value="1">Kích hoạt</option>
+									</select>
+								</div>
+								<div class="form-group col-md-3">
+									<label >DI 2</label>
+									<select class="form-control di_list" id="di2">
+										<option value="-1">Không hoạt động</option>
+										<option value="0">Không kích hoạt</option>
+										<option value="1">Kích hoạt</option>
+									</select>
+								</div>
+								<div class="form-group col-md-3">
+									<label >DI 3</label>
+									<select class="form-control di_list" id="di3">
+										<option value="-1">Không hoạt động</option>
+										<option value="0">Không kích hoạt</option>
+										<option value="1">Kích hoạt</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group col-md-3">
+									<label >DI 4</label>
+									<select class="form-control di_list" id="di4">
+										<option value="-1">Không hoạt động</option>
+										<option value="0">Không kích hoạt</option>
+										<option value="1">Kích hoạt</option>
+									</select>
+								</div>
+								<div class="form-group col-md-3">
+									<label >DI 5</label>
+									<select class="form-control di_list" id="di5">
+										<option value="-1">Không hoạt động</option>
+										<option value="0">Không kích hoạt</option>
+										<option value="1">Kích hoạt</option>
+									</select>
+								</div>
+								<div class="form-group col-md-3">
+									<label >DI 6</label>
+									<select class="form-control di_list" id="di6">
+										<option value="-1">Không hoạt động</option>
+										<option value="0">Không kích hoạt</option>
+										<option value="1">Kích hoạt</option>
+									</select>
+								</div>
+								<div class="form-group col-md-3">
+									<label >DI 7</label>
+									<select class="form-control di_list" id="di7">
+										<option value="-1">Không hoạt động</option>
+										<option value="0">Không kích hoạt</option>
+										<option value="1">Kích hoạt</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group col-md-3">
+									<label >DI 8</label>
+									<select class="form-control di_list" id="di8">
+										<option value="-1">Không hoạt động</option>
+										<option value="0">Không kích hoạt</option>
+										<option value="1">Kích hoạt</option>
+									</select>
+								</div>
+								<div class="form-group col-md-3">
+									<label >DI 9</label>
+									<select class="form-control di_list" id="di9">
+										<option value="-1">Không hoạt động</option>
+										<option value="0">Không kích hoạt</option>
+										<option value="1">Kích hoạt</option>
+									</select>
+								</div>
+								<div class="form-group col-md-3">
+									<label >DI 10</label>
+									<select class="form-control di_list" id="di10">
+										<option value="-1">Không hoạt động</option>
+										<option value="0">Không kích hoạt</option>
+										<option value="1">Kích hoạt</option>
+									</select>
+								</div>
+								<div class="form-group col-md-3">
+									<label >DI 11</label>
+									<select class="form-control di_list" id="di11">
+										<option value="-1">Không hoạt động</option>
+										<option value="0">Không kích hoạt</option>
+										<option value="1">Kích hoạt</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="form-group col-md-3">
+									<label >DI 12</label>
+									<select class="form-control di_list" id="di12">
+										<option value="-1">Không hoạt động</option>
+										<option value="0">Không kích hoạt</option>
+										<option value="1">Kích hoạt</option>
+									</select>
+								</div>
+								<div class="form-group col-md-3">
+									<label >DI 13</label>
+									<select class="form-control di_list" id="di13">
+										<option value="-1">Không hoạt động</option>
+										<option value="0">Không kích hoạt</option>
+										<option value="1">Kích hoạt</option>
+									</select>
+								</div>
+								<div class="form-group col-md-3">
+									<label >DI 14</label>
+									<select class="form-control di_list" id="di14">
+										<option value="-1">Không hoạt động</option>
+										<option value="0">Không kích hoạt</option>
+										<option value="1">Kích hoạt</option>
+									</select>
+								</div>
+								<div class="form-group col-md-3">
+									<label >DI 15</label>
+									<select class="form-control di_list" id="di15">
+										<option value="-1">Không hoạt động</option>
+										<option value="0">Không kích hoạt</option>
+										<option value="1">Kích hoạt</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="card-footer">
+							<div class="wrap-button-control">
+								<button class="btn btn-primary" id="btnAdd">
+									<i class="fas fa-plus"></i> <span
+										th:text="#{ctl_relay.btnAdd}"></span>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+		<!-- Control Sidebar -->
+		<aside class="control-sidebar control-sidebar-dark">
+			<!-- Control sidebar content goes here -->
+		</aside>
+		<th:block th:replace="layout_footer.html :: footer_tag" />
+	</div>
+</body>
+<script th:inline="javascript">
+	$(document).ready(function(){
+		//$("#inputSiteInfo").select2();
+		//$("#inputDeviceInfo").select2();
+		var aData = JSON.parse([[${listCtlRelays}]]);
+		console.log(aData);
+		table = $('#table_ctlrelay').dataTable({
+			columnDefs:[
+		 		{ targets: '_all', className: "text-center" },
+           		{
+	                "render": function ( data, type, row,meta  ) {
+	                    return "<button class='btn btn-sm btn-info' onclick='updateCustomer("+meta.row+")'>Cập nhật</button>";
+	                },
+	                "targets": 19
+	            }
+			],
+			data : aData,
+			columns : [ 
+				{"sTitle" : "Site code","data" : "siteCode"}, 
+				{"sTitle" : "Device code","data" : "deviceCode"},
+				{"sTitle" : "DI_0","data" : "di_0"},
+				{"sTitle" : "DI_1","data" : "di_1"},
+				{"sTitle" : "DI_2","data" : "di_2"},
+				{"sTitle" : "DI_3","data" : "di_3"},
+				{"sTitle" : "DI_4","data" : "di_4"},
+				{"sTitle" : "DI_5","data" : "di_5"},
+				{"sTitle" : "DI_6","data" : "di_6"},
+				{"sTitle" : "DI_7","data" : "di_7"},
+				{"sTitle" : "DI_8","data" : "di_8"},
+				{"sTitle" : "DI_9","data" : "di_9"},
+				{"sTitle" : "DI_10","data" : "di_10"},
+				{"sTitle" : "DI_11","data" : "di_11"},
+				{"sTitle" : "DI_12","data" : "di_12"},
+				{"sTitle" : "DI_13","data" : "di_13"},
+				{"sTitle" : "DI_14","data" : "di_14"},
+				{"sTitle" : "DI_15","data" : "di_15"},
+				{"sTitle" : "Create time","data" : "create_time"},
+				{"sTitle" : "Chức năng","defaultContent": ""}
+			],
+	        buttons: [
+	            'copy', 'csv', 'excel', 'pdf'
+	        ]
+		});
+		
+		$("#create").click(function(){
+			$("#addCTLRelay").show();
+			$("#inputSiteInfo").select2();
+			$("#inputDeviceInfo").select2();
+			
+		});
+		
+		$("#btnAdd").click(function(){
+			var listDis = [];
+			$("#loading").show();
+			$(".di_list").each(function(i){
+				listDis[i] = this.value + '';
+			});
+			listDis = listDis.toString();
+			var siteId = $("#inputSiteInfo").val();
+			var deviceId = $("#inputDeviceInfo").val();
+			var url = "ctlrelay/addCtlRelayMng?siteId="+siteId+"&deviceId="+deviceId+"&listDis="+listDis;
+			$.get(url,function(data, status){
+				if(data === "SUCCESS"){
+					alert("Thêm mới thành công");
+				}else{
+					alert("Thêm mới thất bại, " + data);
+				}
+		    	$("#loading").hide();
+		    	$("#addCTLRelay").hide();
+		  	});
+		});
+		
+		$("#controlCTL").click(function(){
+			window.location.href = "ctlrelay/control";
+		});
+	});
+	
+	getDeviceInfo = function(){
+		$("#loading").show();
+		var siteId = $("#inputSiteInfo").val();
+		var url = "ctlrelay/getDeviceInfo?siteId="+siteId;
+		$.get(url,function(data, status){
+	    	var _t = JSON.parse(data);
+	    	var html = "<option value='' th:text='#{selection}'>Lựa chọn</option>";
+	    	for(var i = 0 ; i < _t.length ;i ++){
+	    		html += "<option value ='"+ _t[i].id +"'>"+ _t[i].deviceName + "</option>";
+	    	}
+	    	$("#inputDeviceInfo").html(html);
+	    	$("#inputDeviceInfo").select2();
+	    	$("#loading").hide();
+	  	});
+	}
+	
+	changeCtlRelayMng = function(obj,index,siteId,deviceId){
+		$("#loading").show();
+		var status = undefined;
+		status = obj.checked === true ? 1 : 0;
+		var url = "ctlrelay/changeCtlRelayMng?siteId="+siteId+"&deviceId="+deviceId+"&di_"+index+"="+status;
+		$.get(url,function(data, status){
+			console.log(data);
+	    	var _t = JSON.parse(data);
+	    	console.log(_t);
+	    	$("#loading").hide();
+	  	});
+	}
+	
+	closeModal = function(){
+		$("#addCTLRelay").hide();
+	}
+</script>
+</html>

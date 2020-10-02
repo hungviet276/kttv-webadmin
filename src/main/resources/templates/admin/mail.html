@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<th:block th:replace="/layout_header.html :: head_tag" />
+	<link rel="stylesheet" href="/css/site_manager.css" type="text/css">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+	<div class="wrapper">
+
+		<th:block th:replace="/layout_menu.html :: menu_tag" />
+		<div class="content-wrapper">
+			<div class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6">
+							<h1 class="m-0 text-dark" th:text="#{mail_info.title}"></h1>
+						</div>
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-right">
+								<li class="breadcrumb-item">
+									<a href="/" th:text="#{home}"></a>
+								</li>
+								<li class="breadcrumb-item active" th:text="#{mail_info.title}"/>
+							</ol>
+						</div>
+					</div>
+				</div>
+			</div>
+			<section class="content">
+				<div class="container-fluid">
+					<div class="card card-default">
+						<form class="form-horizontal" id="form_data">
+							<div class="card-body">
+								<input type="hidden" id="inputId">
+								<div class="form-row">
+									<div class="form-group col-md-6">
+										<label for="selectGroupId" th:text="#{mail_info.group_name}"></label>
+										<select id="selectGroupId" class="selectpicker form-control" >
+											<option value="" th:text="#{select.option.default}">--- choose ---</option>
+											<option th:each="groupMail: ${listGroupMail}" th:value="${groupMail.id}" th:text="${groupMail.name}"></option>
+										</select>
+									</div>
+								</div>
+								
+								<div class="form-row">
+									<div class="form-group col-md-6">
+										<label for="inputFirstName" th:text="#{mail_info.first_name}"></label>
+										<input type="text" class="form-control" id="inputFirstName" th:placeholder="#{mail_info.first_name}">
+									</div>
+									<div class="form-group col-md-6">
+										<label for="inputLastName" th:text="#{mail_info.last_name}"></label>
+										<input type="text" class="form-control" id="inputLastName" th:placeholder="#{mail_info.last_name}">
+									</div>
+								</div>
+								
+								<div class="form-row">
+									<div class="form-group col-md-6">
+										<label for="inputPhone" th:text="#{mail_info.phone}"></label>
+										<input type="text" class="form-control" id="inputPhone" th:placeholder="#{mail_info.first_name}">
+									</div>
+									<div class="form-group col-md-6">
+										<label for="inputMail" th:text="#{mail_info.mail}"></label>
+										<input type="text" class="form-control" id="inputMail" th:placeholder="#{mail_info.mail}">
+									</div>
+								</div>
+								
+								<div class="form-row">
+									<div class="form-group col-md-12">
+										<label for="inputDescription" th:text="#{mail_info.description}"></label>
+										<input type="text" class="form-control" id="inputDescription" th:placeholder="#{mail_info.description}">
+									</div>
+								</div>
+							</div>
+							
+							<!-- /.card-body -->
+							<div class="card-footer">
+								<div class="wrap-button-control">
+									<button class="btn btn-primary" id="btnCreate">
+										<i class="fas fa-plus"></i>
+										<span th:text="#{button.add}"></span>
+									</button>
+									<button class="btn btn-warning" id="btnEdit">
+										<i class="far fa-edit"></i>
+										<span th:text="#{button.edit}"></span>
+									</button>
+									<button class="btn btn-default" id="btnCopy">
+										<i class="fas fa-copy"></i>
+										<span th:text="#{button.copy}"></span>
+									</button>
+									<button class="btn btn-danger" id="btnDelete">
+										<i class="far fa-trash-alt"></i>
+										<span th:text="#{button.delete}"></span>
+									</button>
+									<button class="btn btn-success" id="btnSaveCreate" style="display: none;">
+										<i class="fas fa-check-circle"></i>
+										<span th:text="#{button.save}"></span>
+									</button>
+									<button class="btn btn-default" id="btnBackCreate" style="display: none;">
+										<i class="fas fa-undo-alt"></i>
+										<span th:text="#{button.back}"></span>
+									</button>
+									<button class="btn btn-success" id="btnSaveEdit" style="display: none;">
+										<i class="fas fa-check-circle"></i>
+										<span th:text="#{button.save}"></span>
+									</button>
+									<button class="btn btn-default" id="btnBackEdit" style="display: none;">
+										<i class="fas fa-undo-alt"></i>
+										<span th:text="#{button.back}"></span>
+									</button>
+									<button class="btn btn-success" id="btnSaveCopy" style="display: none;">
+										<i class="fas fa-check-circle"></i>
+										<span th:text="#{button.save}"></span>
+									</button>
+									<button class="btn btn-default" id="btnBackCopy" style="display: none;">
+										<i class="fas fa-undo-alt"></i>
+										<span th:text="#{button.back}"></span>
+									</button>
+								</div>
+							</div>
+							<!-- /.card-footer -->
+						</form>
+					</div>
+					<!-- Main content -->
+					<section class="content" id="wrap_table_data">
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-12">
+									<div class="card">
+										<div class="card-header">
+											<h3 class="card-title" th:text="#{mail_info.table_info}"></h3>
+										</div>
+										<!-- /.card-header -->
+										<div class="card-body">
+											<table id="tableDataView" class="table table-bordered table-hover">
+												<thead>
+													<tr>
+														<th>#</th>
+														<th th:text="#{mail_info.group_name}">group_name</th>
+														<th th:text="#{mail_info.first_name}">first_name</th>
+														<th th:text="#{mail_info.last_name}">last_name</th>
+														<th th:text="#{mail_info.phone}">phone</th>
+														<th th:text="#{mail_info.mail}">mail</th>
+														<th th:text="#{mail_info.description}">Description</th>
+														<th th:text="#{mail_info.create_time}">create_time</th>
+														<th>ID</th>
+														<th>GROUP_ID</th>
+													</tr>
+												</thead>
+												<tbody>
+												</tbody>
+											</table>
+										</div>
+										<!-- /.card-body -->
+									</div>
+									<!-- /.card -->
+								</div>
+								<!-- /.col -->
+							</div>
+							<!-- /.row -->
+						</div>
+						<!-- /.container-fluid -->
+					</section>
+				</div>
+			</section>
+			<div class="popup-loading">
+				<div class="wrapper-loading">
+					<div class="sub-wrapper-loading">
+						<div class="d-flex justify-content-center">
+							<div class="spinner-border" role="status">
+								<span class="sr-only" th:text="#{action.loading}">Loading...</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Control Sidebar -->
+		<aside class="control-sidebar control-sidebar-dark">
+			<!-- Control sidebar content goes here -->
+		</aside>
+		<script th:inline="javascript">
+			var listGroupMail = /*[[${listGroupMail}]]*/
+			var mapGroupMail = {}
+			listGroupMail.forEach(function(data){
+				mapGroupMail[data.id] = data.name
+			})
+		</script>
+		<th:block th:replace="layout_footer.html :: footer_tag" />
+		<script src="/js/mail.js"></script>
+	</div>
+</body>
+</html>

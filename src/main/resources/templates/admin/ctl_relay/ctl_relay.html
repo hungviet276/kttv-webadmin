@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<th:block th:replace="/layout_header.html :: head_tag" />
+
+<style type="text/css">
+.switch{position:relative;display:inline-block;width:60px;height:34px}.switch input{opacity:0;width:0;height:0}.slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background-color:#ccc;-webkit-transition:.4s;transition:.4s}.slider:before{position:absolute;content:"";height:26px;width:26px;left:4px;bottom:4px;background-color:#fff;-webkit-transition:.4s;transition:.4s}input:checked+.slider{background-color:#2196f3}input:focus+.slider{box-shadow:0 0 1px #2196f3}input:checked+.slider:before{-webkit-transform:translateX(26px);-ms-transform:translateX(26px);transform:translateX(26px)}.slider.round{border-radius:34px}.slider.round:before{border-radius:50%}</style>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+	<div class="wrapper">
+		<th:block th:replace="/layout_menu.html :: menu_tag" />
+		<div class="content-wrapper">
+			<div class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6">
+							<h1 class="m-0 text-dark" th:text="#{ctl_relay.title}"></h1>
+						</div>
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-right">
+								<li class="breadcrumb-item"><a href="/user"
+									th:text="#{home}"></a></li>
+								<li class="breadcrumb-item active" th:text="#{ctl_relay.title}" />
+							</ol>
+						</div>
+					</div>
+				</div>
+			</div>
+			<section class="content">
+				<div class="container-fluid">
+					<div class="card card-default">
+						<div class="card-header">
+							<h3 class="card-title" th:text="#{ctl_relay.title}"></h3>
+							<a href="/ctlrelay" style="float:right;">Quay lại</a>
+						</div>
+						<div class="card-body">
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<label for="inputSiteInfo" th:text="#{ctl_relay.siteinfo}"></label>
+									<select class="form-control select2" id="inputSiteInfo"	onchange="getDeviceInfo()">
+										<option value="" th:text="#{selection}"></option>
+										<option th:each="siteInfo : ${listSites}"
+											th:value="${siteInfo.id}" th:utext="${siteInfo.siteName}" />
+									</select>
+								</div>
+								<div class="form-group col-md-6">
+									<label for="inputDeviceInfo" th:text="#{ctl_relay.deviceinfo}"></label>
+									<select class="form-control select2" id="inputDeviceInfo" onchange="getCtlRelayMng()">
+										<option value="" th:text="#{selection}"></option>
+									</select>
+								</div>
+							</div>
+							<div id="di_list">
+								
+							</div>
+						</div>
+						<!-- <div class="card-footer">
+							<div class="wrap-button-control">
+								<button class="btn btn-primary" id="btnAdjust">
+									<i class="fas fa-plus"></i> <span
+										th:text="#{ctl_relay.btnAdjust}"></span>
+								</button>
+							</div>
+						</div> -->
+					</div>
+				</div>
+			</section>
+		</div>
+		<!-- Control Sidebar -->
+		<aside class="control-sidebar control-sidebar-dark">
+			<!-- Control sidebar content goes here -->
+		</aside>
+		<th:block th:replace="layout_footer.html :: footer_tag" />
+	</div>
+</body>
+
+<script type="text/javascript" th:inline="javascript">
+	$(document).ready(function(){
+		$("#inputSiteInfo").select2();
+		$("#inputDeviceInfo").select2();
+	});
+	getDeviceInfo = function(){
+		$("#loading").show();
+		var siteId = $("#inputSiteInfo").val();
+		var url = "getDeviceInfo?siteId="+siteId;
+		$.get(url,function(data, status){
+	    	var _t = JSON.parse(data);
+	    	var html = "<option value='' th:text='#{selection}'>Lựa chọn</option>";
+	    	for(var i = 0 ; i < _t.length ;i ++){
+	    		html += "<option value ='"+ _t[i].id +"'>"+ _t[i].deviceName + "</option>";
+	    	}
+	    	$("#inputDeviceInfo").html(html);
+	    	$("#inputDeviceInfo").select2();
+	    	$("#loading").hide();
+	  	});
+	}
+	
+	getCtlRelayMng = function(){
+		$("#loading").show();
+		var siteId = $("#inputSiteInfo").val();
+		var deviceId = $("#inputDeviceInfo").val();
+		if(deviceId === ""){
+			$("#loading").hide();
+			return;
+		}
+		var url = "getCtlRelayMng?siteId="+siteId +"&deviceId=" + deviceId;
+		$.get(url,function(data, status){
+			console.log(data);
+			if(data === "null"){
+				$("#di_list").html("");
+				$("#loading").hide();
+				return;
+			}
+	    	var _t = JSON.parse(data);
+	    	
+	    	var html = "<div class='row'>";
+	    	for(var i = 1 ; i < 17 ;i ++){
+	    		if(_t["di_"+(i-1)] !== null){
+	    			var checked = (_t["di_"+(i-1)] ==="1") ? "checked" : "";
+		    		html += "<div class='col-md-3'><label >DI "+ i +": </label>"
+		    					+ "<label class='switch' style='float: right'><input type='checkbox' name='di-list-names' "+ checked +" onchange='changeCtlRelayMng(this,"+(i-1)+","+siteId+","+deviceId+")'><span class='slider round'></span></label>"
+		    				+ "</div>";
+		    		if(i % 4 == 0){
+		    			html += "</div><div class='row'>";
+		    		}
+	    		}
+	    	}
+	    	html += "</div>";
+	    	$("#di_list").html(html);
+	    	$("#loading").hide();
+	  	});
+	}
+	
+	changeCtlRelayMng = function(obj,index,siteId,deviceId){
+		$("#loading").show();
+		var status = undefined;
+		status = obj.checked === true ? 1 : 0;
+		var url = "changeCtlRelayMng?siteId="+siteId+"&deviceId="+deviceId+"&di="+index+"&status="+status;
+		$.get(url,function(data, status){
+			if(data === "ASUCCESS"){
+				alert("Kích hoạt thành công");
+			}else if(data === "DSUCCESS"){
+				alert("Ngừng kích hoạt thành công");
+			}else{
+				alert("Thực hiện thất bại, " + data);
+			}
+	    	$("#loading").hide();
+	  	});
+	}
+</script>
+</html>

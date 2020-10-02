@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<th:block th:replace="/layout_header.html :: head_tag" />
+	<link rel="stylesheet" href="/css/camera.css" type="text/css">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+	<th:block th:replace="/layout_menu.html :: menu_tag" />
+	<div class="content-wrapper">
+		<div class="content-header">
+			<div class="container-fluid">
+				<div class="row mb-2">
+					<div class="col-sm-6">
+						<h1 class="m-0 text-dark" th:text="#{menu.camera}"></h1>
+					</div>
+				</div>
+			</div>
+		</div>
+		<section class="content">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-sm-12 col-md-6">
+						<label for="selectSiteId" th:text="#{camera.choose_site}"></label>
+						<select id="selectSiteId" class="form-control select2bs4">
+							<option value="" th:text="#{camera.choose_site}" selected disabled></option>
+							<option th:each="siteInfo : ${siteInfoList}" th:value="${siteInfo.getId()}" th:text="${siteInfo.getSiteName()}"></option>
+						</select>
+					</div>
+				</div>
+				<section class="show-list-device" id="showListDevice">
+
+				</section>
+
+			</div>
+		</section>
+		<!-- /.content -->
+	</div>
+
+	<!-- Control Sidebar -->
+	<aside class="control-sidebar control-sidebar-dark">
+		<!-- Control sidebar content goes here -->
+	</aside>
+	<!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+<div class="popup-video">
+	<div class="container-fluid">
+		<div class="row container-close">
+			<span class="close">&times;</span>
+		</div>
+		<div class="row">
+			<div class="col-md-12  col-lg-2 control-remote">
+				<div class="row">
+					<div class="remote">
+						<div class="row">
+							<div class="col-12">
+								<div class="flex-container">
+									<div class="flex-item remote-top-left" onmousedown="doRemote(this, 'START')" onmouseup="doRemote(this, 'STOP')" data-direction="LU" id=LU>
+										<span class="fas fa-circle remote-control-data"></span>
+									</div>
+									<div class="flex-item remote-top" onmousedown="doRemote(this, 'START')" onmouseup="doRemote(this, 'STOP')" data-direction="U" id=U>
+										<span  class="fas fa-chevron-up remote-control-data"></span>
+									</div>
+									<div class="flex-item remote-top-right" onmousedown="doRemote(this, 'START')" onmouseup="doRemote(this, 'STOP')" data-direction="RU" id=RU>
+										<span  class="fas fa-circle remote-control-data"></span>
+									</div>
+								</div>
+							</div>
+							<div class="col-12">
+								<div class="flex-container">
+									<div class="flex-item remote-left" onmousedown="doRemote(this, 'START')" onmouseup="doRemote(this, 'STOP')" data-direction="L">
+										<span  class="fas fa-chevron-left remote-control-data"></span>
+									</div>
+									<div class="flex-item">
+										<div class="wrap-enter-1">
+											<div class="wrap-enter-2 flex-container" style="padding: 18%">
+												<div class="flex-item wrap-remote remote-minus" onmousedown="doRemote(this, 'START')" onmouseup="doRemote(this, 'STOP')" data-direction="MINUS">
+													<div class="minus">
+														<span class="fas fa-minus remote-control-data"></span>
+													</div>
+												</div>
+												<div class="flex-item wrap-remote remote-plus" style="position: relative;" onmousedown="doRemote(this, 'START')" onmouseup="doRemote(this, 'STOP')" data-direction="PLUS" >
+													<div class="plus">
+														<span class="fas fa-plus remote-control-data"></span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="flex-item remote-right" onmousedown="doRemote(this, 'START')" onmouseup="doRemote(this, 'STOP')" data-direction="R" id=R>
+										<span class="fas fa-chevron-right remote-control-data"></span>
+									</div>
+								</div>
+							</div>
+							<div class="col-12">
+								<div class="flex-container">
+									<div class="flex-item remote-bottom-left" onmousedown="doRemote(this, 'START')" onmouseup="doRemote(this, 'STOP')" data-direction="LD" id=LD>
+										<span  class="fas fa-circle remote-control-data"></span>
+									</div>
+									<div class="flex-item remote-down" onmousedown="doRemote(this, 'START')" onmouseup="doRemote(this, 'STOP')" data-direction="D" id=D>
+										<span class="fas fa-chevron-down remote-control-data"></span>
+									</div>
+									<div class="flex-item remote-bottom-right"  onmousedown="doRemote(this, 'START')" onmouseup="doRemote(this, 'STOP')" data-direction="RD" id=RD>
+										<span class="fas fa-circle remote-control-data"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="info-camera" id="infoCamera">
+
+				</div>
+			</div>
+			<div class="col-md-12 col-lg-10 full-video">
+				<div id="canvasFullScreen"><canvas id="canvas"></canvas></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<th:block th:replace="layout_footer.html :: footer_tag" />
+<script src="/js/jsmpeg.min.js"></script>
+<script src="/js/camera.js"></script>
+
+</body>
+</html>

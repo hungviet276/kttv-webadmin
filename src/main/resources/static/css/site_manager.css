@@ -1,0 +1,41 @@
+.wrap-button-control {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.wrap-button-control button {
+    margin: 0.5em 1em 0.5em 1em;
+}
+
+.popup-loading {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: black;
+    width: 100%;
+    height: 100%;
+    z-index: 1050;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    transition: opacity 1.5s ease-out;
+}
+
+.wrapper-loading {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    vertical-align: middle;
+}
+
+.sub-wrapper-loading {
+    text-align: center;
+}
+
+#tableDataView thead tr th {
+	text-align: center;
+}

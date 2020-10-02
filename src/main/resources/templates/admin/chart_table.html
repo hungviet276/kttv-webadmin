@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+	<th:block th:replace="/layout_header.html :: head_tag" />
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+	<div class="wrapper">
+		<th:block th:replace="/layout_menu.html :: menu_tag" />
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<div class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6">
+							<h1 class="m-0 text-dark" th:text="#{device.title}">IO</h1>
+						</div>
+						<!-- /.col -->
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-right">
+								<li class="breadcrumb-item"><a href="/" th:text="#{home}"></a></li>
+								<li class="breadcrumb-item active"  th:text="#{device.title}">IO</li>
+							</ol>
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
+				</div>
+				<!-- /.container-fluid -->
+			</div>
+			<!-- /.content-header -->
+			<div class="container">
+				<form id="inputForm0">
+					<div class="form-group row">
+						<div class="col-md-4">
+							<select id="select_site" name="select_site" class="form-control">
+								<option value="" th:text="#{device.select_site}">--- choose ---</option>
+								<option th:each="site: ${sites}" th:title="${site.siteName}" th:value="${site.id}" th:text="${site.siteName}"></option>
+							</select>
+						</div>
+						<div class="col-md-4">
+							<select id="select_device" name="select_device" class="form-control" disabled>
+								<option value="" th:text="#{device.select_device}">--- choose ---</option>
+							</select>
+						</div>
+						<div class="col-md-4">
+							<select id="select_command" name="select_command" class="form-control" disabled>
+								<option value="" th:text="#{device.select_command}">--- choose ---</option>
+							</select>
+						</div>
+					</div>
+				</form>
+				<div class="row">
+					<div id="container" class="col-12">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>RelationKey</th>
+									<th th:text="#{device.time}">Thời gian</th>
+									<th th:text="#{device.site}">Site</th>
+									<th th:text="#{device.device}">Thiết bị</th>
+									<th class="di-col">di0</th>
+									<th class="di-col">di1</th>
+									<th class="di-col">di2</th>
+									<th class="di-col">di3</th>
+									<th class="di-col">di4</th>
+									<th class="di-col">di5</th>
+									<th class="di-col">di6</th>
+									<th class="di-col">di7</th>
+									<th class="di-col">di8</th>
+									<th class="di-col">di9</th>
+									<th class="di-col">di10</th>
+									<th class="di-col">di11</th>
+									<th class="di-col">di12</th>
+									<th class="di-col">di13</th>
+									<th class="di-col">di14</th>
+									<th class="di-col">di15</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<!-- /.content -->
+		</div>
+		<!-- Control Sidebar -->
+		<aside class="control-sidebar control-sidebar-dark">
+			<!-- Control sidebar content goes here -->
+		</aside>
+		<th:block th:replace="layout_footer.html :: footer_tag" />
+		<style type="text/css">
+		#container table td,
+		#container table th {
+			padding-top: 0;
+			padding-bottom: 0;
+		}
+
+		.di-col {
+			padding: 0 !important;
+			text-align: center;
+		}
+		</style>
+		<script>
+		function createOption(value, name, data) {
+			var option = $("<option value='" + value + "'>" + name + "</option>");
+			if (data != null) option.data("data", data);
+			return option;
+		}
+
+		function clearOption(select) {
+			$(select).find('option:not([value=""])').each(function() {
+				$(this).remove();
+			});
+		}
+
+		function enableSelection(select) {
+			$(select).prop("disabled", false);
+		}
+
+		function disableSelection(select) {
+			$(select).prop("disabled", true);
+		}
+
+		function renderDeviceOptions(devices) {
+			for (let i = 0; i < devices.length; i++) {
+				var device = devices[i];
+				var option = createOption(device.id, device.deviceName, device);
+				$("#select_device").append(option);
+			}
+		}
+
+		function renderCommandOptions(commands) {
+			for (let i = 0; i < commands.length; i++) {
+				var command = commands[i];
+				var option = createOption(command.id, command.code, command);
+				$("#select_command").append(option);
+			}
+		}
+
+		function getSiteId() {
+			return $("#select_site").val();
+		}
+
+		function getDeviceId() {
+			return $("#select_device").val();
+		}
+
+		function getCommandId() {
+			return $("#select_command").val();
+		}
+
+		function getSelectedDevice() {
+			var selectedDeviceOption = $("#select_device").find("option:selected");
+			return selectedDeviceOption.data("data");
+		}
+
+		$("#select_site").change(function() {
+			clearReportTable();
+			var siteId = getSiteId();
+			if (!siteId) {
+				clearOption("#select_device");
+				disableSelection("#select_device");
+				return;
+			}
+			$.ajax({
+					method: "GET",
+					url: "/api/device/chart/find",
+					data: {
+						siteId: siteId
+					}
+				})
+				.done(function(devices) {
+					clearOption("#select_device");
+					renderDeviceOptions(devices);
+					enableSelection("#select_device");
+				});
+		});
+
+		$("#select_device").change(function() {
+			clearReportTable();
+			var device = getSelectedDevice();
+			if (device == null) {
+				clearOption("#select_command");
+				disableSelection("#select_command");
+				return;
+			}
+			$.ajax({
+					method: "GET",
+					url: "/api/command/chart/" + device.deviceTypeId,
+				})
+				.done(function(commands) {
+					clearOption("#select_command");
+					renderCommandOptions(commands);
+					enableSelection("#select_command");
+				});
+		});
+
+		$("#select_command").change(function() {
+			clearReportTable();
+			var commandId = getCommandId();
+			if (commandId == null) {
+				stopLoadDataService();
+				return;
+			}
+			loadReportData();
+			startLoadDataService();
+		});
+
+		function clearReportTable() {
+			lastTime = null;
+			var table = $("#container table");
+			table.find("tbody").empty();
+		}
+
+		function createTdByDi(di) {
+			var text = di == 1 ? "ON" : "OFF";
+			var cssClass = di == 1 ? "bg-success" : "bg-danger";
+			return "<td class='di-col'><span class='badge " + cssClass + "'>" + text + "</td>";
+		}
+
+		function prependRow(table, element) {
+			var row = $("<tr></tr>");
+			row.data("time", element.time);
+			row.append("<td>" + element.relationKey + "</td>");
+			row.append("<td>" + moment(element.time * 1000).format('DD/MM/YYYY HH:mm:ss') + "</td>");
+			row.append("<td>" + element.siteCode + "</td>");
+			row.append("<td>" + element.deviceCode + "</td>");
+			row.append(createTdByDi(element.di0));
+			row.append(createTdByDi(element.di1));
+			row.append(createTdByDi(element.di2));
+			row.append(createTdByDi(element.di3));
+			row.append(createTdByDi(element.di4));
+			row.append(createTdByDi(element.di5));
+			row.append(createTdByDi(element.di6));
+			row.append(createTdByDi(element.di7));
+			row.append(createTdByDi(element.di8));
+			row.append(createTdByDi(element.di9));
+			row.append(createTdByDi(element.di10));
+			row.append(createTdByDi(element.di11));
+			row.append(createTdByDi(element.di12));
+			row.append(createTdByDi(element.di13));
+			row.append(createTdByDi(element.di14));
+			row.append(createTdByDi(element.di15));
+			table.find("tbody").prepend(row);
+		}
+
+		function removeLastRow(table, keepItem) {
+			var rows = table.find("tbody tr");
+			var total = rows.length;
+			if (total > keepItem) {
+				while (total-- > keepItem) {
+					rows.last().remove();
+				}
+			}
+		}
+
+		function removeLastDayData(table) {
+			var currentDay = moment.unix(lastTime).startOf('day');
+			var timeOfCurrentDay = currentDay.unix();
+			table.find("tbody tr").each(function(i, e) {
+				var rowTime = $(e).data("time");
+				if(rowTime < timeOfCurrentDay)
+					this.remove();
+			});
+		}
+
+		function renderReportData(reportData) {
+			var table = $("#container table");
+			for (let i = reportData.length - 1; i >= 0; i--) {
+				// Xóa tới maxItem-1 để add thêm
+				//removeLastRow(table, maxItem - 1);
+				var row = reportData[i];
+				prependRow(table, row);
+				lastTime = row.time;
+			}
+			removeLastDayData(table);
+		}
+
+		function loadReportData() {
+			var siteId = getSiteId();
+			var deviceId = getDeviceId();
+			var commandId = getCommandId();
+			if (!siteId || !deviceId || !commandId)
+				return;
+			$.ajax({
+					method: "GET",
+					url: "/api/io/table/chart/data",
+					data: {
+						siteId: siteId,
+						deviceId: deviceId,
+						commandId: commandId,
+						lastTime: lastTime,
+						maxItem: maxItem
+					}
+				})
+				.done(function(element) {
+					renderReportData(element);
+				});
+		}
+
+		var reloadInterval = 5000;
+		var maxItem = 20;
+		var lastTime = null;
+		var loadDataService = null;
+
+		function startLoadDataService() {
+			stopLoadDataService();
+			loadDataService = setInterval(loadReportData, reloadInterval);
+		}
+
+		function stopLoadDataService() {
+			if (loadDataService != null) {
+				clearInterval(loadDataService);
+				loadDataService = null;
+			}
+		}
+		</script>
+	</div>
+</body>
+
+</html>
