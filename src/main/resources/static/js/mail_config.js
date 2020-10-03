@@ -53,7 +53,7 @@ var table = $('#tableDataView').DataTable({
     ],
     "ajax": {
         headers: {
-            'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbmlzdHJhdG9yIiwiYXV0aCI6IiIsImV4cCI6MTYwMTYyOTg3NH0.8ZUl8eDHqUUy_Xjp5QoxArJQoc0I6ABFH2r1amnrT_Csy0Kq1il0PfZW1A6t27aWYj7LkwPVWCPHm57YplTc9w'
+            'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbmlzdHJhdG9yIiwiYXV0aCI6IiIsImV4cCI6MTYwMTYzNjQyOX0.pJW-QzS47BCbvpZmESPBiqACmoswAsOCoX8kwQ1VLC95Xt9RzacGJDbMirHY9rpi1WtlPBaw1FGuP3rnjRCv_Q'
         },
         "url": "http://localhost:8080/api/v1/mail-config/get-list-mail-config-pagination",
         "method": "POST",
