@@ -81,7 +81,7 @@
                         <div class="col-sm-12 col-md-6">
                             <div class="form-group row">
                                 <label for="inputSenderName" class="col-sm-5 col-form-label col-form-label-sm">
-                                    <strong>Tên người gửi</strong>
+                                    <strong>TÃªn ngÆ°á»�i gá»­i</strong>
                                 </label>
                                 <div class="col-sm-7">
                                     <input type="text" class="form-control form-control-sm" id="inputSenderName">
@@ -93,7 +93,7 @@
                         <div class="col-sm-12 col-md-6">
                             <div class="form-group row">
                                 <label for="inputEmailAddress" class="col-sm-5 col-form-label col-form-label-sm">
-                                    <strong>Địa chỉ Email</strong>
+                                    <strong>Ä�á»‹a chá»‰ Email</strong>
                                 </label>
                                 <div class="col-sm-7">
                                     <input type="password" class="form-control form-control-sm" id="inputEmailAddress">
@@ -103,7 +103,7 @@
                         <div class="col-sm-12 col-md-6">
                             <div class="form-group row">
                                 <label for="inputProtocol" class="col-sm-5 col-form-label col-form-label-sm">
-                                    <strong>Giao thức</strong>
+                                    <strong>Giao thá»©c</strong>
                                 </label>
                                 <div class="col-sm-7">
                                     <input type="text" class="form-control form-control-sm" id="inputProtocol">
@@ -113,10 +113,10 @@
                     </div>
                 </form>
                 <div class="button-crud">
-                    <button class="btn btn-sm btn-default">Tìm kiếm</button>
-                    <button class="btn btn-sm btn-default" onclick="createMailConfig(event)">Thêm mới</button>
-                    <button class="btn btn-sm btn-warning">Sửa</button>
-                    <button class="btn btn-sm btn-danger">Xoá</button>
+                    <button class="btn btn-sm btn-default">TÃ¬m kiáº¿m</button>
+                    <button class="btn btn-sm btn-default" onclick="createMailConfig(event)">ThÃªm má»›i</button>
+                    <button class="btn btn-sm btn-warning">Sá»­a</button>
+                    <button class="btn btn-sm btn-danger">XoÃ¡</button>
                 </div>
                 <section class="content wrap-table-data">
                     <div class="container-fluid">
@@ -124,7 +124,7 @@
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h3 class="card-title">Danh email cấu hình</h3>
+                                        <h3 class="card-title">Danh email cáº¥u hÃ¬nh</h3>
                                     </div>
                                     <!-- /.card-header -->
                                     <div class="card-body">
@@ -135,12 +135,12 @@
                                                 <th>ID</th>
                                                 <th>Ip</th>
                                                 <th>Port</th>
-                                                <th>Tên đăng nhập</th>
-                                                <th>Mật khẩu</th>
-                                                <th>Tên miền</th>
-                                                <th>Tên người gửi</th>
+                                                <th>TÃªn Ä‘Äƒng nháº­p</th>
+                                                <th>Máº­t kháº©u</th>
+                                                <th>TÃªn miá»�n</th>
+                                                <th>TÃªn ngÆ°á»�i gá»­i</th>
                                                 <th>Email</th>
-                                                <th>Giao thức</th>
+                                                <th>Giao thá»©c</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -177,6 +177,12 @@
         <!-- Control sidebar content goes here -->
     </aside>
     <th:block th:replace="layout_footer.html :: footer_tag" />
+    <script type="text/javascript">
+    	var apiUrl = "[[${session.apiUrl}]]";
+    	var userBO = "[[${session.userBO}]]";
+    	var token = "[[${session.token}]]";
+    	console.log(apiUrl + "|" + JSON.stringify(userBO) + "|" + token);
+    </script>
     <script src="/js/mail_config.js"></script>
 </div>
 </body>

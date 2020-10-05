@@ -53,9 +53,9 @@ var table = $('#tableDataView').DataTable({
     ],
     "ajax": {
         headers: {
-            'Authorization': token
+            'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbmlzdHJhdG9yIiwiYXV0aCI6IiIsImV4cCI6MTYwMTYyOTg3NH0.8ZUl8eDHqUUy_Xjp5QoxArJQoc0I6ABFH2r1amnrT_Csy0Kq1il0PfZW1A6t27aWYj7LkwPVWCPHm57YplTc9w'
         },
-        "url": apiUrl + "mail-config/get-list-mail-config-pagination",
+        "url": "http://localhost:8080/api/v1/mail-config/get-list-mail-config-pagination",
         "method": "POST",
         "contentType": "application/json",
         "data": function (d) {
@@ -112,9 +112,9 @@ function createMailConfig(e) {
 
     $.ajax({
         headers: {
-            'Authorization': token
+            'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbmlzdHJhdG9yIiwiYXV0aCI6IiIsImV4cCI6MTYwMTYyOTg3NH0.8ZUl8eDHqUUy_Xjp5QoxArJQoc0I6ABFH2r1amnrT_Csy0Kq1il0PfZW1A6t27aWYj7LkwPVWCPHm57YplTc9w'
         },
-        "url": apiUrl + "mail-config/create-mail-config",
+        "url": "http://localhost:8080/api/v1/mail-config/create-mail-config",
         "method": "POST",
         "contentType": "application/json",
         "data": JSON.stringify(data),
