@@ -17,114 +17,101 @@
             </div>
         </div>
         <section class="content">
-            <div class="main-search"></div>
-            <div class="main-crud">
-                <h4 class="form-right-title text-center">
-                    Cấu hình gửi email
-                </h4>
-                <form action="#">
-                    <div class="row">
-                        <div class="col-sm-12 col-md-6">
-                            <div class="form-group row">
-                                <label for="inputIp" class="col-sm-5 col-form-label col-form-label-sm">
-                                    <strong>IP</strong>
-                                </label>
-                                <div class="col-sm-7">
-                                    <input type="text" class="form-control form-control-sm" id="inputIp">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-6">
-                            <div class="form-group row">
-                                <label for="inputPort" class="col-sm-5 col-form-label col-form-label-sm">
-                                    <strong>Port</strong>
-                                </label>
-                                <div class="col-sm-7">
-                                    <input type="text" class="form-control form-control-sm" id="inputPort">
-                                </div>
-                            </div>
-                        </div>
+            <div class="container-fluid">
+                <div class="card card-default">
+                    <div class="card-header">
+                        <h3 class="card-title">Quản lý cấu hình email</h3>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-12 col-md-6">
-                            <div class="form-group row">
-                                <label for="inputUsernameEmail" class="col-sm-5 col-form-label col-form-label-sm">
-                                    <strong>Tên đăng nhập</strong>
-                                </label>
-                                <div class="col-sm-7">
-                                    <input type="text" class="form-control form-control-sm" id="inputUsernameEmail">
+                    <form class="form-horizontal" id="form_data">
+                        <div class="card-body">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputIp">Địa chỉ IP</label>
+                                    <input type="text" class="form-control" id="inputIp" placeholder="IP">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputPort">Cổng</label>
+                                    <input type="text" class="form-control" id="inputPort"
+                                           placeholder="Port">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputUsername">Tên đang nhập</label>
+                                    <input type="text" class="form-control" id="inputUsername" placeholder="Username">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="inputPassword">Mật khẩu</label>
+                                    <input type="text" class="form-control" id="inputPassword" placeholder="Password">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputDomain">Tên miền</label>
+                                    <input type="text" class="form-control" id="inputDomain" placeholder="Domain">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputSenderName">Người gửi</label>
+                                    <input type="text" class="form-control" id="inputSenderName" placeholder="Sender name">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputEmailAddress">Địa chỉ email</label>
+                                    <input type="email" class="form-control" id="inputEmailAddress" placeholder="Domain">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputProtocol">Giao thức</label>
+                                    <input type="text" class="form-control" id="inputProtocol" placeholder="Protocol">
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-12 col-md-6">
-                            <div class="form-group row">
-                                <label for="inputPasswordEmail" class="col-sm-5 col-form-label col-form-label-sm">
-                                    <strong>Mật khẩu</strong>
-                                </label>
-                                <div class="col-sm-7">
-                                    <input type="password" class="form-control form-control-sm" id="inputPasswordEmail">
-                                </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <div class="wrap-button-control">
+                                <button class="btn btn-primary" id="btnCreate">
+                                    <i class="fas fa-plus"></i> Thêm
+                                </button>
+                                <button class="btn btn-warning" id="btnEdit">
+                                    <i class="far fa-edit"></i> Sửa
+                                </button>
+                                <button class="btn btn-default" id="btnCopy">
+                                    <i class="fas fa-copy"></i> Sao chép
+                                </button>
+                                <button class="btn btn-danger" id="btnDelete">
+                                    <i class="far fa-trash-alt"></i> Xoá
+                                </button>
+                                <button class="btn btn-success" id="btnSaveCreate" style="display: none;">
+                                    <i class="fas fa-check-circle"></i> Lưu lại
+                                </button>
+                                <button class="btn btn-default" id="btnBackCreate" style="display: none;">
+                                    <i class="fas fa-undo-alt"></i> Quay lại
+                                </button>
+                                <button class="btn btn-success" id="btnSaveEdit" style="display: none;">
+                                    <i class="fas fa-check-circle"></i> Lưu lại
+                                </button>
+                                <button class="btn btn-default" id="btnBackEdit" style="display: none;">
+                                    <i class="fas fa-undo-alt"></i> Quay lại
+                                </button>
+                                <button class="btn btn-success" id="btnSaveCopy" style="display: none;">
+                                    <i class="fas fa-check-circle"></i> Lưu lại
+                                </button>
+                                <button class="btn btn-default" id="btnBackCopy" style="display: none;">
+                                    <i class="fas fa-undo-alt"></i> Quay lại
+                                </button>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12 col-md-6">
-                            <div class="form-group row">
-                                <label for="inputDomain" class="col-sm-5 col-form-label col-form-label-sm">
-                                    <strong>Tên miền</strong>
-                                </label>
-                                <div class="col-sm-7">
-                                    <input type="text" class="form-control form-control-sm" id="inputDomain">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-6">
-                            <div class="form-group row">
-                                <label for="inputSenderName" class="col-sm-5 col-form-label col-form-label-sm">
-                                    <strong>TÃªn ngÆ°á»�i gá»­i</strong>
-                                </label>
-                                <div class="col-sm-7">
-                                    <input type="text" class="form-control form-control-sm" id="inputSenderName">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12 col-md-6">
-                            <div class="form-group row">
-                                <label for="inputEmailAddress" class="col-sm-5 col-form-label col-form-label-sm">
-                                    <strong>Ä�á»‹a chá»‰ Email</strong>
-                                </label>
-                                <div class="col-sm-7">
-                                    <input type="password" class="form-control form-control-sm" id="inputEmailAddress">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-6">
-                            <div class="form-group row">
-                                <label for="inputProtocol" class="col-sm-5 col-form-label col-form-label-sm">
-                                    <strong>Giao thá»©c</strong>
-                                </label>
-                                <div class="col-sm-7">
-                                    <input type="text" class="form-control form-control-sm" id="inputProtocol">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-                <div class="button-crud">
-                    <button class="btn btn-sm btn-default">TÃ¬m kiáº¿m</button>
-                    <button class="btn btn-sm btn-default" onclick="createMailConfig(event)">ThÃªm má»›i</button>
-                    <button class="btn btn-sm btn-warning">Sá»­a</button>
-                    <button class="btn btn-sm btn-danger">XoÃ¡</button>
+                        <!-- /.card-footer -->
+                    </form>
                 </div>
-                <section class="content wrap-table-data">
+                <!-- Main content -->
+                <section class="content" id="wrap_table_data">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h3 class="card-title">Danh email cáº¥u hÃ¬nh</h3>
+                                        <h3 class="card-title">Danh sách tài khoản trong hệ thống</h3>
                                     </div>
                                     <!-- /.card-header -->
                                     <div class="card-body">
@@ -133,14 +120,13 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th>ID</th>
-                                                <th>Ip</th>
-                                                <th>Port</th>
-                                                <th>TÃªn Ä‘Äƒng nháº­p</th>
-                                                <th>Máº­t kháº©u</th>
-                                                <th>TÃªn miá»�n</th>
-                                                <th>TÃªn ngÆ°á»�i gá»­i</th>
+                                                <th>Tên đăng nhập</th>
                                                 <th>Email</th>
-                                                <th>Giao thá»©c</th>
+                                                <th>Quyền</th>
+                                                <th>Kích hoạt</th>
+                                                <th>Ngày tạo</th>
+                                                <th>Ngày sửa</th>
+                                                <th>active</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -156,6 +142,7 @@
                         </div>
                         <!-- /.row -->
                     </div>
+                    <!-- /.container-fluid -->
                 </section>
             </div>
         </section>
@@ -178,10 +165,10 @@
     </aside>
     <th:block th:replace="layout_footer.html :: footer_tag" />
     <script type="text/javascript">
-    	var apiUrl = "[[${session.apiUrl}]]";
-    	var userBO = "[[${session.userBO}]]";
-    	var token = "[[${session.token}]]";
-    	console.log(apiUrl + "|" + JSON.stringify(userBO) + "|" + token);
+	    var apiUrl = "[[${session.apiUrl}]]";
+	    var userBO = "[[${session.userBO}]]";
+	    var token = "[[${session.token}]]";
+	    console.log(apiUrl + "|" + JSON.stringify(userBO) + "|" + token);
     </script>
     <script src="/js/mail_config.js"></script>
 </div>

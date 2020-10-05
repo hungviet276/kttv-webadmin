@@ -1,6 +1,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <div th:fragment="footer_tag" th:remove="tag">
 	<script src="/admin_lte/plugins/jquery/jquery.min.js"></script>
+	<script src="/admin_lte/plugins/bootstrap/js/bootstrap.min.js"></script>
 	<script src="/admin_lte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 	<!-- jQuery UI 1.11.4 -->
 	<script src="/admin_lte/plugins/jquery-ui/jquery-ui.min.js"></script>
@@ -31,9 +32,11 @@
 	<script src="/admin_lte/plugins/select2/js/select2.full.min.js"></script>
 	<script src="/admin_lte/plugins/sweetalert2/sweetalert2.min.js"></script>
 	<script src="/admin_lte/plugins/toastr/toastr.min.js"></script>
+	<script src="/admin_lte/dist/js/adminlte.min.js"></script>
+	<script src="/admin_lte/dist/js/demo.js"></script>
 
 	<footer class="main-footer">
-		<strong>NBD</strong>
+		<strong>NBD WebAdmin</strong>
 		<div class="float-right d-none d-sm-inline-block">
 			<b>Version</b>
 			1.0.0
@@ -43,7 +46,7 @@
 		/* function connect() {
 			var socket = new SockJS('/ws');
 			var stompClient = Stomp.over(socket);
-			stompClient.debug = null
+			stompClient.debug = null;
 			stompClient.connect({}, function(frame) {
 				stompClient.subscribe('/user/queue/notify', function(notification) {
 					notify(JSON.parse(notification.body));
