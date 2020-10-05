@@ -37,7 +37,11 @@
                                     <textarea class="form-control" rows="3" placeholder="Nhập ..."></textarea>
                                 </div>
                             </div>
-                            <!-- /.card-body -->
+                            <input type="hidden" value="" id="page" name="page"/>
+                            <input type="hidden" value="" id="maxPageItem" name="maxPageItem"/>
+                            <input type="hidden" value="" id="sortName" name="sortName"/>
+                            <input type="hidden" value="" id="sortBy" name="sortBy"/>
+                            <input type="hidden" value="" id="type" name="type"/>
 
                             <div class="" style="text-align: center;">
                                 <button type="button" class="min-with-btn btn btn-outline-secondary">Tìm kiếm</button>
@@ -200,6 +204,7 @@
                                             </tr>
                                             </tbody>
                                         </table>
+                                        <ul class="pagination" id="pagination"></ul>
                                     </div>
                                 </div>
                                 <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel"
