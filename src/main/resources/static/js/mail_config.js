@@ -24,7 +24,7 @@ var table = $('#tableDataView').DataTable({
         [10, 25, 50, -1],
         [10, 25, 50, "Tất cả"]
     ],
-    "lengthChange": false,
+    "lengthChange": true,
     "searching": true,
     "ordering": false,
     "info": true,
@@ -71,8 +71,8 @@ var table = $('#tableDataView').DataTable({
             let responseJson = JSON.parse(response);
             let dataRes = {
                 "draw": draw,
-                "recordsFiltered": responseJson.recordFiltered,
-                "recordsTotal": responseJson.recordTotal,
+                "recordsFiltered": responseJson.recordsTotal,
+                "recordsTotal": responseJson.recordsTotal,
                 "data": []
             };
 
