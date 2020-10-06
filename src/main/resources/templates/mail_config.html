@@ -164,6 +164,12 @@
         <!-- Control sidebar content goes here -->
     </aside>
     <th:block th:replace="layout_footer.html :: footer_tag" />
+    <script type="text/javascript">
+	    var apiUrl = "[[${session.apiUrl}]]";
+	    var userBO = "[[${session.userBO}]]";
+	    var token = "[[${session.token}]]";
+	    console.log(apiUrl + "|" + JSON.stringify(userBO) + "|" + token); 
+    </script>
     <script src="/js/mail_config.js"></script>
 </div>
 </body>

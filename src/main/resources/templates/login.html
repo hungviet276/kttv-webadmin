@@ -1,74 +1,84 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!--    <meta name="_csrf" th:content="${_csrf.token}"/>-->
-    <!--    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>-->
-    <title>Login</title>
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!--    <meta name="_csrf" th:content="${_csrf.token}"/>-->
+<!--    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>-->
+<title>Login</title>
+<!-- Tell the browser to be responsive to screen width -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <th:block th:replace="/global_import_header.html :: global_import_header"/>
-    <!-- Google Font: Source Sans Pro -->
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+<th:block
+	th:replace="/global_import_header.html :: global_import_header" />
+<!-- Google Font: Source Sans Pro -->
+<link
+	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700"
+	rel="stylesheet">
 </head>
 <body class="hold-transition login-page">
-<div class="login-box">
-    <div class="login-logo">
-        <a href="#" th:text="#{login.title}"></a>
-    </div>
-    <!-- /.login-logo -->
-    <div class="card">
-        <div class="card-body login-card-body">
-            <p class="login-box-msg" th:text="#{login.login}"></p>
+	<div class="login-box">
+		<div class="login-logo">
+			<a href="#" th:text="#{login.title}"></a>
+		</div>
+		<!-- /.login-logo -->
+		<div class="card">
+			<div class="card-body login-card-body">
+				<p class="login-box-msg" th:text="#{login.login}"></p>
 
-            <form method="post" th:action="@{/j_spring_security_check}">
-                <div class="input-group mb-3">
-                    <input name="username" id="username" type="text" class="form-control" th:placeholder="#{login.username}">
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-user"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="input-group mb-3">
-                    <input name="password" id="password" type="password" class="form-control" th:placeholder="#{login.password}">
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-lock"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="input-group mb-3">
-                    <div class="form-row align-items-center">
-                        <div class="col-auto">
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="rememberMe" name="remember-me">
-                                <label class="form-check-label" for="rememberMe" th:text="#{login.rememberme}">
+				<form method="post" th:action="@{/j_spring_security_check}">
+					<div class="input-group mb-3">
+						<input name="username" id="username" type="text"
+							class="form-control" th:placeholder="#{login.username}">
+						<div class="input-group-append">
+							<div class="input-group-text">
+								<span class="fas fa-user"></span>
+							</div>
+						</div>
+					</div>
+					<div class="input-group mb-3">
+						<input name="password" id="password" type="password"
+							class="form-control" th:placeholder="#{login.password}">
+						<div class="input-group-append">
+							<div class="input-group-text">
+								<span class="fas fa-lock"></span>
+							</div>
+						</div>
+					</div>
+					<div class="input-group mb-3">
+						<div class="form-row align-items-center">
+							<div class="col-auto">
+								<div class="form-check mb-2">
+									<input class="form-check-input" type="checkbox" id="rememberMe"
+										name="remember-me"> <label class="form-check-label"
+										for="rememberMe" th:text="#{login.rememberme}"> </label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div th:if="${(param.error != null) and (param.error[0] == 'true')}">				
+						<div id="error"><span th:text="#{error_login}"></span></div>
+					</div>
+					<div class="row">
+						<div class="col-12">
+							<button type="submit" class="btn btn-primary btn-block"
+								th:text="#{login.button}">Login</button>
+						</div>
+					</div>
+				</form>
 
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <button type="submit" class="btn btn-primary btn-block" th:text="#{login.button}">Login</button>
-                    </div>
-                </div>
-            </form>
-
-            <!--            <p class="mb-1">-->
-            <!--                <a href="/forgot-password">I forgot my password</a>-->
-            <!--            </p>-->
-            <!--            <p class="mb-0">-->
-            <!--                <a href="/register" class="text-center">Register a new membership</a>-->
-            <!--            </p>-->
-        </div>
-        <!-- /.login-card-body -->
-    </div>
-</div>
-<th:block th:replace="/global_import_footer.html :: global_import_footer"/>
+				<!--            <p class="mb-1">-->
+				<!--                <a href="/forgot-password">I forgot my password</a>-->
+				<!--            </p>-->
+				<!--            <p class="mb-0">-->
+				<!--                <a href="/register" class="text-center">Register a new membership</a>-->
+				<!--            </p>-->
+			</div>
+			<!-- /.login-card-body -->
+		</div>
+	</div>
+	<th:block
+		th:replace="/global_import_footer.html :: global_import_footer" />
 </body>
 </html>
