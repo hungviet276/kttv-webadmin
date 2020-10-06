@@ -1,6 +1,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<div th:fragment="menu_tag">
-	<div id="loading"class="modal" style="display: none;">
+<div th:fragment="menu_tag" th:remove="tag">
+	<div id="loading" class="modal" style="display: none;">
 		<div class="center-image">
 			<div class="wrapper-loading">
 				<div class="sub-wrapper-loading">
@@ -74,7 +74,7 @@
 		<!-- Brand Logo -->
 		<a href="/" class="brand-link">
 			<img src="/img/logo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-			<span class="brand-text font-weight-light" th:text="#{page}">Web CGI</span>
+			<span class="brand-text font-weight-light" th:text="#{page}">NBD ADMIN</span>
 		</a>
 
 		<!-- Sidebar -->
