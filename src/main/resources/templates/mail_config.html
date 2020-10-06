@@ -165,9 +165,9 @@
     </aside>
     <th:block th:replace="layout_footer.html :: footer_tag" />
     <script type="text/javascript">
-	    var apiUrl = "[[${session.apiUrl}]]";
+	    var apiUrl = "http://localhost:8080/api/v1/mail-config/get-list-mail-config-pagination";
 	    var userBO = "[[${session.userBO}]]";
-	    var token = "[[${session.token}]]";
+	    var token = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbmlzdHJhdG9yIiwiYXV0aCI6IiIsImV4cCI6MTYwMTk3Nzc3NX0.JUNKGGccyiPdfD6tjpr2bfPgSMsvrepd5FXXL61paUzfhp0tLTQgR81qt0jBU5rbZouKZSLlzB55lxAwJ6Rm-w";
 	    console.log(apiUrl + "|" + JSON.stringify(userBO) + "|" + token); 
     </script>
     <script src="/js/mail_config.js"></script>

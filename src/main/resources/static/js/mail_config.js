@@ -55,7 +55,7 @@ var table = $('#tableDataView').DataTable({
         headers: {
             'Authorization': token
         },
-        "url": apiUrl + "mail-config/get-list-mail-config-pagination",
+        "url": apiUrl,
         "method": "POST",
         "contentType": "application/json",
         "data": function (d) {
