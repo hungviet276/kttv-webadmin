@@ -33,16 +33,21 @@
                                     <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Tên nhóm người nhận">
                                 </div>
                                 <div class="form-group">
+                                    <label for="exampleInputPassword1">Code</label>
+                                    <input type="text" class="form-control" id="code" placeholder="mã..">
+                                </div>
+                                <div class="form-group">
+                                    <label>Trạng thái</label>
+                                    <select class="form-control">
+                                        <option value="1">Hoạt động</option>
+                                        <option value="0">Không hoạt động</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
                                     <label for="exampleInputPassword1">Mô tả</label>
                                     <textarea class="form-control" rows="3" placeholder="Nhập ..."></textarea>
                                 </div>
                             </div>
-                            <input type="hidden" value="" id="page" name="page"/>
-                            <input type="hidden" value="" id="maxPageItem" name="maxPageItem"/>
-                            <input type="hidden" value="" id="sortName" name="sortName"/>
-                            <input type="hidden" value="" id="sortBy" name="sortBy"/>
-                            <input type="hidden" value="" id="type" name="type"/>
-
                             <div class="" style="text-align: center;">
                                 <button type="button" class="min-with-btn btn btn-outline-secondary">Tìm kiếm</button>
                                 <button type="submit" class="min-with-btn btn btn-primary">Thêm mới</button>
@@ -51,51 +56,19 @@
                             </div>
                         </form>
                         <div class="card-body">
-                            <table id="example2" class="table table-bordered table-hover dataTable dtr-inline container-fluid"
+                            <table id="group-receive-mail" class="table table-bordered table-hover dataTable dtr-inline container-fluid"
                                    role="grid" aria-describedby="example2_info">
                                 <thead>
-                                <tr role="row">
-                                    <th class="sorting_desc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
-                                        aria-label="Rendering engine: activate to sort column ascending" aria-sort="descending">
-                                        <div class="center-text">Nhóm người nhận</div>
-                                        <div><input type="text" class="form-control"></div>
-                                    </th>
-                                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
-                                        aria-label="Browser: activate to sort column ascending">
-                                        <div class="center-text">Mô tả</div>
-                                        <div><input type="text" class="form-control"></div>
-                                    </th>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>ID</th>
+                                    <th>CODE</th>
+                                    <th>Tên nhóm</th>
+                                    <th>Trạng thái</th>
+                                    <th>Mô tả</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr role="row" class="odd">
-                                    <td class="sorting_1" tabindex="0">Webkit</td>
-                                    <td>Safari 1.2</td>
-                                </tr>
-                                <tr role="row" class="odd">
-                                    <td class="sorting_1" tabindex="0">Webkit</td>
-                                    <td>Safari 1.2</td>
-                                </tr>
-                                <tr role="row" class="odd">
-                                    <td class="sorting_1" tabindex="0">Webkit</td>
-                                    <td>Safari 1.2</td>
-                                </tr>
-                                <tr role="row" class="odd">
-                                    <td class="sorting_1" tabindex="0">Webkit</td>
-                                    <td>Safari 1.2</td>
-                                </tr>
-                                <tr role="row" class="odd">
-                                    <td class="sorting_1" tabindex="0">Webkit</td>
-                                    <td>Safari 1.2</td>
-                                </tr>
-                                <tr role="row" class="odd">
-                                    <td class="sorting_1" tabindex="0">Webkit</td>
-                                    <td>Safari 1.2</td>
-                                </tr>
-                                <tr role="row" class="odd">
-                                    <td class="sorting_1" tabindex="0">Webkit</td>
-                                    <td>Safari 1.2</td>
-                                </tr>
                                 </tbody>
                             </table>
                         </div>
