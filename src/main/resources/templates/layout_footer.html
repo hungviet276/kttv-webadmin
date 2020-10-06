@@ -1,6 +1,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <div th:fragment="footer_tag" th:remove="tag">
 	<script src="/admin_lte/plugins/jquery/jquery.min.js"></script>
+	<script src="/admin_lte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 	<!-- jQuery UI 1.11.4 -->
 	<script src="/admin_lte/plugins/jquery-ui/jquery-ui.min.js"></script>
 	<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
@@ -9,17 +10,21 @@
 	</script>
 	<!-- jQuery Knob Chart -->
 	<script src="/admin_lte/plugins/jquery-knob/jquery.knob.min.js"></script>
-	<!-- daterangepicker -->
+	<!-- momentJs -->
 	<script src="/admin_lte/plugins/moment/moment.min.js"></script>
+	<!-- daterangepicker -->
+	<script src="/admin_lte/plugins/daterangepicker/daterangepicker.js"></script>
+	<!-- jquery-validation -->
+	<script src="/admin_lte/plugins/jquery-validation/jquery.validate.min.js"></script>
+	<script src="/admin_lte/plugins/jquery-validation/additional-methods.min.js"></script>
 	<!-- overlayScrollbars -->
 	<script src="/admin_lte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 	<!-- AdminLTE App -->
 	<script src="/admin_lte/js/adminlte.min.js"></script>
+	<script src="/js/common.js"></script>
 	<!-- DataTables -->
 	<script src="/admin_lte/plugins/datatables/jquery.dataTables.min.js"></script>
 	<script src="/admin_lte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-	<script src="/admin_lte/plugins/bootstrap/js/bootstrap.min.js"></script>
-	<script src="/admin_lte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 	<script src="/admin_lte/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
 	<script src="/admin_lte/plugins/datatables-select/js/dataTables.select.min.js"></script>
 	<script src="/admin_lte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
@@ -28,42 +33,23 @@
 	<script src="/admin_lte/plugins/toastr/toastr.min.js"></script>
 
 	<footer class="main-footer">
-		<strong>NBD WebAdmin</strong>
+		<strong>NBD</strong>
 		<div class="float-right d-none d-sm-inline-block">
 			<b>Version</b>
 			1.0.0
 		</div>
 	</footer>
-	<script src="/js/sockjs.min.js"></script>
-	<script src="/js/stomp.min.js"></script>
 	<script>
-		var currentLang = /*[[${#locale}]]*/
-				//console.log("currentLang:",currentLang);
-				$("#select-lang").val(currentLang);
-
-		$("#select-lang").change(function () {
-			var selectedOption = $('#select-lang').val();
-			if (selectedOption != ''){
-				window.location.replace('?lang=' + selectedOption);
-			}
-		});
-
-		$('html').bind('keypress', function(e) {
-			if(e.keyCode == 13)
-			{
-				return false;
-			}
-		});
-		function connect() {
+		/* function connect() {
 			var socket = new SockJS('/ws');
 			var stompClient = Stomp.over(socket);
-			stompClient.debug = null;
+			stompClient.debug = null
 			stompClient.connect({}, function(frame) {
 				stompClient.subscribe('/user/queue/notify', function(notification) {
 					notify(JSON.parse(notification.body));
 				});
 			});
-		}
+		} */
 
 		function notify(message) {
 			try {
@@ -75,9 +61,28 @@
 
 		}
 		$(document).ready(function() {
-			connect();
+			//connect();
 		});
 
+	</script>
+	<script th:inline="javascript">
+		var currentLang = /*[[${#locale.getLanguage()}]]*/
+		console.log("currentLang:",currentLang);
+		$("#select-lang").val(currentLang);
+		
+		$("#select-lang").change(function () {
+	        var selectedOption = $('#select-lang').val();
+	        if (selectedOption != ''){
+	            window.location.replace('?lang=' + selectedOption);
+	        }
+	    });
+		
+		$('html').bind('keypress', function(e) {
+		   if(e.keyCode == 13)
+		   {
+		      return false;
+		   }
+		});
 	</script>
 </div>
 </html>
