@@ -31,37 +31,25 @@
                             <br/>
                             <form class="form-horizontal" id="form_data">
                             <div class="form-row" id ="search_users">
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-6">
                                     <label for="code_search">Mã người dùng</label>
-                                </div>
-                                <div class="form-group col-md-7">
                                     <input type="text" class="form-control" id="code_search"
                                            placeholder="">
                                 </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-6">
                                     <label for="Username_search">Username</label>
-                                </div>
-                                <div class="form-group col-md-7">
                                     <input type="text" class="form-control" id="Username_search"
                                            placeholder="">
                                 </div>
                             </div>
                             <div class="form-row">
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-6">
                                     <label for="start_date">Từ ngày</label>
-                                </div>
-                                <div class="form-group col-md-7">
                                     <input type="text" class="form-control" id="start_date"
-                                           placeholder="">
+                                    placeholder="">
                                 </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-6">
                                     <label for="end_date">Đến ngày</label>
-                                </div>
-                                <div class="form-group col-md-7">
                                     <input type="text" class="form-control" id="end_date"
                                            placeholder="">
                                 </div>
@@ -75,7 +63,7 @@
                                     <i class="fas fa-plus"></i> Thêm
                                 </button>
                             </div>
-
+                            <p th:text="${a}"></p>
                             <div class="card-body" style="width: 100%;overflow: auto">
                                 <table id="tableDataView" class="table table-bordered table-hover">
                                     <thead>
@@ -253,7 +241,7 @@
         show_search();
     });
     $('#btnDonew').click(function(){
-        enabled_right();
+        // enabled_right();
         $("#btnsave").css("display", "inline");
         $("#btnDelete").css("display", "inline");
         $("#btnReset").css("display", "inline");
@@ -263,7 +251,7 @@
     });
 
     $('#btncancer').click(function(){
-        disabled_right();
+        // disabled_right();
         $("#btnsave").css("display", "none");
         $("#btnDelete").css("display", "none");
         $("#btnReset").css("display", "none");

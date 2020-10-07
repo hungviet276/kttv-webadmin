@@ -1,29 +1,47 @@
-2020-10-06 11:31:53,525 INFO c.n.n.NbdApiApplication [restartedMain] Starting NbdApiApplication on DESKTOP-QGCHK36 with PID 10544 (E:\NEO\2020\NBD\Code\V4\nbd-api\target\classes started by admin in E:\NEO\2020\NBD\Code\V4\kttv-webadmin)
-2020-10-06 11:31:53,525 DEBUG c.n.n.NbdApiApplication [restartedMain] Running with Spring Boot v2.3.4.RELEASE, Spring v5.2.9.RELEASE
-2020-10-06 11:31:53,541 INFO c.n.n.NbdApiApplication [restartedMain] The following profiles are active: local
-2020-10-06 11:32:21,641 INFO c.n.n.NbdApiApplication [restartedMain] Starting NbdApiApplication on DESKTOP-QGCHK36 with PID 2852 (E:\NEO\2020\NBD\Code\V4\nbd-api\target\classes started by admin in E:\NEO\2020\NBD\Code\V4\kttv-webadmin)
-2020-10-06 11:32:21,656 DEBUG c.n.n.NbdApiApplication [restartedMain] Running with Spring Boot v2.3.4.RELEASE, Spring v5.2.9.RELEASE
-2020-10-06 11:32:21,672 INFO c.n.n.NbdApiApplication [restartedMain] The following profiles are active: local
-2020-10-06 11:32:28,849 INFO c.n.n.NbdApiApplication [restartedMain] Started NbdApiApplication in 8.332 seconds (JVM running for 11.494)
-2020-10-06 11:33:23,904 INFO c.n.n.NbdApiApplication [restartedMain] Starting NbdApiApplication on DESKTOP-QGCHK36 with PID 2852 (E:\NEO\2020\NBD\Code\V4\nbd-api\target\classes started by admin in E:\NEO\2020\NBD\Code\V4\kttv-webadmin)
-2020-10-06 11:33:23,905 DEBUG c.n.n.NbdApiApplication [restartedMain] Running with Spring Boot v2.3.4.RELEASE, Spring v5.2.9.RELEASE
-2020-10-06 11:33:23,905 INFO c.n.n.NbdApiApplication [restartedMain] The following profiles are active: local
-2020-10-06 11:33:38,314 INFO c.n.n.NbdApiApplication [restartedMain] Starting NbdApiApplication on DESKTOP-QGCHK36 with PID 2852 (E:\NEO\2020\NBD\Code\V4\nbd-api\target\classes started by admin in E:\NEO\2020\NBD\Code\V4\kttv-webadmin)
-2020-10-06 11:33:38,315 DEBUG c.n.n.NbdApiApplication [restartedMain] Running with Spring Boot v2.3.4.RELEASE, Spring v5.2.9.RELEASE
-2020-10-06 11:33:38,315 INFO c.n.n.NbdApiApplication [restartedMain] The following profiles are active: local
-2020-10-06 11:33:41,129 INFO c.n.n.NbdApiApplication [restartedMain] Started NbdApiApplication in 2.902 seconds (JVM running for 83.774)
-2020-10-06 11:35:38,878 DEBUG c.n.n.f.JWTFilter [http-nio-8080-exec-1] path : /api/v1/authenticate, method: POST, token: null
-2020-10-06 11:38:17,888 INFO c.n.n.NbdApiApplication [restartedMain] Starting NbdApiApplication on DESKTOP-QGCHK36 with PID 2852 (E:\NEO\2020\NBD\Code\V4\nbd-api\target\classes started by admin in E:\NEO\2020\NBD\Code\V4\kttv-webadmin)
-2020-10-06 11:38:17,903 DEBUG c.n.n.NbdApiApplication [restartedMain] Running with Spring Boot v2.3.4.RELEASE, Spring v5.2.9.RELEASE
-2020-10-06 11:38:17,903 INFO c.n.n.NbdApiApplication [restartedMain] The following profiles are active: local
-2020-10-06 11:38:19,278 INFO c.n.n.NbdApiApplication [restartedMain] Started NbdApiApplication in 1.484 seconds (JVM running for 361.924)
-2020-10-06 11:47:05,558 INFO c.n.n.NbdApiApplication [restartedMain] Starting NbdApiApplication on DESKTOP-QGCHK36 with PID 2768 (E:\NEO\2020\NBD\Code\V4\nbd-api\target\classes started by admin in E:\NEO\2020\NBD\Code\V4\kttv-webadmin)
-2020-10-06 11:47:05,574 DEBUG c.n.n.NbdApiApplication [restartedMain] Running with Spring Boot v2.3.4.RELEASE, Spring v5.2.9.RELEASE
-2020-10-06 11:47:05,574 INFO c.n.n.NbdApiApplication [restartedMain] The following profiles are active: local
-2020-10-06 11:47:10,221 INFO c.n.n.NbdApiApplication [restartedMain] Started NbdApiApplication in 5.682 seconds (JVM running for 8.132)
-2020-10-06 11:47:31,868 DEBUG c.n.n.f.JWTFilter [http-nio-8080-exec-1] path : /api/v1/authenticate, method: POST, token: null
-2020-10-06 11:51:53,013 INFO c.n.n.NbdApiApplication [restartedMain] Starting NbdApiApplication on DESKTOP-QGCHK36 with PID 544 (E:\NEO\2020\NBD\Code\V4\nbd-api\target\classes started by admin in E:\NEO\2020\NBD\Code\V4\kttv-webadmin)
-2020-10-06 11:51:53,028 DEBUG c.n.n.NbdApiApplication [restartedMain] Running with Spring Boot v2.3.4.RELEASE, Spring v5.2.9.RELEASE
-2020-10-06 11:51:53,029 INFO c.n.n.NbdApiApplication [restartedMain] The following profiles are active: local
-2020-10-06 11:51:56,579 INFO c.n.n.NbdApiApplication [restartedMain] Started NbdApiApplication in 4.432 seconds (JVM running for 6.42)
-2020-10-06 11:52:36,777 DEBUG c.n.n.f.JWTFilter [http-nio-8080-exec-1] path : /api/v1/authenticate, method: POST, token: null
+2020-10-07 00:02:38,504 DEBUG c.n.n.f.JWTFilter [http-nio-8080-exec-7] path : /api/v1/mail-config/get-list-mail-config-pagination, method: POST, token: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbmlzdHJhdG9yIiwiYXV0aCI6IiIsImV4cCI6MTYwMjAxMTg0Mn0.C7jlQwvzs5X4V3GgN5C5kMmH856GZOCqGKhuMbfh3xdBvTl6vFDXjnZVijy7yhfTct2cNVDeclpDJFvStK3idA
+2020-10-07 00:02:38,532 DEBUG c.n.n.f.TokenProvider [http-nio-8080-exec-7] username: administrator
+2020-10-07 00:02:38,533 DEBUG c.n.n.f.JWTFilter [http-nio-8080-exec-7] path : /error, method: POST, token: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbmlzdHJhdG9yIiwiYXV0aCI6IiIsImV4cCI6MTYwMjAxMTg0Mn0.C7jlQwvzs5X4V3GgN5C5kMmH856GZOCqGKhuMbfh3xdBvTl6vFDXjnZVijy7yhfTct2cNVDeclpDJFvStK3idA
+2020-10-07 00:02:38,543 DEBUG c.n.n.f.TokenProvider [http-nio-8080-exec-7] username: administrator
+2020-10-07 08:54:05,607 INFO c.n.n.NbdApiApplication [restartedMain] Starting NbdApiApplication on DESKTOP-FNPRPIQ with PID 7564 (C:\code\nbd-api\target\classes started by Dell in C:\code\kttv-webadmin)
+2020-10-07 08:54:05,627 DEBUG c.n.n.NbdApiApplication [restartedMain] Running with Spring Boot v2.3.4.RELEASE, Spring v5.2.9.RELEASE
+2020-10-07 08:54:05,628 INFO c.n.n.NbdApiApplication [restartedMain] The following profiles are active: local
+2020-10-07 08:54:14,202 INFO c.n.n.NbdApiApplication [restartedMain] Started NbdApiApplication in 9.803 seconds (JVM running for 12.406)
+2020-10-07 08:54:28,343 DEBUG c.n.n.f.JWTFilter [http-nio-8080-exec-1] path : /api/v1/authenticate, method: POST, token: null
+2020-10-07 08:54:31,444 DEBUG c.n.n.d.i.UserInfoDAOImpl [http-nio-8080-exec-1] JDBC execute query : SELECT id, password FROM user_info WHERE id = ?
+2020-10-07 08:54:32,076 DEBUG c.n.n.d.i.UserInfoDAOImpl [http-nio-8080-exec-1] Username: administrator
+2020-10-07 08:54:33,172 DEBUG c.n.n.f.JWTFilter [http-nio-8080-exec-2] path : /api/v1/mail-config/get-list-mail-config-pagination, method: POST, token: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbmlzdHJhdG9yIiwiYXV0aCI6IiIsImV4cCI6MTYwMjA0NDMxMX0.sVsYpdfP7zZ9lwXpfRH-iSG6NwcQYXLPPAvCcFIy6RCAviuyCoVmer4R65OgPMj3QbomC8IHEdA_qfMqYP4h9w
+2020-10-07 08:54:33,221 DEBUG c.n.n.f.TokenProvider [http-nio-8080-exec-2] username: administrator
+2020-10-07 08:54:33,370 DEBUG c.n.n.f.JWTFilter [http-nio-8080-exec-2] path : /error, method: POST, token: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbmlzdHJhdG9yIiwiYXV0aCI6IiIsImV4cCI6MTYwMjA0NDMxMX0.sVsYpdfP7zZ9lwXpfRH-iSG6NwcQYXLPPAvCcFIy6RCAviuyCoVmer4R65OgPMj3QbomC8IHEdA_qfMqYP4h9w
+2020-10-07 08:54:33,378 DEBUG c.n.n.f.TokenProvider [http-nio-8080-exec-2] username: administrator
+2020-10-07 11:17:52,448 INFO c.n.n.NbdApiApplication [restartedMain] Starting NbdApiApplication on DESKTOP-FNPRPIQ with PID 15036 (C:\code\nbd-api\target\classes started by Dell in C:\code\kttv-webadmin)
+2020-10-07 11:17:52,501 DEBUG c.n.n.NbdApiApplication [restartedMain] Running with Spring Boot v2.3.4.RELEASE, Spring v5.2.9.RELEASE
+2020-10-07 11:17:52,503 INFO c.n.n.NbdApiApplication [restartedMain] The following profiles are active: local
+2020-10-07 11:18:01,412 INFO c.n.n.NbdApiApplication [restartedMain] Started NbdApiApplication in 10.397 seconds (JVM running for 13.371)
+2020-10-07 11:25:11,635 DEBUG c.n.n.f.JWTFilter [http-nio-8080-exec-5] path : /api/v1/authenticate, method: POST, token: null
+2020-10-07 11:25:12,961 DEBUG c.n.n.d.i.UserInfoDAOImpl [http-nio-8080-exec-5] JDBC execute query : SELECT id, password FROM user_info WHERE id = ?
+2020-10-07 11:25:13,388 DEBUG c.n.n.d.i.UserInfoDAOImpl [http-nio-8080-exec-5] Username: administrator
+2020-10-07 11:25:14,093 DEBUG c.n.n.f.JWTFilter [http-nio-8080-exec-4] path : /api/v1/mail-config/get-list-mail-config-pagination, method: POST, token: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbmlzdHJhdG9yIiwiYXV0aCI6IiIsImV4cCI6MTYwMjA1MzM1M30.-zPDwaLnRaHlLDDPqMu_dUtkgT5EEuB0EUCS7zoFCAFSYy9ftirh21oXJuLIPqS_ldVA3pqrVXoxFG6som0pbQ
+2020-10-07 11:25:14,137 DEBUG c.n.n.f.TokenProvider [http-nio-8080-exec-4] username: administrator
+2020-10-07 11:25:14,251 DEBUG c.n.n.f.JWTFilter [http-nio-8080-exec-4] path : /error, method: POST, token: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbmlzdHJhdG9yIiwiYXV0aCI6IiIsImV4cCI6MTYwMjA1MzM1M30.-zPDwaLnRaHlLDDPqMu_dUtkgT5EEuB0EUCS7zoFCAFSYy9ftirh21oXJuLIPqS_ldVA3pqrVXoxFG6som0pbQ
+2020-10-07 11:25:14,253 DEBUG c.n.n.f.TokenProvider [http-nio-8080-exec-4] username: administrator
+2020-10-07 13:46:08,719 DEBUG c.n.n.f.JWTFilter [http-nio-8080-exec-2] path : /api/v1/authenticate, method: POST, token: null
+2020-10-07 13:46:09,537 DEBUG c.n.n.d.i.UserInfoDAOImpl [http-nio-8080-exec-2] JDBC execute query : SELECT id, password FROM user_info WHERE id = ?
+2020-10-07 13:46:09,812 DEBUG c.n.n.d.i.UserInfoDAOImpl [http-nio-8080-exec-2] Username: administrator
+2020-10-07 13:46:10,357 DEBUG c.n.n.f.JWTFilter [http-nio-8080-exec-10] path : /api/v1/mail-config/get-list-mail-config-pagination, method: POST, token: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbmlzdHJhdG9yIiwiYXV0aCI6IiIsImV4cCI6MTYwMjA2MTgwOX0.gHEI3qB3mXEo6J_0K284rqb8N8d6ICG-281NMxew4gZ2aAVZsRExqczItBK9I0dk7b906vzS4oxB_AhcxM-LkA
+2020-10-07 13:46:10,366 DEBUG c.n.n.f.TokenProvider [http-nio-8080-exec-10] username: administrator
+2020-10-07 13:46:10,383 DEBUG c.n.n.f.JWTFilter [http-nio-8080-exec-10] path : /error, method: POST, token: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbmlzdHJhdG9yIiwiYXV0aCI6IiIsImV4cCI6MTYwMjA2MTgwOX0.gHEI3qB3mXEo6J_0K284rqb8N8d6ICG-281NMxew4gZ2aAVZsRExqczItBK9I0dk7b906vzS4oxB_AhcxM-LkA
+2020-10-07 13:46:10,386 DEBUG c.n.n.f.TokenProvider [http-nio-8080-exec-10] username: administrator
+2020-10-07 14:34:54,270 DEBUG c.n.n.f.JWTFilter [http-nio-8080-exec-5] path : /api/v1/authenticate, method: POST, token: null
+2020-10-07 14:34:54,550 DEBUG c.n.n.d.i.UserInfoDAOImpl [http-nio-8080-exec-5] JDBC execute query : SELECT id, password FROM user_info WHERE id = ?
+2020-10-07 14:34:54,883 DEBUG c.n.n.d.i.UserInfoDAOImpl [http-nio-8080-exec-5] Username: administrator
+2020-10-07 14:34:55,960 DEBUG c.n.n.f.JWTFilter [http-nio-8080-exec-4] path : /api/v1/mail-config/get-list-mail-config-pagination, method: POST, token: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbmlzdHJhdG9yIiwiYXV0aCI6IiIsImV4cCI6MTYwMjA2NDczNH0.eRqQ4I-QmNf8A3ypXf8PLNHORusaB6-hogiIthW33MeCILOZFZ9NIZ0sjKd9MQsuLaXBmw6yC6i9Efnnf-7vQQ
+2020-10-07 14:34:55,965 DEBUG c.n.n.f.TokenProvider [http-nio-8080-exec-4] username: administrator
+2020-10-07 14:34:55,978 DEBUG c.n.n.f.JWTFilter [http-nio-8080-exec-4] path : /error, method: POST, token: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbmlzdHJhdG9yIiwiYXV0aCI6IiIsImV4cCI6MTYwMjA2NDczNH0.eRqQ4I-QmNf8A3ypXf8PLNHORusaB6-hogiIthW33MeCILOZFZ9NIZ0sjKd9MQsuLaXBmw6yC6i9Efnnf-7vQQ
+2020-10-07 14:34:55,981 DEBUG c.n.n.f.TokenProvider [http-nio-8080-exec-4] username: administrator
+2020-10-07 15:59:30,008 DEBUG c.n.n.f.JWTFilter [http-nio-8080-exec-2] path : /api/v1/authenticate, method: POST, token: null
+2020-10-07 15:59:31,758 DEBUG c.n.n.d.i.UserInfoDAOImpl [http-nio-8080-exec-2] JDBC execute query : SELECT id, password FROM user_info WHERE id = ?
+2020-10-07 15:59:32,037 DEBUG c.n.n.d.i.UserInfoDAOImpl [http-nio-8080-exec-2] Username: administrator
+2020-10-07 15:59:32,815 DEBUG c.n.n.f.JWTFilter [http-nio-8080-exec-10] path : /api/v1/mail-config/get-list-mail-config-pagination, method: POST, token: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbmlzdHJhdG9yIiwiYXV0aCI6IiIsImV4cCI6MTYwMjA2OTgxMX0.i3rw2PNKJlA5t4IdnF4jkj3apA377VlDbEwWXEAwxgyQv_8QJBfuGsV6HDQZteTjPNNDMRKflDhcmSy15vlLEQ
+2020-10-07 15:59:32,821 DEBUG c.n.n.f.TokenProvider [http-nio-8080-exec-10] username: administrator
+2020-10-07 15:59:32,832 DEBUG c.n.n.f.JWTFilter [http-nio-8080-exec-10] path : /error, method: POST, token: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbmlzdHJhdG9yIiwiYXV0aCI6IiIsImV4cCI6MTYwMjA2OTgxMX0.i3rw2PNKJlA5t4IdnF4jkj3apA377VlDbEwWXEAwxgyQv_8QJBfuGsV6HDQZteTjPNNDMRKflDhcmSy15vlLEQ
+2020-10-07 15:59:32,836 DEBUG c.n.n.f.TokenProvider [http-nio-8080-exec-10] username: administrator
