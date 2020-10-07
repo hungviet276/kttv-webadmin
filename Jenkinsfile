@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Clone') {
             steps {
-                git branch: "master", url: 'https://10.252.10.175/thanglv/nbd-api.git'
+                git branch: "master", url: 'https://10.252.10.175/thanglv/kttv-webadmin.git'
             }
         }
         stage('Build') {
@@ -13,8 +13,7 @@ pipeline {
                      def pom = readMavenPom file: 'pom.xml'
                      version = pom.version
                      name = pom.name
-                    sh 'mvn install:install-file -Dfile=/app/ojdbc8-12.2.0.1.jar -DgroupId=com.oracle.jdbc -DartifactId=ojdbc8 -Dversion=12.2.0.1 -Dpackaging=jar -Dlog4j2.contextSelector=org.apache.logging.log4j.core.async.AsyncLoggerContextSelector -Dspring.profiles.active=local'
-                    sh 'mvn clean install package'
+                    sh 'mvn clean install package -Dlog4j2.contextSelector=org.apache.logging.log4j.core.async.AsyncLoggerContextSelector -Dspring.profiles.active=dev'
                     sh 'mvn dockerfile:build'
                     sh "docker-compose up -d --build"
                 }
