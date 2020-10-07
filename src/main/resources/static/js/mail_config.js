@@ -25,9 +25,10 @@ function createMailConfig(e) {
 
     $.ajax({
         headers: {
-            'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbmlzdHJhdG9yIiwiYXV0aCI6IiIsImV4cCI6MTYwMTk4Mzc0MH0.NYRzTTY96nWna42PrvDR0P9AekyP-tq0I45dy9UBavUaUcu21m-E92eOPa8sHM7Q5hyHuVtzlxoB2-34LFTYuQ'
+
+            'Authorization': token
         },
-        "url": "http://localhost:8080/api/v1/mail-config/create-mail-config",
+        "url": apiUrl + "mail-config/create-mail-config",
         "method": "POST",
         "contentType": "application/json",
         "data": JSON.stringify(data),
@@ -58,9 +59,17 @@ $(document).ready(function () {
         var title = $(this).text();
         var dataId = $(this).attr("data-id");
         if (dataId != null && dataId != undefined) {
-            $(this).html('<input id="'+ dataId +'" type="text" placeholder="Search ' + title + '" />');
+            $(this).html('<input class="table-data-input-search" id="'+ dataId +'" type="text" placeholder="Search ' + title + '" />');
         }
     });
+
+    var search = $.fn.dataTable.util.throttle(
+        function ( val ) {
+            table.search( val ).draw();
+        },
+        1000
+    );
+
 
     // showLoading();
     var draw = 0;
@@ -77,6 +86,7 @@ $(document).ready(function () {
             [10, 25, 50, "Tất cả"]
         ],
         "lengthChange": true,
+        "searchDelay": 1500,
         "searching": false,
         "ordering": false,
         "info": true,
@@ -108,23 +118,22 @@ $(document).ready(function () {
             // Apply the search
             this.api().columns().every(function () {
                 var that = this;
-                $('input', this.header()).on('keyup change clear', function () {
+                $('.table-data-input-search').on('keyup change clear', function () {
                     let id = $(this).attr("id");
                     // if (that.search() !== this.value) {
                     //
                     // }
                     objSearch[id] = this.value;
-                    that
-                        .search(JSON.stringify(objSearch))
+                    search(JSON.stringify(objSearch))
                         .draw();
                 });
             });
         },
         "ajax": {
             headers: {
-                'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbmlzdHJhdG9yIiwiYXV0aCI6IiIsImV4cCI6MTYwMTk4Mzc0MH0.NYRzTTY96nWna42PrvDR0P9AekyP-tq0I45dy9UBavUaUcu21m-E92eOPa8sHM7Q5hyHuVtzlxoB2-34LFTYuQ'
+                'Authorization': token
             },
-            "url": "http://localhost:8080/api/v1/mail-config/get-list-mail-config-pagination",
+            "url": apiUrl + "mail-config/get-list-mail-config-pagination",
             "method": "POST",
             "contentType": "application/json",
             "data": function (d) {
