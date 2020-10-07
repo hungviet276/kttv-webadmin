@@ -1,0 +1,11 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:fragment="global_import_js" th:remove="tag">
+	<script type="text/javascript">
+		var apiUrl = "[[${session.apiUrl}]]";
+		var userBO = "[[${session.userBO}]]";
+		var token = "[[${session.token}]]";
+		console.log(apiUrl + "|" + JSON.stringify(userBO) + "|" + token);
+	</script>
+</head>
+</html>
