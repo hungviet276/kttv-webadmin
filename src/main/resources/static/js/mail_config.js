@@ -11,91 +11,6 @@ function disableLoading() {
 }
 
 // showLoading();
-var draw = 0;
-var table = $('#tableDataView').DataTable({
-    "columnDefs": [
-        {
-            "targets": '_all',
-            "render": $.fn.dataTable.render.text()
-        }
-    ],
-    "pagingType": "full_numbers",
-    "lengthMenu": [
-        [10, 25, 50, -1],
-        [10, 25, 50, "Tất cả"]
-    ],
-    "lengthChange": true,
-    "searching": true,
-    "ordering": false,
-    "info": true,
-    "autoWidth": false,
-    "responsive": true,
-    language: {
-        search: "_INPUT_",
-        searchPlaceholder: "Nhập thông tin tìm kiếm",
-    },
-    "select": {
-        "style": "single"
-    },
-    "processing": true,
-    "serverSide": true,
-    "columns": [
-        {"data": "indexCount"},
-        {"data": "id"},
-        {"data": "ip"},
-        {"data": "port"},
-        {"data": "username"},
-        {"data": "password"},
-        {"data": "domain"},
-        {"data": "sender_name"},
-        {"data": "email"},
-        {"data": "protocol"}
-    ],
-    "ajax": {
-        headers: {
-            'Authorization': token
-        },
-        "url": apiUrl + "mail-config/get-list-mail-config-pagination",
-        "method": "POST",
-        "contentType": "application/json",
-        "data": function (d) {
-            draw = d.draw;
-            return JSON.stringify({
-                "draw": d.draw,
-                "start": Math.round(d.start / d.length),
-                "length": d.length,
-                "search": d.search.value
-            });
-        },
-        "dataFilter": function (response) {
-            let responseJson = JSON.parse(response);
-            let dataRes = {
-                "draw": draw,
-                "recordsFiltered": responseJson.recordsTotal,
-                "recordsTotal": responseJson.recordsTotal,
-                "data": []
-            };
-
-            for (let i = 0; i < responseJson.content.length; i++) {
-                dataRes.data.push({
-                    "indexCount": i + 1,
-                    "id": responseJson.content[i].id,
-                    "ip": responseJson.content[i].ip,
-                    "port": responseJson.content[i].port,
-                    "username": responseJson.content[i].username,
-                    "password": responseJson.content[i].password,
-                    "domain": responseJson.content[i].domain,
-                    "sender_name": responseJson.content[i].senderName,
-                    "email": responseJson.content[i].emailAddress,
-                    "protocol": responseJson.content[i].protocol
-                })
-            }
-
-            return JSON.stringify(dataRes);
-        }
-    }
-});
-
 
 function createMailConfig(e) {
     e.preventDefault();
@@ -146,9 +61,17 @@ $(document).ready(function () {
         var title = $(this).text();
         var dataId = $(this).attr("data-id");
         if (dataId != null && dataId != undefined) {
-            $(this).html('<input id="'+ dataId +'" type="text" placeholder="Search ' + title + '" />');
+            $(this).html('<input class="table-data-input-search" id="'+ dataId +'" type="text" placeholder="Search ' + title + '" />');
         }
     });
+
+    var search = $.fn.dataTable.util.throttle(
+        function ( val ) {
+            table.search( val ).draw();
+        },
+        1000
+    );
+
 
     // showLoading();
     var draw = 0;
@@ -165,6 +88,7 @@ $(document).ready(function () {
             [10, 25, 50, "Tất cả"]
         ],
         "lengthChange": true,
+        "searchDelay": 1500,
         "searching": false,
         "ordering": false,
         "info": true,
@@ -196,14 +120,13 @@ $(document).ready(function () {
             // Apply the search
             this.api().columns().every(function () {
                 var that = this;
-                $('input', this.header()).on('keyup change clear', function () {
+                $('.table-data-input-search').on('keyup change clear', function () {
                     let id = $(this).attr("id");
                     // if (that.search() !== this.value) {
                     //
                     // }
                     objSearch[id] = this.value;
-                    that
-                        .search(JSON.stringify(objSearch))
+                    search(JSON.stringify(objSearch))
                         .draw();
                 });
             });
