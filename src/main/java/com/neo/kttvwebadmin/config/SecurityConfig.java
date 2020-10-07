@@ -46,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.cors().disable();
 		http.csrf().disable().authorizeRequests()
 				// .antMatchers("/admin/manage-account").hasAuthority("MANAGER")
-				.antMatchers("/", "/register","/mail_group").permitAll().anyRequest().authenticated().and().formLogin()
+				.antMatchers("/login", "/register").permitAll().anyRequest().authenticated().and().formLogin()
 				.defaultSuccessUrl("/index").successHandler(loginHandler).loginProcessingUrl("/j_spring_security_check")
 				.loginPage("/login").usernameParameter("username").passwordParameter("password")
 				.failureUrl("/login?error=true").and().logout().logoutUrl("/logout").addLogoutHandler(logoutHandler)
