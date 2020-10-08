@@ -70,8 +70,9 @@ $(document).ready(function () {
     var table = $('#group-receive-mail').DataTable({
         columnDefs: [
             {
-                "targets": [0,1,2,3,5],
-                "render": $.fn.dataTable.render.text()
+                orderable: false,
+                className: 'select-checkbox',
+                targets:   0
             },
             {
                 targets: 4,
@@ -85,6 +86,11 @@ $(document).ready(function () {
                  }
             }
         ],
+        select: {
+            style:    'os',
+            selector: 'td:first-child',
+            type: 'single'
+        },
         "pagingType": "full_numbers",
         "lengthMenu": [
             [10, 25, 50, -1],
@@ -97,6 +103,7 @@ $(document).ready(function () {
         "autoWidth": false,
         "scrollX": true,
         "responsive": false,
+        "searchDelay": 1500,
         language: {
             search: "_INPUT_",
             searchPlaceholder: "Nhập thông tin tìm kiếm",
@@ -107,6 +114,7 @@ $(document).ready(function () {
         "processing": true,
         "serverSide": true,
         "columns": [
+            { "data":""},
             {"data": "indexCount"},
             {"data": "id"},
             {"data": "code"},
@@ -185,6 +193,7 @@ $(document).ready(function () {
 
                 for (let i = 0; i < responseJson.content.length; i++) {
                     dataRes.data.push({
+                        "": "",
                         "indexCount" : i+1,
                         "id": responseJson.content[i].id,
                         "code": responseJson.content[i].code,
