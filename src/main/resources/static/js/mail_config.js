@@ -255,7 +255,7 @@ $('#btnCreate').on('click', function (e) {
         "password": $('#inputPassword').val(),
         "domain": $('#inputDomain').val(),
         "senderName": $('#inputSenderName').val(),
-        "email": $('#inputEmail').val(),
+        "email": $('#inputEmailAddress').val(),
         "protocol": $('#inputProtocol').val()
     };
 
@@ -451,7 +451,7 @@ $('#btnSaveCopy').on('click', function (e) {
         "password": $('#inputPassword').val(),
         "domain": $('#inputDomain').val(),
         "senderName": $('#inputSenderName').val(),
-        "email": $('#inputEmail').val(),
+        "email": $('#inputEmailAddress').val(),
         "protocol": $('#inputProtocol').val()
     };
 
