@@ -5,8 +5,6 @@ services:
       context: ./
       dockerfile: Dockerfile
     container_name: kttv-web-admin
-    environment:
-      spring.profiles.active: dev
     ports:
       - "8081:8081"
     tty: true

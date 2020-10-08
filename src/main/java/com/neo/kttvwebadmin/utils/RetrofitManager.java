@@ -18,7 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitManager {
 
 	@Value("${api.url}")
-	private static final String API_URL = "http://localhost:8080/api/v1/";
+	private static final String API_URL = "http://10.252.10.175:8080/api/v1/";
 
 	private static Retrofit.Builder builder = new Retrofit.Builder().baseUrl(API_URL)
 			.addConverterFactory(GsonConverterFactory.create());
