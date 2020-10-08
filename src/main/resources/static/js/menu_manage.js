@@ -1,3 +1,45 @@
+$('.select2bs4').select2({
+    theme: 'bootstrap4',
+    minimumInputLength: 0
+});
+
+function formatIcon(icon) {
+    return $('<span><i class="'+ icon.text +'"></i></span>');
+}
+
+$('#inputPictureFile').select2({
+    templateSelection: formatIcon,
+    templateResult: formatIcon,
+    allowHtml: true
+});
+
+getListMenuParentForm();
+
+// lay danh sach menu cha
+function getListMenuParentForm() {
+    showLoading();
+    $.ajax({
+        headers: {
+            'Authorization': token
+        },
+        url: apiUrl + "menu-manage/get-all-menu",
+        method: 'GET',
+        contentType: 'application/json',
+        success: function (data) {
+            let listOptions = "<option value=''></option>";
+            for(let i = 0; i < data.length; i++) {
+                listOptions += "<option value='"+ data[i].id +"'>"+ data[i].name +"</option>";
+            }
+            $('#inputParentId').html(listOptions);
+            disableLoading();
+        },
+        error: function (err) {
+            disableLoading();
+            toastr.error(err.responseJSON.message, err.responseJSON.code);
+        }
+    });
+}
+
 function showLoading() {
     $('.popup-loading').css('opacity', '1');
     $('.popup-loading').css('display', 'block');
@@ -12,14 +54,15 @@ function disableLoading() {
 
 let objSearch = {
     s_id: '',
-    s_ip: '',
-    s_port: '',
-    s_username: '',
-    s_password: '',
-    s_domain: '',
-    s_sendername: '',
-    s_email: '',
-    s_protocol: ''
+    s_name: '',
+    s_display_order: '',
+    s_picture_file: '',
+    s_detail_file: '',
+    s_parent_id: '',
+    s_publish: '',
+    s_sys_id: '',
+    s_created_user: '',
+    s_modified_user: ''
 };
 
 $('#tableDataView thead th').each(function () {
@@ -74,14 +117,18 @@ var table = $('#tableDataView').DataTable({
         { "data":""},
         {"data": "indexCount", "render": $.fn.dataTable.render.text()},
         {"data": "id", "render": $.fn.dataTable.render.text()},
-        {"data": "ip", "render": $.fn.dataTable.render.text()},
-        {"data": "port", "render": $.fn.dataTable.render.text()},
-        {"data": "username", "render": $.fn.dataTable.render.text()},
-        {"data": "password", "render": $.fn.dataTable.render.text()},
-        {"data": "domain", "render": $.fn.dataTable.render.text()},
-        {"data": "sender_name", "render": $.fn.dataTable.render.text()},
-        {"data": "email", "render": $.fn.dataTable.render.text()},
-        {"data": "protocol", "render": $.fn.dataTable.render.text()}
+        {"data": "name", "render": $.fn.dataTable.render.text()},
+        {"data": "display_order", "render": $.fn.dataTable.render.text()},
+        {"data": "picture_file", "render": $.fn.dataTable.render.text()},
+        {"data": "detail_file", "render": $.fn.dataTable.render.text()},
+        {"data": "menu_level", "render": $.fn.dataTable.render.text()},
+        {"data": "parent_id", "render": $.fn.dataTable.render.text()},
+        {"data": "publish", "render": $.fn.dataTable.render.text()},
+        {"data": "created_date", "render": $.fn.dataTable.render.text()},
+        {"data": "modified_date", "render": $.fn.dataTable.render.text()},
+        {"data": "created_user", "render": $.fn.dataTable.render.text()},
+        {"data": "modified_user", "render": $.fn.dataTable.render.text()},
+        {"data": "sys_id", "render": $.fn.dataTable.render.text()}
     ],
     initComplete: function () {
         // Apply the search
@@ -102,7 +149,7 @@ var table = $('#tableDataView').DataTable({
         headers: {
             'Authorization': token
         },
-        "url": apiUrl + "mail-config/get-list-mail-config-pagination",
+        "url": apiUrl + "menu-manage/get-list-menu-pagination",
         "method": "POST",
         "contentType": "application/json",
         "data": function (d) {
@@ -118,14 +165,15 @@ var table = $('#tableDataView').DataTable({
         "dataFilter": function (response) {
             objSearch = {
                 s_id: '',
-                s_ip: '',
-                s_port: '',
-                s_username: '',
-                s_password: '',
-                s_domain: '',
-                s_sendername: '',
-                s_email: '',
-                s_protocol: ''
+                s_name: '',
+                s_display_order: '',
+                s_picture_file: '',
+                s_detail_file: '',
+                s_parent_id: '',
+                s_publish: '',
+                s_sys_id: '',
+                s_created_user: '',
+                s_modified_user: ''
             };
             let responseJson = JSON.parse(response);
             let dataRes = {
@@ -140,14 +188,18 @@ var table = $('#tableDataView').DataTable({
                     "": "",
                     "indexCount": i + 1,
                     "id": responseJson.content[i].id,
-                    "ip": responseJson.content[i].ip,
-                    "port": responseJson.content[i].port,
-                    "username": responseJson.content[i].username,
-                    "password": responseJson.content[i].password,
-                    "domain": responseJson.content[i].domain,
-                    "sender_name": responseJson.content[i].senderName,
-                    "email": responseJson.content[i].emailAddress,
-                    "protocol": responseJson.content[i].protocol
+                    "name": responseJson.content[i].name,
+                    "display_order": responseJson.content[i].displayOrder,
+                    "picture_file": responseJson.content[i].pictureFile,
+                    "detail_file": responseJson.content[i].detailFile,
+                    "menu_level": responseJson.content[i].menuLevel,
+                    "parent_id": responseJson.content[i].parentId,
+                    "publish": responseJson.content[i].publish,
+                    "created_date": responseJson.content[i].createdDate,
+                    "modified_date": responseJson.content[i].modifiedDate,
+                    "created_user": responseJson.content[i].createdUser,
+                    "modified_user": responseJson.content[i].modifiedUser,
+                    "sys_id": responseJson.content[i].sysId,
                 })
             }
 

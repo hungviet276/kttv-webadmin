@@ -1,12 +1,10 @@
 version: '3.8'
 services:
-  nbd_web_admin:
+  kttv_webadmin:
     build:
       context: ./
       dockerfile: Dockerfile
-    container_name: nbd-web-admin
-    environment:
-      spring.profiles.active: dev
+    container_name: kttv-web-admin
     ports:
-      - "7777:7777"
+      - "8081:8081"
     tty: true
