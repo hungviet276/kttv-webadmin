@@ -5,6 +5,8 @@ services:
       context: ./
       dockerfile: Dockerfile
     container_name: nbd-web-admin
+    environment:
+      spring.profiles.active: dev
     ports:
       - "7777:7777"
     tty: true
