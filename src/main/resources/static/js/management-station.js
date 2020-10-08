@@ -1,3 +1,130 @@
+var station =
+{
+    init : function (){
+        station.getStationType();
+        station.getProvince();
+        // station.getRiver();
+        station.getUnit();
+    },
+    //lay loai tram
+    getStationType : function() {
+        $.ajax({
+            headers: {
+                'Authorization': token
+            },
+            url: apiUrl + "station-type/get-list-object-type",
+            method: "GET",
+            contentType: "application/json",
+            success: function (data) {
+                console.log(data);
+                $("#stationType").select2({data: data});
+                $("#stationTypeAdd").select2({data: data});
+            }
+        });
+    },
+    getProvince : function (){
+        $.ajax({
+            headers: {
+                'Authorization': token
+            },
+            url: apiUrl + "common/get-select-list-provinces",
+            method: "GET",
+            contentType: "application/json",
+            success: function (data) {
+                console.log(data);
+                $("#provinceAdd").select2({data: data});
+            }
+        });
+    },
+    getDistrict : function (obj){
+        let provinceId = $(obj).val();
+        if(provinceId == -1){
+            return ;
+        }
+        $.ajax({
+            headers: {
+                'Authorization': token
+            },
+            url: apiUrl + "common/get-select-list-district?provinceId="+provinceId,
+            method: "GET",
+            contentType: "application/json",
+            success: function (data) {
+                console.log(data);
+                $("#districtAdd").select2({data: data});
+            }
+        });
+    },
+    getWard : function (obj){
+        let provinceId = $("#provinceAdd").val();
+        let districtId = $(obj).val();
+        if(provinceId == -1){
+            return ;
+        }
+        if(districtId == -1){
+            return ;
+        }
+        $.ajax({
+            headers: {
+                'Authorization': token
+            },
+            url: apiUrl + "common/get-select-list-ward?provinceId=" + provinceId + "&districtId=" + districtId,
+            method: "GET",
+            contentType: "application/json",
+            success: function (data) {
+                console.log(data);
+                $("#districtAdd").select2({data: data});
+            }
+        });
+    },
+    getRiver : function (){
+        $.ajax({
+            headers: {
+                'Authorization': token
+            },
+            url: apiUrl + "common/get-select-list-rivers",
+            method: "GET",
+            contentType: "application/json",
+            success: function (data) {
+                console.log(data);
+                $("#riverAdd").select2({data: data});
+            }
+        });
+    },
+    getUnit : function (){
+        $.ajax({
+            headers: {
+                'Authorization': token
+            },
+            url: apiUrl + "common/get-select-list-unit",
+            method: "GET",
+            contentType: "application/json",
+            success: function (data) {
+                console.log(data);
+                $("#unit").select2({data: data});
+            }
+        });
+    },
+    checkStationType : function (obj){
+        let stationTypeText = obj.options[obj.selectedIndex].text;
+        let stationTypeId = obj.options[obj.selectedIndex].value;
+        console.log(stationTypeText);
+        if(stationTypeText.startsWith("HV") || stationTypeId == -1){
+            $("#riverAdd").prop("disabled",true);
+        }else{
+            $("#riverAdd").prop("disabled",false);
+            station.getRiver();
+        }
+    },
+    btnAddParameter : function (){
+
+    },
+    btnRefreshParamter : function (){
+        $("#parameter").val('');
+        $("#unit").val('');
+        $("#frequency").val('');
+        $("#note").val('');
+    }
+}
 function showLoading() {
     $('.popup-loading').css('opacity', '1');
     $('.popup-loading').css('display', 'block');
@@ -51,7 +178,15 @@ let objSearch = {
     s_provinceName: '',
     s_districtName: '',
     s_wardName: '',
-    s_storage: ''
+    s_storage: '',
+    s_riverId: '',
+    // s_stationHeight: '',
+    s_status: '',
+    s_parameterTypeName: '',
+    s_unitName: '',
+    // s_device: '',
+    // s_measure: '',
+    // s_note: ''
 };
 
 $(document).ready(function () {
@@ -71,15 +206,19 @@ $(document).ready(function () {
     );
 
 
-    // showLoading();
+    showLoading();
     var draw = 0;
     var table = $('#tableDataView').DataTable({
-        "columnDefs": [
-            {
-                "targets": '_all',
-                "render": $.fn.dataTable.render.text()
-            }
-        ],
+    columnDefs: [ {
+        orderable: false,
+        className: 'select-checkbox',
+        targets:   0
+    } ],
+    select: {
+        style:    'os',
+        selector: 'td:first-child',
+        type: 'single'
+    },
         "pagingType": "full_numbers",
         "lengthMenu": [
             [10, 25, 50, -1],
@@ -92,27 +231,36 @@ $(document).ready(function () {
         "info": true,
         "autoWidth": false,
         "scrollX": true,
-        "responsive": true,
+        "responsive": false,
         language: {
             search: "_INPUT_",
             searchPlaceholder: "Nhập thông tin tìm kiếm",
         },
-        "select": {
-            "style": "single"
-        },
+        // "select": {
+        //     "style": "single"
+        // },
         "processing": true,
         "serverSide": true,
         "columns": [
+	        { "data":""},
             {"data": "indexCount"},
             {"data": "tsName"},
             {"data": "stationNo"},
             {"data": "stationName"},
-            // {"data": "stationLongName"},
-            // {"data": "stationLat"},
-            // {"data": "stationLong"},
-            // {"data": "catchmentName"},
-            // {"data": "siteName"},
-            // {"data": "riverName"}
+            {"data": "stationLong"},
+            {"data": "stationLat"},
+            {"data": "provinceName"},
+            {"data": "districtName"},
+            {"data": "wardName"},
+            {"data": "storage"},
+            {"data": "riverId"},
+            // {"data": "stationHeight"},
+            {"data": "status"},
+            {"data": "parameterTypeName"},
+            {"data": "unitName"},
+            // {"data": "device"},
+            // {"data": "measure"},
+            // {"data": "note"}
         ],
         initComplete: function () {
             // Apply the search
@@ -156,7 +304,15 @@ $(document).ready(function () {
                     s_provinceName: '',
                     s_districtName: '',
                     s_wardName: '',
-                    s_storage: ''
+                    s_storage: '',
+                    s_riverId: '',
+                    // s_stationHeight: '',
+                    s_status: '',
+                    s_parameterTypeName: '',
+                    s_unitName: '',
+                    // s_device: '',
+                    // s_measure: '',
+                    // s_note: ''
                 };
                 let responseJson = JSON.parse(response);
                 let dataRes = {
@@ -168,16 +324,26 @@ $(document).ready(function () {
 
                 for (let i = 0; i < responseJson.content.length; i++) {
                     dataRes.data.push({
+                        "":"",
                         "indexCount": i + 1,
-                        "tsId": responseJson.content[i].tsId,
+                        // "tsId": responseJson.content[i].tsId,
                         "tsName": responseJson.content[i].tsName,
-                        "stationId": responseJson.content[i].stationId,
-                        "tsTypeId": responseJson.content[i].tsTypeId,
-                        "parameterTypeId": responseJson.content[i].parameterTypeId,
-                        "parameterTypeName": responseJson.content[i].parameterTypeName,
-                        "parameterTypeDescription": responseJson.content[i].parameterTypeDescription,
                         "stationNo": responseJson.content[i].stationNo,
-                        "stationName": responseJson.content[i].stationName
+                        "stationName": responseJson.content[i].stationName,
+                        "stationLong": responseJson.content[i].stationLong,
+                        "stationLat": responseJson.content[i].stationLat,
+                        "provinceName": responseJson.content[i].provinceName,
+                        "districtName": responseJson.content[i].districtName,
+                        "wardName": responseJson.content[i].wardName,
+                        "storage": responseJson.content[i].storage,
+                        "riverId": responseJson.content[i].riverId,
+                        // "stationHeight": responseJson.content[i].stationHeight,
+                        "status": responseJson.content[i].status,
+                        "parameterTypeName": responseJson.content[i].parameterTypeName,
+                        "unitName": responseJson.content[i].unitName,
+                        // "device": responseJson.content[i].device,
+                        // "measure": responseJson.content[i].measure,
+                        // "note": responseJson.content[i].note
                     })
                 }
 
@@ -185,27 +351,12 @@ $(document).ready(function () {
             }
         }
     });
-    getStationType();
-    //disableLoading();
+    station.init();
     disabled_right();
     show_search();
+    disableLoading();
 });
 
-//lay loai tram
-getStationType = function () {
-    $.ajax({
-        headers: {
-            'Authorization': token
-        },
-        url: apiUrl + "station-type/get-list-object-type-pagination",
-        method: "GET",
-        contentType: "application/json",
-        success: function (data) {
-            console.log(data);
-            $("#stationType").select2({data: data});
-        }
-    });
-}
 //set action for button control
 $('#btnCreate').on('click', function (e) {
     e.preventDefault();

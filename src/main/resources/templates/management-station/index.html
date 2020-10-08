@@ -28,7 +28,7 @@
                                 <div class="card-header">
                                     <h3 style="text-align: center"><b>Tìm kiếm trạm</b></h3>
                                 </div>
-                                <form class="card-body" id="form_data">
+                                <div class="card-body" id="form_data">
                                     <div class="form-row">
                                         <div class="form-group col-md-6 col-sm-6 col-lg-6">
                                             <label for="stationType">Loại trạm</label>
@@ -54,7 +54,7 @@
                                         </div>
                                     </div>
 
-                                </form>
+                                </div>
                                 <div class="wrap-button-control">
                                     <button class="btn btn-primary" id="btnSearch" style="width:100px;">
                                         <i class="fas fa-search"></i> Tìm kiếm
@@ -65,9 +65,10 @@
                                 </div>
 
                                 <div class="card-body" style="width: 100%;overflow: auto">
-                                    <table id="tableDataView" class="table table-bordered table-hover table-responsive">
+                                    <table id="tableDataView" class="table table-bordered table-hover">
                                         <thead>
                                         <tr>
+                                            <th></th>
                                             <th>#</th>
                                             <th data-id="s_tsName">Loại trạm</th>
                                             <th data-id="s_stationNo">Mã trạm</th>
@@ -79,13 +80,13 @@
                                             <th data-id="s_wardName">Xã</th>
                                             <th data-id="s_storage">Địa chỉ</th>
                                             <th data-id="s_riverId">Mã sông</th>
-                                            <th data-id="s_stationHeight">Độ cao của trạm</th>
+<!--                                            <th data-id="s_stationHeight">Độ cao của trạm</th>-->
                                             <th data-id="s_status">Trạng thái</th>
-                                            <th data-id="s_parameter">Yếu tố</th>
-                                            <th data-id="s_unit">Đơn vị tính</th>
-                                            <th data-id="s_device">Thiết bị đo</th>
-                                            <th data-id="s_measure">Tần số đo</th>
-                                            <th data-id="s_note">Ghi chú</th>
+                                            <th data-id="s_parameterTypeName">Yếu tố</th>
+                                            <th data-id="s_unitName">Đơn vị tính</th>
+<!--                                            <th data-id="s_device">Thiết bị đo</th>-->
+<!--                                            <th data-id="s_measure">Tần số đo</th>-->
+<!--                                            <th data-id="s_note">Ghi chú</th>-->
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -99,12 +100,19 @@
                                     <div class="card-header">
                                         <h3 style="text-align: center"><b>Thông tin trạm</b></h3>
                                     </div>
-                                    <form class="form-horizontal" id="form_input">
+                                    <div class="form-horizontal" id="form_input">
                                         <div class="form-row">
-
                                             <div class="form-group col-md-6">
-                                                <label for="input_code">Loại trạm <span style="color: red;">*</span></label>
-                                                <input type="text" class="form-control" id="input_code" placeholder="">
+                                                <label for="stationTypeAdd">Loại trạm <span style="color: red;">*</span></label>
+                                                <select id="stationTypeAdd" class="form-control select2 select2-hidden-accessible" style="width: 100%; height: 100%">
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="modeStationType">Chế độ điều khiển <span style="color: red;">*</span></label>
+                                                <select id="modeStationType" class="form-control" style="width: 100%;">
+                                                    <option value="1">Qua API</option>
+                                                    <option value="2">Lệnh điều khiển hỗ trợ</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="form-row">
@@ -123,24 +131,29 @@
                                                 <input type="text" class="form-control" id="input_name" placeholder="">
                                             </div>
                                             <div class="form-group col-md-6">
-                                                <label for="input_cardNumber">Vĩ độ</label>
+                                                <label for="input_cardNumber">Vĩ độ <span style="color: red;">*</span></label>
                                                 <input type="text" class="form-control" id="input_cardNumber" placeholder="">
                                             </div>
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
-                                                <label for="input_group_id">Tỉnh</label>
-                                                <input type="email" class="form-control" id="input_group_id" placeholder="">
+                                                <label for="provinceAdd">Tỉnh</label>
+                                                <select id="provinceAdd" class="form-control select2 select2-hidden-accessible" style="width: 100%; height: 100%" onchange="station.getDistrict(this)">
+                                                </select>
                                             </div>
                                             <div class="form-group col-md-6">
-                                                <label for="input_phone">Quận/huyện</label>
-                                                <input type="text" class="form-control" id="input_phone" placeholder="">
+                                                <label for="districtAdd">Quận/huyện</label>
+                                                <select id="districtAdd" class="form-control" style="width: 100%;" onchange="station.getWard(this)">
+                                                    <option value="-1">Lựa chọn</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
-                                                <label for="input_group_id">Xã</label>
-                                                <input type="email" class="form-control" id="input_group_id" placeholder="">
+                                                <label for="wardAdd">Xã</label>
+                                                <select id="wardAdd" class="form-control" style="width: 100%;">
+                                                    <option value="-1">Lựa chọn</option>
+                                                </select>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label for="input_phone">Địa chỉ cụ thể</label>
@@ -149,18 +162,23 @@
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
-                                                <label for="input_group_id">Mã sông</label>
-                                                <input type="email" class="form-control" id="input_group_id" placeholder="">
+                                                <label for="riverAdd">Thuộc sông</label>
+                                                <select id="riverAdd" class="form-control" style="width: 100%;">
+                                                    <option value="-1">Lựa chọn</option>
+                                                </select>
                                             </div>
-                                            <div class="form-group col-md-6">
-                                                <label for="input_phone">Độ cao của trạm(*)</label>
-                                                <input type="text" class="form-control" id="input_phone" placeholder="">
-                                            </div>
+<!--                                            <div class="form-group col-md-6">-->
+<!--                                                <label for="input_phone">Độ cao của trạm(*)</label>-->
+<!--                                                <input type="text" class="form-control" id="input_phone" placeholder="">-->
+<!--                                            </div>-->
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
-                                                <label for="input_group_id">Trạng thái</label>
-                                                <input type="email" class="form-control" id="input_group_id" placeholder="">
+                                                <label for="statusAdd">Trạng thái</label>
+                                                <select id="statusAdd" class="form-control select2 select2-hidden-accessible" style="width: 100%; height: 100%">
+                                                    <option value="1">Hoạt động</option>
+                                                    <option value="0">Không hoạt động</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <!--  tab phan quyen-->
@@ -168,36 +186,40 @@
                                         <div class="tab-content">
                                                 <div class="form-row">
                                                     <div class="form-group col-md-6">
-                                                        <label for="input_group_id">Yếu tố</label>
-                                                        <input type="email" class="form-control" id="input_group_id" placeholder="">
+                                                        <label for="parameter">Yếu tố <span style="color: red;">*</span></label>
+                                                        <input type="text" class="form-control" id="parameter" placeholder="">
                                                     </div>
                                                     <div class="form-group col-md-6">
-                                                        <label for="input_phone">Đơn vị tính(*)</label>
-                                                        <input type="text" class="form-control" id="input_phone" placeholder="">
+                                                        <label for="unit">Đơn vị tính <span style="color: red;">*</span></label>
+                                                        <input type="text" class="form-control" id="unit" placeholder="">
                                                     </div>
                                                 </div>
                                                 <div class="form-row">
+<!--                                                    <div class="form-group col-md-6">-->
+<!--                                                        <label for="input_group_id">Thiết bị đo</label>-->
+<!--                                                        <input type="email" class="form-control" id="input_group_id" placeholder="">-->
+<!--                                                    </div>-->
                                                     <div class="form-group col-md-6">
-                                                        <label for="input_group_id">Thiết bị đo</label>
-                                                        <input type="email" class="form-control" id="input_group_id" placeholder="">
+                                                        <label for="frequency">Tần số đo</label>
+                                                        <input type="text" class="form-control" id="frequency" placeholder="">
                                                     </div>
                                                     <div class="form-group col-md-6">
-                                                        <label for="input_group_id">Tần số đo</label>
-                                                        <input type="email" class="form-control" id="input_group_id" placeholder="">
-                                                    </div>
-                                                </div>
-                                                <div class="form-row">
-                                                    <div class="form-group col-md-6">
-                                                        <label for="input_group_id">Ghi chú</label>
-                                                        <input type="email" class="form-control" id="input_group_id" placeholder="">
+                                                        <label for="note">Ghi chú</label>
+                                                        <input type="text" class="form-control" id="note" placeholder="">
                                                     </div>
                                                 </div>
+<!--                                                <div class="form-row">-->
+<!--                                                    <div class="form-group col-md-6">-->
+<!--                                                        <label for="input_group_id">Ghi chú</label>-->
+<!--                                                        <input type="email" class="form-control" id="input_group_id" placeholder="">-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
                                             <div class="wrap-button-control">
-                                                <button class="btn btn-primary" id="" style="width: 100px;">
+                                                <button class="btn btn-primary" id="btnAddParameter" style="width: 100px;" onclick="station.btnAddParameter()">
                                                     <i class="fas fa-plus"></i> Thêm
                                                 </button>
-                                                <button class="btn btn-primary" id="" style="width: 100px;">
-                                                    <i class="far fa-trash-alt"></i> Làm mới
+                                                <button class="btn btn-primary" id="btnRefreshParamter" style="width: 100px;" onclick="station.btnRefreshParamter()">
+                                                    <i class="fas fa-redo-alt"></i> Làm mới
                                                 </button>
                                             </div>
 
@@ -205,7 +227,7 @@
                                                 <thead>
                                                 <tr>
                                                     <th>#</th>
-                                                    <th data-id="">yếu tố</th>
+                                                    <th data-id="">Yếu tố</th>
                                                     <th data-id="">Đơn vị tính</th>
                                                     <th data-id="">Ghi chú</th>
                                                     <th data-id="">Tác động</th>
@@ -217,7 +239,7 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                    </form>
+                                    </div>
                                     <!-- end tab phan quyen-->
                                     <div class="wrap-button-control">
                                         <button class="btn btn-primary" id="btnsave" style="display:none;width: 100px;">
