@@ -63,7 +63,7 @@ var table = $('#tableDataView').DataTable({
     "info": true,
     "autoWidth": false,
     "scrollX": true,
-    "responsive": true,
+    "responsive": false,
     language: {
         search: "_INPUT_",
         searchPlaceholder: "Nhập thông tin tìm kiếm",
