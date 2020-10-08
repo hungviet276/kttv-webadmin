@@ -50,9 +50,10 @@
                             </div>
                             <div class="" style="text-align: center;">
                                 <button type="button" class="min-with-btn btn btn-outline-secondary" id="group_search">Tìm kiếm</button>
-                                <button type="submit" class="min-with-btn btn btn-primary" id="group_add">Thêm mới</button>
-                                <button type="button" class="min-with-btn btn btn-info" id="group_edit">sửa</button>
-                                <button type="button" class="min-with-btn btn btn-danger" id="group_delete">Xóa</button>
+                                <button type="button" class="min-with-btn btn btn-primary" id="btnCreate"><i class="fas fa-plus"></i> Thêm</button>
+                                <button type="button" class="min-with-btn btn btn-warning" id="btnEdit"><i class="far fa-edit"></i> Sửa</button>
+                                <button type="button" class="min-with-btn btn btn-default" id="btnCopy"><i class="fas fa-copy"></i> Sao chép</button>
+                                <button type="button" class="min-with-btn btn btn-danger" id="btnDelete"><i class="far fa-trash-alt"></i> Xoá</button>
                             </div>
                         </form>
                         <div class="card-body">
@@ -80,19 +81,19 @@
                     <div class="card card-primary card-tabs">
                         <div class="card-header p-0 pt-1">
                             <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
-                                <li class="nav-item">
+                                <li class="nav-item child_template">
                                     <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill"
                                        href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home"
                                        aria-selected="true">Nhóm người nhận trong hệ thống</a>
                                 </li>
-                                <li class="nav-item">
+                                <li class="nav-item child_template">
                                     <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill"
                                        href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile"
                                        aria-selected="false">Nhóm người nhận ngoài hệ thống</a>
                                 </li>
                             </ul>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body child_template">
                             <div class="tab-content" id="custom-tabs-one-tabContent">
                                 <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel"
                                      aria-labelledby="custom-tabs-one-home-tab">

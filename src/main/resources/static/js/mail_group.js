@@ -218,8 +218,59 @@ $(document).ready(function () {
         console.log(object);
         return object;
     }
-    $("#group_add").click(function (event) {
+    // set default state for button control
+    $('#btnCopy').attr('disabled', 'true');
+    $('#btnDelete').attr('disabled', 'true');
+    $('#btnEdit').attr('disabled', 'true');
+    function disableChild(){
+        $(".child_template").css("pointer-events", "none");
+        $(".child_template").css("backgroundColor", "#DAD5D4");
+        $(".child_template").css("opacity", "0.5");
+    }
+    disableChild();
+    function enableChild(){
+        $(".child_template").css("pointer-events", "auto");
+        $(".child_template").css("backgroundColor", "none");
+    };
+
+    table
+        .on('select', rowSelect)
+        .on('deselect', rowDeselect);
+
+    function rowSelect(e, dt, type, indexes) { // load các thông tin của những cái bên trái ra
+        $('#btnCopy').removeAttr('disabled');
+        $('#btnDelete').removeAttr('disabled');
+        $('#btnEdit').removeAttr('disabled');
+        var rowData = table.rows(indexes).data().toArray();
+
+        fillDataToForm(rowData);
+    }
+    function rowDeselect(e, dt, type, indexes) { // khóa các form bên trái
+        $('#btnCopy').attr('disabled', 'true');
+        $('#btnDelete').attr('disabled', 'true');
+        $('#btnEdit').attr('disabled', 'true');
+        $('#form_group')[0].reset();
+        disableChild();
+    }
+
+
+    function fillDataToForm(rowData) {
+        if (rowData != null && rowData != undefined && rowData.length > 0) {
+            // $('#inputMailConfigId').val(rowData[0].id);
+            // $('#inputIp').val(rowData[0].ip);
+            // $('#inputPort').val(rowData[0].port);
+            // $('#inputUsername').val(rowData[0].username);
+            // $('#inputPassword').val(rowData[0].password);
+            // $('#inputDomain').val(rowData[0].domain);
+            // $('#inputSenderName').val(rowData[0].sender_name);
+            // $('#inputEmailAddress').val(rowData[0].email);
+            // $('#inputProtocol').val(rowData[0].protocol);
+        }
+    }
+
+    $("#btnCreate").click(function (event) {
         event.preventDefault();
+        event.stopPropagation();
         let data = getValue("form_group");
         $.ajax({
             headers: {
@@ -230,10 +281,10 @@ $(document).ready(function () {
             "contentType": "application/json",
             "data": JSON.stringify(data),
             "success": function (response) {
-                alert("Thành công")
+                toastr.success('Thành công', data.message);
             },
             "error": function (error) {
-
+                toastr.error('Lỗi', data.message);
             }
         });
     });

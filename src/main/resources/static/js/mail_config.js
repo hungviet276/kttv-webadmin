@@ -241,7 +241,7 @@ function resetButtonControlAfterSubmitForm() {
     $('#btnEdit').attr('disabled', 'true');
 }
 
-$('#btnSaveCreate').on('click', function (e) {
+$('#btnCreate').on('click', function (e) {
     e.preventDefault();
     e.stopPropagation();
 
