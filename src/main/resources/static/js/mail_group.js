@@ -1,6 +1,5 @@
 //sử dụng cho chức năng quản lý nhóm người nhận mail
-var token = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbmlzdHJhdG9yIiwiYXV0aCI6IiIsImV4cCI6MTYwMjA0OTc4NH0.CYGuCWUG-fChcjvtz_wyn4MfpqGAHVWlIvZ6a9pyZ1kjNGdNx3uv7eIZfZZb5Za7djCXkRWREhnJwJtFBofztw";
-
+    let refresh = 0;
     function showLoading() {
         $('.popup-loading').css('opacity', '1');
         $('.popup-loading').css('display', 'block');
@@ -26,7 +25,7 @@ var token = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbmlzdHJhdG9yIiwiYXV0aCI
         "ordering": true,
         "info": false,
         "autoWidth": true,
-        "responsive": true,
+        "responsive": false,
     });
     $('#example4').DataTable({
         "paging": true,
@@ -35,7 +34,7 @@ var token = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbmlzdHJhdG9yIiwiYXV0aCI
         "ordering": true,
         "info": false,
         "autoWidth": true,
-        "responsive": true,
+        "responsive": false,
     });
 
 let objSearch = {
@@ -53,7 +52,7 @@ $(document).ready(function () {
         var is_select = $(this).attr("is_select");
         if (dataId != null && dataId != undefined) {
             if(is_select==null || is_select == undefined){
-                $(this).html('<input id="'+ dataId +'" type="text" placeholder="Search ' + title + '" />');
+                $(this).html('<input id="'+ dataId +'" class="table-data-input-search" type="text" placeholder="Search ' + title + '" />');
             }else{
                 $(this).html(`
                             <select class="select_table" id="`+ dataId +`">
@@ -97,7 +96,7 @@ $(document).ready(function () {
         "info": true,
         "autoWidth": false,
         "scrollX": true,
-        "responsive": true,
+        "responsive": false,
         language: {
             search: "_INPUT_",
             searchPlaceholder: "Nhập thông tin tìm kiếm",
@@ -116,19 +115,33 @@ $(document).ready(function () {
             {"data": "description"}
         ],
         initComplete: function () {
-            // Apply the search
             this.api().columns().every(function () {
                 var that = this;
-                $('input', this.header()).on('keyup change clear', function () {
-                    //console.log($(this));
+                $('.table-data-input-search').on('keyup change clear', function () {
                     let id = $(this).attr("id");
-                    objSearch[id] = this.value;
-                    that
-                        .search(JSON.stringify(objSearch))
-                        .draw();
+                    let oldValue =  objSearch[id];
+                    if (!$(this).is(':focus')) {
+                       return;
+                    }
+                    if((oldValue!=this.value && refresh==0) || this.value==""){
+                        refresh = 1;
+
+                        console.log("giá trị cũ bên trong"+ oldValue);
+                        objSearch[id] = this.value;
+                        console.log("giá trị mới "+ objSearch[id]);
+                        that
+                            .search(JSON.stringify(objSearch))
+                            .draw();
+                        if(this.value==""){
+                           $("#name").focus();
+                        }
+                    } else{
+                        refresh = 0;
+                    }
                     // console.log(this);
                 });
-                $('select', this.header()).on('keyup change clear', function () {
+
+                $('.select_table').on('keyup change clear', function () {
                     let id = $(this).attr("id");
                     objSearch[id] = this.value;
                     that
@@ -136,18 +149,12 @@ $(document).ready(function () {
                         .draw();
                 });
             });
-            // this.api().row().every(function(){
-            //     $("span.dtr-title input").on('keyup change clear', function () {
-            //         console.log($(this));
-            //     });
-            // });
-
         },
         "ajax": {
             headers: {
                 'Authorization': token
             },
-            "url": "http://localhost:8080/api/v1/group-mail-receive/get-list-group-mail-paging-nation",
+            "url":apiUrl + "group-mail-receive/get-list-group-mail-paging-nation",
             "method": "POST",
             "contentType": "application/json",
             "data": function (d) {
@@ -192,4 +199,34 @@ $(document).ready(function () {
             }
         }
     });
+
+    function getValue(id){
+        let data = $("#"+id+" input," +"#"+id+" select," +"#"+id+ " textarea");
+        let object = {};
+        for(let i =0; i< data.length ; i++){
+            object[''+data[i].getAttribute('name')] = data[i].value;
+        }
+        console.log(object);
+        return object;
+    }
+    $("#group_add").click(function (event) {
+        event.preventDefault();
+        let data = getValue("form_group");
+        $.ajax({
+            headers: {
+                'Authorization': token
+            },
+            "url": apiUrl + "group-mail-receive",
+            "method": "POST",
+            "contentType": "application/json",
+            "data": JSON.stringify(data),
+            "success": function (response) {
+                alert("Thành công")
+            },
+            "error": function (error) {
+
+            }
+        });
+    });
+
 });

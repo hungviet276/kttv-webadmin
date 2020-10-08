@@ -39,7 +39,7 @@ function createMailConfig(e) {
         "error": function (error) {
 
         }
-    })
+    });
 }
 
 let objSearch = {

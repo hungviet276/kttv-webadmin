@@ -51,6 +51,7 @@ public class DomainUserDetailsService implements UserDetailsService {
 		UserInfo userInfo = UserInfo.builder().build();
 		userInfo.setUsername(username);
 		userInfo.setPassword(password);
+		System.out.println(userInfo);
 
 		Call<Login> callSync = userSerice.authenticate(userInfo);
 		try {
@@ -72,7 +73,7 @@ public class DomainUserDetailsService implements UserDetailsService {
 		session.setAttribute("menus", login.getMenus());
 		session.setAttribute("urlApi", login.getUrlApi());
 		session.setAttribute("token", token);
-		
+		System.out.println(login);
 		Set<SimpleGrantedAuthority> simpleGrantedAuthorities = new HashSet<>();
 		return new User(login.getUserId(), login.getPassword(), simpleGrantedAuthorities);
 	}

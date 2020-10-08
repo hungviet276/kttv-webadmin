@@ -26,33 +26,33 @@
                         </div>
                         <!-- /.card-header -->
                         <!-- form start -->
-                        <form role="form">
+                        <form role="form" id="form_group">
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Tên nhóm người nhận</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Tên nhóm người nhận">
+                                    <label for="name">Tên nhóm người nhận</label>
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Tên nhóm người nhận">
                                 </div>
                                 <div class="form-group">
                                     <label for="code">Code</label>
-                                    <input type="text" class="form-control" id="code" placeholder="mã..">
+                                    <input type="text" class="form-control" id="code" name="code" placeholder="mã..">
                                 </div>
                                 <div class="form-group">
-                                    <label>Trạng thái</label>
-                                    <select class="form-control">
+                                    <label for="status">Trạng thái</label>
+                                    <select class="form-control" id="status" name="status">
                                         <option value="1">Hoạt động</option>
                                         <option value="0">Không hoạt động</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="description">Mô tả</label>
-                                    <textarea class="form-control" id="description" rows="3" placeholder="Nhập ..."></textarea>
+                                    <textarea class="form-control" id="description" name="description" rows="3" placeholder="Nhập ..."></textarea>
                                 </div>
                             </div>
                             <div class="" style="text-align: center;">
-                                <button type="button" class="min-with-btn btn btn-outline-secondary">Tìm kiếm</button>
-                                <button type="submit" class="min-with-btn btn btn-primary">Thêm mới</button>
-                                <button type="button" class="min-with-btn btn btn-info">sửa</button>
-                                <button type="button" class="min-with-btn btn btn-danger">Xóa</button>
+                                <button type="button" class="min-with-btn btn btn-outline-secondary" id="group_search">Tìm kiếm</button>
+                                <button type="submit" class="min-with-btn btn btn-primary" id="group_add">Thêm mới</button>
+                                <button type="button" class="min-with-btn btn btn-info" id="group_edit">sửa</button>
+                                <button type="button" class="min-with-btn btn btn-danger" id="group_delete">Xóa</button>
                             </div>
                         </form>
                         <div class="card-body">
@@ -290,6 +290,12 @@
     <aside class="control-sidebar control-sidebar-dark">
         <!-- Control sidebar content goes here -->
     </aside>
+    <script type="text/javascript">
+        var apiUrl = "[[${session.apiUrl}]]";
+        var userBO = "[[${session.userBO}]]";
+        var token = "[[${session.token}]]";
+        console.log(apiUrl + "|" + JSON.stringify(userBO) + "|" + token);
+    </script>
     <th:block th:replace="layout_footer.html :: footer_tag" />
     <script src="/js/mail_group.js"></script>
 </div>
