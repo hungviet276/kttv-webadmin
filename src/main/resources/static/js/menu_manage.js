@@ -1,6 +1,8 @@
-$('.select2bs4').select2({
+$('#inputParentId').select2({
+    placeholder: 'Chọn menu cha',
     theme: 'bootstrap4',
-    minimumInputLength: 0
+    minimumInputLength: 0,
+    allowClear: true
 });
 
 function formatIcon(icon) {
@@ -8,6 +10,8 @@ function formatIcon(icon) {
 }
 
 $('#inputPictureFile').select2({
+    theme: 'bootstrap4',
+    minimumInputLength: 0,
     templateSelection: formatIcon,
     templateResult: formatIcon,
     allowHtml: true
@@ -230,15 +234,13 @@ function rowSelect(e, dt, type, indexes) {
 
 function fillDataToForm(rowData) {
     if (rowData != null && rowData != undefined && rowData.length > 0) {
-        $('#inputMailConfigId').val(rowData[0].id);
-        $('#inputIp').val(rowData[0].ip);
-        $('#inputPort').val(rowData[0].port);
-        $('#inputUsername').val(rowData[0].username);
-        $('#inputPassword').val(rowData[0].password);
-        $('#inputDomain').val(rowData[0].domain);
-        $('#inputSenderName').val(rowData[0].sender_name);
-        $('#inputEmailAddress').val(rowData[0].email);
-        $('#inputProtocol').val(rowData[0].protocol);
+        $('#inputMenuId').val(rowData[0].id);
+        $('#inputMenuName').val(rowData[0].name);
+        $('#inputDisplayOrder').val(rowData[0].display_order);
+        $('#inputPictureFile').val(rowData[0].picture_file).trigger('change');
+        $('#inputDetailFile').val(rowData[0].detail_file);
+        $('#inputParentId').val(rowData[0].parent_id).trigger('change');
+        $('#inputPublish').val(rowData[0].publish);
     }
 }
 
@@ -247,6 +249,7 @@ function rowDeselect(e, dt, type, indexes) {
     $('#btnDelete').attr('disabled', 'true');
     $('#btnEdit').attr('disabled', 'true');
     $('#form_data')[0].reset();
+    $('#inputParentId').val('').trigger('change');
 }
 
 //set action for button control
@@ -301,21 +304,19 @@ $('#btnSaveCreate').on('click', function (e) {
     showLoading();
 
     let data = {
-        "ip": $('#inputIp').val(),
-        "port": $('#inputPort').val(),
-        "username": $('#inputUsername').val(),
-        "password": $('#inputPassword').val(),
-        "domain": $('#inputDomain').val(),
-        "senderName": $('#inputSenderName').val(),
-        "email": $('#inputEmailAddress').val(),
-        "protocol": $('#inputProtocol').val()
+        "name": $('#inputMenuName').val(),
+        "displayOrder": $('#inputDisplayOrder').val(),
+        "pictureFile": $('#inputPictureFile').val(),
+        "detailFile": $('#inputDetailFile').val(),
+        "parentId": $('#inputParentId').val(),
+        "publish": $('#inputPublish').val()
     };
 
     $.ajax({
         headers: {
             'Authorization': token
         },
-        "url": apiUrl + "mail-config/create-mail-config",
+        "url": apiUrl + "menu-manage/create-menu",
         method: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(data),
@@ -404,15 +405,13 @@ $('#btnSaveEdit').on('click', function (e) {
     showLoading();
     // set data
     let data = {
-        "id": $('#inputMailConfigId').val(),
-        "ip": $('#inputIp').val(),
-        "port": $('#inputPort').val(),
-        "username": $('#inputUsername').val(),
-        "password": $('#inputPassword').val(),
-        "domain": $('#inputDomain').val(),
-        "senderName": $('#inputSenderName').val(),
-        "email": $('#inputEmailAddress').val(),
-        "protocol": $('#inputProtocol').val()
+        "id": $('#inputMenuId').val(),
+        "name": $('#inputMenuName').val(),
+        "displayOrder": $('#inputDisplayOrder').val(),
+        "pictureFile": $('#inputPictureFile').val(),
+        "detailFile": $('#inputDetailFile').val(),
+        "parentId": $('#inputParentId').val(),
+        "publish": $('#inputPublish').val()
     };
 
     // call ajax here
@@ -420,7 +419,7 @@ $('#btnSaveEdit').on('click', function (e) {
         headers: {
             'Authorization': token
         },
-        url: apiUrl + "mail-config/edit-mail-config",
+        url: apiUrl + "menu-manage/edit-menu",
         method: 'PUT',
         contentType: 'application/json',
         data: JSON.stringify(data),
@@ -497,21 +496,19 @@ $('#btnSaveCopy').on('click', function (e) {
     showLoading();
 
     let data = {
-        "ip": $('#inputIp').val(),
-        "port": $('#inputPort').val(),
-        "username": $('#inputUsername').val(),
-        "password": $('#inputPassword').val(),
-        "domain": $('#inputDomain').val(),
-        "senderName": $('#inputSenderName').val(),
-        "email": $('#inputEmailAddress').val(),
-        "protocol": $('#inputProtocol').val()
+        "name": $('#inputMenuName').val(),
+        "displayOrder": $('#inputDisplayOrder').val(),
+        "pictureFile": $('#inputPictureFile').val(),
+        "detailFile": $('#inputDetailFile').val(),
+        "parentId": $('#inputParentId').val(),
+        "publish": $('#inputPublish').val()
     };
 
     $.ajax({
         headers: {
             'Authorization': token
         },
-        "url": apiUrl + "mail-config/create-mail-config",
+        "url": apiUrl + "menu-manage/create-menu",
         method: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(data),
@@ -573,7 +570,7 @@ $('#btnDelete').on('click', function (e) {
             headers: {
                 'Authorization': token
             },
-            url: apiUrl + "mail-config/delete-mail-config",
+            url: apiUrl + "menu-manage/delete-menu",
             method: 'DELETE',
             contentType: 'application/json',
             data: JSON.stringify(data),
