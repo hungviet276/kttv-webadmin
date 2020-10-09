@@ -1,10 +1,11 @@
 var station =
 {
+    paramter : [],
     init : function (){
         station.getStationType();
         station.getProvince();
         // station.getRiver();
-        station.getUnit();
+        station.getParameter();
     },
     //lay loai tram
     getStationType : function() {
@@ -90,6 +91,20 @@ var station =
             }
         });
     },
+    getParameter : function (){
+        $.ajax({
+            headers: {
+                'Authorization': token
+            },
+            url: apiUrl + "common/get-select-list-parameter",
+            method: "GET",
+            contentType: "application/json",
+            success: function (data) {
+                console.log(data);
+                $("#parameter").select2({data: data});
+            }
+        });
+    },
     getUnit : function (){
         $.ajax({
             headers: {
@@ -109,21 +124,66 @@ var station =
         let stationTypeId = obj.options[obj.selectedIndex].value;
         console.log(stationTypeText);
         if(stationTypeText.startsWith("HV") || stationTypeId == -1){
-            $("#riverAdd").prop("disabled",true);
-        }else{
             $("#riverAdd").prop("disabled",false);
             station.getRiver();
+        }else{
+            $("#riverAdd").prop("disabled",true);
         }
     },
     btnAddParameter : function (){
-
+        let parameter = $("#parameter").val();
+        let unit = $("#unit").val();
+        let measure = $("#measure").val();
+        let note = $("#note").val();
+        let data = {
+            "parameter":parameter,
+            "unit":unit,
+            "measure":measure,
+            "note":note
+        }
+        $.ajax({
+            headers: {
+                'Authorization': token
+            },
+            url: apiUrl + "station-type/create-parameter-type",
+            method: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            success: function (data) {
+                console.log(data);
+            }
+        });
     },
     btnRefreshParamter : function (){
-        $("#parameter").val('');
-        $("#unit").val('');
+        $("#parameter").val('-1').trigger('change');
+        // $("#unit").val('-1').trigger('change');
         $("#frequency").val('');
-        $("#note").val('');
-    }
+        // $("#note").val('');
+    },
+    btnSave : function (){
+        let parameter = $("#parameter").val();
+        let unit = $("#unit").val();
+        let measure = $("#measure").val();
+        let note = $("#note").val();
+        let data = {
+            "parameter":parameter,
+            "unit":unit,
+            "measure":measure,
+            "note":note
+        }
+        $.ajax({
+            headers: {
+                'Authorization': token
+            },
+            url: apiUrl + "station-type/save-station",
+            method: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            success: function (data) {
+                console.log(data);
+            }
+        });
+    },
 }
 function showLoading() {
     $('.popup-loading').css('opacity', '1');
@@ -152,7 +212,6 @@ function createStation(e) {
 
     $.ajax({
         headers: {
-
             'Authorization': token
         },
         "url": apiUrl + "mail-config/create-mail-config",
@@ -272,8 +331,8 @@ $(document).ready(function () {
                     //
                     // }
                     objSearch[id] = this.value;
-                    search(JSON.stringify(objSearch))
-                        .draw();
+                that.search(JSON.stringify(objSearch))
+                    .draw();
                 });
             });
         },

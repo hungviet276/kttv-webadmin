@@ -6,6 +6,18 @@
 		var userBO = "[[${session.userBO}]]";
 		var token = "[[${session.token}]]";
 		console.log(apiUrl + "|" + JSON.stringify(userBO) + "|" + token);
+		var global = {
+			loadElement : function (idElement){
+				arr = [];
+				$("#"+ idElement +" :input").each(function(){
+					let key = $(this).attr("id") + "";
+					let value = $(this).val();
+					let item = {key  : value};
+					arr.push(item);
+				});
+				return arr;
+			}
+		}
 	</script>
 </head>
 </html>
