@@ -71,7 +71,7 @@
                                             <th></th>
                                             <th>#</th>
                                             <th data-id="s_tsName">Loại trạm</th>
-                                            <th data-id="s_stationNo">Mã trạm</th>
+                                            <th data-id="s_stationCode">Mã trạm</th>
                                             <th data-id="s_stationName">Tên trạm</th>
                                             <th data-id="s_stationLong">Kinh độ</th>
                                             <th data-id="s_stationLat">Vĩ độ</th>
@@ -103,8 +103,8 @@
                                     <div class="form-horizontal" id="form_input">
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
-                                                <label for="stationTypeAdd">Loại trạm <span style="color: red;">*</span></label>
-                                                <select id="stationTypeAdd" class="form-control" style="width: 100%;" onchange="station.checkStationType(this)">
+                                                <label for="stationTypeId">Loại trạm <span style="color: red;">*</span></label>
+                                                <select id="stationTypeId" class="form-control" style="width: 100%;" onchange="station.checkStationType(this)">
                                                 </select>
                                             </div>
                                             <div class="form-group col-md-6">
@@ -128,30 +128,39 @@
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
                                                 <label for="longtitude">Kinh độ <span style="color: red;">*</span></label>
-                                                <input type="text" class="form-control" id="longtitude" placeholder="">
+                                                <input type="number" class="form-control" id="longtitude" placeholder="">
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label for="lattitude">Vĩ độ <span style="color: red;">*</span></label>
-                                                <input type="text" class="form-control" id="lattitude" placeholder="">
+                                                <input type="number" class="form-control" id="lattitude" placeholder="">
                                             </div>
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
-                                                <label for="provinceAdd">Tỉnh</label>
-                                                <select id="provinceAdd" class="form-control select2 select2-hidden-accessible" style="width: 100%; height: 100%" onchange="station.getDistrict(this)">
+                                                <label for="areaId">Khu vực</label>
+                                                <select id="areaId" class="form-control" style="width: 100%;" onchange="station.getProvince(this)">
+                                                </select>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="provinceId">Tỉnh</label>
+                                                <select id="provinceId" class="form-control" style="width: 100%;" onchange="station.getDistrict(this)">
+                                                    <option value="-1">Lựa chọn</option>
                                                 </select>
                                             </div>
                                             <div class="form-group col-md-6">
-                                                <label for="districtAdd">Quận/huyện</label>
-                                                <select id="districtAdd" class="form-control" style="width: 100%;" onchange="station.getWard(this)">
+                                                <label for="districtId">Quận/huyện</label>
+                                                <select id="districtId" class="form-control" style="width: 100%;" onchange="station.getWard(this)">
                                                     <option value="-1">Lựa chọn</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
-                                                <label for="wardAdd">Xã</label>
-                                                <select id="wardAdd" class="form-control" style="width: 100%;">
+                                                <label for="wardId">Xã</label>
+                                                <select id="wardId" class="form-control" style="width: 100%;">
                                                     <option value="-1">Lựa chọn</option>
                                                 </select>
                                             </div>
@@ -162,8 +171,8 @@
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
-                                                <label for="riverAdd">Thuộc sông</label>
-                                                <select id="riverAdd" class="form-control" style="width: 100%;">
+                                                <label for="riverId">Thuộc sông</label>
+                                                <select id="riverId" class="form-control" style="width: 100%;">
                                                     <option value="-1">Lựa chọn</option>
                                                 </select>
                                             </div>
@@ -174,8 +183,8 @@
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
-                                                <label for="statusAdd">Trạng thái</label>
-                                                <select id="statusAdd" class="form-control select2 select2-hidden-accessible" style="width: 100%; height: 100%">
+                                                <label for="status">Trạng thái</label>
+                                                <select id="status" class="form-control" style="width: 100%;">
                                                     <option value="1">Hoạt động</option>
                                                     <option value="0">Không hoạt động</option>
                                                 </select>
@@ -246,7 +255,7 @@
                                     </div>
                                     <!-- end tab phan quyen-->
                                     <div class="wrap-button-control">
-                                        <button class="btn btn-primary" id="btnsave" style="display:none;width: 100px;">
+                                        <button class="btn btn-primary" id="btnsave" style="display:none;width: 100px;" onclick="station.btnSave()">
                                             <i class="fas fa-plus"></i> Lưu
                                         </button>
                                         <button class="btn btn-primary" id="btnDelete" style="display:none;width: 100px;">
@@ -272,7 +281,7 @@
                     <div class="wrapper-loading">
                         <div class="sub-wrapper-loading">
                             <div class="d-flex justify-content-center">
-                                <div class="spinner-border" role="status">
+                                <div class="spinner-border" role="statusLoading">
                                     <span class="sr-only" th:text="#{action.loading}">Loading...</span>
                                 </div>
                             </div>
