@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="/css/management-station.css" type="text/css">
     <title>Quản lý người dùng</title>
 </head>
-<body class="hold-transition sidebar-mini layout-fixed">
+<body class="hold-transition sidebar-mini layout-fixed text-sm">
 <div class="wrapper">
 
     <th:block th:replace="/layout_menu.html :: menu_tag" />
@@ -202,7 +202,7 @@
                                                     </div>
                                                     <div class="form-group col-md-6">
                                                         <label for="frequency">Tần số đo</label>
-                                                        <input type="text" class="form-control" id="frequency" placeholder="">
+                                                        <input type="number" class="form-control" id="frequency" placeholder="">
                                                     </div>
 <!--                                                    <div class="form-group col-md-6">-->
 <!--                                                        <label for="unit">Đơn vị tính <span style="color: red;">*</span></label>-->
@@ -232,7 +232,7 @@
                                                 <button class="btn btn-primary" id="btnAddParameter" style="width: 100px;" onclick="station.btnAddParameter()">
                                                     <i class="fas fa-plus"></i> Thêm
                                                 </button>
-                                                <button class="btn btn-primary" id="btnRefreshParamter" style="width: 100px;" onclick="station.btnRefreshParamter()">
+                                                <button class="btn btn-primary" id="btnRefreshParameter" style="width: 100px;" onclick="station.btnRefreshParameter()">
                                                     <i class="fas fa-redo-alt"></i> Làm mới
                                                 </button>
                                             </div>
@@ -241,10 +241,9 @@
                                                 <thead>
                                                 <tr>
                                                     <th>#</th>
-                                                    <th data-id="">Yếu tố</th>
-                                                    <th data-id="">Đơn vị tính</th>
-                                                    <th data-id="">Ghi chú</th>
-                                                    <th data-id="">Vĩ độ</th>
+                                                    <th data-id="s_parameterName">Yếu tố</th>
+                                                    <th data-id="s_unitName">Đơn vị tính</th>
+                                                    <th data-id="s_note">Ghi chú</th>
                                                     <th data-id="">Tác động</th>
                                                 </tr>
                                                 </thead>
