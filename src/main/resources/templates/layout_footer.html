@@ -60,9 +60,6 @@
 			}
 
 		}
-		$(document).ready(function() {
-			//connect();
-		});
 
 	</script>
 	<script th:inline="javascript">
@@ -83,6 +80,10 @@
 		      return false;
 		   }
 		});
+	</script>
+	<script th:inline="javascript">
+		let menuData = /*[[${session.htmlMenu}]]*/ '';
+		$('#treeMenuSidebar').html(menuData);
 	</script>
 </div>
 </html>
