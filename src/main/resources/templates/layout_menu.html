@@ -83,8 +83,9 @@
 							<a href="/logout" class="btn btn-default btn-flat">Sign out</a>
 						</div>
 					</li>
-				</ul></li>
+				</ul>
 			</section>
+			</li>
 		</ul>
 	</nav>
 
@@ -101,230 +102,260 @@
 
 			<!-- Sidebar Menu -->
 			<nav class="mt-2">
-				<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+				<ul class="nav nav-pills nav-sidebar flex-column" id="treeMenuSidebar" data-widget="treeview" role="menu" data-accordion="false">
 					<!-- Add icons to the links using the .nav-icon class
                          with font-awesome or any other icon font library -->
-					<li class="nav-item has-treeview">
-						<a href="#" class="nav-link">
-							<i class="nav-icon fas fa-th"></i>
-							<p>
-								<p th:text="#{menu.admin}"></p>
-								<i class="right fas fa-angle-left"></i>
-							</p>
-						</a>
-						<ul class="nav nav-treeview">
-							<li class="nav-item">
-								<a href="/user" class="nav-link">
-									<i class="far fa-circle nav-icon"></i>
-									<p th:text="#{menu.admin.user}">User Management</p>
-								</a>
-							</li>
-						</ul>
-						<ul class="nav nav-treeview">
-							<li class="nav-item">
-								<a href="/command" class="nav-link">
-									<i class="far fa-circle nav-icon"></i>
-									<p th:text="#{menu.admin.command}">Command Management</p>
-								</a>
-							</li>
-						</ul>
-						<ul class="nav nav-treeview">
-							<li class="nav-item">
-								<a href="/devicetype" class="nav-link">
-									<i class="far fa-circle nav-icon"></i>
-									<p th:text="#{menu.admin.device_type}">Device Type Management</p>
-								</a>
-							</li>
-						</ul>
-						<ul class="nav nav-treeview">
-							<li class="nav-item">
-								<a href="/site" class="nav-link">
-									<i class="far fa-circle nav-icon"></i>
-									<p th:text="#{menu.admin.site}">Site Management</p>
-								</a>
-							</li>
-						</ul>
-						<ul class="nav nav-treeview">
-							<li class="nav-item">
-								<a href="/device" class="nav-link">
-									<i class="far fa-circle nav-icon"></i>
-									<p th:text="#{menu.admin.device}">Device Management</p>
-								</a>
-							</li>
-						</ul>
-						<ul class="nav nav-treeview">
-							<li class="nav-item">
-<!-- 								<a href="/devicesite" class="nav-link"> -->
-								<a href="/sitedevice" class="nav-link">
-									<i class="far fa-circle nav-icon"></i>
-									<p th:text="#{menu.admin.device_in_site}">Device in Site</p>
-								</a>
-							</li>
-						</ul>
-						<ul class="nav nav-treeview">
-							<li class="nav-item">
-<!-- 								<a href="/cmddevice" class="nav-link"> -->
-								<a href="/commandparams" class="nav-link">
-									<i class="far fa-circle nav-icon"></i>
-									<p th:text="#{menu.admin.cmd_of_device}">Command of Device</p>
-								</a>
-							</li>
-						</ul>
-						<ul class="nav nav-treeview">
-							<li class="nav-item">
-								<a href="/groupmail" class="nav-link">
-									<i class="far fa-circle nav-icon"></i>
-									<p th:text="#{menu.admin.group_mail}">Group Mail Management</p>
-								</a>
-							</li>
-						</ul>
-						<ul class="nav nav-treeview">
-							<li class="nav-item">
-								<a href="/mail" class="nav-link">
-									<i class="far fa-circle nav-icon"></i>
-									<p th:text="#{menu.admin.mail_info}">Mail Management</p>
-								</a>
-							</li>
-						</ul>
-						
-						<ul class="nav nav-treeview">
-							<li class="nav-item">
-								<a href="/groupkey" class="nav-link">
-									<i class="far fa-circle nav-icon"></i>
-									<p th:text="#{menu.admin.group_key}">Group Key Management</p>
-								</a>
-							</li>
-						</ul>
-						<ul class="nav nav-treeview">
-							<li class="nav-item">
-								<a href="/key" class="nav-link">
-									<i class="far fa-circle nav-icon"></i>
-									<p th:text="#{menu.admin.key_info}">Key Management</p>
-								</a>
-							</li>
-						</ul>
-						<ul class="nav nav-treeview">
-							<li class="nav-item">
-								<a href="/ctlrelay" class="nav-link">
-									<i class="far fa-circle nav-icon"></i>
-									<p th:text="#{menu.admin.relay}">CTL Relay Management</p>
-								</a>
-							</li>
-						</ul>
-					</li>
+<!--					<li class="nav-item has-treeview">-->
+<!--						<a href="#" class="nav-link">-->
+<!--							<i class="nav-icon fas fa-th"></i>-->
+<!--							<p>-->
+<!--								<p th:text="#{menu.admin}"></p>-->
+<!--								<i class="right fas fa-angle-left"></i>-->
+<!--							</p>-->
+<!--						</a>-->
+<!--						<ul class="nav nav-treeview">-->
+<!--							<li class="nav-item">-->
+<!--								<a href="/user" class="nav-link">-->
+<!--									<i class="far fa-circle nav-icon"></i>-->
+<!--									<p th:text="#{menu.admin.user}">User Management</p>-->
+<!--								</a>-->
+<!--							</li>-->
+<!--						</ul>-->
+<!--						<ul class="nav nav-treeview">-->
+<!--							<li class="nav-item">-->
+<!--								<a href="/command" class="nav-link">-->
+<!--									<i class="far fa-circle nav-icon"></i>-->
+<!--									<p th:text="#{menu.admin.command}">Command Management</p>-->
+<!--								</a>-->
+<!--							</li>-->
+<!--						</ul>-->
+<!--						<ul class="nav nav-treeview">-->
+<!--							<li class="nav-item">-->
+<!--								<a href="/devicetype" class="nav-link">-->
+<!--									<i class="far fa-circle nav-icon"></i>-->
+<!--									<p th:text="#{menu.admin.device_type}">Device Type Management</p>-->
+<!--								</a>-->
+<!--							</li>-->
+<!--						</ul>-->
+<!--						<ul class="nav nav-treeview">-->
+<!--							<li class="nav-item">-->
+<!--								<a href="/site" class="nav-link">-->
+<!--									<i class="far fa-circle nav-icon"></i>-->
+<!--									<p th:text="#{menu.admin.site}">Site Management</p>-->
+<!--								</a>-->
+<!--							</li>-->
+<!--						</ul>-->
+<!--						<ul class="nav nav-treeview">-->
+<!--							<li class="nav-item">-->
+<!--								<a href="/device" class="nav-link">-->
+<!--									<i class="far fa-circle nav-icon"></i>-->
+<!--									<p th:text="#{menu.admin.device}">Device Management</p>-->
+<!--								</a>-->
+<!--							</li>-->
+<!--						</ul>-->
+<!--						<ul class="nav nav-treeview">-->
+<!--							<li class="nav-item">-->
+<!--&lt;!&ndash; 								<a href="/devicesite" class="nav-link"> &ndash;&gt;-->
+<!--								<a href="/sitedevice" class="nav-link">-->
+<!--									<i class="far fa-circle nav-icon"></i>-->
+<!--									<p th:text="#{menu.admin.device_in_site}">Device in Site</p>-->
+<!--								</a>-->
+<!--							</li>-->
+<!--						</ul>-->
+<!--						<ul class="nav nav-treeview">-->
+<!--							<li class="nav-item">-->
+<!--&lt;!&ndash; 								<a href="/cmddevice" class="nav-link"> &ndash;&gt;-->
+<!--								<a href="/commandparams" class="nav-link">-->
+<!--									<i class="far fa-circle nav-icon"></i>-->
+<!--									<p th:text="#{menu.admin.cmd_of_device}">Command of Device</p>-->
+<!--								</a>-->
+<!--							</li>-->
+<!--						</ul>-->
+<!--						<ul class="nav nav-treeview">-->
+<!--							<li class="nav-item">-->
+<!--								<a href="/groupmail" class="nav-link">-->
+<!--									<i class="far fa-circle nav-icon"></i>-->
+<!--									<p th:text="#{menu.admin.group_mail}">Group Mail Management</p>-->
+<!--								</a>-->
+<!--							</li>-->
+<!--						</ul>-->
+<!--						<ul class="nav nav-treeview">-->
+<!--							<li class="nav-item">-->
+<!--								<a href="/mail" class="nav-link">-->
+<!--									<i class="far fa-circle nav-icon"></i>-->
+<!--									<p th:text="#{menu.admin.mail_info}">Mail Management</p>-->
+<!--								</a>-->
+<!--							</li>-->
+<!--						</ul>-->
 
-					<li class="nav-item has-treeview">
-						<a href="#" class="nav-link">
-							<i class="nav-icon fas fa-camera-retro"></i>
-							<p>
-								<p th:text="#{menu.camera}"></p>
-								<i class="right fas fa-angle-left"></i>
-							</p>
-						</a>
-						<ul class="nav nav-treeview">
-							<li class="nav-item">
-								<a href="/camera" class="nav-link">
-									<i class="far fa-circle nav-icon"></i>
-									<p th:text="#{menu.camera.ptz}">PTZ Camera</p>
-								</a>
-							</li>
-						</ul>
-					</li>
-					<li class="nav-item has-treeview">
-						<a href="#" class="nav-link">
-							<i class="nav-icon fas fa-copy"></i>
-							<p>
-								<p th:text="#{menu.alarm}"></p>
-								<i class="right fas fa-angle-left"></i>
-							</p>
-						</a>
-						<ul class="nav nav-treeview">
-							<li class="nav-item">
-<!-- 								<a href="/alarm_watersensor" class="nav-link"> -->
-								<a href="#" class="nav-link">
-									<i class="far fa-circle nav-icon"></i>
-									<p th:text="#{menu.alarm.watersensor}">Watersensor</p>
-								</a>
-							</li>
-						</ul>
-					</li>
-					
-					
-					<li class="nav-item has-treeview">
-						<a href="#" class="nav-link">
-							<i class="nav-icon fas fa-copy"></i>
-							<p>
-								<p th:text="#{menu.chart}"></p>
-								<i class="right fas fa-angle-left"></i>
-							</p>
-						</a>
-						<ul class="nav nav-treeview">
-							<li class="nav-item">
-								<a href="/device/chart" class="nav-link">
-									<i class="far fa-circle nav-icon"></i>
-									<p th:text="#{menu.chart.watersensor}">Watersensor</p>
-								</a>
-							</li>
-						</ul>
-						<ul class="nav nav-treeview">
-							<li class="nav-item">
-								<a href="/device/chart/time" class="nav-link">
-									<i class="far fa-circle nav-icon"></i>
-									<p th:text="#{menu.chart.watersensor_history}">Watersensor history</p>
-								</a>
-							</li>
-						</ul>
-						<ul class="nav nav-treeview">
-							<li class="nav-item">
-								<a href="/device/chart/table" class="nav-link">
-									<i class="far fa-circle nav-icon"></i>
-									<p th:text="#{menu.chart.device_port}">IO</p>
-								</a>
-							</li>
-						</ul>
-						<ul class="nav nav-treeview">
-							<li class="nav-item">
-								<a href="/device/chart/table/time" class="nav-link">
-									<i class="far fa-circle nav-icon"></i>
-									<p th:text="#{menu.chart.device_port_history}">IO history</p>
-								</a>
-							</li>
-						</ul>
-					</li>
-					
-					<li class="nav-item has-treeview">
-						<a href="#" class="nav-link">
-							<i class="nav-icon fas fa-copy"></i>
-							<p>
-								<p th:text="#{menu.relay}"></p>
-								<i class="right fas fa-angle-left"></i>
-							</p>
-						</a>
-						<ul class="nav nav-treeview">
-							<li class="nav-item">
-								<a href="/ctlrelay/control" class="nav-link">
-									<i class="far fa-circle nav-icon"></i>
-									<p th:text="#{menu.relay.control}">CTL Relay</p>
-								</a>
-							</li>
-						</ul>
-					</li>
-					
-					<li class="nav-item">
-						<a href="/logout" class="nav-link">
-							<i class="nav-icon fas fa-copy"></i>
-							<p>
-								<p th:text="#{menu.logout}"></p>
-							</p>
-						</a>
-					</li>
-					
+<!--						<ul class="nav nav-treeview">-->
+<!--							<li class="nav-item">-->
+<!--								<a href="/groupkey" class="nav-link">-->
+<!--									<i class="far fa-circle nav-icon"></i>-->
+<!--									<p th:text="#{menu.admin.group_key}">Group Key Management</p>-->
+<!--								</a>-->
+<!--							</li>-->
+<!--						</ul>-->
+<!--						<ul class="nav nav-treeview">-->
+<!--							<li class="nav-item">-->
+<!--								<a href="/key" class="nav-link">-->
+<!--									<i class="far fa-circle nav-icon"></i>-->
+<!--									<p th:text="#{menu.admin.key_info}">Key Management</p>-->
+<!--								</a>-->
+<!--							</li>-->
+<!--						</ul>-->
+<!--						<ul class="nav nav-treeview">-->
+<!--							<li class="nav-item">-->
+<!--								<a href="/ctlrelay" class="nav-link">-->
+<!--									<i class="far fa-circle nav-icon"></i>-->
+<!--									<p th:text="#{menu.admin.relay}">CTL Relay Management</p>-->
+<!--								</a>-->
+<!--							</li>-->
+<!--						</ul>-->
+<!--					</li>-->
+
+<!--					<li class="nav-item has-treeview">-->
+<!--						<a href="#" class="nav-link">-->
+<!--							<i class="nav-icon fas fa-camera-retro"></i>-->
+<!--							<p>-->
+<!--								<p th:text="#{menu.camera}"></p>-->
+<!--								<i class="right fas fa-angle-left"></i>-->
+<!--							</p>-->
+<!--						</a>-->
+<!--						<ul class="nav nav-treeview">-->
+<!--							<li class="nav-item">-->
+<!--								<a href="/camera" class="nav-link">-->
+<!--									<i class="far fa-circle nav-icon"></i>-->
+<!--									<p th:text="#{menu.camera.ptz}">PTZ Camera</p>-->
+<!--								</a>-->
+<!--							</li>-->
+<!--						</ul>-->
+<!--					</li>-->
+<!--					<li class="nav-item has-treeview">-->
+<!--						<a href="#" class="nav-link">-->
+<!--							<i class="nav-icon fas fa-copy"></i>-->
+<!--							<p>-->
+<!--								<p th:text="#{menu.alarm}"></p>-->
+<!--								<i class="right fas fa-angle-left"></i>-->
+<!--							</p>-->
+<!--						</a>-->
+<!--						<ul class="nav nav-treeview">-->
+<!--							<li class="nav-item">-->
+<!--&lt;!&ndash; 								<a href="/alarm_watersensor" class="nav-link"> &ndash;&gt;-->
+<!--								<a href="#" class="nav-link">-->
+<!--									<i class="far fa-circle nav-icon"></i>-->
+<!--									<p th:text="#{menu.alarm.watersensor}">Watersensor</p>-->
+<!--								</a>-->
+<!--							</li>-->
+<!--						</ul>-->
+<!--					</li>-->
+
+
+<!--					<li class="nav-item has-treeview">-->
+<!--						<a href="#" class="nav-link">-->
+<!--							<i class="nav-icon fas fa-copy"></i>-->
+<!--							<p>-->
+<!--								<p th:text="#{menu.chart}"></p>-->
+<!--								<i class="right fas fa-angle-left"></i>-->
+<!--							</p>-->
+<!--						</a>-->
+<!--						<ul class="nav nav-treeview">-->
+<!--							<li class="nav-item">-->
+<!--								<a href="/device/chart" class="nav-link">-->
+<!--									<i class="far fa-circle nav-icon"></i>-->
+<!--									<p th:text="#{menu.chart.watersensor}">Watersensor</p>-->
+<!--								</a>-->
+<!--							</li>-->
+<!--						</ul>-->
+<!--						<ul class="nav nav-treeview">-->
+<!--							<li class="nav-item">-->
+<!--								<a href="/device/chart/time" class="nav-link">-->
+<!--									<i class="far fa-circle nav-icon"></i>-->
+<!--									<p th:text="#{menu.chart.watersensor_history}">Watersensor history</p>-->
+<!--								</a>-->
+<!--							</li>-->
+<!--						</ul>-->
+<!--						<ul class="nav nav-treeview">-->
+<!--							<li class="nav-item">-->
+<!--								<a href="/device/chart/table" class="nav-link">-->
+<!--									<i class="far fa-circle nav-icon"></i>-->
+<!--									<p th:text="#{menu.chart.device_port}">IO</p>-->
+<!--								</a>-->
+<!--							</li>-->
+<!--						</ul>-->
+<!--						<ul class="nav nav-treeview">-->
+<!--							<li class="nav-item">-->
+<!--								<a href="/device/chart/table/time" class="nav-link">-->
+<!--									<i class="far fa-circle nav-icon"></i>-->
+<!--									<p th:text="#{menu.chart.device_port_history}">IO history</p>-->
+<!--								</a>-->
+<!--							</li>-->
+<!--						</ul>-->
+<!--					</li>-->
+
+<!--					<li class="nav-item has-treeview">-->
+<!--						<a href="#" class="nav-link">-->
+<!--							<i class="nav-icon fas fa-copy"></i>-->
+<!--							<p>-->
+<!--								<p th:text="#{menu.relay}"></p>-->
+<!--								<i class="right fas fa-angle-left"></i>-->
+<!--							</p>-->
+<!--						</a>-->
+<!--						<ul class="nav nav-treeview">-->
+<!--							<li class="nav-item">-->
+<!--								<a href="/ctlrelay/control" class="nav-link">-->
+<!--									<i class="far fa-circle nav-icon"></i>-->
+<!--									<p th:text="#{menu.relay.control}">CTL Relay</p>-->
+<!--								</a>-->
+<!--							</li>-->
+<!--						</ul>-->
+<!--						<ul class="nav nav-treeview">-->
+<!--							<a href="#" class="nav-link">-->
+<!--								<i class="nav-icon fas fa-th"></i>-->
+<!--								<p>-->
+<!--								<p>xxxx</p>-->
+<!--								<i class="right fas fa-angle-left"></i>-->
+<!--								</p>-->
+<!--							</a>-->
+<!--							<li class="nav-item has-treeview">-->
+<!--								<ul class="nav nav-treeview">-->
+<!--									<a href="#" class="nav-link">-->
+<!--										<i class="nav-icon fas fa-th"></i>-->
+<!--										<p>-->
+<!--										<p>yyyyyyy</p>-->
+<!--										<i class="right fas fa-angle-left"></i>-->
+<!--										</p>-->
+<!--									</a>-->
+<!--									<li class="nav-item has-treeview">-->
+<!--									<li class="nav-item">-->
+<!--										<a href="/menu/menu4" class="nav-link">-->
+<!--											<i class="nav-icon"></i>-->
+<!--											<p>-->
+<!--											<p>yyyyy</p>-->
+<!--											</p>-->
+<!--										</a>-->
+<!--									</li>-->
+<!--									</li>-->
+<!--								</ul>-->
+<!--							</li>-->
+<!--						</ul>-->
+<!--					</li>-->
+
+<!--					<li class="nav-item">-->
+<!--						<a href="/logout" class="nav-link">-->
+<!--							<i class="nav-icon fas fa-copy"></i>-->
+<!--							<p>-->
+<!--								<p th:text="#{menu.logout}"></p>-->
+<!--							</p>-->
+<!--						</a>-->
+<!--					</li>-->
+
 				</ul>
 			</nav>
 			<!-- /.sidebar-menu -->
 		</div>
 		<!-- /.sidebar -->
 	</aside>
-	
+
 </div>
 </html>
