@@ -35,7 +35,19 @@
                                     <label for="inputAct">Hành động</label>
                                     <select class="form-control" id="inputAct"
                                            placeholder="Hành động">
+                                        <option value="" disabled selected>-- Chọn tác động --</option>
+                                        <option value="CREATE">Thêm</option>
+                                        <option value="EDIT">Sửa</option>
+                                        <option value="DELETE">Xoá</option>
+                                        <option value="EXPORT">Xuất báo cáo</option>
+                                        <option value="DOWNLOAD_FILE">Tải file về</option>
                                     </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputUsername">Tài khoản</label>
+                                    <input type="text" class="form-control" id="inputUsername" placeholder="Tài khoản">
                                 </div>
                             </div>
                             <div class="form-row">
@@ -52,35 +64,11 @@
                         <!-- /.card-body -->
                         <div class="card-footer">
                             <div class="wrap-button-control">
-                                <button class="btn btn-primary" id="btnCreate">
-                                    <i class="fas fa-plus"></i> Thêm
+                                <button class="btn btn-primary" id="btnSearch">
+                                    <i class="fas fa-search"></i> Tra cứu
                                 </button>
-                                <button class="btn btn-warning" id="btnEdit">
-                                    <i class="far fa-edit"></i> Sửa
-                                </button>
-                                <button class="btn btn-default" id="btnCopy">
-                                    <i class="fas fa-copy"></i> Sao chép
-                                </button>
-                                <button class="btn btn-danger" id="btnDelete">
-                                    <i class="far fa-trash-alt"></i> Xoá
-                                </button>
-                                <button class="btn btn-success" id="btnSaveCreate" style="display: none;">
-                                    <i class="fas fa-check-circle"></i> Lưu lại
-                                </button>
-                                <button class="btn btn-default" id="btnBackCreate" style="display: none;">
-                                    <i class="fas fa-undo-alt"></i> Quay lại
-                                </button>
-                                <button class="btn btn-success" id="btnSaveEdit" style="display: none;">
-                                    <i class="fas fa-check-circle"></i> Lưu lại
-                                </button>
-                                <button class="btn btn-default" id="btnBackEdit" style="display: none;">
-                                    <i class="fas fa-undo-alt"></i> Quay lại
-                                </button>
-                                <button class="btn btn-success" id="btnSaveCopy" style="display: none;">
-                                    <i class="fas fa-check-circle"></i> Lưu lại
-                                </button>
-                                <button class="btn btn-default" id="btnBackCopy" style="display: none;">
-                                    <i class="fas fa-undo-alt"></i> Quay lại
+                                <button class="btn btn-primary" id="btnCleanForm">
+                                    <i class="fas fa-eraser"></i> Làm mới
                                 </button>
                             </div>
                         </div>
@@ -103,14 +91,10 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th data-id="s_id">ID</th>
-                                                <th data-id="s_ip">IP</th>
-                                                <th data-id="s_port">Port</th>
-                                                <th data-id="s_username">Username</th>
-                                                <th data-id="s_password">Password</th>
-                                                <th data-id="s_domain">Domain</th>
-                                                <th data-id="s_sendername">SenderName</th>
-                                                <th data-id="s_email">Email</th>
-                                                <th data-id="s_protocol">Protocol</th>
+                                                <th data-id="s_ip">Tên menu</th>
+                                                <th data-id="s_port">Tác động</th>
+                                                <th data-id="s_username">Tài khoản</th>
+                                                <th data-id="s_">Ngày tác động</th>
                                             </tr>
                                             </thead>
                                             <tbody>
