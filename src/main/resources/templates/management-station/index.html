@@ -37,8 +37,8 @@
                                             </select>
                                         </div>
                                         <div class="form-group col-md-6 col-sm-6 col-lg-6">
-                                            <label for="stationName">Tên trạm</label>
-                                            <input type="text" class="form-control" id="stationName"
+                                            <label for="stationNameSearch">Tên trạm</label>
+                                            <input type="text" class="form-control" id="stationNameSearch"
                                                    placeholder="Tên trạm">
                                         </div>
                                     </div>
@@ -70,7 +70,8 @@
                                         <tr>
                                             <th></th>
                                             <th>#</th>
-                                            <th data-id="s_tsName">Loại trạm</th>
+                                            <th data-id="s_objectType">Loại trạm</th>
+                                            <th data-id="s_objectTypeName">Tên loại trạm</th>
                                             <th data-id="s_stationCode">Mã trạm</th>
                                             <th data-id="s_stationName">Tên trạm</th>
                                             <th data-id="s_stationLong">Kinh độ</th>
@@ -78,12 +79,12 @@
                                             <th data-id="s_provinceName">Tỉnh</th>
                                             <th data-id="s_districtName">Quận/Huyện</th>
                                             <th data-id="s_wardName">Xã</th>
-                                            <th data-id="s_storage">Địa chỉ</th>
-                                            <th data-id="s_riverId">Mã sông</th>
+                                            <th data-id="s_address">Địa chỉ</th>
+                                            <th data-id="s_riverName">Mã sông</th>
 <!--                                            <th data-id="s_stationHeight">Độ cao của trạm</th>-->
-                                            <th data-id="s_status">Trạng thái</th>
-                                            <th data-id="s_parameterTypeName">Yếu tố</th>
-                                            <th data-id="s_unitName">Đơn vị tính</th>
+                                            <th data-id="s_status" is_select="1">Trạng thái</th>
+<!--                                            <th data-id="s_parameterTypeName">Yếu tố</th>-->
+<!--                                            <th data-id="s_unitName">Đơn vị tính</th>-->
 <!--                                            <th data-id="s_device">Thiết bị đo</th>-->
 <!--                                            <th data-id="s_measure">Tần số đo</th>-->
 <!--                                            <th data-id="s_note">Ghi chú</th>-->
@@ -237,8 +238,8 @@
                                                 </button>
                                             </div>
 
-                                            <table id="tableDataParameter" class="table table-bordered table-hover">
-                                                <thead>
+                                            <table id="tableDataParameter" class="table table-bordered table-hover" style="width: 98%">
+                                                <thead style="width: 98%">
                                                 <tr>
                                                     <th>#</th>
                                                     <th data-id="s_parameterName">Yếu tố</th>
@@ -247,7 +248,7 @@
                                                     <th data-id="">Tác động</th>
                                                 </tr>
                                                 </thead>
-                                                <tbody>
+                                                <tbody style="width: 98%">
                                                 </tbody>
                                             </table>
                                         </div>
@@ -260,7 +261,7 @@
                                         <button class="btn btn-primary" id="btnDelete" style="display:none;width: 100px;">
                                             <i class="far fa-trash-alt"></i> Xoá
                                         </button>
-                                        <button class="btn btn-primary" id="btnReset" style="display:none;width: 100px;">
+                                        <button class="btn btn-primary" id="btnReset" style="display:none;width: 100px;" onclick="station.btnRefresh()">
                                             <i class="fas fa-redo-alt"></i> Làm mới
                                         </button>
                                         <button class="btn btn-primary" id="btncancer" style="display:none;width: 100px;">

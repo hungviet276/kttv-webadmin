@@ -6,7 +6,8 @@ var station =
         numOfInputSearch: 0,
         uuid: uuid,
         objSearch: {
-            s_tsName: '',
+            s_objectType: '',
+            s_objectTypeName: '',
             s_stationCode: '',
             s_stationName: '',
             s_stationLong: '',
@@ -14,18 +15,18 @@ var station =
             s_provinceName: '',
             s_districtName: '',
             s_wardName: '',
-            s_storage: '',
-            s_riverId: '',
+            s_address: '',
+            s_riverName: '',
             // s_stationHeight: '',
             s_status: '',
-            s_parameterTypeName: '',
-            s_unitName: '',
+            // s_parameterTypeName: '',
+            // s_unitName: '',
             // s_device: '',
             // s_measure: '',
             // s_note: ''
         },
         objParameterSearch: {
-            s_uuid: 'ffaaf28d-58b9-4fb8-b5b8-d5120f3b0e53',//uuid,
+            s_uuid: uuid,//'ffaaf28d-58b9-4fb8-b5b8-d5120f3b0e53',//
             s_parameterName: '',
             s_unitName: '',
             s_note: ''
@@ -37,7 +38,9 @@ var station =
             // station.getProvince();
             // station.getRiver();
             station.getParameter();
-            station.searchParameter();
+            // station.searchParameter();
+            station.disabled_right();
+            station.show_search();
         },
         //lay loai tram
         getStationType: function () {
@@ -102,7 +105,7 @@ var station =
                 contentType: "application/json",
                 success: function (data) {
                     console.log(data);
-                    $("#districtAdd").select2({data: data});
+                    $("#districtId").select2({data: data});
                 }
             });
         },
@@ -125,7 +128,7 @@ var station =
                 contentType: "application/json",
                 success: function (data) {
                     console.log(data);
-                    $("#districtAdd").select2({data: data});
+                    $("#wardId").select2({data: data});
                 }
             });
         },
@@ -271,7 +274,7 @@ var station =
                 // "parameter": parameter,
                 // "frequency": frequency,
                 // "measure":measure,
-                // "note":note,
+                "uuid":station.uuid,
                 "stationTypeId": stationTypeId,
                 "modeStationType": modeStationType,
                 "stationCode": stationCode,
@@ -303,6 +306,10 @@ var station =
                     }
                     station.table.ajax.reload();
                     global.disableLoading();
+
+                    //reset cac thong tin them moi
+                    station.btnRefresh();
+                    station.uuid = global.uuidv4();
                 },
                 error: function (err) {
                     global.disableLoading();
@@ -310,115 +317,265 @@ var station =
                 }
             });
         },
+        btnRefresh : function (){
+            $("#stationTypeId").val('-1').trigger('change');
+            $("#modeStationType").val('1').trigger('change');
+            $("#stationCode").val('');
+            $("#stationName").val('');
+            $("#longtitude").val('');
+            $("#lattitude").val('');
+
+            $("#areaId").val('-1').trigger('change');
+            $("#provinceId").val('-1').trigger('change');
+            $("#districtId").val('-1').trigger('change');
+            $("#wardId").val('-1').trigger('change');
+            $("#address").val('');
+            $("#riverId").val('-1').trigger('change');
+            $("#status").val('1').trigger('change');
+        },
         searchParameter: function () {
-            station.tableParameter = $('#tableDataParameter').DataTable({
-                columnDefs: [{
-                    orderable: false,
-                    // className: 'select-checkbox',
-                    // targets: 0
-                }],
-                select: {
-                    style: 'os',
-                    selector: 'td:first-child',
-                    type: 'single'
-                },
-                "pagingType": "full_numbers",
-                "lengthMenu": [
-                    [10, 25, 50, -1],
-                    [10, 25, 50, "Tất cả"]
-                ],
-                "lengthChange": true,
-                "searchDelay": 1500,
-                "searching": false,
-                "ordering": false,
-                "info": true,
-                "autoWidth": true,
-                "scrollX": true,
-                "responsive": false,
-                language: {
-                    search: "_INPUT_",
-                    searchPlaceholder: "Nhập thông tin tìm kiếm",
-                },
-                // "select": {
-                //     "style": "single"
-                // },
-                "processing": true,
-                "serverSide": true,
-                "columns": [
+            if(station.tableParameter === undefined) {
+                station.tableParameter = $('#tableDataParameter').DataTable({
+                    columnDefs: [{
+                        orderable: false,
+                        // className: 'select-checkbox',
+                        // targets: 0
+                    }],
+                    select: {
+                        style: 'os',
+                        selector: 'td:first-child',
+                        type: 'single'
+                    },
+                    "pagingType": "full_numbers",
+                    "lengthMenu": [
+                        [10, 25, 50, -1],
+                        [10, 25, 50, "Tất cả"]
+                    ],
+                    "lengthChange": true,
+                    "searchDelay": 1500,
+                    "searching": false,
+                    "ordering": false,
+                    "info": true,
+                    "autoWidth": true,
+                    "scrollX": true,
+                    "responsive": false,
+                    language: {
+                        search: "_INPUT_",
+                        searchPlaceholder: "Nhập thông tin tìm kiếm",
+                    },
+                    // "select": {
+                    //     "style": "single"
+                    // },
+                    "processing": true,
+                    "serverSide": true,
+                    "columns": [
 
-                    {"data": "indexCount"},
-                    {"data": "parameterName"},
-                    {"data": "unitName"},
-                    {"data": "note"},
-                    {"data": ""}
-                ],
-                initComplete: function () {
-                    // Apply the search
-                    this.api().columns().every(function () {
-                        var that = this;
-                        $('.table-data-input-search').on('keyup change clear', function () {
-                            let id = $(this).attr("id");
-                            // if (that.search() !== this.value) {
-                            //
-                            // }
-                            station.objParameterSearch[id] = this.value;
-                            station.numOfInputSearch++;
-                            if (station.numOfInputSearch > 3) {
-                                that.search(JSON.stringify(station.objParameterSearch)).draw();
-                                station.numOfInputSearch = 0;
+                        {"data": "indexCount"},
+                        {"data": "parameterName"},
+                        {"data": "unitName"},
+                        {"data": "note"},
+                        {"data": ""}
+                    ],
+                    initComplete: function () {
+                        // Apply the search
+                        // this.api().columns().every(function () {
+                        //     var that = this;
+                        //     $('.table-data-input-search parameter').on('keyup', function () {
+                        //         let id = $(this).attr("id");
+                        //         // if (that.search() !== this.value) {
+                        //         //
+                        //         // }
+                        //         station.objParameterSearch[id] = this.value;
+                        //         station.numOfInputSearch++;
+                        //         if (station.numOfInputSearch > 3) {
+                        //             that.search(JSON.stringify(station.objParameterSearch)).draw();
+                        //             station.numOfInputSearch = 0;
+                        //         }
+                        //     });
+                        //
+                        // });
+                    },
+                    "ajax": {
+                        headers: {
+                            'Authorization': token
+                        },
+                        "url": apiUrl + "station-type/get-list-station-parameter-pagination",
+                        "method": "POST",
+                        "contentType": "application/json",
+                        "data": function (d) {
+                            console.log(d);
+                            draw = d.draw;
+                            return JSON.stringify({
+                                "draw": d.draw,
+                                "start": Math.round(d.start / d.length),
+                                "length": d.length,
+                                "search": JSON.stringify(station.objParameterSearch)
+                            });
+                        },
+                        "dataFilter": function (response) {
+                            station.objParameterSearch = {
+                                s_uuid: station.uuid,
+                                s_parameterName: '',
+                                s_unitName: '',
+                                s_note: ''
+                            };
+                            let responseJson = JSON.parse(response);
+                            let dataRes = {
+                                "draw": draw,
+                                "recordsFiltered": responseJson.recordsTotal,
+                                "recordsTotal": responseJson.recordsTotal,
+                                "data": []
+                            };
+
+                            for (let i = 0; i < responseJson.content.length; i++) {
+                                dataRes.data.push({
+                                    // "": "",
+                                    "indexCount": i + 1,
+                                    // "tsId": responseJson.content[i].tsId,
+                                    "parameterName": responseJson.content[i].parameterName,
+                                    "unitName": responseJson.content[i].unitName,
+                                    "note": responseJson.content[i].note,
+                                    "": "<span class='fa fa-trash' onclick='station.deleteParameter(" + responseJson.content[i].stationParamterId + ")'></span>"
+                                })
                             }
-                        });
 
-                    });
-                },
-                "ajax": {
-                    headers: {
-                        'Authorization': token
-                    },
-                    "url": apiUrl + "station-type/get-list-station-parameter-pagination",
-                    "method": "POST",
-                    "contentType": "application/json",
-                    "data": function (d) {
-                        console.log(d);
-                        draw = d.draw;
-                        return JSON.stringify({
-                            "draw": d.draw,
-                            "start": Math.round(d.start / d.length),
-                            "length": d.length,
-                            "search": JSON.stringify(station.objParameterSearch)
-                        });
-                    },
-                    "dataFilter": function (response) {
-                        station.objParameterSearch = {
-                            s_uuid: station.uuid,
-                            s_parameterName: '',
-                            s_unitName: '',
-                            s_note: ''
-                        };
-                        let responseJson = JSON.parse(response);
-                        let dataRes = {
-                            "draw": draw,
-                            "recordsFiltered": responseJson.recordsTotal,
-                            "recordsTotal": responseJson.recordsTotal,
-                            "data": []
-                        };
-
-                        for (let i = 0; i < responseJson.content.length; i++) {
-                            dataRes.data.push({
-                                // "": "",
-                                "indexCount": i + 1,
-                                // "tsId": responseJson.content[i].tsId,
-                                "parameterName": responseJson.content[i].parameterName,
-                                "unitName": responseJson.content[i].unitName,
-                                "note": responseJson.content[i].note,
-                                "": "<span class='fa fa-trash' onclick='station.deleteParameter("+responseJson.content[i].stationParamterId+")'></span>"
-                            })
+                            return JSON.stringify(dataRes);
                         }
-
-                        return JSON.stringify(dataRes);
                     }
-                }
+                });
+            }else{
+                station.tableParameter.search(station.objParameterSearch).draw();
+                // station.tableParameter.ajax({
+                //         headers: {
+                //             'Authorization': token
+                //         },
+                //         "url": apiUrl + "station-type/get-list-station-parameter-pagination",
+                //         "method": "POST",
+                //         "contentType": "application/json",
+                //         "data": function (d) {
+                //             console.log(d);
+                //             draw = d.draw;
+                //             return JSON.stringify({
+                //                 "draw": d.draw,
+                //                 "start": Math.round(d.start / d.length),
+                //                 "length": d.length,
+                //                 "search": JSON.stringify(station.objParameterSearch)
+                //             });
+                //         },
+                //         "dataFilter": function (response) {
+                //             station.objParameterSearch = {
+                //                 s_uuid: station.uuid,
+                //                 s_parameterName: '',
+                //                 s_unitName: '',
+                //                 s_note: ''
+                //             };
+                //             let responseJson = JSON.parse(response);
+                //             let dataRes = {
+                //                 "draw": draw,
+                //                 "recordsFiltered": responseJson.recordsTotal,
+                //                 "recordsTotal": responseJson.recordsTotal,
+                //                 "data": []
+                //             };
+                //
+                //             for (let i = 0; i < responseJson.content.length; i++) {
+                //                 dataRes.data.push({
+                //                     // "": "",
+                //                     "indexCount": i + 1,
+                //                     // "tsId": responseJson.content[i].tsId,
+                //                     "parameterName": responseJson.content[i].parameterName,
+                //                     "unitName": responseJson.content[i].unitName,
+                //                     "note": responseJson.content[i].note,
+                //                     "": "<span class='fa fa-trash' onclick='station.deleteParameter(" + responseJson.content[i].stationParamterId + ")'></span>"
+                //                 })
+                //             }
+                //
+                //             return JSON.stringify(dataRes);
+                //         }
+                //     }
+                // ).draw();
+            }
+        },
+        rowSelect :function(e, dt, type, indexes) {
+            // $('#btnCopy').removeAttr('disabled');
+            // $('#btnDelete').removeAttr('disabled');
+            // $('#btnEdit').removeAttr('disabled');
+            let rowData = station.table.rows(indexes).data().toArray();
+            station.fillDataToForm(rowData);
+        },
+        fillDataToForm: function(rowData) {
+            if (rowData != null && rowData != undefined && rowData.length > 0) {
+                console.log(rowData);
+                station.enabled_right();
+                $("#btnsave").css("display", "inline");
+                $("#btnDelete").css("display", "inline");
+                $("#btnReset").css("display", "inline");
+                $("#btncancer").css("display", "inline");
+                $("#btnDonew").attr("disabled", true);
+                station.togle_search();
+
+                // $('#inputMailConfigId').val(rowData[0].id);
+                // $('#inputIp').val(rowData[0].ip);
+                // $('#inputPort').val(rowData[0].port);
+                // $('#inputUsername').val(rowData[0].username);
+                // $('#inputPassword').val(rowData[0].password);
+                // $('#inputDomain').val(rowData[0].domain);
+                // $('#inputSenderName').val(rowData[0].sender_name);
+                // $('#inputEmailAddress').val(rowData[0].email);
+                // $('#inputProtocol').val(rowData[0].protocol);
+            }
+        },
+        rowDeselect: function(e, dt, type, indexes) {
+            // $('#btnCopy').attr('disabled', 'true');
+            // $('#btnDelete').attr('disabled', 'true');
+            // $('#btnEdit').attr('disabled', 'true');
+            // $('#form_data')[0].reset();
+            station.disabled_right();
+            $("#btnsave").css("display", "none");
+            $("#btnDelete").css("display", "none");
+            $("#btnReset").css("display", "none");
+            $("#btncancer").css("display", "none");
+            $("#btnDonew").attr("disabled", false);
+            station.show_search();
+        },
+        disabled_right: function() {
+            $("#form_input input:text").each(function () {
+                $(this).prop("readonly", true);
             });
+            $("#form_input input:password").each(function () {
+                $(this).prop("readonly", true);
+            });
+            $("#form_input select").each(function () {
+                $(this).attr("disabled", true);
+            });
+            $("#input_group_id").attr("disabled", true);
+            $(".checkedGender").attr("disabled", true);
+            $(".checkedQuyen").attr("disabled", true);
+        },
+        enabled_right: function() {
+            $("#form_input input:text").each(function () {
+                $(this).prop("readonly", false);
+            });
+            $("#form_input input:password").each(function () {
+                $(this).prop("readonly", false);
+            });
+            $("#form_input select").each(function () {
+                $(this).attr("disabled", false);
+            });
+            $("#input_group_id").attr("disabled", false);
+            $(".checkedGender").attr("disabled", false);
+            $(".checkedQuyen").attr("disabled", false);
+        },
+        show_search: function() {
+            $("#box_info").hide(500);
+            $("#box_search").attr('class', 'col-sm-12');
+        },
+        togle_search: function() {
+            $("#box_info").show(500);
+            $("#box_info").attr('class', 'col-sm-7');
+            $("#box_search").attr('class', 'col-sm-5');
+        },
+        formReset: function() {
+            $('#form_data')[0].reset();
         }
     }
 
@@ -426,10 +583,23 @@ $(document).ready(function () {
     $('#tableDataView thead th').each(function () {
         var title = $(this).text();
         var dataId = $(this).attr("data-id");
+        var is_select = $(this).attr("is_select");
         if (dataId != null && dataId != undefined) {
-            $(this).html('<input class="table-data-input-search" id="' + dataId + '" type="text" placeholder="Search ' + title + '" />');
+            if(is_select==null || is_select == undefined){
+                $(this).html('<input id="'+ dataId +'" class="table-data-input-search" type="text" placeholder="Search ' + title + '" />');
+            }else{
+                $(this).html('<select class="select_table" id="+ dataId +"> <option value="">Hãy chọn</option><option value=1>Hoạt động</option> <option value=0>Không hoạt động</option> </select>');
+            }
         }
     });
+
+    // $('#tableDataParameter thead th').each(function () {
+    //     var title = $(this).text();
+    //     var dataId = $(this).attr("data-id");
+    //     if (dataId != null && dataId != undefined) {
+    //         $(this).html('<input class="table-data-input-search parameter" id="' + dataId + '" type="text" placeholder="Search ' + title + '" />');
+    //     }
+    // });
 
     var search = $.fn.dataTable.util.throttle(
         function (val) {
@@ -445,7 +615,18 @@ $(document).ready(function () {
             orderable: false,
             className: 'select-checkbox',
             targets: 0
-        }],
+        },{
+            targets: 13,
+            render : function (data,type,row){
+                if(data === 1){
+                    return '<div class="status_green">Hoạt động</div>';
+                } else{
+                    return '<div class="status_red">Không hoạt động</div>';
+                }
+            }
+        },
+        { "width": "25px", "targets": 0 }
+        ],
         select: {
             style: 'os',
             selector: 'td:first-child',
@@ -476,20 +657,21 @@ $(document).ready(function () {
         "columns": [
             {"data": ""},
             {"data": "indexCount"},
-            {"data": "tsName"},
-            {"data": "stationNo"},
+            {"data": "objectType"},
+            {"data": "objectTypeName"},
+            {"data": "stationCode"},
             {"data": "stationName"},
             {"data": "stationLong"},
             {"data": "stationLat"},
             {"data": "provinceName"},
             {"data": "districtName"},
             {"data": "wardName"},
-            {"data": "storage"},
-            {"data": "riverId"},
+            {"data": "address"},
+            {"data": "riverName"},
             // {"data": "stationHeight"},
             {"data": "status"},
-            {"data": "parameterTypeName"},
-            {"data": "unitName"},
+            // {"data": "parameterTypeName"},
+            // {"data": "unitName"},
             // {"data": "device"},
             // {"data": "measure"},
             // {"data": "note"}
@@ -498,14 +680,14 @@ $(document).ready(function () {
             // Apply the search
             this.api().columns().every(function () {
                 var that = this;
-                $('.table-data-input-search').on('keyup change clear', function () {
+                $('.table-data-input-search').on('keyup', function () {
                     let id = $(this).attr("id");
                     // if (that.search() !== this.value) {
                     //
                     // }
                     station.objSearch[id] = this.value;
                     station.numOfInputSearch++;
-                    if (station.numOfInputSearch > 12) {
+                    if (station.numOfInputSearch > 11) {
                         that.search(JSON.stringify(station.objSearch)).draw();
                         station.numOfInputSearch = 0;
                     }
@@ -517,7 +699,7 @@ $(document).ready(function () {
             headers: {
                 'Authorization': token
             },
-            "url": apiUrl + "station-type/get-list-station-time-series-pagination",
+            "url": apiUrl + "station-type/get-list-station-pagination",
             "method": "POST",
             "contentType": "application/json",
             "data": function (d) {
@@ -532,7 +714,8 @@ $(document).ready(function () {
             },
             "dataFilter": function (response) {
                 station.objSearch = {
-                    s_tsName: '',
+                    s_objectType: '',
+                    s_objectTypeName: '',
                     s_stationCode: '',
                     s_stationName: '',
                     s_stationLong: '',
@@ -540,12 +723,12 @@ $(document).ready(function () {
                     s_provinceName: '',
                     s_districtName: '',
                     s_wardName: '',
-                    s_storage: '',
-                    s_riverId: '',
+                    s_address: '',
+                    s_riverName: '',
                     // s_stationHeight: '',
                     s_status: '',
-                    s_parameterTypeName: '',
-                    s_unitName: '',
+                    // s_parameterTypeName: '',
+                    // s_unitName: '',
                     // s_device: '',
                     // s_measure: '',
                     // s_note: ''
@@ -563,21 +746,27 @@ $(document).ready(function () {
                         "": "",
                         "indexCount": i + 1,
                         // "tsId": responseJson.content[i].tsId,
-                        "tsName": responseJson.content[i].tsName,
-                        "stationNo": responseJson.content[i].stationNo,
+                        "objectType": responseJson.content[i].objectType,
+                        "objectTypeName": responseJson.content[i].objectTypeName,
+                        "stationId": responseJson.content[i].stationId,
+                        // "tsTypeId": responseJson.content[i].tsTypeId,
+                        // "parameterTypeId": responseJson.content[i].parameterTypeId,
+                        // "parameterTypeName": responseJson.content[i].parameterTypeName,
+                        // "parameterTypeDescription": responseJson.content[i].parameterTypeDescription,
+                        "stationCode": responseJson.content[i].stationCode,
                         "stationName": responseJson.content[i].stationName,
                         "stationLong": responseJson.content[i].stationLong,
                         "stationLat": responseJson.content[i].stationLat,
                         "provinceName": responseJson.content[i].provinceName,
                         "districtName": responseJson.content[i].districtName,
                         "wardName": responseJson.content[i].wardName,
-                        "storage": responseJson.content[i].storage,
-                        "riverId": responseJson.content[i].riverId,
+                        "address": responseJson.content[i].address,
+                        "riverName": responseJson.content[i].riverName,
                         // "stationHeight": responseJson.content[i].stationHeight,
                         "status": responseJson.content[i].status,
-                        "parameterTypeName": responseJson.content[i].parameterTypeName,
-                        "unitName": responseJson.content[i].unitName,
-                        // "device": responseJson.content[i].device,
+                        // "parameterTypeName": responseJson.content[i].parameterTypeName,
+                        // "unitName": responseJson.content[i].unitName,
+                        "districtId": responseJson.content[i].districtId,
                         // "measure": responseJson.content[i].measure,
                         // "note": responseJson.content[i].note
                     })
@@ -588,10 +777,10 @@ $(document).ready(function () {
         }
     });
     station.init();
-    disabled_right();
-    show_search();
     global.disableLoading();
 
+    station.table.on('select', station.rowSelect)
+        .on('deselect', station.rowDeselect);
     //set action for button control
     $('#btnCreate').on('click', function (e) {
         e.preventDefault();
@@ -611,71 +800,26 @@ $(document).ready(function () {
         $('#wrap_table_data').css('pointer-events', 'none');
 
         // clean form
-        formReset();
+        station.formReset();
     });
 
-    function formReset() {
-        $('#form_data')[0].reset();
-    }
-
     $('#btnDonew').click(function () {
-        enabled_right();
+        station.enabled_right();
         $("#btnsave").css("display", "inline");
         $("#btnDelete").css("display", "inline");
         $("#btnReset").css("display", "inline");
         $("#btncancer").css("display", "inline");
         $("#btnDonew").attr("disabled", true);
-        togle_search();
+        station.togle_search();
     });
 
     $('#btncancer').click(function () {
-        disabled_right();
+        station.disabled_right();
         $("#btnsave").css("display", "none");
         $("#btnDelete").css("display", "none");
         $("#btnReset").css("display", "none");
         $("#btncancer").css("display", "none");
         $("#btnDonew").attr("disabled", false);
-        show_search();
+        station.show_search();
     });
-
-    function disabled_right() {
-        $("#form_input input:text").each(function () {
-            $(this).prop("readonly", true);
-        });
-        $("#form_input input:password").each(function () {
-            $(this).prop("readonly", true);
-        });
-        $("#form_input select").each(function () {
-            $(this).attr("disabled", true);
-        });
-        $("#input_group_id").attr("disabled", true);
-        $(".checkedGender").attr("disabled", true);
-        $(".checkedQuyen").attr("disabled", true);
-    }
-
-    function enabled_right() {
-        $("#form_input input:text").each(function () {
-            $(this).prop("readonly", false);
-        });
-        $("#form_input input:password").each(function () {
-            $(this).prop("readonly", false);
-        });
-        $("#form_input select").each(function () {
-            $(this).attr("disabled", false);
-        });
-        $("#input_group_id").attr("disabled", false);
-        $(".checkedGender").attr("disabled", false);
-        $(".checkedQuyen").attr("disabled", false);
-    }
-
-    function show_search() {
-        $("#box_info").hide(500);
-        $("#box_search").attr('class', 'col-sm-12');
-    }
-
-    function togle_search() {
-        $("#box_info").show(500);
-        $("#box_info").attr('class', 'col-sm-7');
-        $("#box_search").attr('class', 'col-sm-5');
-    }
 });
