@@ -1,5 +1,9 @@
 //sử dụng cho chức năng quản lý nhóm người nhận mail
     let refresh = 0;
+    var oldValueDetail  = "";
+    var refreshDetail = 0;
+    let oldValue ="";
+    var draw = 0;
     function showLoading() {
         $('.popup-loading').css('opacity', '1');
         $('.popup-loading').css('display', 'block');
@@ -12,30 +16,58 @@
         $('body').css('overflow', 'scroll');
     }
 
-    $('.select2').select2()
+    $('#detail-receive-mail').select2({
+        minimumInputLength: 0,
+        delay: 350,
+        ajax: {
+            headers: {
+                'Authorization': token
+            },
+            "url":apiUrl + "user-info/get-name-user",
+            dataType: 'json',
+            type: "GET",
+            quietMillis: 50,
+            data: function (term) {
+                term.idGroup = $("#id_group").val();
+                return term;
+
+            },
+            processResults: function (data) {
+                return {
+                    results: $.map(data, function (item) {
+                        return {
+                            text: item.name,
+                            id: item.id,
+                            data: item
+                        }
+                    })
+                };
+            }
+        }
+    });
 
     //Initialize Select2 Elements
     $('.select2bs4').select2({
         theme: 'bootstrap4'
     });
-    $('#example3').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": false,
-        "ordering": true,
-        "info": false,
-        "autoWidth": true,
-        "responsive": false,
-    });
-    $('#example4').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": false,
-        "ordering": true,
-        "info": false,
-        "autoWidth": true,
-        "responsive": false,
-    });
+    // $('#example3').DataTable({
+    //     "paging": true,
+    //     "lengthChange": false,
+    //     "searching": false,
+    //     "ordering": true,
+    //     "info": false,
+    //     "autoWidth": true,
+    //     "responsive": false,
+    // });
+    // $('#example4').DataTable({
+    //     "paging": true,
+    //     "lengthChange": false,
+    //     "searching": false,
+    //     "ordering": true,
+    //     "info": false,
+    //     "autoWidth": true,
+    //     "responsive": false,
+    // });
 
 let objSearch = {
     s_id: '',
@@ -43,6 +75,11 @@ let objSearch = {
     s_code: '',
     s_status: '',
     s_description: ''
+};
+let objSearchDetail = {
+    s_group_name_detail: '',
+    s_name_detail: '',
+    s_id_group: ''
 };
 
 $(document).ready(function () {
@@ -64,9 +101,7 @@ $(document).ready(function () {
             }
         }
     });
-
     // showLoading();
-    var draw = 0;
     var table = $('#group-receive-mail').DataTable({
         columnDefs: [
             {
@@ -75,10 +110,9 @@ $(document).ready(function () {
                 targets:   0
             },
             {
-                targets: 4,
+                targets: 5,
                 render : function(data, type, row) {
-                    // console.log("đây là thông tin về status" + typeof data)
-                    if(data==='1'){
+                    if(data===1){
                         return '<div class="status_green">hoạt động</div>';
                     } else{
                         return '<div class="status_read">không hoạt động</div>';
@@ -127,22 +161,23 @@ $(document).ready(function () {
                 var that = this;
                 $('.table-data-input-search').on('keyup change clear', function () {
                     let id = $(this).attr("id");
-                    let oldValue =  objSearch[id];
                     if (!$(this).is(':focus')) {
                        return;
                     }
                     if((oldValue!=this.value && refresh==0) || this.value==""){
                         refresh = 1;
+                        if(this.value==""){
+                            if(oldValue==""){
+                                refresh = 0;
+                                return;
+                            }
 
-                        console.log("giá trị cũ bên trong"+ oldValue);
+                         }
                         objSearch[id] = this.value;
-                        console.log("giá trị mới "+ objSearch[id]);
                         that
                             .search(JSON.stringify(objSearch))
                             .draw();
-                        if(this.value==""){
-                           $("#name").focus();
-                        }
+                        oldValue = this.value;
                     } else{
                         refresh = 0;
                     }
@@ -223,27 +258,40 @@ $(document).ready(function () {
     $('#btnDelete').attr('disabled', 'true');
     $('#btnEdit').attr('disabled', 'true');
     function disableChild(){
-        $(".child_template").css("pointer-events", "none");
-        $(".child_template").css("backgroundColor", "#DAD5D4");
-        $(".child_template").css("opacity", "0.5");
+        $(".tab-pane").css("pointer-events", "none");
+        $(".tab-pane").css("backgroundColor", "#DAD5D4");
+        $(".tab-pane").css("opacity", "0.5");
     }
     disableChild();
     function enableChild(){
-        $(".child_template").css("pointer-events", "auto");
-        $(".child_template").css("backgroundColor", "none");
+        $(".tab-pane").css("pointer-events", "auto");
+        $(".tab-pane").css("backgroundColor", "");
+        $(".tab-pane").css("opacity", "1");
     };
 
     table
         .on('select', rowSelect)
         .on('deselect', rowDeselect);
-
+    var rowDt = {};
     function rowSelect(e, dt, type, indexes) { // load các thông tin của những cái bên trái ra
         $('#btnCopy').removeAttr('disabled');
         $('#btnDelete').removeAttr('disabled');
         $('#btnEdit').removeAttr('disabled');
-        var rowData = table.rows(indexes).data().toArray();
+        rowDt = table.rows(indexes).data().toArray();
 
-        fillDataToForm(rowData);
+        $("#group-receive-mail_paginate").css("pointer-events", "none");
+        $("#group-receive-mail_paginate").css("backgroundColor", "#DAD5D4");
+        $("#group-receive-mail_paginate").css("opacity", "0.5");
+
+        fillDataToForm(rowDt);
+        enableChild();
+        $("#id_group").val(rowDt[0].id);
+        $("#name_group").val(rowDt[0].name);
+
+        objSearchDetail.s_id_group = $("#id_group").val();
+        tableDetail.search( objSearchDetail ).draw();
+
+
     }
     function rowDeselect(e, dt, type, indexes) { // khóa các form bên trái
         $('#btnCopy').attr('disabled', 'true');
@@ -251,24 +299,77 @@ $(document).ready(function () {
         $('#btnEdit').attr('disabled', 'true');
         $('#form_group')[0].reset();
         disableChild();
+        $("#group-receive-mail_paginate").css("pointer-events", "auto");
+        $("#group-receive-mail_paginate").css("backgroundColor", "");
+        $("#group-receive-mail_paginate").css("opacity", "1");
     }
 
 
     function fillDataToForm(rowData) {
         if (rowData != null && rowData != undefined && rowData.length > 0) {
-            // $('#inputMailConfigId').val(rowData[0].id);
-            // $('#inputIp').val(rowData[0].ip);
-            // $('#inputPort').val(rowData[0].port);
-            // $('#inputUsername').val(rowData[0].username);
-            // $('#inputPassword').val(rowData[0].password);
-            // $('#inputDomain').val(rowData[0].domain);
-            // $('#inputSenderName').val(rowData[0].sender_name);
-            // $('#inputEmailAddress').val(rowData[0].email);
-            // $('#inputProtocol').val(rowData[0].protocol);
+             $('#id').val(rowData[0].id);
+             $('#name').val(rowData[0].name);
+             $('#code').val(rowData[0].code);
+             $('#status').val(rowData[0].status);
+             $('#description').val(rowData[0].description);
+
         }
     }
+    function backButonGroup(){
 
+        $('#btnCreate').css('display', '');
+        $('#btnCopy').css('display', '');
+        $('#btnDelete').css('display', '');
+        $('#btnEdit').css('display', '');
+
+        $('#btnEditGroup').css('display', 'none');
+        $('#btnBackEditGroup').css('display', 'none');
+
+        $('#btnSaveCreateGroup').css('display', 'none');
+        $('#btnBackCreateGroup').css('display', 'none');
+        $('#group-receive-mail_tb').css('pointer-events', 'auto');
+
+        $('#group-receive-mail_tb').css('pointer-events', 'auto');
+        $("#group-receive-mail_tb").css("backgroundColor", "");
+        $("#group-receive-mail_tb").css("opacity", "1");
+
+        $('#group-receive-mail_tb').css('pointer-events', '');
+        $("#group-receive-mail_tb").css("backgroundColor", "");
+        $("#group-receive-mail_tb").css("opacity", "1");
+
+        // $("#group-receive-mail_paginate").css("pointer-events", "auto");
+        // $("#group-receive-mail_paginate").css("backgroundColor", "");
+        // $("#group-receive-mail_paginate").css("opacity", "");
+    }
+    $("#btnBackCreateGroup").click(function(){
+        backButonGroup();
+    });
     $("#btnCreate").click(function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        // set state for button control
+
+        $('#btnCreate').css('display', 'none');
+        $('#btnCopy').css('display', 'none');
+        $('#btnDelete').css('display', 'none');
+        $('#btnEdit').css('display', 'none');
+
+        // set state for button save and back
+        $('#btnSaveCreateGroup').css('display', '');
+        $('#btnBackCreateGroup').css('display', '');
+
+        // disable mouse click table
+        $('#group-receive-mail_tb').css('pointer-events', 'none');
+        $("#group-receive-mail_tb").css("backgroundColor", "#DAD5D4");
+        $("#group-receive-mail_tb").css("opacity", "0.5");
+        disableChild()
+        // clean form
+        formReset();
+    });
+    function formReset() {
+        $('#form_group')[0].reset();
+    }
+    $("#btnSaveCreateGroup").click(function (event) {
         event.preventDefault();
         event.stopPropagation();
         let data = getValue("form_group");
@@ -282,6 +383,13 @@ $(document).ready(function () {
             "data": JSON.stringify(data),
             "success": function (response) {
                 toastr.success('Thành công', data.message);
+                table.ajax.reload();
+                backButonGroup();
+                enableChild();
+                $("#group-receive-mail_paginate").css("pointer-events", "auto");
+                $("#group-receive-mail_paginate").css("backgroundColor", "");
+                $("#group-receive-mail_paginate").css("opacity", "");
+                disableChild();
             },
             "error": function (error) {
                 toastr.error('Lỗi', data.message);
@@ -289,4 +397,434 @@ $(document).ready(function () {
         });
     });
 
+    // set action for btnEdit
+    $('#btnEdit').on('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        // set state for button control
+
+        $('#btnCreate').css('display', 'none');
+        $('#btnCopy').css('display', 'none');
+        $('#btnDelete').css('display', 'none');
+        $('#btnEdit').css('display', 'none');
+
+        // set state for button save and back
+        $('#btnEditGroup').css('display', '');
+        $('#btnBackEditGroup').css('display', '');
+
+        // block table
+        $('#wrap_table_data').css('pointer-events', 'none');
+        $('#group-receive-mail_tb').css('pointer-events', 'none');
+        $("#group-receive-mail_tb").css("backgroundColor", "#DAD5D4");
+        $("#group-receive-mail_tb").css("opacity", "0.5");
+        disableChild();
+        fillDataToForm(rowDt);
+    });
+    $("#btnBackEditGroup").click(function(e){
+        e.preventDefault();
+        e.stopPropagation();
+
+        $('#btnCreate').css('display', '');
+        $('#btnCopy').css('display', '');
+        $('#btnDelete').css('display', '');
+        $('#btnEdit').css('display', '');
+
+
+        // set state for button save and back
+        $('#btnEditGroup').css('display', 'none');
+        $('#btnBackEditGroup').css('display', 'none');
+
+
+        // disable mouse click table
+        $('#group-receive-mail_tb').css('pointer-events', 'auto');
+        $("#group-receive-mail_tb").css("backgroundColor", "");
+        $("#group-receive-mail_tb").css("opacity", "1");
+        enableChild();
+
+    });
+
+    $("#btnCopy").click(function (event){
+        event.preventDefault();
+        event.stopPropagation();
+        // set state for button control
+
+        $('#btnCreate').css('display', 'none');
+        $('#btnCopy').css('display', 'none');
+        $('#btnDelete').css('display', 'none');
+        $('#btnEdit').css('display', 'none');
+
+        // set state for button save and back
+        $('#btnSaveCreateGroup').css('display', '');
+        $('#btnBackCreateGroup').css('display', '');
+
+        // disable mouse click table
+        $('#group-receive-mail_tb').css('pointer-events', 'none');
+        $("#group-receive-mail_tb").css("backgroundColor", "#DAD5D4");
+        $("#group-receive-mail_tb").css("opacity", "0.5");
+        disableChild();
+        fillDataToForm(rowDt);
+    });
+    $("#btnEditGroup").click(function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        let data = getValue("form_group");
+        $.ajax({
+            headers: {
+                'Authorization': token
+            },
+            "url": apiUrl + "group-mail-receive",
+            "method": "PUT",
+            "contentType": "application/json",
+            "data": JSON.stringify(data),
+            "success": function (response) {
+                toastr.success('Thành công', data.message);
+                table.ajax.reload();
+                backButonGroup();
+                disableChild();
+                $("#group-receive-mail_paginate").css("pointer-events", "auto");
+                $("#group-receive-mail_paginate").css("backgroundColor", "");
+                $("#group-receive-mail_paginate").css("opacity", "");
+            },
+            "error": function (error) {
+                toastr.error('Lỗi', data.message);
+            }
+        });
+    });
+
+    $("#btnDelete").click(function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        let rowData = table.rows( { selected: true } ).data().toArray();
+        let data = {
+            "id": rowData[0].id
+        }
+        $.ajax({
+            headers: {
+                'Authorization': token
+            },
+            "url": apiUrl + "group-mail-receive",
+            "method": "DELETE",
+            "contentType": "application/json",
+            "data": JSON.stringify(data),
+            "success": function (response) {
+                toastr.success('Thành công', data.message);
+                table.ajax.reload();
+                backButonGroup();
+                $("#group-receive-mail_paginate").css("pointer-events", "auto");
+                $("#group-receive-mail_paginate").css("backgroundColor", "");
+                $("#group-receive-mail_paginate").css("opacity", "");
+                disableChild();
+            },
+            "error": function (error) {
+                toastr.error('Lỗi', data.message);
+            }
+        });
+    });
+    // cài đặt trường tìm kiếm dành cho table detail
+     $('#group-receive-mail_detail_tbl thead th').each(function () {
+         var title = $(this).text();
+         var dataId = $(this).attr("data-id");
+         if (dataId != null && dataId != undefined) {
+             $(this).html('<input id="'+ dataId +'" class="table-data-input-search_detail" type="text" placeholder="Search ' + title + '" />');
+        }
+     });
+
+     // cấu hình table detail
+    var tableDetail = $('#group-receive-mail_detail_tbl').DataTable({
+        columnDefs: [
+            {
+                orderable: false,
+                className: 'select-checkbox',
+                targets:   0
+            }
+        ],
+        select: {
+            style:    'os',
+            selector: 'td:first-child',
+            type: 'single'
+        },
+        "pagingType": "full_numbers",
+        "lengthMenu": [
+            [10, 25, 50,100],
+            [10, 25, 50,100]
+        ],
+        "lengthChange": true,
+        "searching": false,
+        "ordering": false,
+        "info": true,
+        "autoWidth": false,
+        "scrollX": true,
+        "responsive": false,
+        "searchDelay": 1500,
+        language: {
+            search: "_INPUT_",
+            searchPlaceholder: "Nhập thông tin tìm kiếm",
+        },
+        "select": {
+            "style": "single"
+        },
+        "processing": true,
+        "serverSide": true,
+        "columns": [
+            {"data":""},
+            {"data": "indexCount"},
+            {"data": "id"},
+            {"data": "groupName"},
+            {"data": "name"}
+        ],
+        initComplete: function () {
+            this.api().columns().every(function () {
+                var that = this;
+                $('.table-data-input-search_detail').on('keyup change clear', function () {
+                    let id = $(this).attr("id");
+                    if (!$(this).is(':focus')) {
+                        return;
+                    }
+                    if((oldValueDetail!=this.value && refreshDetail==0) || this.value==""){
+                        refreshDetail = 1;
+                        if(this.value==""){
+                            if(oldValueDetail==""){
+                                refreshDetail = 0;
+                                return;
+                            }
+                        }
+                        objSearchDetail[id] = this.value;
+                        objSearchDetail.s_id_group = $("#id_group").val();
+                        console.log(objSearchDetail);
+                        that
+                            .search(JSON.stringify(objSearchDetail))
+                            .draw();
+                        oldValueDetail = this.value;
+                    } else{
+                        refreshDetail = 0;
+                    }
+                    // console.log(this);
+                });
+            });
+        },
+        "ajax": {
+            headers: {
+                'Authorization': token
+            },
+            "url":apiUrl + "group-mail-receive-detail/get-list-group-mail-detail-paging-nation",
+            "method": "POST",
+            "contentType": "application/json",
+            "data": function (d) {
+                draw = d.draw;
+                return JSON.stringify({
+                    "draw": d.draw,
+                    "start": Math.round(d.start / d.length),
+                    "length": d.length,
+                    "search": JSON.stringify(objSearchDetail)
+                });
+            },
+            "dataFilter": function (response) {
+                objSearchDetail = {
+                    s_group_name_detail: '',
+                    s_name_detail: '',
+                    s_id_group : '',
+                };
+                let responseJson = JSON.parse(response);
+                let dataRes = {
+                    "draw": draw,
+                    "recordsFiltered": responseJson.recordsTotal,
+                    "recordsTotal": responseJson.recordsTotal,
+                    "data": []
+                };
+
+                for (let i = 0; i < responseJson.content.length; i++) {
+                    dataRes.data.push({
+                        "": "",
+                        "indexCount" : i+1,
+                        "id" : responseJson.content[i].id,
+                        "groupName": responseJson.content[i].groupName,
+                        "name": responseJson.content[i].name
+                    })
+
+                }
+
+                return JSON.stringify(dataRes);
+            }
+        }
+    });
+    function formDetailReset() {
+        $('#form_group_detail')[0].reset();
+    }
+    $("#btnCreateDetail").click(function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        // set state for button control
+
+        $('#btnCreateDetail').css('display', 'none');
+        $('#btnCopyDetail').css('display', 'none');
+        $('#btnDeleteDetail').css('display', 'none');
+        $('#btnEditDetail').css('display', 'none');
+
+        // set state for button save and back
+        $('#btnSaveCreateGroupDetail').css('display', '');
+        $('#btnBackCreateGroupDetail').css('display', '');
+
+        // disable mouse click table
+        $('#group-receive-mail_detail_tbl').css('pointer-events', 'none');
+        $("#group-receive-mail_detail_tbl").css("backgroundColor", "#DAD5D4");
+        $("#group-receive-mail_detail_tbl").css("opacity", "0.5");
+        //formReset();
+        //formDetailReset();
+    });
+    $("#btnSaveCreateGroupDetail").click(function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        let data = {};
+        data.idGroup = $("#id_group").val();
+        data.userReceive = $("#user_receive").val();
+
+        $.ajax({
+            headers: {
+                'Authorization': token
+            },
+            "url": apiUrl + "group-mail-receive-detail",
+            "method": "POST",
+            "contentType": "application/json",
+            "data": JSON.stringify(data),
+            "success": function (response) {
+                toastr.success('Thành công', data.message);
+                table.ajax.reload();
+                backButonGroup();
+                enableChild();
+                $("#group-receive-mail_paginate").css("pointer-events", "auto");
+                $("#group-receive-mail_paginate").css("backgroundColor", "");
+                $("#group-receive-mail_paginate").css("opacity", "");
+                disableChild();
+            },
+            "error": function (error) {
+                toastr.error('Lỗi', error.message);
+                console.log(error);
+            }
+        });
+    });
+    $('#btnEditDetail').on('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        // set state for button control
+
+        $('#btnCreateDetail').css('display', 'none');
+        $('#btnCopyDetail').css('display', 'none');
+        $('#btnDeleteDetail').css('display', 'none');
+        $('#btnEditDetail').css('display', 'none');
+
+        // set state for button save and back
+        $('#btnEditGroupDetail').css('display', '');
+        $('#btnBackEditGroupDetail').css('display', '');
+
+        // block table
+        //$('#wrap_table_data').css('pointer-events', 'none');
+        //$('#group-receive-mail_tb').css('pointer-events', 'none');
+        //$("#group-receive-mail_tb").css("backgroundColor", "#DAD5D4");
+       // $("#group-receive-mail_tb").css("opacity", "0.5");
+        //disableChild();
+        //fillDataToForm(rowDt);
+    });
+    $("#btnEditGroupDetail").click(function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        let data = {};
+        data.idGroup = $("#id_group").val();
+        data.userReceive = $("#user_receive").val();
+        $.ajax({
+            headers: {
+                'Authorization': token
+            },
+            "url": apiUrl + "group-mail-receive-detail",
+            "method": "PUT",
+            "contentType": "application/json",
+            "data": JSON.stringify(data),
+            "success": function (response) {
+                toastr.success('Thành công', response.message);
+                table.ajax.reload();
+                backButonGroup();
+                //disableChild();
+                // $("#group-receive-mail_paginate").css("pointer-events", "auto");
+                //$("#group-receive-mail_paginate").css("backgroundColor", "");
+                //$("#group-receive-mail_paginate").css("opacity", "");
+            },
+            "error": function (error) {
+                toastr.error('Lỗi', data.message);
+            }
+        });
+    });
+    function fillDataDetailToForm(rowData){
+        if (rowData != null && rowData != undefined && rowData.length > 0) {
+            console.log(rowData[0]);
+            var dataSend = {
+                term: "",
+                idGroup : $("#id_group").val(),
+                _type : ""
+            }
+            $.ajax({
+                headers: {
+                    'Authorization': token
+                },
+                "url": apiUrl + "user-info/get-name-user-by-group-id",
+                "method": "POST",
+                "contentType": "application/json",
+                "data": JSON.stringify(dataSend),
+                "success": function (response) {
+                    console.log(response);
+
+                    for(let i =0 ; i < response.length ; i++){
+                        var data = {
+                            id : response.id,
+                            text : response.name
+                        };
+                        $('#detail-receive-mail').val(data);
+                    }
+                    $('#detail-receive-mail').trigger('change');
+                },
+                "error": function (error) {
+                    toastr.error('Lỗi', error.message);
+                }
+            });
+
+            // $('#name').val(rowData[0].name);
+            // $('#code').val(rowData[0].code);
+            // $('#status').val(rowData[0].status);
+            // $('#description').val(rowData[0].description);
+
+        }
+    }
+    function rowSelectDetail(e, dt, type, indexes) { // load các thông tin của những cái bên trái ra
+        // $('#btnCopy').removeAttr('disabled');
+        // $('#btnDelete').removeAttr('disabled');
+        // $('#btnEdit').removeAttr('disabled');
+         var rowDt = tableDetail.rows(indexes).data().toArray();
+        //
+        // $("#group-receive-mail_paginate").css("pointer-events", "none");
+        // $("#group-receive-mail_paginate").css("backgroundColor", "#DAD5D4");
+        // $("#group-receive-mail_paginate").css("opacity", "0.5");
+
+        fillDataDetailToForm(rowDt);
+        // enableChild();
+        // $("#id_group").val(rowDt[0].id);
+        // $("#name_group").val(rowDt[0].name);
+        //
+        // objSearchDetail.s_id_group = $("#id_group").val();
+        // tableDetail.search( objSearchDetail ).draw();
+
+
+    }
+    function rowDeselectDetail(e, dt, type, indexes) { // khóa các form bên trái
+        // $('#btnCopy').attr('disabled', 'true');
+        // $('#btnDelete').attr('disabled', 'true');
+        // $('#btnEdit').attr('disabled', 'true');
+        // $('#form_group')[0].reset();
+        // disableChild();
+        // $("#group-receive-mail_paginate").css("pointer-events", "auto");
+        // $("#group-receive-mail_paginate").css("backgroundColor", "");
+        // $("#group-receive-mail_paginate").css("opacity", "1");
+    }
+    tableDetail
+        .on('select', rowSelectDetail)
+        .on('deselect', rowDeselectDetail);
 });

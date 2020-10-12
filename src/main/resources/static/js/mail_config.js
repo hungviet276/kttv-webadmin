@@ -219,6 +219,7 @@ $('#btnCreate').on('click', function (e) {
     formReset();
 });
 
+
 function formReset() {
     $('#form_data')[0].reset();
 }
@@ -255,7 +256,7 @@ $('#btnCreate').on('click', function (e) {
         "password": $('#inputPassword').val(),
         "domain": $('#inputDomain').val(),
         "senderName": $('#inputSenderName').val(),
-        "email": $('#inputEmailAddress').val(),
+        "email": $('#inputEmail').val(),
         "protocol": $('#inputProtocol').val()
     };
 
@@ -451,7 +452,7 @@ $('#btnSaveCopy').on('click', function (e) {
         "password": $('#inputPassword').val(),
         "domain": $('#inputDomain').val(),
         "senderName": $('#inputSenderName').val(),
-        "email": $('#inputEmailAddress').val(),
+        "email": $('#inputEmail').val(),
         "protocol": $('#inputProtocol').val()
     };
 

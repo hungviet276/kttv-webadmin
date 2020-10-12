@@ -32,6 +32,7 @@
                                     <label for="name">Tên nhóm người nhận</label>
                                     <input type="text" class="form-control" id="name" name="name" placeholder="Tên nhóm người nhận">
                                 </div>
+                                <input type="hidden" id="id" name="id" placeholder="Tên nhóm người nhận">
                                 <div class="form-group">
                                     <label for="code">Code</label>
                                     <input type="text" class="form-control" id="code" name="code" placeholder="mã..">
@@ -49,16 +50,22 @@
                                 </div>
                             </div>
                             <div class="" style="text-align: center;">
-                                <button type="button" class="min-with-btn btn btn-outline-secondary" id="group_search">Tìm kiếm</button>
+
                                 <button type="button" class="min-with-btn btn btn-primary" id="btnCreate"><i class="fas fa-plus"></i> Thêm</button>
                                 <button type="button" class="min-with-btn btn btn-warning" id="btnEdit"><i class="far fa-edit"></i> Sửa</button>
                                 <button type="button" class="min-with-btn btn btn-default" id="btnCopy"><i class="fas fa-copy"></i> Sao chép</button>
                                 <button type="button" class="min-with-btn btn btn-danger" id="btnDelete"><i class="far fa-trash-alt"></i> Xoá</button>
+
+                                <button type="button" class="btn btn-success" id="btnSaveCreateGroup" style="display: none;"><i class="fas fa-check-circle"></i> Lưu lại</button>
+                                <button type="button" class="btn btn-default" id="btnBackCreateGroup" style="display: none;"><i class="fas fa-undo-alt"></i> Quay lại</button>
+
+                                <button type="button" class="btn btn-success" id="btnEditGroup" style="display: none;"><i class="fas fa-check-circle"></i> Lưu lại</button>
+                                <button type="button" class="btn btn-default" id="btnBackEditGroup" style="display: none;"><i class="fas fa-undo-alt"></i> Quay lại</button>
                             </div>
                         </form>
-                        <div class="card-body">
-                            <table id="group-receive-mail" class="table table-bordered table-hover dataTable dtr-inline container-fluid"
-                                   role="grid" aria-describedby="example2_info">
+                        <div class="card-body" id="group-receive-mail_tb">
+                            <table  class="table table-bordered table-hover dataTable dtr-inline container-fluid"
+                                   role="grid" aria-describedby="example2_info" id="group-receive-mail">
                                 <thead>
                                 <tr>
                                     <th >Chọn</th>
@@ -75,7 +82,7 @@
                             </table>
                         </div>
                     </div>
-                    <!-- end bên trái -->
+                    <!-- end lefft -->
                 </div>
                 <div class="col-md-6">
                     <div class="card card-primary card-tabs">
@@ -101,24 +108,19 @@
                                     <!-- form start -->
                                     <div role="form">
                                         <div class="card-body">
-                                            <form role="form">
+                                            <form role="form"  id="form_group_detail">
                                                 <!-- text input -->
                                                 <div class="form-group">
                                                     <label>Nhóm người nhận mail</label>
-                                                    <input type="text" class="form-control" placeholder="Ông nào đó" disabled="">
+                                                    <input type="text"  id="id_group" hidden>
+                                                    <input type="text" id="name_group" class="form-control" placeholder="Nhóm người nhận mail" disabled="">
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Danh sách người nhận</label>
                                                     <div class="select2-purple">
-                                                        <select class="select2" multiple="multiple" data-placeholder="Select a State"
+                                                        <select id="detail-receive-mail" multiple="multiple" data-placeholder="Select a State"
                                                                 data-dropdown-css-class="select2-purple" style="width: 100%;">
-                                                            <option>Alabama</option>
-                                                            <option>Alaska</option>
-                                                            <option>California</option>
-                                                            <option>Delaware</option>
-                                                            <option>Tennessee</option>
-                                                            <option>Texas</option>
-                                                            <option>Washington</option>
+<!--                                                            -->
                                                         </select>
                                                     </div>
                                                 </div>
@@ -126,57 +128,32 @@
                                         </div>
                                     </div>
                                     <div class="" style="text-align: center;">
-                                        <button type="button" class="min-with-btn btn btn-outline-secondary">Tìm kiếm</button>
-                                        <button type="submit" class="min-with-btn btn btn-primary">Thêm mới</button>
-                                        <button type="button" class="min-with-btn btn btn-info">sửa</button>
-                                        <button type="button" class="min-with-btn btn btn-danger">Xóa</button>
+                                        <button type="button" class="min-with-btn btn btn-primary" id="btnCreateDetail"><i class="fas fa-plus"></i> Thêm</button>
+                                        <button type="button" class="min-with-btn btn btn-warning" id="btnEditDetail"><i class="far fa-edit"></i> Sửa</button>
+                                        <button type="button" class="min-with-btn btn btn-default" id="btnCopyDetail"><i class="fas fa-copy"></i> Sao chép</button>
+                                        <button type="button" class="min-with-btn btn btn-danger" id="btnDeleteDetail"><i class="far fa-trash-alt"></i> Xoá</button>
+
+                                        <button type="button" class="btn btn-success" id="btnSaveCreateGroupDetail" style="display: none;"><i class="fas fa-check-circle"></i> Lưu lại</button>
+                                        <button type="button" class="btn btn-default" id="btnBackCreateGroupDetail" style="display: none;"><i class="fas fa-undo-alt"></i> Quay lại</button>
+
+                                        <button type="button" class="btn btn-success" id="btnEditGroupDetail" style="display: none;"><i class="fas fa-check-circle"></i> Lưu lại</button>
+                                        <button type="button" class="btn btn-default" id="btnBackEditGroupDetail" style="display: none;"><i class="fas fa-undo-alt"></i> Quay lại</button>
+
                                     </div>
                                     <div class="card-body">
-                                        <table id="example3" class="table table-bordered table-hover dataTable dtr-inline container-fluid"
-                                               role="grid" aria-describedby="example3_info">
+                                        <table id="group-receive-mail_detail_tbl" class="table table-bordered table-hover dataTable dtr-inline container-fluid"
+                                               role="grid" aria-describedby="example2_info">
                                             <thead>
-                                            <tr role="row">
-                                                <th class="sorting_desc" tabindex="0" aria-controls="example3" rowspan="1" colspan="1"
-                                                    aria-label="Rendering engine: activate to sort column ascending" aria-sort="descending">
-                                                    <div class="center-text">Nhóm người nhận</div>
-                                                    <div><input type="text" class="form-control"></div>
-                                                </th>
-                                                <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1"
-                                                    aria-label="Browser: activate to sort column ascending">
-                                                    <div class="center-text">Mô tả</div>
-                                                    <div><input type="text" class="form-control"></div>
-                                                </th>
+                                            <tr>
+                                                <th >Chọn</th>
+                                                <th >STT</th>
+                                                <th data-id="s_id_detail" class="table-data-input-search_detail">ID</th>
+                                                <th>Tên nhóm người nhận mail</th>
+                                                <th data-id="s_name_detail" class="table-data-input-search_detail">Danh sách người nhận mail</th>
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr role="row" class="odd">
-                                                <td class="sorting_1" tabindex="0">Webkit</td>
-                                                <td>Safari 1.2</td>
-                                            </tr>
-                                            <tr role="row" class="odd">
-                                                <td class="sorting_1" tabindex="0">Webkit</td>
-                                                <td>Safari 1.2</td>
-                                            </tr>
-                                            <tr role="row" class="odd">
-                                                <td class="sorting_1" tabindex="0">Webkit</td>
-                                                <td>Safari 1.2</td>
-                                            </tr>
-                                            <tr role="row" class="odd">
-                                                <td class="sorting_1" tabindex="0">Webkit</td>
-                                                <td>Safari 1.2</td>
-                                            </tr>
-                                            <tr role="row" class="odd">
-                                                <td class="sorting_1" tabindex="0">Webkit</td>
-                                                <td>Safari 1.2</td>
-                                            </tr>
-                                            <tr role="row" class="odd">
-                                                <td class="sorting_1" tabindex="0">Webkit</td>
-                                                <td>Safari 1.2</td>
-                                            </tr>
-                                            <tr role="row" class="odd">
-                                                <td class="sorting_1" tabindex="0">Webkit</td>
-                                                <td>Safari 1.2</td>
-                                            </tr>
+
                                             </tbody>
                                         </table>
                                         <ul class="pagination" id="pagination"></ul>
@@ -189,7 +166,7 @@
                                     <!-- form start -->
                                     <div role="form">
                                         <div class="card-body">
-                                            <form role="form">
+                                            <form role="form" id="">
                                                 <!-- text input -->
                                                 <div class="form-group">
                                                     <label>Nhóm người nhận mail</label>
@@ -218,6 +195,7 @@
                                         <button type="submit" class="min-with-btn btn btn-primary">Thêm mới</button>
                                         <button type="button" class="min-with-btn btn btn-info">sửa</button>
                                         <button type="button" class="min-with-btn btn btn-danger">Xóa</button>
+
                                     </div>
                                     <div class="card-body">
                                         <table id="example4" class="table table-bordered table-hover dataTable dtr-inline container-fluid"
@@ -237,34 +215,6 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr role="row" class="odd">
-                                                <td class="sorting_1" tabindex="0">Webkit</td>
-                                                <td>Safari 1.2</td>
-                                            </tr>
-                                            <tr role="row" class="odd">
-                                                <td class="sorting_1" tabindex="0">Webkit</td>
-                                                <td>Safari 1.2</td>
-                                            </tr>
-                                            <tr role="row" class="odd">
-                                                <td class="sorting_1" tabindex="0">Webkit</td>
-                                                <td>Safari 1.2</td>
-                                            </tr>
-                                            <tr role="row" class="odd">
-                                                <td class="sorting_1" tabindex="0">Webkit</td>
-                                                <td>Safari 1.2</td>
-                                            </tr>
-                                            <tr role="row" class="odd">
-                                                <td class="sorting_1" tabindex="0">Webkit</td>
-                                                <td>Safari 1.2</td>
-                                            </tr>
-                                            <tr role="row" class="odd">
-                                                <td class="sorting_1" tabindex="0">Webkit</td>
-                                                <td>Safari 1.2</td>
-                                            </tr>
-                                            <tr role="row" class="odd">
-                                                <td class="sorting_1" tabindex="0">Webkit</td>
-                                                <td>Safari 1.2</td>
-                                            </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -299,7 +249,7 @@
         console.log(apiUrl + "|" + JSON.stringify(userBO) + "|" + token);
     </script>
     <th:block th:replace="layout_footer.html :: footer_tag" />
-    <script src="/js/mail_group.js"></script>
+    <script src="js/mail_group.js"></script>
 </div>
 </body>
 </html>
