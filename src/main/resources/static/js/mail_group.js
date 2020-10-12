@@ -38,6 +38,9 @@
 
             },
             processResults: function (data) {
+                var datas =  $('#detail-receive-mail').val();
+                console.log("data");
+                console.log(datas);
                 return {
                     results: $.map(data, function (item) {
                         return {
@@ -120,7 +123,7 @@ $(document).ready(function () {
                     if(data===1){
                         return '<div class="status_green">hoạt động</div>';
                     } else{
-                        return '<div class="status_read">không hoạt động</div>';
+                        return '<div class="status_red">không hoạt động</div>';
                     }
                  }
             }
@@ -348,6 +351,7 @@ $(document).ready(function () {
     }
     $("#btnBackCreateGroup").click(function(){
         backButonGroup();
+        enableChild();
     });
     $("#btnCreate").click(function (event) {
         event.preventDefault();
@@ -367,7 +371,7 @@ $(document).ready(function () {
         $('#group-receive-mail_tb').css('pointer-events', 'none');
         $("#group-receive-mail_tb").css("backgroundColor", "#DAD5D4");
         $("#group-receive-mail_tb").css("opacity", "0.5");
-        disableChild()
+        disableChild();
         // clean form
         formReset();
     });
@@ -693,6 +697,7 @@ $(document).ready(function () {
         let data = {};
         data.idGroup = $("#id_group").val();
         data.userReceive = $("#detail-receive-mail").val();
+        data.id = "";
 
         $.ajax({
             headers: {
@@ -727,12 +732,15 @@ $(document).ready(function () {
         $("#btnEditDetail").css("opacity", "0.5");
         $('#btnDeleteDetail').css('pointer-events', 'none');
         $("#btnDeleteDetail").css("opacity", "0.5");
+        $('#detail-receive-mail').val(null).trigger('change');
     });
     $("#btnBackEditGroupDetail").click(function () {
         backButonGroupDetail();
         $('#table_detail').css('pointer-events', 'auto');
         $("#table_detail").css("backgroundColor", "");
         $("#table_detail").css("opacity", "1");
+        $('#detail-receive-mail').val(null).trigger('change');
+        $("#detail-receive-mail").empty();
     });
     $('#btnEditDetail').on('click', function (e) {
         e.preventDefault();
@@ -752,6 +760,9 @@ $(document).ready(function () {
         $('#table_detail').css('pointer-events', 'none');
         $("#table_detail").css("backgroundColor", "#DAD5D4");
         $("#table_detail").css("opacity", "0.5");
+        let rowData = tableDetail.rows( { selected: true } ).data().toArray();
+        $('#detail-receive-mail').val(null).trigger('change');
+        fillDataDetailToForm(rowData);
 
     });
     $("#btnEditGroupDetail").click(function (event) {
@@ -759,7 +770,11 @@ $(document).ready(function () {
         event.stopPropagation();
         let data = {};
         data.idGroup = $("#id_group").val();
-        data.userReceive = $("#user_receive").val();
+        data.userReceive = $("#detail-receive-mail").val();
+        let rowData = tableDetail.rows( { selected: true } ).data().toArray();
+        data.id =rowData[0].id;
+
+        console.log(data);
         $.ajax({
             headers: {
                 'Authorization': token
@@ -769,9 +784,18 @@ $(document).ready(function () {
             "contentType": "application/json",
             "data": JSON.stringify(data),
             "success": function (response) {
-                toastr.success('Thành công', response.message);
+                toastr.success('Thành công', data.message);
+                objSearchDetail.s_id_group= $("#id_group").val();
                 tableDetail.ajax.reload();
-                backButonGroup();
+                $('#table_detail').css('pointer-events', 'auto');
+                $("#table_detail").css("backgroundColor", "");
+                $("#table_detail").css("opacity", "1");
+                $('#detail-receive-mail').val(null).trigger('change');
+                backButonGroupDetail();
+                $('#btnEditDetail').css('pointer-events', 'none');
+                $("#btnEditDetail").css("opacity", "0.5");
+                $('#btnDeleteDetail').css('pointer-events', 'none');
+                $("#btnDeleteDetail").css("opacity", "0.5");
             },
             "error": function (error) {
                 toastr.error('Lỗi', data.message);
@@ -796,6 +820,7 @@ $(document).ready(function () {
                 "success": function (response) {
                     $('#detail-receive-mail').val(null).trigger('change');
                     for (let i = 0; i < response.length; i++){
+
                         var newOption = new Option(response[i].name, response[i].id, true, true);
                         $('#detail-receive-mail').append(newOption).trigger('change');
                     }
@@ -816,13 +841,14 @@ $(document).ready(function () {
         $('#btnDeleteDetail').css('pointer-events', 'auto');
         $("#btnDeleteDetail").css("opacity", "1");
 
-        fillDataDetailToForm(rowDt);
+        //fillDataDetailToForm(rowDt);
     }
     function rowDeselectDetail(e, dt, type, indexes) { // khóa các form bên trái
         $('#btnEditDetail').css('pointer-events', 'none');
         $("#btnEditDetail").css("opacity", "0.5");
         $('#btnDeleteDetail').css('pointer-events', 'none');
         $("#btnDeleteDetail").css("opacity", "0.5");
+        $('#detail-receive-mail').val(null).trigger('change');
     }
     tableDetail
         .on('select', rowSelectDetail)

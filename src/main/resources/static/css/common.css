@@ -5,7 +5,7 @@
 .center-text {
     text-align: center;
 }
-.status_read{
+.status_red{
     height: 25px;
     border-radius: 15px;
     background-color: rgb(201, 55, 55);
