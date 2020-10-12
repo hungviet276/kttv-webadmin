@@ -10,6 +10,9 @@ function disableLoading() {
     $('body').css('overflow', 'scroll');
 }
 
+<<<<<<< HEAD
+function createMailConfig(e) {
+=======
 let objSearch = {
     s_id: '',
     s_ip: '',
@@ -199,6 +202,7 @@ function rowDeselect(e, dt, type, indexes) {
 
 //set action for button control
 $('#btnCreate').on('click', function (e) {
+>>>>>>> develop
     e.preventDefault();
     e.stopPropagation();
 
@@ -218,7 +222,6 @@ $('#btnCreate').on('click', function (e) {
     // clean form
     formReset();
 });
-
 
 function formReset() {
     $('#form_data')[0].reset();
@@ -242,7 +245,7 @@ function resetButtonControlAfterSubmitForm() {
     $('#btnEdit').attr('disabled', 'true');
 }
 
-$('#btnCreate').on('click', function (e) {
+$('#btnSaveCreate').on('click', function (e) {
     e.preventDefault();
     e.stopPropagation();
 
@@ -297,8 +300,13 @@ $('#btnCreate').on('click', function (e) {
             disableLoading();
             toastr.error(err.responseJSON.message, err.responseJSON.code);
         }
+<<<<<<< HEAD
+    });
+}
+=======
     })
 });
+>>>>>>> develop
 
 $('#btnBackCreate').on('click', function (e) {
     e.preventDefault();
@@ -369,6 +377,59 @@ $('#btnSaveEdit').on('click', function (e) {
         headers: {
             'Authorization': token
         },
+<<<<<<< HEAD
+        "ajax": {
+            headers: {
+                'Authorization': token
+            },
+            "url": apiUrl + "mail-config/get-list-mail-config-pagination",
+            "method": "POST",
+            "contentType": "application/json",
+            "data": function (d) {
+                console.log(d);
+                draw = d.draw;
+                return JSON.stringify({
+                    "draw": d.draw,
+                    "start": Math.round(d.start / d.length),
+                    "length": d.length,
+                    "search": JSON.stringify(objSearch)
+                });
+            },
+            "dataFilter": function (response) {
+                objSearch = {
+                    s_id: '',
+                    s_ip: '',
+                    s_port: '',
+                    s_username: '',
+                    s_password: '',
+                    s_domain: '',
+                    s_sendername: '',
+                    s_email: '',
+                    s_protocol: ''
+                };
+                let responseJson = JSON.parse(response);
+                let dataRes = {
+                    "draw": draw,
+                    "recordsFiltered": responseJson.recordsTotal,
+                    "recordsTotal": responseJson.recordsTotal,
+                    "data": []
+                };
+
+                for (let i = 0; i < responseJson.content.length; i++) {
+                    dataRes.data.push({
+                        "indexCount": i + 1,
+                        "id": responseJson.content[i].id,
+                        "ip": responseJson.content[i].ip,
+                        "port": responseJson.content[i].port,
+                        "username": responseJson.content[i].username,
+                        "password": responseJson.content[i].password,
+                        "domain": responseJson.content[i].domain,
+                        "sender_name": responseJson.content[i].senderName,
+                        "email": responseJson.content[i].emailAddress,
+                        "protocol": responseJson.content[i].protocol
+                    })
+                }
+=======
         url: apiUrl + "mail-config/edit-mail-config",
         method: 'PUT',
         contentType: 'application/json',
@@ -376,6 +437,7 @@ $('#btnSaveEdit').on('click', function (e) {
         success: function (data) {  //
             $('#btnSaveEdit').css('display', 'none');
             $('#btnBackEdit').css('display', 'none');
+>>>>>>> develop
 
             // set state for button control
             disableLoading();
