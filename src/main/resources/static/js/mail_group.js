@@ -4,6 +4,11 @@
     var refreshDetail = 0;
     let oldValue ="";
     var draw = 0;
+    $('#detail-receive-mail').val(null).trigger('change');
+    $('#btnEditDetail').css('pointer-events', 'none');
+    $("#btnEditDetail").css("opacity", "0.5");
+    $('#btnDeleteDetail').css('pointer-events', 'none');
+    $("#btnDeleteDetail").css("opacity", "0.5");
     function showLoading() {
         $('.popup-loading').css('opacity', '1');
         $('.popup-loading').css('display', 'block');
@@ -654,30 +659,40 @@ $(document).ready(function () {
     $("#btnCreateDetail").click(function (event) {
         event.preventDefault();
         event.stopPropagation();
-        // set state for button control
-
+        $('#detail-receive-mail').val(null).trigger('change');
         $('#btnCreateDetail').css('display', 'none');
         $('#btnCopyDetail').css('display', 'none');
         $('#btnDeleteDetail').css('display', 'none');
         $('#btnEditDetail').css('display', 'none');
 
-        // set state for button save and back
         $('#btnSaveCreateGroupDetail').css('display', '');
         $('#btnBackCreateGroupDetail').css('display', '');
 
-        // disable mouse click table
-        $('#group-receive-mail_detail_tbl').css('pointer-events', 'none');
-        $("#group-receive-mail_detail_tbl").css("backgroundColor", "#DAD5D4");
-        $("#group-receive-mail_detail_tbl").css("opacity", "0.5");
-        //formReset();
-        //formDetailReset();
+        $('#table_detail').css('pointer-events', 'none');
+        $("#table_detail").css("backgroundColor", "#DAD5D4");
+        $("#table_detail").css("opacity", "0.5");
+
+        tableDetail.$('tr.selected').removeClass('selected');
     });
+    function backButonGroupDetail(){
+
+        $('#btnCreateDetail').css('display', '');
+        $('#btnCopyDetail').css('display', '');
+        $('#btnDeleteDetail').css('display', '');
+        $('#btnEditDetail').css('display', '');
+
+        $('#btnSaveCreateGroupDetail').css('display', 'none');
+        $('#btnBackCreateGroupDetail').css('display', 'none');
+
+        $('#btnEditGroupDetail').css('display', 'none');
+        $('#btnBackEditGroupDetail').css('display', 'none');
+    }
     $("#btnSaveCreateGroupDetail").click(function (event) {
         event.preventDefault();
         event.stopPropagation();
         let data = {};
         data.idGroup = $("#id_group").val();
-        data.userReceive = $("#user_receive").val();
+        data.userReceive = $("#detail-receive-mail").val();
 
         $.ajax({
             headers: {
@@ -689,19 +704,35 @@ $(document).ready(function () {
             "data": JSON.stringify(data),
             "success": function (response) {
                 toastr.success('Thành công', data.message);
-                table.ajax.reload();
-                backButonGroup();
-                enableChild();
-                $("#group-receive-mail_paginate").css("pointer-events", "auto");
-                $("#group-receive-mail_paginate").css("backgroundColor", "");
-                $("#group-receive-mail_paginate").css("opacity", "");
-                disableChild();
+                objSearchDetail.s_id_group= $("#id_group").val();
+                tableDetail.ajax.reload();
+                $('#table_detail').css('pointer-events', 'auto');
+                $("#table_detail").css("backgroundColor", "");
+                $("#table_detail").css("opacity", "1");
+                $('#detail-receive-mail').val(null).trigger('change');
+                backButonGroupDetail();
             },
             "error": function (error) {
                 toastr.error('Lỗi', error.message);
                 console.log(error);
             }
         });
+    });
+    $("#btnBackCreateGroupDetail").click(function () {
+        backButonGroupDetail();
+        $('#table_detail').css('pointer-events', 'auto');
+        $("#table_detail").css("backgroundColor", "");
+        $("#table_detail").css("opacity", "1");
+        $('#btnEditDetail').css('pointer-events', 'none');
+        $("#btnEditDetail").css("opacity", "0.5");
+        $('#btnDeleteDetail').css('pointer-events', 'none');
+        $("#btnDeleteDetail").css("opacity", "0.5");
+    });
+    $("#btnBackEditGroupDetail").click(function () {
+        backButonGroupDetail();
+        $('#table_detail').css('pointer-events', 'auto');
+        $("#table_detail").css("backgroundColor", "");
+        $("#table_detail").css("opacity", "1");
     });
     $('#btnEditDetail').on('click', function (e) {
         e.preventDefault();
@@ -718,13 +749,10 @@ $(document).ready(function () {
         $('#btnEditGroupDetail').css('display', '');
         $('#btnBackEditGroupDetail').css('display', '');
 
-        // block table
-        //$('#wrap_table_data').css('pointer-events', 'none');
-        //$('#group-receive-mail_tb').css('pointer-events', 'none');
-        //$("#group-receive-mail_tb").css("backgroundColor", "#DAD5D4");
-       // $("#group-receive-mail_tb").css("opacity", "0.5");
-        //disableChild();
-        //fillDataToForm(rowDt);
+        $('#table_detail').css('pointer-events', 'none');
+        $("#table_detail").css("backgroundColor", "#DAD5D4");
+        $("#table_detail").css("opacity", "0.5");
+
     });
     $("#btnEditGroupDetail").click(function (event) {
         event.preventDefault();
@@ -742,12 +770,8 @@ $(document).ready(function () {
             "data": JSON.stringify(data),
             "success": function (response) {
                 toastr.success('Thành công', response.message);
-                table.ajax.reload();
+                tableDetail.ajax.reload();
                 backButonGroup();
-                //disableChild();
-                // $("#group-receive-mail_paginate").css("pointer-events", "auto");
-                //$("#group-receive-mail_paginate").css("backgroundColor", "");
-                //$("#group-receive-mail_paginate").css("opacity", "");
             },
             "error": function (error) {
                 toastr.error('Lỗi', data.message);
@@ -758,9 +782,8 @@ $(document).ready(function () {
         if (rowData != null && rowData != undefined && rowData.length > 0) {
             console.log(rowData[0]);
             var dataSend = {
-                term: "",
                 idGroup : $("#id_group").val(),
-                _type : ""
+                idDetail : rowData[0].id
             }
             $.ajax({
                 headers: {
@@ -771,60 +794,68 @@ $(document).ready(function () {
                 "contentType": "application/json",
                 "data": JSON.stringify(dataSend),
                 "success": function (response) {
-                    console.log(response);
-
-                    for(let i =0 ; i < response.length ; i++){
-                        var data = {
-                            id : response.id,
-                            text : response.name
-                        };
-                        $('#detail-receive-mail').val(data);
+                    $('#detail-receive-mail').val(null).trigger('change');
+                    for (let i = 0; i < response.length; i++){
+                        var newOption = new Option(response[i].name, response[i].id, true, true);
+                        $('#detail-receive-mail').append(newOption).trigger('change');
                     }
-                    $('#detail-receive-mail').trigger('change');
+
                 },
                 "error": function (error) {
                     toastr.error('Lỗi', error.message);
                 }
             });
 
-            // $('#name').val(rowData[0].name);
-            // $('#code').val(rowData[0].code);
-            // $('#status').val(rowData[0].status);
-            // $('#description').val(rowData[0].description);
-
         }
     }
     function rowSelectDetail(e, dt, type, indexes) { // load các thông tin của những cái bên trái ra
-        // $('#btnCopy').removeAttr('disabled');
-        // $('#btnDelete').removeAttr('disabled');
-        // $('#btnEdit').removeAttr('disabled');
-         var rowDt = tableDetail.rows(indexes).data().toArray();
-        //
-        // $("#group-receive-mail_paginate").css("pointer-events", "none");
-        // $("#group-receive-mail_paginate").css("backgroundColor", "#DAD5D4");
-        // $("#group-receive-mail_paginate").css("opacity", "0.5");
+        //var rowDt = tableDetail.rows(indexes).data().toArray();
+        $('#detail-receive-mail').val(null).trigger('change');
+        $('#btnEditDetail').css('pointer-events', 'auto');
+        $("#btnEditDetail").css("opacity", "1");
+        $('#btnDeleteDetail').css('pointer-events', 'auto');
+        $("#btnDeleteDetail").css("opacity", "1");
 
         fillDataDetailToForm(rowDt);
-        // enableChild();
-        // $("#id_group").val(rowDt[0].id);
-        // $("#name_group").val(rowDt[0].name);
-        //
-        // objSearchDetail.s_id_group = $("#id_group").val();
-        // tableDetail.search( objSearchDetail ).draw();
-
-
     }
     function rowDeselectDetail(e, dt, type, indexes) { // khóa các form bên trái
-        // $('#btnCopy').attr('disabled', 'true');
-        // $('#btnDelete').attr('disabled', 'true');
-        // $('#btnEdit').attr('disabled', 'true');
-        // $('#form_group')[0].reset();
-        // disableChild();
-        // $("#group-receive-mail_paginate").css("pointer-events", "auto");
-        // $("#group-receive-mail_paginate").css("backgroundColor", "");
-        // $("#group-receive-mail_paginate").css("opacity", "1");
+        $('#btnEditDetail').css('pointer-events', 'none');
+        $("#btnEditDetail").css("opacity", "0.5");
+        $('#btnDeleteDetail').css('pointer-events', 'none');
+        $("#btnDeleteDetail").css("opacity", "0.5");
     }
     tableDetail
         .on('select', rowSelectDetail)
         .on('deselect', rowDeselectDetail);
+    $("#btnDeleteDetail").click(function(event){
+        event.preventDefault();
+        event.stopPropagation();
+        let rowData = tableDetail.rows( { selected: true } ).data().toArray();
+        let data = {
+            idGroup : "",
+            idDetail : rowData[0].id
+        }
+        $.ajax({
+            headers: {
+                'Authorization': token
+            },
+            "url": apiUrl + "group-mail-receive-detail",
+            "method": "DELETE",
+            "contentType": "application/json",
+            "data": JSON.stringify(data),
+            "success": function (response) {
+                toastr.success('Thành công', data.message);
+                objSearchDetail.s_id_group= $("#id_group").val();
+                tableDetail.ajax.reload();
+                $('#detail-receive-mail').val(null).trigger('change');
+                $('#btnEditDetail').css('pointer-events', 'none');
+                $("#btnEditDetail").css("opacity", "0.5");
+                $('#btnDeleteDetail').css('pointer-events', 'none');
+                $("#btnDeleteDetail").css("opacity", "0.5");
+            },
+            "error": function (error) {
+                toastr.error('Lỗi', data.message);
+            }
+        });
+    });
 });
