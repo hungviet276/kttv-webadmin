@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/management-station")
-public class MSController {
+public class ManagementStationController {
     @GetMapping("index.html")
     public String index() {
         return "management-station/index";

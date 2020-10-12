@@ -1,6 +1,48 @@
+$('#inputParentId').select2({
+    placeholder: 'Chọn menu cha',
+    theme: 'bootstrap4',
+    minimumInputLength: 0,
+    allowClear: true
+});
 
-$('.select2').select2();
-var colBypassInputSearch = [6,7]
+function formatIcon(icon) {
+    return $('<span><i class="'+ icon.text +'"></i></span>');
+}
+
+$('#inputPictureFile').select2({
+    theme: 'bootstrap4',
+    minimumInputLength: 0,
+    templateSelection: formatIcon,
+    templateResult: formatIcon,
+    allowHtml: true
+});
+
+getListMenuParentForm();
+
+// lay danh sach menu cha
+function getListMenuParentForm() {
+    showLoading();
+    $.ajax({
+        headers: {
+            'Authorization': token
+        },
+        url: apiUrl + "menu-manage/get-all-menu",
+        method: 'GET',
+        contentType: 'application/json',
+        success: function (data) {
+            let listOptions = "<option value=''></option>";
+            for(let i = 0; i < data.length; i++) {
+                listOptions += "<option value='"+ data[i].id +"'>"+ data[i].name +"</option>";
+            }
+            $('#inputParentId').html(listOptions);
+            disableLoading();
+        },
+        error: function (err) {
+            disableLoading();
+            toastr.error(err.responseJSON.message, err.responseJSON.code);
+        }
+    });
+}
 
 function showLoading() {
     $('.popup-loading').css('opacity', '1');
@@ -14,91 +56,157 @@ function disableLoading() {
     $('body').css('overflow', 'scroll');
 }
 
-var isPushDataTableToForm = false;
-var dataDistrictPush = null;
+let objSearch = {
+    s_id: '',
+    s_name: '',
+    s_display_order: '',
+    s_picture_file: '',
+    s_detail_file: '',
+    s_parent_id: '',
+    s_publish: '',
+    s_sys_id: '',
+    s_created_user: '',
+    s_modified_user: ''
+};
+
+$('#tableDataView thead th').each(function () {
+    var title = $(this).text();
+    var dataId = $(this).attr("data-id");
+    if (dataId != null && dataId != undefined) {
+        $(this).html('<input class="table-data-input-search" id="'+ dataId +'" type="text" placeholder="Search ' + title + '" />');
+    }
+});
+
+var search = $.fn.dataTable.util.throttle(
+    function ( val ) {
+        table.search( val ).draw();
+    },
+    1000
+);
+
 
 // showLoading();
 var draw = 0;
 var table = $('#tableDataView').DataTable({
-    "columnDefs": [
-        {
-            "targets": [8,9],
-            "visible": false,
-            "searchable": false
-        }
-    ],
+    columnDefs: [ {
+        orderable: false,
+        className: 'select-checkbox',
+        targets:   0
+    } ],
+    select: {
+        style:    'os',
+        selector: 'td:first-child',
+        type: 'single'
+    },
     "pagingType": "full_numbers",
     "lengthMenu": [
         [10, 25, 50, -1],
         [10, 25, 50, "Tất cả"]
     ],
-    "lengthChange": false,
-    "searching": true,
+    "lengthChange": true,
+    "searchDelay": 1500,
+    "searching": false,
     "ordering": false,
     "info": true,
     "autoWidth": false,
-    "responsive": true,
+    "scrollX": true,
+    "responsive": false,
     language: {
         search: "_INPUT_",
-        searchPlaceholder: searchPlaceholder,
-    },
-    "select": {
-        "style": "single"
+        searchPlaceholder: "Nhập thông tin tìm kiếm",
     },
     "processing": true,
     "serverSide": true,
     "columns": [
-        {"data": "indexCount"},
-        {"data": "accountId"},
-        {"data": "username"},
-        {"data": "email"},
-        {"data": "roles"},
-        {"data": "activeText"},
-        {"data": "createdDate"},
-        {"data": "editDate"},
-        {"data": "activeJson"},
-        {"data": "roleJson"}
+        { "data":""},
+        {"data": "indexCount", "render": $.fn.dataTable.render.text()},
+        {"data": "id", "render": $.fn.dataTable.render.text()},
+        {"data": "name", "render": $.fn.dataTable.render.text()},
+        {"data": "display_order", "render": $.fn.dataTable.render.text()},
+        {"data": "picture_file", "render": $.fn.dataTable.render.text()},
+        {"data": "detail_file", "render": $.fn.dataTable.render.text()},
+        {"data": "menu_level", "render": $.fn.dataTable.render.text()},
+        {"data": "parent_id", "render": $.fn.dataTable.render.text()},
+        {"data": "publish", "render": $.fn.dataTable.render.text()},
+        {"data": "created_date", "render": $.fn.dataTable.render.text()},
+        {"data": "modified_date", "render": $.fn.dataTable.render.text()},
+        {"data": "created_user", "render": $.fn.dataTable.render.text()},
+        {"data": "modified_user", "render": $.fn.dataTable.render.text()},
+        {"data": "sys_id", "render": $.fn.dataTable.render.text()}
     ],
+    initComplete: function () {
+        // Apply the search
+        this.api().columns().every(function () {
+            var that = this;
+            $('.table-data-input-search').on('keyup change clear', function () {
+                let id = $(this).attr("id");
+                // if (that.search() !== this.value) {
+                //
+                // }
+                objSearch[id] = this.value;
+                that.search(JSON.stringify(objSearch))
+                    .draw();
+            });
+        });
+    },
     "ajax": {
-        "url": "/api/user/get",
+        headers: {
+            'Authorization': token
+        },
+        "url": apiUrl + "menu-manage/get-list-menu-pagination",
         "method": "POST",
         "contentType": "application/json",
         "data": function (d) {
+            console.log(d);
             draw = d.draw;
             return JSON.stringify({
-                "draw"	: d.draw,
-                "start"	: d.start,
+                "draw": d.draw,
+                "start": Math.round(d.start / d.length),
                 "length": d.length,
-                "search": d.search.value
+                "search": JSON.stringify(objSearch)
             });
         },
         "dataFilter": function (response) {
+            objSearch = {
+                s_id: '',
+                s_name: '',
+                s_display_order: '',
+                s_picture_file: '',
+                s_detail_file: '',
+                s_parent_id: '',
+                s_publish: '',
+                s_sys_id: '',
+                s_created_user: '',
+                s_modified_user: ''
+            };
             let responseJson = JSON.parse(response);
             let dataRes = {
                 "draw": draw,
-                "recordsFiltered": responseJson.recordTotal,
-                "recordsTotal": responseJson.recordTotal,
+                "recordsFiltered": responseJson.recordsTotal,
+                "recordsTotal": responseJson.recordsTotal,
                 "data": []
             };
 
             for (let i = 0; i < responseJson.content.length; i++) {
-                let roleList = [];
-                for (let j = 0; j < responseJson.content[i].roles.length; j++) {
-                    roleList.push(responseJson.content[i].roles[j].roleName);
-                }
                 dataRes.data.push({
+                    "": "",
                     "indexCount": i + 1,
-                    "accountId": responseJson.content[i].accountId,
-                    "username": responseJson.content[i].username,
-                    "email": responseJson.content[i].email,
-                    "roles": JSON.stringify(roleList),
-                    "activeText": responseJson.content[i].active ? 'Active' : 'Locked',
-                    "createdDate": responseJson.content[i].createdDate,
-                    "editDate": responseJson.content[i].editDate,
-                    "activeJson": responseJson.content[i].active ? '1' : '0',
-                    "roleJson": responseJson.content[i].roles
+                    "id": responseJson.content[i].id,
+                    "name": responseJson.content[i].name,
+                    "display_order": responseJson.content[i].displayOrder,
+                    "picture_file": responseJson.content[i].pictureFile,
+                    "detail_file": responseJson.content[i].detailFile,
+                    "menu_level": responseJson.content[i].menuLevel,
+                    "parent_id": responseJson.content[i].parentId,
+                    "publish": responseJson.content[i].publish,
+                    "created_date": responseJson.content[i].createdDate,
+                    "modified_date": responseJson.content[i].modifiedDate,
+                    "created_user": responseJson.content[i].createdUser,
+                    "modified_user": responseJson.content[i].modifiedUser,
+                    "sys_id": responseJson.content[i].sysId,
                 })
             }
+
             return JSON.stringify(dataRes);
         }
     }
@@ -113,9 +221,9 @@ table
     .on('select', rowSelect)
     .on('deselect', rowDeselect);
 
+// set up trigger city
+
 function rowSelect(e, dt, type, indexes) {
-    $('#inputUsername').attr('disabled', 'true');
-//    $('#inputPassword').attr('disabled', 'true');
     $('#btnCopy').removeAttr('disabled');
     $('#btnDelete').removeAttr('disabled');
     $('#btnEdit').removeAttr('disabled');
@@ -126,17 +234,13 @@ function rowSelect(e, dt, type, indexes) {
 
 function fillDataToForm(rowData) {
     if (rowData != null && rowData != undefined && rowData.length > 0) {
-        $('#inputUsername').val(rowData[0].username);
-        $('#inputPassword').val(rowData[0].password);
-        $('#inputEmail').val(rowData[0].email);
-        let roleData = [];
-        for(let i = 0; i < rowData[0].roleJson.length; i++) {
-            roleData.push(rowData[0].roleJson[i].roleId);
-        }
-        $('#inputRole').val(roleData).trigger('change');
-        $('#inputAccountId').val(rowData[0].accountId);
-        $('#inputActive').val(rowData[0].activeJson).trigger('change');
-//        $('#inputPassword').val(null);
+        $('#inputMenuId').val(rowData[0].id);
+        $('#inputMenuName').val(rowData[0].name);
+        $('#inputDisplayOrder').val(rowData[0].display_order);
+        $('#inputPictureFile').val(rowData[0].picture_file).trigger('change');
+        $('#inputDetailFile').val(rowData[0].detail_file);
+        $('#inputParentId').val(rowData[0].parent_id).trigger('change');
+        $('#inputPublish').val(rowData[0].publish);
     }
 }
 
@@ -144,10 +248,8 @@ function rowDeselect(e, dt, type, indexes) {
     $('#btnCopy').attr('disabled', 'true');
     $('#btnDelete').attr('disabled', 'true');
     $('#btnEdit').attr('disabled', 'true');
-    $('#inputUsername').removeAttr('disabled');
-//    $('#inputPassword').removeAttr('disabled');
     $('#form_data')[0].reset();
-    $('#inputRole').val(null).trigger('change');
+    $('#inputParentId').val('').trigger('change');
 }
 
 //set action for button control
@@ -172,6 +274,28 @@ $('#btnCreate').on('click', function (e) {
     formReset();
 });
 
+function formReset() {
+    $('#form_data')[0].reset();
+}
+
+function resetButtonControlAfterSubmitForm() {
+    $('#btnSaveCreate').css('display', 'none');
+    $('#btnBackCreate').css('display', 'none');
+    $('#btnSaveEdit').css('display', 'none');
+    $('#btnBackEdit').css('display', 'none');
+    $('#btnSaveCopy').css('display', 'none');
+    $('#btnBackCopy').css('display', 'none');
+
+    // set state for button control
+    $('#btnCreate').css('display', '');
+    $('#btnCopy').css('display', '');
+    $('#btnDelete').css('display', '');
+    $('#btnEdit').css('display', '');
+    $('#btnCopy').attr('disabled', 'true');
+    $('#btnDelete').attr('disabled', 'true');
+    $('#btnEdit').attr('disabled', 'true');
+}
+
 $('#btnSaveCreate').on('click', function (e) {
     e.preventDefault();
     e.stopPropagation();
@@ -180,15 +304,19 @@ $('#btnSaveCreate').on('click', function (e) {
     showLoading();
 
     let data = {
-        "username": $('#inputUsername').val(),
-        "password": $('#inputPassword').val(),
-        "email": $('#inputEmail').val(),
-        "roles": $('#inputRole').val(),
-        "active": $('#inputActive').val()
+        "name": $('#inputMenuName').val(),
+        "displayOrder": $('#inputDisplayOrder').val(),
+        "pictureFile": $('#inputPictureFile').val(),
+        "detailFile": $('#inputDetailFile').val(),
+        "parentId": $('#inputParentId').val(),
+        "publish": $('#inputPublish').val()
     };
 
     $.ajax({
-        url: '/api/user/create',
+        headers: {
+            'Authorization': token
+        },
+        "url": apiUrl + "menu-manage/create-menu",
         method: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(data),
@@ -211,9 +339,9 @@ $('#btnSaveCreate').on('click', function (e) {
             table.rows().deselect();
             $('#wrap_table_data').css('pointer-events', '');
             if (data.status == '1') {
-                toastr.success('Success', data.message);
+                toastr.success('Thành công', data.message);
             } else {
-                toastr.error('Success', data.message);
+                toastr.error('Lỗi', data.message);
             }
             table.ajax.reload();
         },
@@ -237,12 +365,9 @@ $('#btnBackCreate').on('click', function (e) {
     $('#btnDelete').css('display', '');
     $('#btnEdit').css('display', '');
 
-    // remove disable form input
-    $('#inputUsername').removeAttr('disable');
-    $('#inputPassword').removeAttr('disable');
-
     $('#wrap_table_data').css('pointer-events', '');
 
+    $('#form_data')[0].reset();
     // roleback dataToForm
     let rowData = table.rows( { selected: true } ).data().toArray();
     if (rowData == null || rowData == undefined || rowData.length < 1) {
@@ -250,8 +375,6 @@ $('#btnBackCreate').on('click', function (e) {
         $('#btnDelete').attr('disabled', 'true');
         $('#btnEdit').attr('disabled', 'true');
     } else {
-        $('#inputUsername').attr('disabled', 'true');
-        $('#inputPassword').attr('disabled', 'true');
         fillDataToForm(rowData);
     }
 });
@@ -275,32 +398,6 @@ $('#btnEdit').on('click', function (e) {
     $('#wrap_table_data').css('pointer-events', 'none');
 });
 
-function formReset() {
-    $('#inputUsername').removeAttr('disabled');
-    $('#inputPassword').removeAttr('disabled');
-    $('#form_data')[0].reset();
-    $('#inputRole').val(null).trigger('change');
-    $('#inputDistrict').html('');
-}
-
-function resetButtonControlAfterSubmitForm() {
-    $('#btnSaveCreate').css('display', 'none');
-    $('#btnBackCreate').css('display', 'none');
-    $('#btnSaveEdit').css('display', 'none');
-    $('#btnBackEdit').css('display', 'none');
-    $('#btnSaveCopy').css('display', 'none');
-    $('#btnBackCopy').css('display', 'none');
-
-    // set state for button control
-    $('#btnCreate').css('display', '');
-    $('#btnCopy').css('display', '');
-    $('#btnDelete').css('display', '');
-    $('#btnEdit').css('display', '');
-    $('#btnCopy').attr('disabled', 'true');
-    $('#btnDelete').attr('disabled', 'true');
-    $('#btnEdit').attr('disabled', 'true');
-}
-
 $('#btnSaveEdit').on('click', function (e) {
     e.preventDefault();
     e.stopPropagation();
@@ -308,18 +405,22 @@ $('#btnSaveEdit').on('click', function (e) {
     showLoading();
     // set data
     let data = {
-        "accountId": $('#inputAccountId').val(),
-        "username": $('#inputUsername').val(),
-        "email": $('#inputEmail').val(),
-        "roles": $('#inputRole').val(),
-        "phone": $('#inputPhone').val(),
-        "active": $('#inputActive').val()
+        "id": $('#inputMenuId').val(),
+        "name": $('#inputMenuName').val(),
+        "displayOrder": $('#inputDisplayOrder').val(),
+        "pictureFile": $('#inputPictureFile').val(),
+        "detailFile": $('#inputDetailFile').val(),
+        "parentId": $('#inputParentId').val(),
+        "publish": $('#inputPublish').val()
     };
 
     // call ajax here
     $.ajax({
-        url: '/api/user/edit',
-        method: 'POST',
+        headers: {
+            'Authorization': token
+        },
+        url: apiUrl + "menu-manage/edit-menu",
+        method: 'PUT',
         contentType: 'application/json',
         data: JSON.stringify(data),
         success: function (data) {  //
@@ -333,22 +434,15 @@ $('#btnSaveEdit').on('click', function (e) {
             table.rows().deselect();
             $('#wrap_table_data').css('pointer-events', '');
             if (data.status == '1') {
-                toastr.success('Success', data.message);
+                toastr.success('Thành công', data.message);
             } else {
-                toastr.error('Success', data.message);
+                toastr.error('Lỗi', data.message);
             }
             table.ajax.reload();
         },
         error: function (err) {
             disableLoading();
             toastr.error(err.responseJSON.message, err.responseJSON.code);
-            // formReset();
-            // resetButtonControlAfterSubmitForm();
-            // table.rows().deselect();
-            // isPushDataTableToForm = false;
-            // dataDistrictPush = null;
-            // $('#wrap_table_data').css('pointer-events', '');
-            // table.ajax.reload();
         }
     });
 
@@ -367,12 +461,9 @@ $('#btnBackEdit').on('click', function (e) {
     $('#btnDelete').css('display', '');
     $('#btnEdit').css('display', '');
 
-    // add disable form input
-    $('#inputUsername').attr('disabled', 'true');
-    $('#inputPassword').attr('disabled', 'true');
-
     $('#wrap_table_data').css('pointer-events', '');
 
+    $('#form_data')[0].reset();
     // roleback dataToForm
     let rowData = table.rows( { selected: true } ).data().toArray();
     fillDataToForm(rowData);
@@ -393,10 +484,6 @@ $('#btnCopy').on('click', function (e) {
     $('#btnSaveCopy').css('display', '');
     $('#btnBackCopy').css('display', '');
 
-    // unlock username and password
-    $('#inputUsername').removeAttr('disabled');
-    $('#inputPassword').removeAttr('disabled');
-
     // block table
     $('#wrap_table_data').css('pointer-events', 'none');
 });
@@ -409,15 +496,19 @@ $('#btnSaveCopy').on('click', function (e) {
     showLoading();
 
     let data = {
-        "username": $('#inputUsername').val(),
-        "password": $('#inputPassword').val(),
-        "email": $('#inputEmail').val(),
-        "roles": $('#inputRole').val(),
-        "active": $('#inputActive').val()
+        "name": $('#inputMenuName').val(),
+        "displayOrder": $('#inputDisplayOrder').val(),
+        "pictureFile": $('#inputPictureFile').val(),
+        "detailFile": $('#inputDetailFile').val(),
+        "parentId": $('#inputParentId').val(),
+        "publish": $('#inputPublish').val()
     };
 
     $.ajax({
-        url: '/api/user/create',
+        headers: {
+            'Authorization': token
+        },
+        "url": apiUrl + "menu-manage/create-menu",
         method: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(data),
@@ -430,9 +521,9 @@ $('#btnSaveCopy').on('click', function (e) {
             table.rows().deselect();
             $('#wrap_table_data').css('pointer-events', '');
             if (data.status == '1') {
-                toastr.success('Success', data.message);
+                toastr.success('Thành công', data.message);
             } else {
-                toastr.error('Success', data.message);
+                toastr.error('Lỗi', data.message);
             }
             table.ajax.reload();
         },
@@ -456,12 +547,9 @@ $('#btnBackCopy').on('click', function (e) {
     $('#btnDelete').css('display', '');
     $('#btnEdit').css('display', '');
 
-    // add disable form input
-    $('#inputUsername').attr('disabled', 'true');
-    $('#inputPassword').attr('disabled', 'true');
-
     $('#wrap_table_data').css('pointer-events', '');
 
+    $('#form_data')[0].reset();
     // roleback dataToForm
     let rowData = table.rows( { selected: true } ).data().toArray();
     fillDataToForm(rowData);
@@ -471,16 +559,19 @@ $('#btnDelete').on('click', function (e) {
     e.preventDefault();
     e.stopPropagation();
 
-    if (confirm("Do you want delete account?")) {
+    if (confirm("Bạn có muốn xoá bản ghi này không ?")) {
         showLoading();
         let rowData = table.rows( { selected: true } ).data().toArray();
         let data = {
-            "accountId": rowData[0].accountId
+            "id": rowData[0].id
         };
 
         $.ajax({
-            url: '/api/user/delete',
-            method: 'POST',
+            headers: {
+                'Authorization': token
+            },
+            url: apiUrl + "menu-manage/delete-menu",
+            method: 'DELETE',
             contentType: 'application/json',
             data: JSON.stringify(data),
             success: function (data) {
@@ -489,13 +580,11 @@ $('#btnDelete').on('click', function (e) {
                 formReset();
                 resetButtonControlAfterSubmitForm();
                 table.rows().deselect();
-                isPushDataTableToForm = false;
-                dataDistrictPush = null;
                 $('#wrap_table_data').css('pointer-events', '');
                 if (data.status == '1') {
-                    toastr.success('Success', data.message);
+                    toastr.success('Thành công', data.message);
                 } else {
-                    toastr.error('Success', data.message);
+                    toastr.error('Lỗi', data.message);
                 }
                 table.ajax.reload();
             },
@@ -505,44 +594,4 @@ $('#btnDelete').on('click', function (e) {
             }
         })
     }
-});
-
-$('#tableDataView thead tr').clone(true).appendTo( '#tableDataView thead' );
-$('#tableDataView thead tr:eq(1) th').each( function (i) {
-    var title = $(this).text();
-    if (title != '#' && !colBypassInputSearch.includes(i)) {
-    	if (i == 5) {
-			$(this).html( "<select class='selectpicker form-control' >"+ $('#inputActive').html() + '</select>');
-			$( 'select', this ).on( 'keyup change', function () {
-			    if ( table.column(i).search() !== this.value ) {
-			        table
-			            .column(i)
-			            .search( this.value )
-			            .draw();
-			    }
-		    });
-		}else if (i == 4){
-			$(this).html( "<select class='form-control select2 ' > <option value=''>--- choose ---</option>"+ $('#inputRole').html() + '</select>');
-			$( 'select', this ).on( 'keyup change', function () {
-			    if ( table.column(i).search() !== this.value ) {
-			        table
-			            .column(i)
-			            .search( this.value )
-			            .draw();
-			    }
-		    });
-		} else {
-			$(this).html( '<input type="text" class="form-control" placeholder="' + inputTableSearch + ' '+title+'" />' );
-		    $( 'input', this ).on( 'keyup change', function () {
-			    if ( table.column(i).search() !== this.value ) {
-			        table
-			            .column(i)
-			            .search( this.value )
-			            .draw();
-			    }
-		    });
-		}
-	} else {
-		$(this).html('');
-	}
 });

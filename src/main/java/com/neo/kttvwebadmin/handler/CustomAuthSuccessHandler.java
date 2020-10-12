@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,7 +24,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CustomAuthSuccessHandler implements AuthenticationSuccessHandler {
 	
-	@Value("${api.url}")
+	@Value("${api_url}")
 	private String apiUrl;
 
 	@Override

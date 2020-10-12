@@ -2,8 +2,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <th:block th:replace="layout_header.html :: head_tag" />
-    <link rel="stylesheet" href="/css/mail_config.css" type="text/css">
-    <title>Cấu hình email</title>
+    <link rel="stylesheet" href="/css/menu_manage.css" type="text/css">
+    <title>Quản lý menu</title>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -20,49 +20,55 @@
             <div class="container-fluid">
                 <div class="card card-default">
                     <div class="card-header">
-                        <h3 class="card-title">Quản lý cấu hình email</h3>
+                        <h3 class="card-title">Quản lý menu</h3>
                     </div>
                     <form class="form-horizontal" id="form_data">
                         <div class="card-body">
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label for="inputIp">Địa chỉ IP</label>
-                                    <input type="text" class="form-control" id="inputIp" placeholder="IP">
+                                    <label for="inputMenuName">Tên menu</label>
+                                    <input type="text" class="form-control" id="inputMenuName" placeholder="Tên Menu">
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="inputPort">Cổng</label>
-                                    <input type="text" class="form-control" id="inputPort"
-                                           placeholder="Port">
+                                    <label for="inputDisplayOrder">Độ ưu tiên</label>
+                                    <input type="number" class="form-control" id="inputDisplayOrder"
+                                           placeholder="Độ ưu tiên">
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label for="inputUsername">Tên đang nhập</label>
-                                    <input type="text" class="form-control" id="inputUsername" placeholder="Username">
+                                    <label for="inputPictureFile">Icon</label>
+                                    <select  id="inputPictureFile" class="select2bs4 form-control">
+                                        <option value="fas fa-book">
+                                            fas fa-book
+                                        </option>
+                                        <option value="fas fa-globe-asia">
+                                            fas fa-globe-asia
+                                        </option>
+                                    </select>
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="inputPassword">Mật khẩu</label>
-                                    <input type="text" class="form-control" id="inputPassword" placeholder="Password">
+                                    <label for="inputDetailFile">Đường dẫn</label>
+                                    <input type="text" class="form-control" id="inputDetailFile" placeholder="Đường dẫn">
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label for="inputDomain">Tên miền</label>
-                                    <input type="text" class="form-control" id="inputDomain" placeholder="Domain">
+                                    <label for="inputParentId">Menu cha</label>
+                                    <select  id="inputParentId" class="select2bs4 form-control">
+                                    </select>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="inputSenderName">Người gửi</label>
-                                    <input type="text" class="form-control" id="inputSenderName" placeholder="Sender name">
+                                    <label for="inputPublish">Trạng thái</label>
+                                    <select id="inputPublish" class="form-control">
+                                        <option value="1">Có hiệu lực</option>
+                                        <option value="0">Vô hiệu hoá</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label for="inputEmailAddress">Địa chỉ email</label>
-                                    <input type="email" class="form-control" id="inputEmailAddress" placeholder="Domain">
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label for="inputProtocol">Giao thức</label>
-                                    <input type="text" class="form-control" id="inputProtocol" placeholder="Protocol">
+                                    <input type="text" class="form-control invisible" id="inputMenuId" placeholder="menuId">
                                 </div>
                             </div>
                         </div>
@@ -111,24 +117,29 @@
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h3 class="card-title">Danh sách tài khoản trong hệ thống</h3>
+                                        <h3 class="card-title">Danh sách menu trong hệ thống</h3>
                                     </div>
                                     <!-- /.card-header -->
                                     <div class="card-body">
                                         <table id="tableDataView" class="table table-bordered table-hover">
                                             <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th data-id="s_id">ID</th>
-                                                <th data-id="s_ip">IP</th>
-                                                <th data-id="s_port">Port</th>
-                                                <th data-id="s_username">Username</th>
-                                                <th data-id="s_password">Password</th>
-                                                <th data-id="s_domain">Domain</th>
-                                                <th data-id="s_sendername">SenderName</th>
-                                                <th data-id="s_email">Email</th>
-                                                <th data-id="s_protocol">Protocol</th>
-                                            </tr>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>#</th>
+                                                    <th data-id="s_id">ID</th>
+                                                    <th data-id="s_name">Tên menu</th>
+                                                    <th data-id="s_display_order">Độ ưu tiên</th>
+                                                    <th data-id="s_picture_file">Icon</th>
+                                                    <th data-id="s_detail_file">Đường dẫn</th>
+                                                    <th data-id="s_menu_level">Cấp</th>
+                                                    <th data-id="s_parent_id">Menu cha</th>
+                                                    <th data-id="s_publish">Trạng thái</th>
+                                                    <th data-id="s_created_date">Ngày tạo</th>
+                                                    <th data-id="s_modified_date">Ngày sửa</th>
+                                                    <th data-id="s_created_user">Người tạo</th>
+                                                    <th data-id="s_modified_user">Người sửa</th>
+                                                    <th data-id="s_sys_id">Hệ thống</th>
+                                                </tr>
                                             </thead>
                                             <tbody>
                                             </tbody>
@@ -170,7 +181,7 @@
         var token = "[[${session.token}]]";
         console.log(apiUrl + "|" + JSON.stringify(userBO) + "|" + token);
     </script>
-    <script src="/js/mail_config.js"></script>
+    <script src="/js/menu_manage.js"></script>
 </div>
 </body>
 </html>
