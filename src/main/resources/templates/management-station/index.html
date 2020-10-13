@@ -74,13 +74,13 @@
                                             <th data-id="s_objectTypeName">Tên loại trạm</th>
                                             <th data-id="s_stationCode">Mã trạm</th>
                                             <th data-id="s_stationName">Tên trạm</th>
-                                            <th data-id="s_stationLong">Kinh độ</th>
-                                            <th data-id="s_stationLat">Vĩ độ</th>
+                                            <th data-id="s_longtitude">Kinh độ</th>
+                                            <th data-id="s_latitude">Vĩ độ</th>
                                             <th data-id="s_provinceName">Tỉnh</th>
                                             <th data-id="s_districtName">Quận/Huyện</th>
                                             <th data-id="s_wardName">Xã</th>
                                             <th data-id="s_address">Địa chỉ</th>
-                                            <th data-id="s_riverName">Mã sông</th>
+                                            <th data-id="s_riverName">Thuộc sông</th>
 <!--                                            <th data-id="s_stationHeight">Độ cao của trạm</th>-->
                                             <th data-id="s_status" is_select="1">Trạng thái</th>
 <!--                                            <th data-id="s_parameterTypeName">Yếu tố</th>-->
@@ -132,8 +132,8 @@
                                                 <input type="number" class="form-control" id="longtitude" placeholder="">
                                             </div>
                                             <div class="form-group col-md-6">
-                                                <label for="lattitude">Vĩ độ <span style="color: red;">*</span></label>
-                                                <input type="number" class="form-control" id="lattitude" placeholder="">
+                                                <label for="latitude">Vĩ độ <span style="color: red;">*</span></label>
+                                                <input type="number" class="form-control" id="latitude" placeholder="">
                                             </div>
                                         </div>
                                         <div class="form-row">
@@ -257,6 +257,9 @@
                                     <div class="wrap-button-control">
                                         <button class="btn btn-primary" id="btnsave" style="display:none;width: 100px;" onclick="station.btnSave()">
                                             <i class="fas fa-plus"></i> Lưu
+                                        </button>
+                                        <button class="btn btn-primary" id="btnupdate" style="display:none;width: 100px;" onclick="station.btnUpdate()">
+                                            <i class="fas fa-edit"></i> Cập nhật
                                         </button>
                                         <button class="btn btn-primary" id="btnDelete" style="display:none;width: 100px;">
                                             <i class="far fa-trash-alt"></i> Xoá
