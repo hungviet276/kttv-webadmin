@@ -194,7 +194,7 @@ function rowDeselect(e, dt, type, indexes) {
     $('#btnCopy').attr('disabled', 'true');
     $('#btnDelete').attr('disabled', 'true');
     $('#btnEdit').attr('disabled', 'true');
-    $('#form_data')[0].reset();
+    formReset();
 }
 
 //set action for button control
@@ -219,7 +219,6 @@ $('#btnCreate').on('click', function (e) {
     formReset();
 });
 
-
 function formReset() {
     $('#form_data')[0].reset();
 }
@@ -242,7 +241,7 @@ function resetButtonControlAfterSubmitForm() {
     $('#btnEdit').attr('disabled', 'true');
 }
 
-$('#btnCreate').on('click', function (e) {
+$('#btnSaveCreate').on('click', function (e) {
     e.preventDefault();
     e.stopPropagation();
 
@@ -256,7 +255,7 @@ $('#btnCreate').on('click', function (e) {
         "password": $('#inputPassword').val(),
         "domain": $('#inputDomain').val(),
         "senderName": $('#inputSenderName').val(),
-        "email": $('#inputEmail').val(),
+        "email": $('#inputEmailAddress').val(),
         "protocol": $('#inputProtocol').val()
     };
 
@@ -315,7 +314,7 @@ $('#btnBackCreate').on('click', function (e) {
 
     $('#wrap_table_data').css('pointer-events', '');
 
-    $('#form_data')[0].reset();
+    formReset()
     // roleback dataToForm
     let rowData = table.rows( { selected: true } ).data().toArray();
     if (rowData == null || rowData == undefined || rowData.length < 1) {
@@ -413,7 +412,7 @@ $('#btnBackEdit').on('click', function (e) {
 
     $('#wrap_table_data').css('pointer-events', '');
 
-    $('#form_data')[0].reset();
+    formReset()
     // roleback dataToForm
     let rowData = table.rows( { selected: true } ).data().toArray();
     fillDataToForm(rowData);
@@ -452,7 +451,7 @@ $('#btnSaveCopy').on('click', function (e) {
         "password": $('#inputPassword').val(),
         "domain": $('#inputDomain').val(),
         "senderName": $('#inputSenderName').val(),
-        "email": $('#inputEmail').val(),
+        "email": $('#inputEmailAddress').val(),
         "protocol": $('#inputProtocol').val()
     };
 
@@ -501,7 +500,7 @@ $('#btnBackCopy').on('click', function (e) {
 
     $('#wrap_table_data').css('pointer-events', '');
 
-    $('#form_data')[0].reset();
+    formReset()
     // roleback dataToForm
     let rowData = table.rows( { selected: true } ).data().toArray();
     fillDataToForm(rowData);
