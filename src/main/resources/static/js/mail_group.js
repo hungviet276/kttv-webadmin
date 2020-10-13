@@ -733,6 +733,7 @@ $(document).ready(function () {
         $('#btnDeleteDetail').css('pointer-events', 'none');
         $("#btnDeleteDetail").css("opacity", "0.5");
         $('#detail-receive-mail').val(null).trigger('change');
+        $("#detail-receive-mail").empty();
     });
     $("#btnBackEditGroupDetail").click(function () {
         backButonGroupDetail();
@@ -747,7 +748,7 @@ $(document).ready(function () {
         e.stopPropagation();
 
         // set state for button control
-
+        $("#detail-receive-mail").empty();
         $('#btnCreateDetail').css('display', 'none');
         $('#btnCopyDetail').css('display', 'none');
         $('#btnDeleteDetail').css('display', 'none');
