@@ -241,6 +241,45 @@ function resetButtonControlAfterSubmitForm() {
     $('#btnEdit').attr('disabled', 'true');
 }
 
+function validateMailConfig(data) {
+    if (data.ip == null || data.ip == undefined) {
+        toastr.warning('Lỗi', 'Ip không được trống');
+        return;
+    }
+
+    if (data.port == null || data.port == undefined) {
+        toastr.warning('Lỗi', 'Cổng không được trống');
+        return;
+    }
+
+    if (data.username == null || data.username == undefined) {
+        toastr.warning('Lỗi', 'Tên đăng nhập không được trống');
+        return;
+    }
+
+    if (data.password == null || data.password == undefined) {
+        toastr.warning('Lỗi', 'Mật khẩu không được trống');
+        return;
+    }
+
+    if (data.domain == null || data.domain == undefined) {
+        toastr.warning('Lỗi', 'Tên miền không được trống');
+        return;
+    }
+    if (data.senderName == null || data.senderName == undefined) {
+        toastr.warning('Lỗi', 'Tên người gửi không được trống');
+        return;
+    }
+    if (data.email == null || data.email == undefined) {
+        toastr.warning('Lỗi', 'Email không được trống');
+        return;
+    }
+    if (data.protocol == null || data.protocol == undefined) {
+        toastr.warning('Lỗi', 'Giao thức không được trống');
+        return;
+    }
+}
+
 $('#btnSaveCreate').on('click', function (e) {
     e.preventDefault();
     e.stopPropagation();
