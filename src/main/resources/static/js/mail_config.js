@@ -30,13 +30,8 @@ $('#tableDataView thead th').each(function () {
     }
 });
 
-var search = $.fn.dataTable.util.throttle(
-    function ( val ) {
-        table.search( val ).draw();
-    },
-    1000
-);
-
+var keyUpTime;
+var oldValue;
 
 // showLoading();
 var draw = 0;
@@ -87,14 +82,21 @@ var table = $('#tableDataView').DataTable({
         // Apply the search
         this.api().columns().every(function () {
             var that = this;
-            $('.table-data-input-search').on('keyup change clear', function () {
-                let id = $(this).attr("id");
-                // if (that.search() !== this.value) {
-                //
-                // }
+            $('.table-data-input-search').on('keyup', function () {
+                 oldValue = this.___value___;
+                this.___value___ = this.value;
+                if (oldValue == this.___value___) return;
+                keyUpTime = new Date().getTime();
+                let id = $(this).attr('id');
                 objSearch[id] = this.value;
-                that.search(JSON.stringify(objSearch))
-                    .draw();
+                setTimeout(function () {
+                    if (new Date().getTime() - keyUpTime > 1000) {
+                        table.search(objSearch).draw();
+                        keyUpTime = new Date().getTime();
+                    }
+                    return;
+                }, 1100);
+
             });
         });
     },
@@ -106,7 +108,6 @@ var table = $('#tableDataView').DataTable({
         "method": "POST",
         "contentType": "application/json",
         "data": function (d) {
-            console.log(d);
             draw = d.draw;
             return JSON.stringify({
                 "draw": d.draw,
@@ -116,17 +117,7 @@ var table = $('#tableDataView').DataTable({
             });
         },
         "dataFilter": function (response) {
-            objSearch = {
-                s_id: '',
-                s_ip: '',
-                s_port: '',
-                s_username: '',
-                s_password: '',
-                s_domain: '',
-                s_sendername: '',
-                s_email: '',
-                s_protocol: ''
-            };
+
             let responseJson = JSON.parse(response);
             let dataRes = {
                 "draw": draw,
@@ -194,7 +185,7 @@ function rowDeselect(e, dt, type, indexes) {
     $('#btnCopy').attr('disabled', 'true');
     $('#btnDelete').attr('disabled', 'true');
     $('#btnEdit').attr('disabled', 'true');
-    $('#form_data')[0].reset();
+    formReset();
 }
 
 //set action for button control
@@ -219,7 +210,6 @@ $('#btnCreate').on('click', function (e) {
     formReset();
 });
 
-
 function formReset() {
     $('#form_data')[0].reset();
 }
@@ -242,7 +232,46 @@ function resetButtonControlAfterSubmitForm() {
     $('#btnEdit').attr('disabled', 'true');
 }
 
-$('#btnCreate').on('click', function (e) {
+function validateMailConfig(data) {
+    if (data.ip == null || data.ip == undefined) {
+        toastr.warning('Lỗi', 'Ip không được trống');
+        return;
+    }
+
+    if (data.port == null || data.port == undefined) {
+        toastr.warning('Lỗi', 'Cổng không được trống');
+        return;
+    }
+
+    if (data.username == null || data.username == undefined) {
+        toastr.warning('Lỗi', 'Tên đăng nhập không được trống');
+        return;
+    }
+
+    if (data.password == null || data.password == undefined) {
+        toastr.warning('Lỗi', 'Mật khẩu không được trống');
+        return;
+    }
+
+    if (data.domain == null || data.domain == undefined) {
+        toastr.warning('Lỗi', 'Tên miền không được trống');
+        return;
+    }
+    if (data.senderName == null || data.senderName == undefined) {
+        toastr.warning('Lỗi', 'Tên người gửi không được trống');
+        return;
+    }
+    if (data.email == null || data.email == undefined) {
+        toastr.warning('Lỗi', 'Email không được trống');
+        return;
+    }
+    if (data.protocol == null || data.protocol == undefined) {
+        toastr.warning('Lỗi', 'Giao thức không được trống');
+        return;
+    }
+}
+
+$('#btnSaveCreate').on('click', function (e) {
     e.preventDefault();
     e.stopPropagation();
 
@@ -256,7 +285,7 @@ $('#btnCreate').on('click', function (e) {
         "password": $('#inputPassword').val(),
         "domain": $('#inputDomain').val(),
         "senderName": $('#inputSenderName').val(),
-        "email": $('#inputEmail').val(),
+        "email": $('#inputEmailAddress').val(),
         "protocol": $('#inputProtocol').val()
     };
 
@@ -315,7 +344,7 @@ $('#btnBackCreate').on('click', function (e) {
 
     $('#wrap_table_data').css('pointer-events', '');
 
-    $('#form_data')[0].reset();
+    formReset()
     // roleback dataToForm
     let rowData = table.rows( { selected: true } ).data().toArray();
     if (rowData == null || rowData == undefined || rowData.length < 1) {
@@ -413,7 +442,7 @@ $('#btnBackEdit').on('click', function (e) {
 
     $('#wrap_table_data').css('pointer-events', '');
 
-    $('#form_data')[0].reset();
+    formReset()
     // roleback dataToForm
     let rowData = table.rows( { selected: true } ).data().toArray();
     fillDataToForm(rowData);
@@ -452,7 +481,7 @@ $('#btnSaveCopy').on('click', function (e) {
         "password": $('#inputPassword').val(),
         "domain": $('#inputDomain').val(),
         "senderName": $('#inputSenderName').val(),
-        "email": $('#inputEmail').val(),
+        "email": $('#inputEmailAddress').val(),
         "protocol": $('#inputProtocol').val()
     };
 
@@ -501,7 +530,7 @@ $('#btnBackCopy').on('click', function (e) {
 
     $('#wrap_table_data').css('pointer-events', '');
 
-    $('#form_data')[0].reset();
+    formReset()
     // roleback dataToForm
     let rowData = table.rows( { selected: true } ).data().toArray();
     fillDataToForm(rowData);
@@ -545,5 +574,22 @@ $('#btnDelete').on('click', function (e) {
                 toastr.error(err.responseJSON.message, err.responseJSON.code);
             }
         })
+    }
+});
+
+$('#btnTogglePassword').on('click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if ($(this).attr('data-toggle') == 'hidden') {
+        $('#inputPassword').attr('type', 'text');
+        $(this).children().removeClass(['far', 'fa-eye']);
+        $(this).children().addClass(['far', 'fa-eye-slash']);
+        $(this).attr('data-toggle', 'show');
+    } else if ($(this).attr('data-toggle') == 'show') {
+        $('#inputPassword').attr('type', 'password');
+        $(this).children().removeClass(['far', 'fa-eye-slash']);
+        $(this).children().addClass(['far', 'fa-eye']);
+        $(this).attr('data-toggle', 'hidden');
     }
 });

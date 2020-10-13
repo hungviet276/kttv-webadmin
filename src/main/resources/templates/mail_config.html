@@ -42,7 +42,14 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label for="inputPassword">Mật khẩu</label>
-                                    <input type="text" class="form-control" id="inputPassword" placeholder="Password">
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+                                        <div class="input-group-prepend">
+                                            <button type="button" class="btn btn-light" data-toggle="hidden" id="btnTogglePassword">
+                                                <i class="far fa-eye"></i>
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -63,6 +70,11 @@
                                 <div class="form-group col-md-6">
                                     <label for="inputProtocol">Giao thức</label>
                                     <input type="text" class="form-control" id="inputProtocol" placeholder="Protocol">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <input type="text" class="form-control invisible" id="inputMailConfigId" placeholder="mailConfigId">
                                 </div>
                             </div>
                         </div>
@@ -118,6 +130,7 @@
                                         <table id="tableDataView" class="table table-bordered table-hover">
                                             <thead>
                                             <tr>
+                                                <th></th>
                                                 <th>#</th>
                                                 <th data-id="s_id">ID</th>
                                                 <th data-id="s_ip">IP</th>
@@ -165,10 +178,10 @@
     </aside>
     <th:block th:replace="layout_footer.html :: footer_tag" />
     <script type="text/javascript">
-        var apiUrl = "[[${session.apiUrl}]]";
-        var userBO = "[[${session.userBO}]]";
-        var token = "[[${session.token}]]";
-        console.log(apiUrl + "|" + JSON.stringify(userBO) + "|" + token);
+	    var apiUrl = "[[${session.apiUrl}]]";
+	    var userBO = "[[${session.userBO}]]";
+	    var token = "[[${session.token}]]";
+	    console.log(apiUrl + "|" + JSON.stringify(userBO) + "|" + token);
     </script>
     <script src="/js/mail_config.js"></script>
 </div>

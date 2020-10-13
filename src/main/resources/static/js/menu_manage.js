@@ -28,6 +28,7 @@ function getListMenuParentForm() {
         },
         url: apiUrl + "menu-manage/get-all-menu",
         method: 'GET',
+        async: false,
         contentType: 'application/json',
         success: function (data) {
             let listOptions = "<option value=''></option>";
@@ -84,6 +85,8 @@ var search = $.fn.dataTable.util.throttle(
     1000
 );
 
+var keyUpTime;
+var oldValue;
 
 // showLoading();
 var draw = 0;
@@ -139,13 +142,19 @@ var table = $('#tableDataView').DataTable({
         this.api().columns().every(function () {
             var that = this;
             $('.table-data-input-search').on('keyup change clear', function () {
-                let id = $(this).attr("id");
-                // if (that.search() !== this.value) {
-                //
-                // }
+                oldValue = this.___value___;
+                this.___value___ = this.value;
+                if (oldValue == this.___value___) return;
+                keyUpTime = new Date().getTime();
+                let id = $(this).attr('id');
                 objSearch[id] = this.value;
-                that.search(JSON.stringify(objSearch))
-                    .draw();
+                setTimeout(function () {
+                    if (new Date().getTime() - keyUpTime > 1000) {
+                        table.search(objSearch).draw();
+                        keyUpTime = new Date().getTime();
+                    }
+                    return;
+                }, 1100);
             });
         });
     },
@@ -248,8 +257,7 @@ function rowDeselect(e, dt, type, indexes) {
     $('#btnCopy').attr('disabled', 'true');
     $('#btnDelete').attr('disabled', 'true');
     $('#btnEdit').attr('disabled', 'true');
-    $('#form_data')[0].reset();
-    $('#inputParentId').val('').trigger('change');
+    formReset();
 }
 
 //set action for button control
@@ -276,6 +284,7 @@ $('#btnCreate').on('click', function (e) {
 
 function formReset() {
     $('#form_data')[0].reset();
+    $('#inputParentId').val('').trigger('change');
 }
 
 function resetButtonControlAfterSubmitForm() {
@@ -318,6 +327,7 @@ $('#btnSaveCreate').on('click', function (e) {
         },
         "url": apiUrl + "menu-manage/create-menu",
         method: 'POST',
+        async: false,
         contentType: 'application/json',
         data: JSON.stringify(data),
         success: function (data) {
@@ -343,6 +353,7 @@ $('#btnSaveCreate').on('click', function (e) {
             } else {
                 toastr.error('Lỗi', data.message);
             }
+            getListMenuParentForm();
             table.ajax.reload();
         },
         error: function (err) {
@@ -367,7 +378,7 @@ $('#btnBackCreate').on('click', function (e) {
 
     $('#wrap_table_data').css('pointer-events', '');
 
-    $('#form_data')[0].reset();
+    formReset()
     // roleback dataToForm
     let rowData = table.rows( { selected: true } ).data().toArray();
     if (rowData == null || rowData == undefined || rowData.length < 1) {
@@ -420,6 +431,7 @@ $('#btnSaveEdit').on('click', function (e) {
             'Authorization': token
         },
         url: apiUrl + "menu-manage/edit-menu",
+        async: false,
         method: 'PUT',
         contentType: 'application/json',
         data: JSON.stringify(data),
@@ -438,6 +450,8 @@ $('#btnSaveEdit').on('click', function (e) {
             } else {
                 toastr.error('Lỗi', data.message);
             }
+
+            getListMenuParentForm();
             table.ajax.reload();
         },
         error: function (err) {
@@ -463,7 +477,7 @@ $('#btnBackEdit').on('click', function (e) {
 
     $('#wrap_table_data').css('pointer-events', '');
 
-    $('#form_data')[0].reset();
+    formReset();
     // roleback dataToForm
     let rowData = table.rows( { selected: true } ).data().toArray();
     fillDataToForm(rowData);
@@ -510,6 +524,7 @@ $('#btnSaveCopy').on('click', function (e) {
         },
         "url": apiUrl + "menu-manage/create-menu",
         method: 'POST',
+        async: false,
         contentType: 'application/json',
         data: JSON.stringify(data),
         success: function (data) {
@@ -525,6 +540,7 @@ $('#btnSaveCopy').on('click', function (e) {
             } else {
                 toastr.error('Lỗi', data.message);
             }
+            getListMenuParentForm();
             table.ajax.reload();
         },
         error: function (err) {
@@ -532,6 +548,7 @@ $('#btnSaveCopy').on('click', function (e) {
             toastr.error(err.responseJSON.message, err.responseJSON.code);
         }
     })
+
 });
 
 $('#btnBackCopy').on('click', function (e) {
@@ -549,7 +566,7 @@ $('#btnBackCopy').on('click', function (e) {
 
     $('#wrap_table_data').css('pointer-events', '');
 
-    $('#form_data')[0].reset();
+    formReset()
     // roleback dataToForm
     let rowData = table.rows( { selected: true } ).data().toArray();
     fillDataToForm(rowData);
@@ -573,6 +590,7 @@ $('#btnDelete').on('click', function (e) {
             url: apiUrl + "menu-manage/delete-menu",
             method: 'DELETE',
             contentType: 'application/json',
+            async: false,
             data: JSON.stringify(data),
             success: function (data) {
                 // set state for button control
@@ -586,6 +604,7 @@ $('#btnDelete').on('click', function (e) {
                 } else {
                     toastr.error('Lỗi', data.message);
                 }
+                getListMenuParentForm();
                 table.ajax.reload();
             },
             error: function (err) {
