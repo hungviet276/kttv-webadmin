@@ -117,17 +117,7 @@ var table = $('#tableDataView').DataTable({
             });
         },
         "dataFilter": function (response) {
-            objSearch = {
-                s_id: '',
-                s_ip: '',
-                s_port: '',
-                s_username: '',
-                s_password: '',
-                s_domain: '',
-                s_sendername: '',
-                s_email: '',
-                s_protocol: ''
-            };
+
             let responseJson = JSON.parse(response);
             let dataRes = {
                 "draw": draw,
