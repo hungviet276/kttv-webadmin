@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MailGroupController {
     @GetMapping
     public String getHomePage() {
-        return "/mail_group/mail_group";
+        return "mail_group/mail_group";
     }
 }
