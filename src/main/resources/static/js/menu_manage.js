@@ -85,6 +85,8 @@ var search = $.fn.dataTable.util.throttle(
     1000
 );
 
+var keyUpTime;
+var oldValue;
 
 // showLoading();
 var draw = 0;
@@ -140,13 +142,19 @@ var table = $('#tableDataView').DataTable({
         this.api().columns().every(function () {
             var that = this;
             $('.table-data-input-search').on('keyup change clear', function () {
-                let id = $(this).attr("id");
-                // if (that.search() !== this.value) {
-                //
-                // }
+                oldValue = this.___value___;
+                this.___value___ = this.value;
+                if (oldValue == this.___value___) return;
+                keyUpTime = new Date().getTime();
+                let id = $(this).attr('id');
                 objSearch[id] = this.value;
-                that.search(JSON.stringify(objSearch))
-                    .draw();
+                setTimeout(function () {
+                    if (new Date().getTime() - keyUpTime > 1000) {
+                        table.search(objSearch).draw();
+                        keyUpTime = new Date().getTime();
+                    }
+                    return;
+                }, 1100);
             });
         });
     },

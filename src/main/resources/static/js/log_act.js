@@ -156,7 +156,7 @@ $('#btnCleanForm').on('click', function (e) {
     $('#form_data')[0].reset();
     $('#inputMenuId').val('').trigger('change');
     $('#inputAct').val('').trigger('change');
-})
+});
 
 $('#btnSearch').on('click', function (e) {
     e.preventDefault();

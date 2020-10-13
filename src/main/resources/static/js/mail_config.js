@@ -30,9 +30,8 @@ $('#tableDataView thead th').each(function () {
     }
 });
 
-var searchDelay;
 var keyUpTime;
-var oldValue = 0;
+var oldValue;
 
 // showLoading();
 var draw = 0;
