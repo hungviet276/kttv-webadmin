@@ -342,15 +342,15 @@ var station =
                 success: function (data) {
                     if (data.status == 1) {
                         toastr.success('Thành công', data.message);
+                        //reset cac thong tin them moi
+                        station.btnRefresh();
+                        station.btnRefreshParameter();
+                        station.uuid = global.uuidv4();
+                        station.table.ajax.reload();
                     } else {
                         toastr.error('', data.message);
                     }
-                    station.table.ajax.reload();
                     global.disableLoading();
-
-                    //reset cac thong tin them moi
-                    station.btnRefresh();
-                    station.uuid = global.uuidv4();
                 },
                 error: function (err) {
                     global.disableLoading();
@@ -443,6 +443,37 @@ var station =
             $("#address").val('');
             $("#riverId").val('-1').trigger('change');
             $("#status").val('1').trigger('change');
+        },
+        btnDelete: function (){
+            if(confirm('Bạn thực sự muốn xóa ?')){
+                global.showLoading();
+                $.ajax({
+                    headers: {
+                        'Authorization': token
+                    },
+                    url: apiUrl + "station-type/delete-station-time-series",
+                    method: "POST",
+                    // contentType: "application/json",
+                    data: jQuery.param({stationId:station.parameter.stationId}),
+                    success: function (data) {
+                        if (data.status == 1) {
+                            toastr.success('Thành công', data.message);
+                            //reset cac thong tin them moi
+                            station.btnRefresh();
+                            station.btnRefreshParameter();
+                            station.uuid = global.uuidv4();
+                            station.table.ajax.reload();
+                        } else {
+                            toastr.error('', data.message);
+                        }
+                        global.disableLoading();
+                    },
+                    error: function (err) {
+                        global.disableLoading();
+                        toastr.error("", "Lỗi thực hiện");
+                    }
+                });
+            }
         },
         searchParameter: function () {
             if (station.tableParameter === undefined) {
@@ -693,9 +724,9 @@ var station =
                 $('#longtitude').focus();
                 return false;
             }
-            if($('#lattitude').val().trim().length < 1){
+            if($('#latitude').val().trim().length < 1){
                 alert('Vĩ độ không được để trống');
-                $('#lattitude').focus();
+                $('#latitude').focus();
                 return false;
             }
             return true;
