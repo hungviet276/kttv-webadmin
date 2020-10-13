@@ -220,7 +220,7 @@ var station =
         btnAddParameter: function () {
             let parameter = $("#parameter").val();
             let stationId = station.parameter.stationId;
-            let frequency = $("#frequency").val();
+            let frequency = $("#frequency").val().trim();
             let note = $("#note").val();
             let data = {
                 "parameter": parameter,
@@ -297,20 +297,20 @@ var station =
             // let frequency = $("#frequency").val();
             // let measure = $("#measure").val();
             let uuid = station.uuid;
-            let stationTypeId = $("#stationTypeId").val();
-            let modeStationType = $("#modeStationType").val();
-            let stationCode = $("#modeStationType").val();
-            let stationName = $("#stationName").val();
-            let longtitude = $("#longtitude").val();
-            let latitude = $("#latitude").val();
+            let stationTypeId = $("#stationTypeId").val().trim();
+            let modeStationType = $("#modeStationType").val().trim();
+            let stationCode = $("#modeStationType").val().trim();
+            let stationName = $("#stationName").val().trim();
+            let longtitude = $("#longtitude").val().trim();
+            let latitude = $("#latitude").val().trim();
 
-            let areaId = $("#areaId").val();
-            let provinceId = $("#provinceId").val();
-            let districtId = $("#districtId").val();
-            let wardId = $("#wardId").val();
-            let address = $("#address").val();
-            let riverId = $("#riverId").val();
-            let status = $("#status").val();
+            let areaId = $("#areaId").val().trim();
+            let provinceId = $("#provinceId").val().trim();
+            let districtId = $("#districtId").val().trim();
+            let wardId = $("#wardId").val().trim();
+            let address = $("#address").val().trim();
+            let riverId = $("#riverId").val().trim();
+            let status = $("#status").val().trim();
             let data = {
                 // "parameter": parameter,
                 // "frequency": frequency,
@@ -367,20 +367,20 @@ var station =
             // let frequency = $("#frequency").val();
             // let measure = $("#measure").val();
             let uuid = station.uuid;
-            let stationTypeId = $("#stationTypeId").val();
-            let modeStationType = $("#modeStationType").val();
-            let stationCode = $("#modeStationType").val();
-            let stationName = $("#stationName").val();
-            let longtitude = $("#longtitude").val();
-            let latitude = $("#latitude").val();
+            let stationTypeId = $("#stationTypeId").val().trim();
+            let modeStationType = $("#modeStationType").val().trim();
+            let stationCode = $("#modeStationType").val().trim();
+            let stationName = $("#stationName").val().trim();
+            let longtitude = $("#longtitude").val().trim();
+            let latitude = $("#latitude").val().trim();
 
-            let areaId = $("#areaId").val();
-            let provinceId = $("#provinceId").val();
-            let districtId = $("#districtId").val();
-            let wardId = $("#wardId").val();
-            let address = $("#address").val();
-            let riverId = $("#riverId").val();
-            let status = $("#status").val();
+            let areaId = $("#areaId").val().trim();
+            let provinceId = $("#provinceId").val().trim();
+            let districtId = $("#districtId").val().trim();
+            let wardId = $("#wardId").val().trim();
+            let address = $("#address").val().trim();
+            let riverId = $("#riverId").val().trim();
+            let status = $("#status").val().trim();
             let data = {
                 // "parameter": parameter,
                 // "frequency": frequency,
@@ -412,15 +412,14 @@ var station =
                 success: function (data) {
                     if (data.status == 1) {
                         toastr.success('Thành công', data.message);
+                        station.table.ajax.reload();
+                        //reset cac thong tin them moi
+                        // station.btnRefresh();
+                        // station.uuid = global.uuidv4();
                     } else {
                         toastr.error('', data.message);
                     }
-                    station.table.ajax.reload();
                     global.disableLoading();
-
-                    //reset cac thong tin them moi
-                    station.btnRefresh();
-                    station.uuid = global.uuidv4();
                 },
                 error: function (err) {
                     global.disableLoading();
@@ -699,37 +698,48 @@ var station =
             $('#form_data')[0].reset();
         },
         validate: function (){
-            if($('#stationTypeId').val() === "-1"){
-                alert('Loại trạm không được để trống');
+            if($('#stationTypeId').val().trim() === "-1"){
+                toastr.error('', 'Loại trạm không được để trống');
                 $('#stationTypeId').focus();
                 return false;
             }
-            if($('#modeStationType').val() === "-1"){
-                alert('Chế độ điều khiển không được để trống');
+            if($('#modeStationType').val().trim() === "-1"){
+                toastr.error('', 'Chế độ điều khiển không được để trống');
                 $('#modeStationType').focus();
                 return false;
             }
             if($('#stationCode').val().trim().length < 1){
-                alert('Mã trạm không được để trống');
+                toastr.error('', 'Mã trạm không được để trống');
                 $('#stationCode').focus();
                 return false;
             }
             if($('#stationName').val().trim().length < 1){
-                alert('Tên trạm không được để trống');
+                toastr.error('', 'Tên trạm không được để trống');
                 $('#stationName').focus();
                 return false;
             }
             if($('#longtitude').val().trim().length < 1){
-                alert('Kinh độ không được để trống');
+                toastr.error('', 'Kinh độ không được để trống');
                 $('#longtitude').focus();
                 return false;
             }
             if($('#latitude').val().trim().length < 1){
-                alert('Vĩ độ không được để trống');
+                toastr.error('', 'Vĩ độ không được để trống');
                 $('#latitude').focus();
                 return false;
             }
             return true;
+        },
+        stationCodeKeyPress: function (event){
+            let key = event.keyCode | event.which;
+            if((key > 47 && key < 58) || key === 8 || (key > 64 && key < 91) || (key >96 && key <123) ){
+                return true;
+            }
+            return false;
+        },
+        stationCodeKeyUp: function (event){
+            let val = $("#stationCode").val().trim();
+            $("#stationCode").val(val.toUpperCase());
         }
     }
 
@@ -966,7 +976,6 @@ $(document).ready(function () {
             station.objParameterSearch['s_stationId'] = station.parameter.stationId;
             station.tableParameter.clear().draw();
         }
-        // station.table.row(station.indexOfRow).deselect();
         // station.table.row(':eq('+station.indexOfRow+')', { page: 'current' }).deselect();
         station.togle_search();
         station.btnRefresh();
@@ -979,6 +988,7 @@ $(document).ready(function () {
         $("#btnReset").css("display", "none");
         $("#btncancer").css("display", "none");
         $("#btnDonew").attr("disabled", false);
+        station.table.row(station.indexOfRow).deselect();
         station.show_search();
     });
 });

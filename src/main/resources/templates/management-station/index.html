@@ -55,7 +55,7 @@
 <!--                                    </div>-->
 
 <!--                                </div>-->
-                                <div class="">
+                                <div class="mt-1">
 <!--                                    <button class="btn btn-primary" id="btnSearch" style="width:100px;">-->
 <!--                                        <i class="fas fa-search"></i> Tìm kiếm-->
 <!--                                    </button>-->
@@ -119,7 +119,8 @@
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
                                                 <label for="stationCode">Mã trạm <span style="color: red;">*</span></label>
-                                                <input type="text" class="form-control" id="stationCode" placeholder="">
+                                                <input type="text" class="form-control" id="stationCode" placeholder=""
+                                                       onkeypress="return station.stationCodeKeyPress(event)" onkeyup="station.stationCodeKeyUp(event)">
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="stationName">Tên trạm <span style="color: red;">*</span></label>
