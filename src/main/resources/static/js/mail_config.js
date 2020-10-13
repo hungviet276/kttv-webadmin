@@ -30,12 +30,7 @@ $('#tableDataView thead th').each(function () {
     }
 });
 
-var search = $.fn.dataTable.util.throttle(
-    function ( val ) {
-        table.search( val ).draw();
-    },
-    1000
-);
+var searchDelay = null;
 
 
 // showLoading();
@@ -583,5 +578,22 @@ $('#btnDelete').on('click', function (e) {
                 toastr.error(err.responseJSON.message, err.responseJSON.code);
             }
         })
+    }
+});
+
+$('#btnTogglePassword').on('click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if ($(this).attr('data-toggle') == 'hidden') {
+        $('#inputPassword').attr('type', 'text');
+        $(this).children().removeClass(['far', 'fa-eye']);
+        $(this).children().addClass(['far', 'fa-eye-slash']);
+        $(this).attr('data-toggle', 'show');
+    } else if ($(this).attr('data-toggle') == 'show') {
+        $('#inputPassword').attr('type', 'password');
+        $(this).children().removeClass(['far', 'fa-eye-slash']);
+        $(this).children().addClass(['far', 'fa-eye']);
+        $(this).attr('data-toggle', 'hidden');
     }
 });
