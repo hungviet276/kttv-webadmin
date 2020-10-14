@@ -1,6 +1,7 @@
 var uuid = global.uuidv4();
 var station =
     {
+        username:'${#authentication.getPrincipal().getUsername()}',
         clientAction: '',
         indexOfRow:0,
         table: undefined,
@@ -311,6 +312,7 @@ var station =
             let address = $("#address").val().trim();
             let riverId = $("#riverId").val().trim();
             let status = $("#status").val().trim();
+            riverId = riverId === -1 ? null : riverId;
             let data = {
                 // "parameter": parameter,
                 // "frequency": frequency,
@@ -329,7 +331,8 @@ var station =
                 "wardId": wardId,
                 "address": address,
                 "riverId": riverId,
-                "status": status
+                "status": status,
+                "username":username
             }
             $.ajax({
                 headers: {
@@ -381,6 +384,7 @@ var station =
             let address = $("#address").val().trim();
             let riverId = $("#riverId").val().trim();
             let status = $("#status").val().trim();
+            riverId = riverId === -1 ? null : riverId;
             let data = {
                 // "parameter": parameter,
                 // "frequency": frequency,
@@ -399,7 +403,8 @@ var station =
                 "wardId": wardId,
                 "address": address,
                 "riverId": riverId,
-                "status": status
+                "status": status,
+                "username":username
             }
             $.ajax({
                 headers: {

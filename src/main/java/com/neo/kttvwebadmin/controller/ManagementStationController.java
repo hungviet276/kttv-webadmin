@@ -11,4 +11,8 @@ public class ManagementStationController {
     public String index() {
         return "management-station/index";
     }
+    @GetMapping("time-series/index.html")
+    public String configTimeSeries() {
+        return "management-station/time-series/index";
+    }
 }
