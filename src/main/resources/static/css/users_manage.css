@@ -41,3 +41,35 @@
 .wrap-table-data {
     margin-top: 1em;
 }
+.tscroll {
+    height: 397px;
+    width: 100%;
+    overflow-x: scroll;
+    overflow-y: scroll;
+    margin-bottom: 10px;}
+
+.tscroll table td:first-child {
+    background: #dddddd;
+    position: sticky;
+    left: 0; /* Don't forget this, required for the stickiness */
+    box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+ }
+
+.tscroll td, .tscroll th {
+    border-bottom: dashed #888 1px;
+}
+
+table {
+    text-align: left;
+    position: relative;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 0.25rem;
+}
+th {
+    background: #dddddd;
+    position: sticky;
+    top: 0; /* Don't forget this, required for the stickiness */
+    box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+}

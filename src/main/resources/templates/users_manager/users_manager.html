@@ -2,10 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <th:block th:replace="/layout_header.html :: head_tag" />
-    <link rel="stylesheet" href="/css/user_manager.css" type="text/css">
+    <link rel="stylesheet" href="/css/users_manage.css" type="text/css">
     <title>Quản lý người dùng</title>
 </head>
-<body class="hold-transition sidebar-mini layout-fixed">
+<body  class="hold-transition sidebar-mini layout-fixed text-sm">
 <div class="wrapper">
 
     <th:block th:replace="/layout_menu.html :: menu_tag" />
@@ -63,21 +63,26 @@
                                     <i class="fas fa-plus"></i> Thêm
                                 </button>
                             </div>
-                            <p th:text="${a}"></p>
+<!--                            <p th:text="${a}"></p>-->
+                            <div><input style="display:none" type="text" class="form-control" name="action_info" id="action_info" value="0"></div>
                             <div class="card-body" style="width: 100%;overflow: auto">
                                 <table id="tableDataView" class="table table-bordered table-hover">
                                     <thead>
                                     <tr>
+                                        <th></th>
                                         <th>#</th>
                                         <th data-id="s_id">ID</th>
-                                        <th data-id="s_ip">IP</th>
-                                        <th data-id="s_port">Port</th>
-                                        <th data-id="s_username">Username</th>
-                                        <th data-id="s_password">Password</th>
-                                        <th data-id="s_domain">Domain</th>
-                                        <th data-id="s_sendername">SenderName</th>
-                                        <th data-id="s_email">Email</th>
-                                        <th data-id="s_protocol">Protocol</th>
+                                        <th data-id="s_name">NAME</th>
+                                        <th data-id="s_mobile">MOBILE</th>
+                                        <th data-id="s_position">POSITION</th>
+                                        <th data-id="s_email">EMAIL</th>
+                                        <th data-id="s_gender">GENDER</th>
+                                        <th data-id="s_statusId">STATUS_ID</th>
+                                        <th data-id="s_checkRole">CHECK_ROLE</th>
+                                        <th data-id="s_cardNumber">CARD_NUMBER</th>
+                                        <th data-id="s_code">CODE</th>
+                                        <th data-id="s_officeCode">OFFICE_CODE</th>
+                                        <th data-id="s_createdBy">CREATED_BY</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -99,8 +104,8 @@
                                     <input type="text" class="form-control" id="input_code" placeholder="">
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="input_search">Email</label>
-                                    <input type="text" class="form-control" id="input_search"
+                                    <label for="input_email">Email</label>
+                                    <input type="text" class="form-control" id="input_email"
                                            placeholder="">
                                 </div>
                             </div>
@@ -169,20 +174,23 @@
                         <!--  tab phan quyen-->
                             <ul class="nav nav-tabs">
                                 <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#NV">Nghiệp vụ</a>
+                                    <a class="active nav-link" data-toggle="tab" href="#NV">Nghiệp vụ</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" data-toggle="tab" href="#menu2">Nhóm quyền</a>
                                 </li>
                             </ul>
                             <div class="tab-content">
-                                <div id="NV" class="tab-pane fade">
+                                <div id="NV" class="tab-pane fade in active" >
                                     <h3>Nghiệp vụ</h3>
-                                    <div class="box-body no-padding" id='data-list-table-nv' ></div>
+                                    <div class="box-body no-padding" id='data-list-table-nv'  style="overflow: auto">
+
+
+                                    </div>
                                 </div>
-                                <div id="menu2" class="tab-pane fade in active">
+                                <div id="menu2" class="tab-pane fade">
                                     <h3>Nhóm quyền</h3>
-                                    <div class="box-body no-padding" id='data-list-table-nq' style="width: 100%;" ></div>
+                                    <div class="box-body no-padding" id='data-list-table-nq' style="width: 100%;overflow: auto" ></div>
                                 </div>
                              </div>
                         </form>
@@ -232,60 +240,10 @@
     <script type="text/javascript">
         var apiUrl = "[[${session.apiUrl}]]";
         var userBO = "[[${session.userBO}]]";
+        var username = "[[${session.userBO.Username}]]";
         var token = "[[${session.token}]]";
         // console.log(apiUrl + "|" + JSON.stringify(userBO) + "|" + token);
     </script>
-<script>
-    $(document).ready(function() {
-        disabled_right();
-        show_search();
-    });
-    $('#btnDonew').click(function(){
-        // enabled_right();
-        $("#btnsave").css("display", "inline");
-        $("#btnDelete").css("display", "inline");
-        $("#btnReset").css("display", "inline");
-        $("#btncancer").css("display", "inline");
-        $("#btnDonew").attr("disabled", true);
-        togle_search();
-    });
-
-    $('#btncancer').click(function(){
-        // disabled_right();
-        $("#btnsave").css("display", "none");
-        $("#btnDelete").css("display", "none");
-        $("#btnReset").css("display", "none");
-        $("#btncancer").css("display", "none");
-        $("#btnDonew").attr("disabled", false);
-        show_search();
-    });
-
-    function disabled_right(){
-        $("#form_input input:text").each(function(){$(this).prop("readonly",true);});
-        $("#form_input input:password").each(function(){$(this).prop("readonly",true);});
-        $("#form_input select").each(function(){$(this).attr("disabled", true);});
-        $("#input_group_id").attr("disabled", true);
-        $(".checkedGender").attr("disabled", true);
-        $(".checkedQuyen").attr("disabled", true);
-    }
-    function enabled_right(){
-        $("#form_input input:text").each(function(){$(this).prop("readonly",false);});
-        $("#form_input input:password").each(function(){$(this).prop("readonly",false);});
-        $("#form_input select").each(function(){$(this).attr("disabled", false);});
-        $("#input_group_id").attr("disabled", false);
-        $(".checkedGender").attr("disabled", false);
-        $(".checkedQuyen").attr("disabled", false);
-    }
-    function show_search(){
-        $("#box_info").hide(500);
-        $("#box_search").attr('class', 'col-sm-12');
-    }
-    function togle_search(){
-        $("#box_info").show(500);
-        $("#box_info").attr('class', 'col-sm-7');
-        $("#box_search").attr('class', 'col-sm-5');
-    }
-</script>
-<!--    <script src="/js/users_manage.js"></script>-->
+    <script src="/js/users_manage.js"></script>
 
 </html>
