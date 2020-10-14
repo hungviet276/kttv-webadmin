@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  kttv_webadmin:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: kttv-web-admin
+    ports:
+      - "8081:8081"
+    tty: true

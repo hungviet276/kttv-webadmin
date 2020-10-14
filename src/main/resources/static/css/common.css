@@ -5,3 +5,71 @@
 .center-text {
     text-align: center;
 }
+.status_red{
+    height: 25px;
+    border-radius: 15px;
+    background-color: rgb(201, 55, 55);
+    display: inline-block;
+    padding: 0px 8px;
+    color: seashell;
+    font-weight: bold;
+}
+.status_green{
+    height: 25px;
+    border-radius: 15px;
+    background-color: rgb(47, 141, 83);
+    display: inline-block;
+    padding: 0px 8px;
+    color: seashell;
+    font-weight: bold;
+}
+.select_table{
+    height: 30px;
+}
+.dtr-title input,select{
+    width: 187px;
+}
+
+.wrap-button-control {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.wrap-button-control button {
+    margin: 0.5em 1em 0.5em 1em;
+}
+
+.popup-loading {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: black;
+    width: 100%;
+    height: 100%;
+    z-index: 1050;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    transition: opacity 1.5s ease-out;
+}
+
+.wrapper-loading {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    vertical-align: middle;
+}
+
+.sub-wrapper-loading {
+    text-align: center;
+}
+.button-crud {
+    text-align: center;
+}
+.wrap-table-data {
+    margin-top: 1em;
+}

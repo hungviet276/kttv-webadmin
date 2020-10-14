@@ -8,29 +8,40 @@ import org.springframework.beans.factory.annotation.Value;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import javax.annotation.PostConstruct;
 
 /**
  * @author admin
  *
  */
+@Component
 public class RetrofitManager {
 
-	@Value("${api.url}")
-	private static final String API_URL = "http://localhost:8080/api/v1/";
+	@Value("${api_url}")
+	private  String API_URL;
 
-	private static Retrofit.Builder builder = new Retrofit.Builder().baseUrl(API_URL)
-			.addConverterFactory(GsonConverterFactory.create());
+	private  Retrofit.Builder builder;
 
-	private static Retrofit retrofit = builder.build();
+	private  Retrofit retrofit;
 
-	private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+	@PostConstruct
+	public void initBuilder() {
+		builder  = new Retrofit.Builder().baseUrl(API_URL)
+				.addConverterFactory(GsonConverterFactory.create());
+		retrofit  = builder.build();
+	}
 
-	private static HttpLoggingInterceptor logging = new HttpLoggingInterceptor()
+	private  OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+
+	private  HttpLoggingInterceptor logging = new HttpLoggingInterceptor()
 			.setLevel(HttpLoggingInterceptor.Level.BASIC);
 
-	public static <S> S createService(Class<S> serviceClass) {
+	public  <S> S createService(Class<S> serviceClass) {
 		if (!httpClient.interceptors().contains(logging)) {
 			httpClient.addInterceptor(logging);
 			builder.client(httpClient.build());
@@ -39,7 +50,7 @@ public class RetrofitManager {
 		return retrofit.create(serviceClass);
 	}
 
-	public static <S> S createService(Class<S> serviceClass, final String token) {
+	public  <S> S createService(Class<S> serviceClass, final String token) {
 		if (token != null) {
 			httpClient.interceptors().clear();
 			httpClient.addInterceptor(chain -> {

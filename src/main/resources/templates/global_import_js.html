@@ -1,0 +1,39 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:fragment="global_import_js" th:remove="tag">
+	<script type="text/javascript">
+		var apiUrl = "[[${session.apiUrl}]]";
+		var userBO = "[[${session.userBO}]]";
+		var token = "[[${session.token}]]";
+		console.log(apiUrl + "|" + JSON.stringify(userBO) + "|" + token);
+		var global = {
+			loadElement : function (idElement){
+				arr = [];
+				$("#"+ idElement +" :input").each(function(){
+					let key = $(this).attr("id") + "";
+					let value = $(this).val();
+					let item = {key  : value};
+					arr.push(item);
+				});
+				return arr;
+			},
+			uuidv4 : function() {
+				return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+					var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+					return v.toString(16);
+				});
+			},
+			showLoading : function() {
+				$('.popup-loading').css('opacity', '1');
+				$('.popup-loading').css('display', 'block');
+				$('body').css('overflow', 'hidden');
+			},
+			disableLoading : function() {
+				$('.popup-loading').css('opacity', '0');
+				$('.popup-loading').css('display', 'none');
+				$('body').css('overflow', 'scroll');
+			}
+		}
+	</script>
+</head>
+</html>

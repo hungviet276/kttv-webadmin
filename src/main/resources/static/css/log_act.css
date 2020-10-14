@@ -35,7 +35,9 @@
 .sub-wrapper-loading {
     text-align: center;
 }
-
-#tableDataView thead tr th {
-	text-align: center;
+.button-crud {
+    text-align: center;
+}
+.wrap-table-data {
+    margin-top: 1em;
 }

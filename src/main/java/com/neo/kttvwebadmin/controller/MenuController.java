@@ -5,10 +5,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/mail_group")
-public class MailGroupController {
+@RequestMapping("/menu-manage")
+public class MenuController {
+
     @GetMapping
-    public String getHomePage() {
-        return "mail_group/mail_group";
+    public String getMenuManagePage() {
+        return "menu_manage";
     }
+
 }

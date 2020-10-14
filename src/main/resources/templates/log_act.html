@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:replace="layout_header.html :: head_tag" />
+    <link rel="stylesheet" href="/css/log_act.css" type="text/css">
+    <link rel="stylesheet" href="/admin_lte/plugins/daterangepicker/daterangepicker.css">
+    <title>Tra cứu lịch sử tác động</title>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+    <th:block th:replace="layout_menu.html :: menu_tag" />
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                </div>
+            </div>
+        </div>
+        <section class="content">
+            <div class="container-fluid">
+                <div class="card card-default">
+                    <div class="card-header">
+                        <h3 class="card-title">Tra cứu lịch sử tác động</h3>
+                    </div>
+                    <form class="form-horizontal" id="form_data">
+                        <div class="card-body">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputMenuId">Menu</label>
+                                    <select class="select2bs4 form-control" id="inputMenuId" placeholder="Chọn menu">
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputAct">Hành động</label>
+                                    <select class="form-control" id="inputAct"
+                                           placeholder="Hành động">
+                                        <option value="" disabled selected>-- Chọn tác động --</option>
+                                        <option value="CREATE">Thêm</option>
+                                        <option value="EDIT">Sửa</option>
+                                        <option value="DELETE">Xoá</option>
+                                        <option value="EXPORT">Xuất báo cáo</option>
+                                        <option value="DOWNLOAD_FILE">Tải file về</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputUsername">Tài khoản</label>
+                                    <input type="text" class="form-control" id="inputUsername" placeholder="Tài khoản">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputFromDate">Từ ngày</label>
+                                    <input type="text" class="form-control" id="inputFromDate" placeholder="Từ ngày">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="inputToDate">Đến ngày</label>
+                                    <input type="text" class="form-control" id="inputToDate" placeholder="Đến ngày">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <div class="wrap-button-control">
+                                <button class="btn btn-primary" id="btnSearch">
+                                    <i class="fas fa-search"></i> Tra cứu
+                                </button>
+                                <button class="btn btn-primary" id="btnCleanForm">
+                                    <i class="fas fa-eraser"></i> Làm mới
+                                </button>
+                            </div>
+                        </div>
+                        <!-- /.card-footer -->
+                    </form>
+                </div>
+                <!-- Main content -->
+                <section class="content" id="wrap_table_data">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Danh sách tài khoản trong hệ thống</h3>
+                                    </div>
+                                    <!-- /.card-header -->
+                                    <div class="card-body">
+                                        <table id="tableDataView" class="table table-bordered table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th data-id="s_id">ID</th>
+                                                <th data-id="s_ip">Tên menu</th>
+                                                <th data-id="s_port">Tác động</th>
+                                                <th data-id="s_username">Tài khoản</th>
+                                                <th data-id="s_">Ngày tác động</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- /.card-body -->
+                                </div>
+                                <!-- /.card -->
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <!-- /.row -->
+                    </div>
+                    <!-- /.container-fluid -->
+                </section>
+            </div>
+        </section>
+        <div class="popup-loading">
+            <div class="wrapper-loading">
+                <div class="sub-wrapper-loading">
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only" th:text="#{action.loading}">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <th:block th:replace="layout_footer.html :: footer_tag" />
+    <script type="text/javascript">
+        var apiUrl = "[[${session.apiUrl}]]";
+        var userBO = "[[${session.userBO}]]";
+        var token = "[[${session.token}]]";
+        console.log(apiUrl + "|" + JSON.stringify(userBO) + "|" + token);
+    </script>
+    <link rel="stylesheet" href="/admin_lte/plugins/daterangepicker/daterangepicker.js">
+    <script src="/js/log_act.js"></script>
+</div>
+</body>
+</html>
