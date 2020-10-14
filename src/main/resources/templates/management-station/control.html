@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<div th:fragment="management-station-control" th:remove="tag">
+    <div class="modal fade" id="management-station-control" aria-modal="false"
+         style="padding-right: 16px; display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content" style="width: 45em">
+                <div class="modal-header">
+                    <h4 class="modal-title">Điều khiển trạm đo</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal" id="form_input">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="stationTypeIdControl">Loại trạm</label>
+                                <select id="stationTypeIdControl" class="form-control" style="width: 100%;">
+                                    <option value="-1">Không chọn</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="stationCodeControl">Mã trạm</label>
+                                <input type="text" class="form-control" id="stationCodeControl" placeholder="" disabled>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="stationNameControl">Tên trạm</label>
+                                <input type="text" class="form-control" id="stationNameControl" placeholder="" disabled>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="hostControl">Host điều khiển</label>
+                                <div class="input-group">
+                                    <input id="hostControl" class="form-control" value="113.190.252.63" placeholder="Nhập host" style="width: 80%"/>
+                                    <input id="portControl" class="form-control" value="23" placeholder="Nhập port" type="number"/>
+                                    <span class="input-group-append">
+                                        <button type="button" class="btn btn-info btn-flat" onclick="station.checkConnect()">Kiểm tra kết nối!!</button>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-12">
+                                <label for="commandControl">Lệnh điều khiển</label>
+                                <select id="commandControl" class="form-control" style="width: 100%;">
+                                    <option value="show ftp_interval">Xem thời gian truyền số liệu</option>
+                                    <option value="show ftp_url">Xem ftp url</option>
+                                    <option value="show ftp_user">Xem tên user ftp</option>
+                                    <option value="show ftp_pwd">Xem password ftp</option>
+                                    <option value="show ma_tram">Xem mã trạm</option>
+                                    <option value="show ftp_file">Xem tên file dữ liệu</option>
+                                    <option value="show ftp_port">Xem port ftp</option>
+                                    <option value="show ftp_enable">Show On(1) / Off(0)  truyền ftp</option>
+                                    <option value='set ftp_interval'>Thay đổi thời gian truyền số liệu</option>
+                                    <option value="set ftp_url">Thay đổi ftp url</option>
+                                    <option value="set ftp_user">Thay đổi tên user ftp</option>
+                                    <option value="set ftp_pwd">Thay đổi password ftp</option>
+                                    <option value="set ma_tram">Thay đổi mã trạm</option>
+                                    <option value="set ftp_file">Thay đổi tên file dữ liệu</option>
+                                    <option value="set ftp_port">Thay đổi port ftp</option>
+                                    <option value="set ftp_enable">On(1) / Off(0)  truyền ftp</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label for="valueInput">Giá trị điều khiển: </label>
+                                <input id="valueInput" placeholder="Nhập giá trị tương ứng" type="text">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="description">Lý do thực hiện</label>
+                                <textarea id="description" class="form-control" rows="2"></textarea>
+                            </div>
+                        </div>
+                        <p style="color: red">Note: Nếu giá trị điều khiển là "Thời gian truyền số liệu" thì định dạng cần nhập là "hh:mm:ss"</p>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary" onclick="station.control()">Thực hiện</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+</div>
+</html>
