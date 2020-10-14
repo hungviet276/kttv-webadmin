@@ -169,7 +169,6 @@ $('#btnSaveCreate').on('click', function (e) {
             $('#btnSaveCreate').css('display', 'none');
             $('#btnBackCreate').css('display', 'none');
 
-            // set state for button control
             $('#btnCreate').css('display', '');
             $('#btnCopy').css('display', '');
             $('#btnDelete').css('display', '');
@@ -200,11 +199,9 @@ $('#btnSaveCreate').on('click', function (e) {
 $('#btnSaveEdit').on('click', function (e) {
     e.preventDefault();
     e.stopPropagation();
-
     showLoading();
     // set data
     let data = getData();
-
     // call ajax here
     $.ajax({
         url: '/api/groupmail/edit',
@@ -246,11 +243,8 @@ $('#btnSaveEdit').on('click', function (e) {
 $('#btnSaveCopy').on('click', function (e) {
     e.preventDefault();
     e.stopPropagation();
-
     showLoading();
-
     let data = getData();
-
     $.ajax({
         url: '/api/groupmail/create',
         method: 'POST',
