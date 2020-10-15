@@ -300,7 +300,7 @@ var station =
             let uuid = station.uuid;
             let stationTypeId = $("#stationTypeId").val().trim();
             let modeStationType = $("#modeStationType").val().trim();
-            let stationCode = $("#modeStationType").val().trim();
+            let stationCode = $("#stationCode").val().trim();
             let stationName = $("#stationName").val().trim();
             let longtitude = $("#longtitude").val().trim();
             let latitude = $("#latitude").val().trim();
@@ -310,9 +310,9 @@ var station =
             let districtId = $("#districtId").val().trim();
             let wardId = $("#wardId").val().trim();
             let address = $("#address").val().trim();
-            let riverId = $("#riverId").val().trim();
+            let riverId = $("#riverId").val();
             let status = $("#status").val().trim();
-            riverId = riverId === -1 ? null : riverId;
+            riverId = riverId === "-1" ? null : riverId;
             let data = {
                 // "parameter": parameter,
                 // "frequency": frequency,
@@ -372,7 +372,7 @@ var station =
             let uuid = station.uuid;
             let stationTypeId = $("#stationTypeId").val().trim();
             let modeStationType = $("#modeStationType").val().trim();
-            let stationCode = $("#modeStationType").val().trim();
+            let stationCode = $("#stationCode").val().trim();
             let stationName = $("#stationName").val().trim();
             let longtitude = $("#longtitude").val().trim();
             let latitude = $("#latitude").val().trim();
@@ -384,7 +384,7 @@ var station =
             let address = $("#address").val().trim();
             let riverId = $("#riverId").val().trim();
             let status = $("#status").val().trim();
-            riverId = riverId === -1 ? null : riverId;
+            riverId = riverId === "-1" ? null : riverId;
             let data = {
                 // "parameter": parameter,
                 // "frequency": frequency,
@@ -1014,7 +1014,7 @@ $(document).ready(function () {
                         "riverName": responseJson.content[i].riverName,
                         "stationHeight": responseJson.content[i].stationHeight,
                         "status": responseJson.content[i].status,
-                        "riverId": responseJson.content[i].riverId,
+                        "riverId": (responseJson.content[i].riverId === null || responseJson.content[i].riverId === 0) ? -1 : responseJson.content[i].riverId,
                         "stationTypeId": responseJson.content[i].stationTypeId,
                         "districtId": responseJson.content[i].districtId,
                         "wardId": responseJson.content[i].wardId,
