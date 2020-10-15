@@ -2,7 +2,7 @@ var uuid = global.uuidv4();
 var station =
     {
         clientAction: '',
-        indexOfRow:0,
+        indexOfRow:-1,
         table: undefined,
         tableParamter: undefined,
         numOfInputSearch: 0,
@@ -747,6 +747,7 @@ var station =
             $("#stationCode").val(val.toUpperCase());
         },
         preControl:function (index){
+            $("#commandControl").prop('disabled',false);
             //lay thong tin cua row data dang tuong tac
             let rowData = station.table.rows(index).data().toArray();
             console.log(JSON.stringify(rowData));
@@ -759,9 +760,10 @@ var station =
             let host = $("#hostControl").val().trim();
             let port = $("#portControl").val().trim();
             let command = $("#commandControl").val().trim();
+            let commandText = $("#commandControl :selected").text().trim();
             let value = $("#valueInput").val().trim();
             let description = $("#description").val().trim();
-
+            command = command + " " + value;
             if(host.length < 1){
                 toastr.error('', 'Bạn chưa nhập host điều khiển');
                 $("#hostControl").focus();
@@ -777,15 +779,15 @@ var station =
                 headers: {
                     'Authorization': token
                 },
-                url: apiUrl + "management-station/check-connect",
+                url: apiUrl + "station-type/control",
                 method: "POST",
-                // contentType: "application/json",
-                data: {"host":host,"port":port},
+                contentType: "application/json",
+                data: JSON.stringify({"host":host,"port":port,"command":command,"description":description}),
                 success: function (data) {
-                    if (data == 'OK') {
-                        toastr.success('', 'Kết nối thành công');
+                    if (data.status == 1) {
+                        toastr.success('', 'Thực hiện điều khiển "' + commandText + '" thành công');
                     } else {
-                        toastr.error('Kết nối thất bại', data.message);
+                        toastr.error('Thực hiện thất bại', data.message);
                     }
                     global.disableLoading();
                 },
@@ -1080,9 +1082,10 @@ $(document).ready(function () {
         $("#btnReset").css("display", "none");
         $("#btncancer").css("display", "none");
         $("#btnDonew").attr("disabled", false);
-        station.table.row(station.indexOfRow).deselect();
+        if(station.indexOfRow > -1) {
+            station.table.row(station.indexOfRow).deselect();
+        }
         station.show_search();
     });
 
-    $("#commandControl").prop('disabled',false);
 });

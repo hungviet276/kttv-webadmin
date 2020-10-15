@@ -29,10 +29,10 @@ public class ManagementStationController {
             result = "OK";
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + host);
-            result = "e.getMessage()";
+            result = e.getMessage();
         } catch (IOException e) {
             System.err.println("Couldn't get I/O for the connection to " + host);
-            result = "e.getMessage()";
+            result = e.getMessage();
         }
         return result;
     }
