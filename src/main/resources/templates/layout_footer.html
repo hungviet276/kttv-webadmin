@@ -82,8 +82,33 @@
 		// });
 	</script>
 	<script th:inline="javascript">
-		let menuData = /*[[${session.htmlMenu}]]*/ '';
-		$('#treeMenuSidebar').html(menuData);
+		let menuData = localStorage.getItem("menu");
+		if(menuData === "" || menuData === undefined || menuData === null){
+			menuData = /*[[${session.htmlMenu}]]*/'';
+			localStorage.setItem("menu",menuData);
+		}
+
+		$(document).ready(function (){
+			$('#treeMenuSidebar').html(menuData);
+			// console.log("chay vao day");
+			$('#treeMenuSidebar  a.direct').removeClass("active");
+			let li = $('#treeMenuSidebar').children();
+			li.removeClass("menu-open");
+			let ulSub = li.find('ul');
+			ulSub.css('display','none');
+			$('#treeMenuSidebar  a.direct').each(function(){
+				console.log($(this).attr('href'));
+
+				if($(this).attr('href') === window.location.pathname) {
+					$(this).addClass("active");
+					//tim den cha cua no
+					$(this).parent().parent().css('display', 'block');
+					$(this).parent().parent().parent().addClass('menu-open');
+					menuData = $('#treeMenuSidebar').html();
+					localStorage.setItem("menu", menuData);
+				}
+			});
+		});
 	</script>
 </div>
 </html>

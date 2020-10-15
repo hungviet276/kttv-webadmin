@@ -89,16 +89,16 @@ public class DomainUserDetailsService implements UserDetailsService {
             if (treeMenu.getChildren().size() ==0) {
                 htmlMenu.append("<li class='nav-item'><a href='")
                         .append(treeMenu.getDetailFile())
-                        .append("' class='nav-link'><i class='nav-icon ")
-                        .append(treeMenu.getPictureFile()).append("'/><p><p/>")
+                        .append("' class='nav-link direct'><i class='nav-icon ")
+                        .append(treeMenu.getPictureFile()).append("'></i><p>")
                         .append(treeMenu.getName())
                         .append("</p></a></li>");
             } else {
-                htmlMenu.append("<li class='nav-item has-treeview'><a href='").append(treeMenu.getDetailFile()).append("' class='nav-link'><i class='nav-icon ").append(treeMenu.getPictureFile()).append("'/><p><p/>").append(treeMenu.getName()).append("<i class='right fas fa-angle-left'/></p></a>");
+                htmlMenu.append("<li class='nav-item has-treeview'><a href='").append((treeMenu.getDetailFile() != null) ? treeMenu.getDetailFile() : "#").append("' class='nav-link'><i class='nav-icon ").append(treeMenu.getPictureFile()).append("'></i><p>").append(treeMenu.getName()).append("<i class='right fas fa-angle-left'></i></p></a><ul class='nav nav-treeview'>");
                 for (Menu menu : treeMenu.getChildren()) {
-                    htmlMenu.append("<ul class='nav nav-treeview'><li class='nav-item'><a href='").append(menu.getDetailFile()).append("' class='nav-link'><i class='").append(menu.getPictureFile()).append(" nav-icon'/><p>").append(menu.getName()).append("</p></a></li></ul>");
+                    htmlMenu.append("<li class='nav-item'><a href='").append(menu.getDetailFile()).append("' class='nav-link direct'><i class='").append(menu.getPictureFile()).append(" nav-icon'/><p>").append(menu.getName()).append("</p></a></li>");
                 }
-                htmlMenu.append("</li>");
+                htmlMenu.append("</ul></li>");
             }
         }
 
