@@ -66,20 +66,20 @@
 		var currentLang = /*[[${#locale.getLanguage()}]]*/
 		console.log("currentLang:",currentLang);
 		$("#select-lang").val(currentLang);
-		
+
 		$("#select-lang").change(function () {
 	        var selectedOption = $('#select-lang').val();
 	        if (selectedOption != ''){
 	            window.location.replace('?lang=' + selectedOption);
 	        }
 	    });
-		
-		$('html').bind('keypress', function(e) {
-		   if(e.keyCode == 13)
-		   {
-		      return false;
-		   }
-		});
+
+		// $('html').bind('keypress', function(e) {
+		//    if(e.keyCode == 13)
+		//    {
+		//       return false;
+		//    }
+		// });
 	</script>
 	<script th:inline="javascript">
 		let menuData = /*[[${session.htmlMenu}]]*/ '';

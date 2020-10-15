@@ -2,7 +2,7 @@ var uuid = global.uuidv4();
 var station =
     {
         clientAction: '',
-        indexOfRow:-1,
+        indexOfRow:0,
         table: undefined,
         tableParamter: undefined,
         numOfInputSearch: 0,
@@ -58,7 +58,6 @@ var station =
                     console.log(data);
                     $("#stationType").select2({data: data});
                     $("#stationTypeId").select2({data: data});
-                    $("#stationTypeIdControl").select2({data: data});
                     global.disableLoading();
                 }
             });
@@ -745,93 +744,6 @@ var station =
         stationCodeKeyUp: function (event){
             let val = $("#stationCode").val().trim();
             $("#stationCode").val(val.toUpperCase());
-        },
-        preControl:function (index){
-            $("#commandControl").prop('disabled',false);
-            //lay thong tin cua row data dang tuong tac
-            let rowData = station.table.rows(index).data().toArray();
-            console.log(JSON.stringify(rowData));
-            $("#management-station-control").modal();
-            $("#stationTypeIdControl").val(rowData[0].stationTypeId).trigger('change');
-            $("#stationCodeControl").val(rowData[0].stationCode);
-            $("#stationNameControl").val(rowData[0].stationName);
-        },
-        control:function (){
-            let host = $("#hostControl").val().trim();
-            let port = $("#portControl").val().trim();
-            let command = $("#commandControl").val().trim();
-            let commandText = $("#commandControl :selected").text().trim();
-            let value = $("#valueInput").val().trim();
-            let description = $("#description").val().trim();
-            command = command + " " + value;
-            if(host.length < 1){
-                toastr.error('', 'Bạn chưa nhập host điều khiển');
-                $("#hostControl").focus();
-                return ;
-            }
-            if(port.length < 1){
-                toastr.error('', 'Bạn chưa nhập port điều khiển');
-                $("#portControl").focus();
-                return ;
-            }
-            global.showLoading();
-            $.ajax({
-                headers: {
-                    'Authorization': token
-                },
-                url: apiUrl + "station-type/control",
-                method: "POST",
-                contentType: "application/json",
-                data: JSON.stringify({"host":host,"port":port,"command":command,"description":description}),
-                success: function (data) {
-                    if (data.status == 1) {
-                        toastr.success('', 'Thực hiện điều khiển "' + commandText + '" thành công');
-                    } else {
-                        toastr.error('Thực hiện thất bại', data.message);
-                    }
-                    global.disableLoading();
-                },
-                error: function (err) {
-                    global.disableLoading();
-                    toastr.error("", "Lỗi thực hiện");
-                }
-            });
-        },
-        checkConnect:function (){
-            let host = $("#hostControl").val().trim();
-            let port = $("#portControl").val().trim();
-            if(host.length < 1){
-                toastr.error('', 'Bạn chưa nhập host điều khiển');
-                $("#hostControl").focus();
-                return ;
-            }
-            if(port.length < 1){
-                toastr.error('', 'Bạn chưa nhập port điều khiển');
-                $("#portControl").focus();
-                return ;
-            }
-            global.showLoading();
-            $.ajax({
-                headers: {
-                    'Authorization': token
-                },
-                url: "/management-station/check-connect",
-                method: "POST",
-                // contentType: "application/json",
-                data: {"host":host,"port":port},
-                success: function (data) {
-                    if (data == 'OK') {
-                        toastr.success('', 'Kết nối thành công');
-                    } else {
-                        toastr.error('Kết nối thất bại', data.message);
-                    }
-                    global.disableLoading();
-                },
-                error: function (err) {
-                    global.disableLoading();
-                    toastr.error("", "Lỗi thực hiện");
-                }
-            });
         }
     }
 
@@ -864,7 +776,7 @@ $(document).ready(function () {
             className: 'select-checkbox',
             targets: 0
         }, {
-            targets: 14,
+            targets: 13,
             render: function (data, type, row) {
                 if (data === 1) {
                     return '<div class="status_green">Hoạt động</div>';
@@ -905,7 +817,6 @@ $(document).ready(function () {
         "columns": [
             {"data": ""},
             {"data": "indexCount"},
-            {"data": "control"},
             {"data": "objectType"},
             {"data": "objectTypeName"},
             {"data": "stationCode"},
@@ -994,7 +905,6 @@ $(document).ready(function () {
                     dataRes.data.push({
                         "": "",
                         "indexCount": i + 1,
-                        "control":"<span class='fa fa-wrench' title='Điều khiển'  onclick='station.preControl("+i+")' style='cursor: pointer'></span>",
                         "stationLongName": responseJson.content[i].stationLongName,
                         "objectType": responseJson.content[i].objectType,
                         "objectTypeName": responseJson.content[i].objectTypeName,
@@ -1082,10 +992,7 @@ $(document).ready(function () {
         $("#btnReset").css("display", "none");
         $("#btncancer").css("display", "none");
         $("#btnDonew").attr("disabled", false);
-        if(station.indexOfRow > -1) {
-            station.table.row(station.indexOfRow).deselect();
-        }
+        station.table.row(station.indexOfRow).deselect();
         station.show_search();
     });
-
 });
