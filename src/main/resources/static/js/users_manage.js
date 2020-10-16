@@ -250,7 +250,7 @@ var table = $('#tableDataView').DataTable({
         {"data": "statusIds", "render": $.fn.dataTable.render.text()},
         {"data": "statusId", "visible":false},
         {"data": "group_id", "visible":false},
-        {"data": "createdDate", "render": $.fn.dataTable.render.text()},
+        {"data": "createdDate", "visible":false},
     ],
     initComplete: function () {
         // Apply the search
@@ -576,17 +576,17 @@ $('#btnsave').on('click', function (e) {
         }
         // set data
         let data = {
-            "id": $('#input_Username').val(),
-            "password": $('#input_Password').val(),
-            "name": $('#input_name').val(),
-            "mobile": $('#input_phone').val(),
-            "email": $('#input_email').val(),
+            "id": $.trim($('#input_Username').val()),
+            "password": $.trim($('#input_Password').val()),
+            "name": $.trim($('#input_name').val()),
+            "mobile": $.trim($('#input_phone').val()),
+            "email": $.trim($('#input_email').val()),
             "gender": checkedGender =="0"?"0":1,
             "status_id": $('#status_id').val(),
             "check_roke": checkRole =="0"?"0":1,
-            "card_number": $('#input_cardNumber').val(),
+            "card_number": $.trim($('#input_cardNumber').val()),
             "group_user_id": $('#input_group_id').val(),
-            "check_download_time": $('#input_time_download').val(),
+            "check_download_time": $.trim($('#input_time_download').val()),
             "thread_id": thread_id,
             "user_login": username
         };
@@ -700,7 +700,6 @@ function validateForm(){
         return;
     }
 
-
     if($.trim($('#input_Password').val())=='') {
         $('#input_Password_msg').html('Mật khẩu không được để trống!');
         $('#input_Password').focus();
@@ -725,7 +724,7 @@ function validateForm(){
         return;
     }
 
-    if($.trim($('#input_group_id').val())=='') {
+    if($.trim($('#input_group_id').val())=='-1') {
         $('#input_group_id_msg').html('Nhóm người dùng không được để trống!');
         $('#input_group_id').focus();
         return;
