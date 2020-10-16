@@ -35,16 +35,20 @@
                                         <div class="form-group col-md-6">
                                             <label for="station">Trạm</label>
                                             <div class="select2-purple">
-                                            <select id="station" data-placeholder="Select a State"
-                                                    data-dropdown-css-class="select2-purple" style="width: 100%;">
-                                                <!--                                                            -->
-                                            </select>
+                                                <select id="station" data-placeholder="Select a State"
+                                                        data-dropdown-css-class="select2-purple" style="width: 100%;">
+                                                    <!--                                                            -->
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for="value">Yếu tố</label>
-                                            <input type="text" class="form-control" id="value"
-                                                   placeholder="" >
+                                            <label for="value-type">Yếu tố</label>
+                                            <div class="select2-purple">
+                                                <select id="value-type" data-placeholder="Select a State"
+                                                        data-dropdown-css-class="select2-purple" style="width: 100%;">
+                                                    <!--                                                            -->
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-row">
@@ -71,7 +75,7 @@
                                 <!--                            <p th:text="${a}"></p>-->
                                 <div><input style="display:none" type="text" class="form-control" name="action_info" id="action_info" value="0"></div>
                                 <div class="card-body" style="width: 100%;overflow: auto">
-                                    <table id="tableDataView" class="table table-bordered table-hover">
+                                    <table id="tableValueTypeConfig" class="table table-bordered table-hover">
                                         <thead>
                                         <tr>
                                             <th></th>
@@ -85,8 +89,8 @@
                                             <th data-id="s_max">Cực đại</th>
                                             <th data-id="s_variable_time">Ngưỡng biến đổi liên tiếp theo không gian</th>
                                             <th data-id="s_variable_spatial">Ngưỡng biến đổi liên tiếp theo thời gian</th>
-                                            <th data-id="s_start_apply_date">Ngày bắt đầu</th>
-                                            <th data-id="s_end_apply_date">Ngày kết thúc</th>
+                                            <th>Ngày bắt đầu</th>
+                                            <th>Ngày kết thúc</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -98,107 +102,68 @@
                             <div class="col-sm-7"  id ="box_info">
                                 <div style="width: 95%;float: right">
                                     <div class="card-header">
-                                        <h3 style="text-align: center"><b>Thông tin người dùng</b></h3>
+                                        <h3 style="text-align: center"><b>Thông tin min max cho từng loại dữ liệu</b></h3>
                                     </div>
                                     <form class="form-horizontal" id="form_input">
                                         <div class="form-row">
-
                                             <div class="form-group col-md-6">
-                                                <label for="input_code">Mã tài khoản <span style="color: red;">*</span></label>
+                                                <label for="input_code">Trạm<span style="color: red;">*</span></label>
                                                 <input type="text" class="form-control" id="input_code" placeholder="">
                                             </div>
                                             <div class="form-group col-md-6">
-                                                <label for="input_email">Email</label>
+                                                <label for="input_email">Yếu tố</label>
                                                 <input type="text" class="form-control" id="input_email"
                                                        placeholder="">
                                             </div>
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
-                                                <label for="input_Username">Tên đăng nhập <span style="color: red;">*</span></label>
+                                                <label for="input_Username">Giá trị min<span style="color: red;">*</span></label>
                                                 <input type="text" class="form-control" id="input_Username" placeholder="">
                                             </div>
                                             <div class="col-md-6">
-                                                <label for="input_Password">Mật khẩu <span style="color: red;">*</span></label>
+                                                <label for="input_Password">Giá trị max<span style="color: red;">*</span></label>
                                                 <input type="text" class="form-control" id="input_Password" placeholder="">
                                             </div>
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
-                                                <label for="input_name">Họ và tên <span style="color: red;">*</span></label>
+                                                <label for="input_name">Mức độ biến đổi theo thời gian<span style="color: red;">*</span></label>
                                                 <input type="text" class="form-control" id="input_name" placeholder="">
                                             </div>
                                             <div class="form-group col-md-6">
-                                                <label for="input_cardNumber">Số chứng minh thư</label>
+                                                <label for="input_cardNumber">Mức độ biến đổi theo không gian</label>
                                                 <input type="text" class="form-control" id="input_cardNumber" placeholder="">
                                             </div>
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
-                                                <label for="input_group_id">Nhóm người dùng</label>
+                                                <label for="input_group_id">Áp dụng từ</label>
                                                 <input type="email" class="form-control" id="input_group_id" placeholder="">
                                             </div>
                                             <div class="form-group col-md-6">
-                                                <label for="input_phone">Số điện thoại</label>
+                                                <label for="input_phone">Áp dụng đến</label>
                                                 <input type="text" class="form-control" id="input_phone" placeholder="">
                                             </div>
                                         </div>
+
+                                    </form>
+                                    <div>
+                                        <h3 style="text-align: center"><b>Danh sách các trạm biến đổi theo không gian</b></h3>
+                                    </div>
+                                    <form class="form-horizontal" id="form_input">
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
-                                                <label for="input_group_id">Giới tính</label>
-                                                <div>
-                                                    <input  id="checkNam" name="checkedGender" class="checkedGender" type="radio" value="0" checked="true">
-                                                    <lable style="font-size: 9pt">Nam </lable>&nbsp;&nbsp;
-                                                    <input  id="checkNu"  name="checkedGender" class="checkedGender" type="radio" value="1">
-                                                    <lable style="font-size: 9pt">Nữ</lable>
-                                                </div>
+                                                <label for="input_code">Trạm<span style="color: red;">*</span></label>
+                                                <input type="text" class="form-control" id="input_code" placeholder="">
                                             </div>
                                             <div class="form-group col-md-6">
-                                                <label for="input_phone">Trạng thái</label>
-                                                <select class="form-control" name="status_id" id="status_id">
-                                                    <option value="0">Không chọn</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6">
-                                                <label for="input_group_id">Phân quyền <span style="color: red;"> * </span></label>
-                                                <div>
-                                                    <input  id="checkNhomquyen" name="checkedQuyen" class="checkedQuyen" type="radio" value="0" checked="true" onclick="ckNhom_quyen()">
-                                                    <lable style="font-size: 9pt">Nhóm quyền </lable>&nbsp;&nbsp;
-                                                    <input  id="checktacvu"  name="checkedQuyen" class="checkedQuyen" type="radio" value="1" onclick="checktac_vu()">
-                                                    <lable style="font-size: 9pt">Nghiệp vụ </lable>
-                                                </div>
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <label for="input_time_download">Thời gian download </label>
-                                                <input type="text" class="form-control" id="input_time_download" placeholder="(Ngày)">
-                                            </div>
-                                        </div>
-                                        <!--  tab phan quyen-->
-                                        <ul class="nav nav-tabs">
-                                            <li class="nav-item">
-                                                <a class="active nav-link" data-toggle="tab" href="#NV">Nghiệp vụ</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" data-toggle="tab" href="#menu2">Nhóm quyền</a>
-                                            </li>
-                                        </ul>
-                                        <div class="tab-content">
-                                            <div id="NV" class="tab-pane fade in active" >
-                                                <h3>Nghiệp vụ</h3>
-                                                <div class="box-body no-padding" id='data-list-table-nv'  style="overflow: auto">
-
-
-                                                </div>
-                                            </div>
-                                            <div id="menu2" class="tab-pane fade">
-                                                <h3>Nhóm quyền</h3>
-                                                <div class="box-body no-padding" id='data-list-table-nq' style="width: 100%;overflow: auto" ></div>
+                                                <label for="input_email">Yếu tố</label>
+                                                <input type="text" class="form-control" id="input_email"
+                                                       placeholder="">
                                             </div>
                                         </div>
                                     </form>
-                                    <!-- end tab phan quyen-->
                                     <div class="wrap-button-control">
                                         <button class="btn btn-primary" id="btnsave" style="display:none;width: 100px;">
                                             <i class="fas fa-plus"></i> Lưu
