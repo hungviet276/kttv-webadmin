@@ -6,7 +6,7 @@ $(document).ready(function () {
         timePicker: false,
         singleDatePicker: true,
         autoUpdateInput: false
-    }, function(choosen_date) {
+    }, function (choosen_date) {
         $('#start_date').val(choosen_date.format('DD/MM/YYYY'));
     });
 
@@ -14,7 +14,7 @@ $(document).ready(function () {
         timePicker: false,
         singleDatePicker: true,
         autoUpdateInput: false
-    }, function(choosen_date) {
+    }, function (choosen_date) {
         $('#end_date').val(choosen_date.format('DD/MM/YYYY'));
     });
 
@@ -30,6 +30,7 @@ $('#btnDonew').click(function () {
     togle_search();
     get_tab_nghiepvu('');
     get_tab_role('');
+    $('#input_Username').attr("disabled", false);
     thread_id = createUUID();
     console.log("thread_id : " + thread_id);
     $("#btnsave").css("display", "inline");
@@ -71,14 +72,14 @@ function get_tab_nghiepvu(user_id) {
                     var ACTUC = list_act_basic[i].ACTUC;
                     var ACT = list_act_basic[i].ACT;
                     if (data[j][ACTU] != 0) {
-                        if(data[j][ACTUC] != 0){
-                            htmlNv += '<td style="text-align: center;"><input   type="checkbox" checked id="chek_'+ACT+''+data[j].ID+'" name="'+data[j].ID+'_'+ACT+'" value="'+j+'" onclick="chk_nv_click(\''+ACT+'\',\''+data[j].ID+'\')" class="checkboxNVenb"></td>';
-                        }else{
-                            htmlNv += '<td style="text-align: center;"><input   type="checkbox"  id="chek_'+ACT+''+data[j].ID+'" name="'+data[j].ID+'_'+ACT+'" value="'+j+'" onclick="chk_nv_click(\''+ACT+'\',\''+data[j].ID+'\')" class="checkboxNVenb"></td>';
+                        if (data[j][ACTUC] != 0) {
+                            htmlNv += '<td style="text-align: center;"><input   type="checkbox" checked id="chek_' + ACT + '' + data[j].ID + '" name="' + data[j].ID + '_' + ACT + '" value="' + j + '" onclick="chk_nv_click(\'' + ACT + '\',\'' + data[j].ID + '\')" class="checkboxNVenb"></td>';
+                        } else {
+                            htmlNv += '<td style="text-align: center;"><input   type="checkbox"  id="chek_' + ACT + '' + data[j].ID + '" name="' + data[j].ID + '_' + ACT + '" value="' + j + '" onclick="chk_nv_click(\'' + ACT + '\',\'' + data[j].ID + '\')" class="checkboxNVenb"></td>';
                         }
 
                     } else {
-                        htmlNv += '<td style="text-align: center;"><input  disabled type="checkbox"  id="chek_'+ACT+''+data[j].ID+'" name="'+data[j].ID+'_'+ACT+'" value="'+j+'" onclick="chk_nv_click(\''+ACT+'\',\''+data[j].ID+'\')" class="checkboxNVdis"></td>';
+                        htmlNv += '<td style="text-align: center;"><input  disabled type="checkbox"  id="chek_' + ACT + '' + data[j].ID + '" name="' + data[j].ID + '_' + ACT + '" value="' + j + '" onclick="chk_nv_click(\'' + ACT + '\',\'' + data[j].ID + '\')" class="checkboxNVdis"></td>';
                     }
                 }
             }
@@ -101,12 +102,12 @@ function get_tab_role(user_id) {
         for (var j = 0; j < data.length; j++) {
 
             if (user_id == '') {
-                htmlRole += '</tr><td>' + data[j].ROLE_NAME + '</td><td style="text-align: center;"><input   type="checkbox" value="'+j+'" id="checkbox_'+data[j].ID+'" name="checkboxNQ"  class="checkNQ" onclick="checkNQ_click(' + data[j].ID + ')" ></td></tr>';
+                htmlRole += '</tr><td>' + data[j].ROLE_NAME + '</td><td style="text-align: center;"><input   type="checkbox" value="' + j + '" id="checkbox_' + data[j].ID + '" name="checkboxNQ"  class="checkNQ" onclick="checkNQ_click(' + data[j].ID + ')" ></td></tr>';
             } else {
                 if (data[j].A1 == '1') {
-                    htmlRole += '<tr><td>' + data[j].ROLE_NAME + '</td><td style="text-align: center;"><input  checked  type="checkbox" value="'+j+'" id="checkbox_'+data[j].ID+'" name="checkboxNQ"  class="checkNQ" onclick="checkNQ_click(' + data[j].ID + ')"></td></tr>';
+                    htmlRole += '<tr><td>' + data[j].ROLE_NAME + '</td><td style="text-align: center;"><input  checked  type="checkbox" value="' + j + '" id="checkbox_' + data[j].ID + '" name="checkboxNQ"  class="checkNQ" onclick="checkNQ_click(' + data[j].ID + ')"></td></tr>';
                 } else {
-                    htmlRole += '<tr><td>' + data[j].ROLE_NAME + '</td><td style="text-align: center;"><input   type="checkbox" value="'+j+'" id="checkbox_'+data[j].ID+'" name="checkboxNQ"  class="checkNQ" onclick="checkNQ_click(' + data[j].ID + ')"></td></tr>';
+                    htmlRole += '<tr><td>' + data[j].ROLE_NAME + '</td><td style="text-align: center;"><input   type="checkbox" value="' + j + '" id="checkbox_' + data[j].ID + '" name="checkboxNQ"  class="checkNQ" onclick="checkNQ_click(' + data[j].ID + ')"></td></tr>';
                 }
             }
         }
@@ -184,7 +185,6 @@ let objSearch = {
 };
 
 
-
 $('#tableDataView thead th').each(function () {
     var title = $(this).text();
     var dataId = $(this).attr("data-id");
@@ -192,9 +192,9 @@ $('#tableDataView thead th').each(function () {
     if (dataId != null && dataId != undefined) {
         if (is_select == null || is_select == undefined) {
             $(this).html('<p style="text-align: center">' + title + '</p><input id="' + dataId + '" class="table-data-input-search" type="text" placeholder="Tìm kiếm ' + title + '" />');
-        } else if(is_select == 1) {
+        } else if (is_select == 1) {
             $(this).html('<p style="text-align: center">Ngày tạo</p>');
-        }else{
+        } else {
             $(this).html('<p style="text-align: center">Trạng thái</p>');
         }
     }
@@ -236,21 +236,21 @@ var table = $('#tableDataView').DataTable({
         {"data": ""},
         {"data": "indexCount", "render": $.fn.dataTable.render.text()},
         {"data": "id", "render": $.fn.dataTable.render.text()},
-        {"data": "password","visible":false},
+        {"data": "password", "visible": false},
         {"data": "name", "render": $.fn.dataTable.render.text()},
         {"data": "mobile", "render": $.fn.dataTable.render.text()},
         {"data": "email", "render": $.fn.dataTable.render.text()},
         {"data": "gender", "render": $.fn.dataTable.render.text()},
-        {"data": "checkRole","visible":false},
+        {"data": "checkRole", "visible": false},
         {"data": "cardNumber", "render": $.fn.dataTable.render.text()},
         {"data": "officeCode", "render": $.fn.dataTable.render.text()},
         {"data": "createdDates", "render": $.fn.dataTable.render.text()},
         {"data": "createdBy", "render": $.fn.dataTable.render.text()},
         {"data": "dateRole", "render": $.fn.dataTable.render.text()},
         {"data": "statusIds", "render": $.fn.dataTable.render.text()},
-        {"data": "statusId", "visible":false},
-        {"data": "group_id", "visible":false},
-        {"data": "createdDate", "visible":false},
+        {"data": "statusId", "visible": false},
+        {"data": "group_id", "visible": false},
+        {"data": "createdDate", "visible": false},
     ],
     initComplete: function () {
         // Apply the search
@@ -392,21 +392,23 @@ function rowDeselect(e, dt, type, indexes) {
     show_search();
 
 }
+
 //doEdit
-function  fillDataToForm(rowData) {
+function fillDataToForm(rowData) {
     $('#action_info').val(2);
     thread_id = createUUID();
-    console.log("fillDataToForm : " +thread_id);
+    console.log("fillDataToForm : " + thread_id);
     $('#input_code').val(rowData[0].code);
     $('#input_email').val(rowData[0].email);
     $('#input_Username').val(rowData[0].id);
-    $('#input_Password').val(rowData[0].password);
     $('#input_name').val(rowData[0].name);
     $('#input_cardNumber').val(rowData[0].cardNumber);
     // $('#input_group_id').val(rowData[0].group_id);
     $("#input_group_id").val(rowData[0].group_id).change();
     $('#status_id').val(rowData[0].statusId);
     $('#input_time_download').val(rowData[0].dateRole);
+    $('#input_phone').val(rowData[0].mobile);
+    $('#input_Password').val('');
 
     get_tab_nghiepvu(rowData[0].id);
     get_tab_role(rowData[0].id);
@@ -416,46 +418,49 @@ function  fillDataToForm(rowData) {
     $("#btnReset").css("display", "inline");
     $("#btncancer").css("display", "inline");
     $("#btnDonew").attr("disabled", true);
+    $("#input_Password").attr("disabled", true);
     $('#input_Username').attr("disabled", true);
     $('.nav-tabs a[href="#menu2"]').tab('show');
     $('.err_msg').html('');
+    $("#icon_penc").css("display", "inline");
+
 }
 
 //action dieu huong khi tich chon tab nghiep vu
-function chk_nv_click(act,menuId) {
+function chk_nv_click(act, menuId) {
     // $('#chkAll'+act).prop('checked', false);
-    var c = $("#chek_"+act+menuId).is(":checked");
+    var c = $("#chek_" + act + menuId).is(":checked");
 
-    if(c == true){
+    if (c == true) {
         $.ajax({
             headers: {
                 'Authorization': token
             },
-            url:  apiUrl + "user-manager/create_nv_temp",
-            data: "act=" + act + "&menuId=" + menuId + "&threadId=" + thread_id+ "&type=" + 1,
-            method:"post",
-            success: function(data){
-                if ($.trim(data)=="true"){
+            url: apiUrl + "user-manager/create_nv_temp",
+            data: "act=" + act + "&menuId=" + menuId + "&threadId=" + thread_id + "&type=" + 1,
+            method: "post",
+            success: function (data) {
+                if ($.trim(data) == "true") {
 
                     // toastr.success('Thành công', data.message);
-                }else{
+                } else {
                     toastr.success('Có lỗi xảy ra' + data, data.message);
                 }
             }
         });
-    }else{
+    } else {
         $.ajax({
             headers: {
                 'Authorization': token
             },
 
-            url:  apiUrl + "user-manager/create_nv_temp",
-            data: "act=" + act + "&menuId=" + menuId + "&threadId=" + thread_id+ "&type=" + 0,
-            method:"post",
-            success: function(data){
-                if ($.trim(data)=="true"){
+            url: apiUrl + "user-manager/create_nv_temp",
+            data: "act=" + act + "&menuId=" + menuId + "&threadId=" + thread_id + "&type=" + 0,
+            method: "post",
+            success: function (data) {
+                if ($.trim(data) == "true") {
                     // toastr.success('Xóa thành công', data.message);
-                }else{
+                } else {
                     toastr.success('Có lỗi xảy ra', data.message);
                 }
             }
@@ -465,79 +470,83 @@ function chk_nv_click(act,menuId) {
 }
 
 //action click tich chon nhom quyen
-function checkNQ_click(nhomQuyen_id){
-        var c = $("#checkbox_"+nhomQuyen_id).is(":checked");
-        if(c == true){
-            $.ajax({
-                headers: {
-                    'Authorization': token
-                },
-                url:  apiUrl + "user-manager/create_nq_temp",
-                data: "nhomQuyen_id=" + nhomQuyen_id + "&threadId=" + thread_id + "&type=" + 1 + "&checkall=",
-                method:"post",
-                success: function(data){
-                    // alert(data);
-                    if ($.trim(data)=="true"){
-                        // toastr.success('thêm thành công', data.message);
-                    }else{
-                        toastr.success('Có lỗi xảy ra', data.message);;
-                    }
+function checkNQ_click(nhomQuyen_id) {
+    var c = $("#checkbox_" + nhomQuyen_id).is(":checked");
+    if (c == true) {
+        $.ajax({
+            headers: {
+                'Authorization': token
+            },
+            url: apiUrl + "user-manager/create_nq_temp",
+            data: "nhomQuyen_id=" + nhomQuyen_id + "&threadId=" + thread_id + "&type=" + 1 + "&checkall=",
+            method: "post",
+            success: function (data) {
+                // alert(data);
+                if ($.trim(data) == "true") {
+                    // toastr.success('thêm thành công', data.message);
+                } else {
+                    toastr.success('Có lỗi xảy ra', data.message);
+                    ;
                 }
-            });
-        }else{
-            $.ajax({
-                headers: {
-                    'Authorization': token
-                },
-                url:  apiUrl + "user-manager/create_nq_temp",
-                data: "nhomQuyen_id=" + nhomQuyen_id + "&threadId=" + thread_id + "&type=" + 0 + "&checkall=",
-                method:"post",
-                success: function(data){
-                    if ($.trim(data)=="true"){
-                        // toastr.success('Xóa thành công', data.message);
-                    }else{
-                        toastr.success('Có lỗi xảy ra', data.message);;
-                    }
+            }
+        });
+    } else {
+        $.ajax({
+            headers: {
+                'Authorization': token
+            },
+            url: apiUrl + "user-manager/create_nq_temp",
+            data: "nhomQuyen_id=" + nhomQuyen_id + "&threadId=" + thread_id + "&type=" + 0 + "&checkall=",
+            method: "post",
+            success: function (data) {
+                if ($.trim(data) == "true") {
+                    // toastr.success('Xóa thành công', data.message);
+                } else {
+                    toastr.success('Có lỗi xảy ra', data.message);
+                    ;
                 }
-            });
-        }
+            }
+        });
+    }
 }
 
 function checkNQ_clickAll() {
     var c = $("#checkboxNQAll").is(":checked");
-    if(c == true){
-        $(".checkNQ").prop('checked',true);
+    if (c == true) {
+        $(".checkNQ").prop('checked', true);
         $.ajax({
             headers: {
                 'Authorization': token
             },
-            url:  apiUrl + "user-manager/create_nq_temp",
+            url: apiUrl + "user-manager/create_nq_temp",
             data: "nhomQuyen_id=&threadId=" + thread_id + "&type=" + 1 + "&checkall=1",
-            method:"post",
-            success: function(data){
+            method: "post",
+            success: function (data) {
                 // alert(data);
-                if ($.trim(data)=="true"){
+                if ($.trim(data) == "true") {
                     // toastr.success('checkall thành công', data.message);
-                }else{
-                    toastr.success('Có lỗi xảy ra', data.message);;
+                } else {
+                    toastr.success('Có lỗi xảy ra', data.message);
+                    ;
                 }
             }
         });
-    }else{
-        $(".checkNQ").prop('checked',false);
+    } else {
+        $(".checkNQ").prop('checked', false);
         $.ajax({
             headers: {
                 'Authorization': token
             },
-            url:  apiUrl + "user-manager/create_nq_temp",
+            url: apiUrl + "user-manager/create_nq_temp",
             data: "nhomQuyen_id=&threadId=" + thread_id + "&type=" + 0 + "&checkall=1",
-            method:"post",
-            success: function(data){
+            method: "post",
+            success: function (data) {
                 // alert(data);
-                if ($.trim(data)=="true"){
+                if ($.trim(data) == "true") {
                     // toastr.success('checkall thành công', data.message);
-                }else{
-                    toastr.success('Có lỗi xảy ra', data.message);;
+                } else {
+                    toastr.success('Có lỗi xảy ra', data.message);
+                    ;
                 }
             }
         });
@@ -545,8 +554,7 @@ function checkNQ_clickAll() {
 }
 
 
-
-function getStationType(){
+function getStationType() {
     $.ajax({
         headers: {
             'Authorization': token
@@ -562,17 +570,17 @@ function getStationType(){
 }
 
 $('#btnsave').on('click', function (e) {
-    if(validateForm()){
-        var checkedGender ="1";//nam
+    if (validateForm()) {
+        var checkedGender = "1";//nam
         var c = $("#checkNam").is(":checked");
-        if(c==false){
-            checkedGender ="0";//nu
+        if (c == false) {
+            checkedGender = "0";//nu
         }
 
-        var checkRole ="1";//nhom quyen
+        var checkRole = "1";//nhom quyen
         var d = $("#checkNhomquyen").is(":checked");
-        if(d==false){
-            checkRole ="0";//nghiep vu
+        if (d == false) {
+            checkRole = "0";//nghiep vu
         }
         // set data
         let data = {
@@ -581,80 +589,81 @@ $('#btnsave').on('click', function (e) {
             "name": $.trim($('#input_name').val()),
             "mobile": $.trim($('#input_phone').val()),
             "email": $.trim($('#input_email').val()),
-            "gender": checkedGender =="0"?"0":1,
+            "gender": checkedGender == "0" ? "0" : 1,
             "status_id": $('#status_id').val(),
-            "check_roke": checkRole =="0"?"0":1,
+            "check_roke": checkRole == "0" ? "0" : 1,
             "card_number": $.trim($('#input_cardNumber').val()),
             "group_user_id": $('#input_group_id').val(),
             "check_download_time": $.trim($('#input_time_download').val()),
             "thread_id": thread_id,
-            "user_login": username
+            "user_login": username,
+            "check_edit_pass": edit_pass_var,
         };
 
-       if($('#action_info').val() ==1){
-           // call ajax here edit
-           $.ajax({
-               headers: {
-                   'Authorization': token
-               },
-               url: apiUrl + "user-manager/create_users",
-               method: 'POST',
-               contentType: 'application/json',
-               data: JSON.stringify(data),
-               success: function (data) {  //
-                   if (data == "true") {
-                       toastr.success('Thêm mới người dùng thành công', data.message);
-                       location.reload();
-                   }else if(data == "username_exist"){
-                       $('#input_Username_msg').html('username đã tồn tại!');
-                       $('#input_Username').focus();
-                   } else if(data == "cardnumber_exist"){
-                       $('#input_cardNumber_msg').html('Số chứng minh thư đã tồn tại!');
-                       $('#input_cardNumber').focus();
-                   } else if(data == "email_exist"){
-                       $('#input_email_msg').html('Email đã tồn tại!');
-                       $('#input_email').focus();
-                   } else {
-                       toastr.error('Có lỗi xảy ra' +data, data.message);
-                   }
-                   table.ajax.reload();
-               },
-               error: function (err) {
-                   toastr.error("Có lỗi xảy ra : " + err);
-                   console.log("result = " +err);
-               }
-           });
-       }else{
+        if ($('#action_info').val() == 1) {
             // call ajax here edit
-           $.ajax({
-               headers: {
-                   'Authorization': token
-               },
-               url: apiUrl + "user-manager/edit_users",
-               method: 'POST',
-               contentType: 'application/json',
-               data: JSON.stringify(data),
-               success: function (data) {  //
-                   if (data == "true") {
-                       toastr.success('Chỉnh sửa người dùng thành công', data.message);
-                       location.reload();
-                   }else if(data == "cardnumber_exist"){
-                       $('#input_cardNumber_msg').html('Số chứng minh thư đã tồn tại!');
-                       $('#input_cardNumber').focus();
-                   } else if(data == "email_exist"){
-                       $('#input_email_msg').html('Email đã tồn tại!');
-                       $('#input_email').focus();
-                   } else {
-                       toastr.error('Có lỗi xảy ra' +data, data.message);
-                   }
-                   table.ajax.reload();
-               },
-               error: function (err) {
-                   toastr.error("Có lỗi xảy ra : " + err);
-                   console.log("result = " +err);
-               }
-           });
-       }
+            $.ajax({
+                headers: {
+                    'Authorization': token
+                },
+                url: apiUrl + "user-manager/create_users",
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function (data) {  //
+                    if (data == "true") {
+                        toastr.success('Thêm mới người dùng thành công', data.message);
+                        location.reload();
+                    } else if (data == "username_exist") {
+                        $('#input_Username_msg').html('username đã tồn tại!');
+                        $('#input_Username').focus();
+                    } else if (data == "cardnumber_exist") {
+                        $('#input_cardNumber_msg').html('Số chứng minh thư đã tồn tại!');
+                        $('#input_cardNumber').focus();
+                    } else if (data == "email_exist") {
+                        $('#input_email_msg').html('Email đã tồn tại!');
+                        $('#input_email').focus();
+                    } else {
+                        toastr.error('Có lỗi xảy ra' + data, data.message);
+                    }
+                    table.ajax.reload();
+                },
+                error: function (err) {
+                    toastr.error("Có lỗi xảy ra : " + err);
+                    console.log("result = " + err);
+                }
+            });
+        } else {
+            // call ajax here edit
+            $.ajax({
+                headers: {
+                    'Authorization': token
+                },
+                url: apiUrl + "user-manager/edit_users",
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function (data) {  //
+                    if (data == "true") {
+                        toastr.success('Chỉnh sửa người dùng thành công', data.message);
+                        location.reload();
+                    } else if (data == "cardnumber_exist") {
+                        $('#input_cardNumber_msg').html('Số chứng minh thư đã tồn tại!');
+                        $('#input_cardNumber').focus();
+                    } else if (data == "email_exist") {
+                        $('#input_email_msg').html('Email đã tồn tại!');
+                        $('#input_email').focus();
+                    } else {
+                        toastr.error('Có lỗi xảy ra' + data, data.message);
+                    }
+                    table.ajax.reload();
+                },
+                error: function (err) {
+                    toastr.error("Có lỗi xảy ra : " + err);
+                    console.log("result = " + err);
+                }
+            });
+        }
 
     }
 });
@@ -667,81 +676,89 @@ $('#btnDelete').on('click', function (e) {
         },
         url: apiUrl + "user-manager/delete_users",
         method: 'POST',
-        data: 'username='+$('#input_Username').val(),
+        data: 'username=' + $('#input_Username').val(),
         success: function (data) {
             if (data == "true") {
                 toastr.success('Xóa người dùng thành công', data.message);
                 location.reload();
-            }else if(data == "check_id_exist"){
+            } else if (data == "check_id_exist") {
                 toastr.error('Tài khoản không tồn tại', data.message);
             } else {
-                toastr.error('Có lỗi xảy ra' +data, data.message);
+                toastr.error('Có lỗi xảy ra' + data, data.message);
             }
         },
         error: function (err) {
             toastr.error("Có lỗi xảy ra : " + err);
-            console.log("result = " +err);
+            console.log("result = " + err);
         }
     });
 });
 
-function validateForm(){
+function validateForm() {
     $('.err_msg').html('');
 
-    if($.trim($('#input_Username').val())=='') {
+    if ($.trim($('#input_Username').val()) == '') {
         $('#input_Username_msg').html('Tên đăng nhập không được để trống!');
         $('#input_Username').focus();
         return;
     }
     var patt = /^[A-Za-z0-9_\.]+$/;
-    if(!patt.test(($.trim($('#input_Username').val())).toLowerCase())) {
+    if (!patt.test(($.trim($('#input_Username').val())).toLowerCase())) {
         $('#input_Username_msg').html('username không hợp lệ! (Chỉ bao gồm các ký tự chữ cái, chữ số, dấu gạch dưới, dấu chấm.)');
         $('#input_Username').focus();
         return;
     }
 
-    if($.trim($('#input_Password').val())=='') {
+    if ($.trim($('#input_Password').val()) == '' && edit_pass_var == '1') {
         $('#input_Password_msg').html('Mật khẩu không được để trống!');
         $('#input_Password').focus();
         return;
     }
 
-    if($.trim($('#input_name').val())=='') {
+    if ($.trim($('#input_name').val()) == '') {
         $('#input_name_msg').html('Họ và tên không được để trống!');
         $('#input_name').focus();
         return;
     }
 
-    if($.trim($('#input_email').val())=='') {
+    if ($.trim($('#input_email').val()) == '') {
         $('#input_email_msg').html('Email không được để trống!');
         $('#input_email').focus();
         return;
     }
 
-    if($('#input_email').val()!='' && !validateEmail($('#input_email').val())){
+    if ($('#input_email').val() != '' && !validateEmail($('#input_email').val())) {
         $('#input_email_msg').html($('#input_email').val() + ' không hợp lệ!');
         $('#input_email').focus();
         return;
     }
 
-    if($.trim($('#input_group_id').val())=='-1') {
+    if ($.trim($('#input_group_id').val()) == '-1') {
         $('#input_group_id_msg').html('Nhóm người dùng không được để trống!');
         $('#input_group_id').focus();
         return;
     }
 
     var patt = /^[0-9 ]+$/;
-    if($('#input_cardNumber').val()!='' && !patt.test($.trim($('#input_cardNumber').val()))) {
-        $('#input_cardNumber_msg').html('Số chứng minh thư không hợp lệ! (phải là chuỗi số!)');
+    if ($('#input_cardNumber').val() != '' && !patt.test($.trim($('#input_cardNumber').val()))) {
+        $('#input_cardNumber_msg').html('Số chứng minh thư không hợp lệ! (phải là chuỗi số nguyên dương!)');
         $('#input_cardNumber').focus();
         return;
     }
+    var patt = /^[0-9 ]+$/;
+    if ($.trim($('#input_phone').val()) != '' && !patt.test($.trim($('#input_phone').val()))) {
+        $('#input_phone_msg').html('Số điện thoại không hợp lệ! (phải là chuỗi số nguyên dương!)');
+        $('#input_phone').focus();
+        return;
+    }
 
-    if($.trim($('#input_time_download').val())=='') {
-        $('#input_time_download_msg').html('Thời gian download không được để trống!');
+    var patt = /^[0-9 ]+$/;
+    if ($('#input_time_download').val() != '' && !patt.test($.trim($('#input_time_download').val()))) {
+        $('#input_time_download_msg').html('Thời gian download không hợp lệ! (phải là chuỗi số nguyên dương!)');
         $('#input_time_download').focus();
         return;
     }
+
     return true;
 }
 
@@ -750,7 +767,7 @@ function validateEmail(email) {
     return re.test(email);
 }
 
-function  resetRight() {
+function resetRight() {
     $('#input_code').val('');
     $('#input_email').val('');
     $('#input_Username').val('');
@@ -762,9 +779,9 @@ function  resetRight() {
     $('#input_time_download').val('');
 }
 
-function ckNhom_quyen(){
+function ckNhom_quyen() {
     $("input.checkboxNVenb").attr("disabled", true);
-    $("input.checkboxNVenb").prop('checked',false);
+    $("input.checkboxNVenb").prop('checked', false);
     $("input.checkNQ").attr("disabled", false);
     $("input.checkboxNQAll").attr("disabled", false);
     delete_temp(1);
@@ -772,12 +789,12 @@ function ckNhom_quyen(){
 }
 
 //action chon tac vu
-function checktac_vu(){
+function checktac_vu() {
     $("input.checkNQ").attr("disabled", true);
-    $("input.checkNQ").prop('checked',false);
-    $("input.checkboxNVenb").prop('checked',false);
+    $("input.checkNQ").prop('checked', false);
+    $("input.checkboxNVenb").prop('checked', false);
     $("input.checkboxNVenb").attr("disabled", false);
-    $("input.checkboxNQAll").prop('checked',false);
+    $("input.checkboxNQAll").prop('checked', false);
     $("input.checkboxNQAll").attr("disabled", true);
     delete_temp(0);
     $('.nav-tabs a[href="#NV"]').tab('show');
@@ -789,15 +806,16 @@ function delete_temp(tempId) {
         headers: {
             'Authorization': token
         },
-        url:  apiUrl + "user-manager/delete_temp",
-        data: "tempId="+tempId+"&threadId=" + thread_id,
-        method:"post",
-        success: function(data){
+        url: apiUrl + "user-manager/delete_temp",
+        data: "tempId=" + tempId + "&threadId=" + thread_id,
+        method: "post",
+        success: function (data) {
             // alert(data);
-            if ($.trim(data)=="true"){
+            if ($.trim(data) == "true") {
                 // toastr.success('checkall thành công', data.message);
-            }else{
-                toastr.success('Có lỗi xảy ra', data.message);;
+            } else {
+                toastr.success('Có lỗi xảy ra', data.message);
+                ;
             }
         }
     });
@@ -808,3 +826,18 @@ $('#btnSearch').on('click', function (e) {
     objSearch.s_todate = $("#end_date").val();
     table.search(objSearch).draw();
 });
+var edit_pass_var ='';
+function edit_pass() {
+    edit_pass_var = 1;
+    $("#input_Password").attr("disabled", false);
+    $("#icon_penc").css("display", "none");
+    $("#icon_dis_penc").css("display", "inline");
+}
+
+function dis_penc() {
+    edit_pass_var = '';
+    $("#input_Password").attr("disabled", true);
+    $("#icon_penc").css("display", "inline");
+    $("#icon_dis_penc").css("display", "none");
+}
+
