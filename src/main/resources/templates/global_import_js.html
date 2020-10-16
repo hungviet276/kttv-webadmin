@@ -7,6 +7,7 @@
 		var token = "[[${session.token}]]";
 		console.log(apiUrl + "|" + JSON.stringify(userBO) + "|" + token);
 		var global = {
+			username:'[[${session.userBO.username}]]',
 			loadElement : function (idElement){
 				arr = [];
 				$("#"+ idElement +" :input").each(function(){
