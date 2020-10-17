@@ -73,8 +73,8 @@ let objSearch = {
 $('#tableDataView thead th').each(function () {
     var title = $(this).text();
     var dataId = $(this).attr("data-id");
-    if (dataId != null && dataId != undefined) {
-        $(this).html('<input class="table-data-input-search" id="'+ dataId +'" type="text" placeholder="Search ' + title + '" />');
+    if (dataId != null && dataId != undefined && dataId != 's_created_date' && dataId != 's_modified_date') {
+        $(this).html('<input class="table-data-input-search form-control" id="'+ dataId +'" type="text" placeholder="Search ' + title + '" />');
     }
 });
 
@@ -612,5 +612,12 @@ $('#btnDelete').on('click', function (e) {
                 toastr.error(err.responseJSON.message, err.responseJSON.code);
             }
         })
+    }
+});
+
+$('input').bind('keypress', function(e) {
+    if(e.keyCode == 13)
+    {
+        return false;
     }
 });
