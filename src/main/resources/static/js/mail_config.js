@@ -26,7 +26,7 @@ $('#tableDataView thead th').each(function () {
     var title = $(this).text();
     var dataId = $(this).attr("data-id");
     if (dataId != null && dataId != undefined) {
-        $(this).html('<input class="table-data-input-search" id="' + dataId + '" type="text" placeholder="Search ' + title + '" />');
+        $(this).html('<input class="table-data-input-search form-control" id="' + dataId + '" type="text" placeholder="Search ' + title + '" />');
     }
 });
 
