@@ -22,28 +22,28 @@
                     <div class="card-header">
                         <h3 class="card-title">Quản lý cấu hình email</h3>
                     </div>
-                    <form class="form-horizontal" id="form_data">
+                    <form class="form-horizontal" id="form_data" autocomplete="off">
                         <div class="card-body">
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="inputIp">Địa chỉ IP</label>
-                                    <input type="text" class="form-control" id="inputIp" placeholder="IP">
+                                    <input type="text" class="form-control" id="inputIp" name="inputIp" placeholder="IP">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="inputPort">Cổng</label>
-                                    <input type="text" class="form-control" id="inputPort"
+                                    <input type="text" class="form-control" id="inputPort" name="inputPort"
                                            placeholder="Port">
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="inputUsername">Tên đang nhập</label>
-                                    <input type="text" class="form-control" id="inputUsername" placeholder="Username">
+                                    <input type="text" class="form-control" id="inputUsername" name="inputUsername" placeholder="Username">
                                 </div>
-                                <div class="col-md-6">
+                                <div class="form-group col-md-6">
                                     <label for="inputPassword">Mật khẩu</label>
                                     <div class="input-group">
-                                        <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+                                        <input type="text" class="form-control" id="inputPassword" name="inputPassword" placeholder="Password">
                                         <div class="input-group-prepend">
                                             <button type="button" class="btn btn-light" data-toggle="hidden" id="btnTogglePassword">
                                                 <i class="far fa-eye"></i>
@@ -55,26 +55,26 @@
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="inputDomain">Tên miền</label>
-                                    <input type="text" class="form-control" id="inputDomain" placeholder="Domain">
+                                    <input type="text" class="form-control" id="inputDomain" name="inputDomain" placeholder="Domain">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="inputSenderName">Người gửi</label>
-                                    <input type="text" class="form-control" id="inputSenderName" placeholder="Sender name">
+                                    <input type="text" class="form-control" id="inputSenderName" name="inputSenderName" placeholder="Sender name">
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="inputEmailAddress">Địa chỉ email</label>
-                                    <input type="email" class="form-control" id="inputEmailAddress" placeholder="Domain">
+                                    <input type="email" class="form-control" id="inputEmailAddress" name="inputEmailAddress" placeholder="Email">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="inputProtocol">Giao thức</label>
-                                    <input type="text" class="form-control" id="inputProtocol" placeholder="Protocol">
+                                    <input type="text" class="form-control" id="inputProtocol" name="inputProtocol" placeholder="Protocol">
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <input type="text" class="form-control invisible" id="inputMailConfigId" placeholder="mailConfigId">
+                                    <input type="text" class="form-control invisible" id="inputMailConfigId" name="inputMailConfigId" placeholder="mailConfigId">
                                 </div>
                             </div>
                         </div>

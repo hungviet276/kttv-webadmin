@@ -26,7 +26,7 @@ $('#tableDataView thead th').each(function () {
     var title = $(this).text();
     var dataId = $(this).attr("data-id");
     if (dataId != null && dataId != undefined) {
-        $(this).html('<input class="table-data-input-search" id="'+ dataId +'" type="text" placeholder="Search ' + title + '" />');
+        $(this).html('<input class="table-data-input-search" id="' + dataId + '" type="text" placeholder="Search ' + title + '" />');
     }
 });
 
@@ -36,13 +36,13 @@ var oldValue;
 // showLoading();
 var draw = 0;
 var table = $('#tableDataView').DataTable({
-    columnDefs: [ {
+    columnDefs: [{
         orderable: false,
         className: 'select-checkbox',
-        targets:   0
-    } ],
+        targets: 0
+    }],
     select: {
-        style:    'os',
+        style: 'os',
         selector: 'td:first-child',
         type: 'single'
     },
@@ -66,7 +66,7 @@ var table = $('#tableDataView').DataTable({
     "processing": true,
     "serverSide": true,
     "columns": [
-        { "data":""},
+        {"data": ""},
         {"data": "indexCount", "render": $.fn.dataTable.render.text()},
         {"data": "id", "render": $.fn.dataTable.render.text()},
         {"data": "ip", "render": $.fn.dataTable.render.text()},
@@ -83,7 +83,7 @@ var table = $('#tableDataView').DataTable({
         this.api().columns().every(function () {
             var that = this;
             $('.table-data-input-search').on('keyup', function () {
-                 oldValue = this.___value___;
+                oldValue = this.___value___;
                 this.___value___ = this.value;
                 if (oldValue == this.___value___) return;
                 keyUpTime = new Date().getTime();
@@ -232,48 +232,13 @@ function resetButtonControlAfterSubmitForm() {
     $('#btnEdit').attr('disabled', 'true');
 }
 
-function validateMailConfig(data) {
-    if (data.ip == null || data.ip == undefined) {
-        toastr.warning('Lỗi', 'Ip không được trống');
-        return;
-    }
-
-    if (data.port == null || data.port == undefined) {
-        toastr.warning('Lỗi', 'Cổng không được trống');
-        return;
-    }
-
-    if (data.username == null || data.username == undefined) {
-        toastr.warning('Lỗi', 'Tên đăng nhập không được trống');
-        return;
-    }
-
-    if (data.password == null || data.password == undefined) {
-        toastr.warning('Lỗi', 'Mật khẩu không được trống');
-        return;
-    }
-
-    if (data.domain == null || data.domain == undefined) {
-        toastr.warning('Lỗi', 'Tên miền không được trống');
-        return;
-    }
-    if (data.senderName == null || data.senderName == undefined) {
-        toastr.warning('Lỗi', 'Tên người gửi không được trống');
-        return;
-    }
-    if (data.email == null || data.email == undefined) {
-        toastr.warning('Lỗi', 'Email không được trống');
-        return;
-    }
-    if (data.protocol == null || data.protocol == undefined) {
-        toastr.warning('Lỗi', 'Giao thức không được trống');
-        return;
-    }
-}
 
 $('#btnSaveCreate').on('click', function (e) {
     e.preventDefault();
     e.stopPropagation();
+
+    if(!$('#form_data').valid())
+        return;
 
     // call ajax here
     showLoading();
@@ -333,6 +298,8 @@ $('#btnBackCreate').on('click', function (e) {
     e.preventDefault();
     e.stopPropagation();
 
+    validator.resetForm();
+
     $('#btnSaveCreate').css('display', 'none');
     $('#btnBackCreate').css('display', 'none');
 
@@ -344,9 +311,9 @@ $('#btnBackCreate').on('click', function (e) {
 
     $('#wrap_table_data').css('pointer-events', '');
 
-    formReset()
+    formReset();
     // roleback dataToForm
-    let rowData = table.rows( { selected: true } ).data().toArray();
+    let rowData = table.rows({selected: true}).data().toArray();
     if (rowData == null || rowData == undefined || rowData.length < 1) {
         $('#btnCopy').attr('disabled', 'true');
         $('#btnDelete').attr('disabled', 'true');
@@ -431,6 +398,8 @@ $('#btnBackEdit').on('click', function (e) {
     e.preventDefault();
     e.stopPropagation();
 
+    validator.resetForm();
+
     $('#btnSaveEdit').css('display', 'none');
     $('#btnBackEdit').css('display', 'none');
 
@@ -444,7 +413,7 @@ $('#btnBackEdit').on('click', function (e) {
 
     formReset()
     // roleback dataToForm
-    let rowData = table.rows( { selected: true } ).data().toArray();
+    let rowData = table.rows({selected: true}).data().toArray();
     fillDataToForm(rowData);
 });
 
@@ -519,6 +488,8 @@ $('#btnBackCopy').on('click', function (e) {
     e.preventDefault();
     e.stopPropagation();
 
+    validator.resetForm();
+
     $('#btnSaveCopy').css('display', 'none');
     $('#btnBackCopy').css('display', 'none');
 
@@ -532,7 +503,7 @@ $('#btnBackCopy').on('click', function (e) {
 
     formReset()
     // roleback dataToForm
-    let rowData = table.rows( { selected: true } ).data().toArray();
+    let rowData = table.rows({selected: true}).data().toArray();
     fillDataToForm(rowData);
 });
 
@@ -542,7 +513,7 @@ $('#btnDelete').on('click', function (e) {
 
     if (confirm("Bạn có muốn xoá bản ghi này không ?")) {
         showLoading();
-        let rowData = table.rows( { selected: true } ).data().toArray();
+        let rowData = table.rows({selected: true}).data().toArray();
         let data = {
             "id": rowData[0].id
         };
@@ -577,7 +548,7 @@ $('#btnDelete').on('click', function (e) {
     }
 });
 
-$('#btnTogglePassword').on('click', function(e) {
+$('#btnTogglePassword').on('click', function (e) {
     e.preventDefault();
     e.stopPropagation();
 
@@ -591,5 +562,128 @@ $('#btnTogglePassword').on('click', function(e) {
         $(this).children().removeClass(['far', 'fa-eye-slash']);
         $(this).children().addClass(['far', 'fa-eye']);
         $(this).attr('data-toggle', 'hidden');
+    }
+});
+
+// validate form jquery
+var validator = $('#form_data').validate({
+    rules: {
+        inputIp: {
+            required: true,
+            maxlength: 100
+        },
+        inputPort: {
+            required: true,
+            maxlength: 50
+        },
+        inputUsername: {
+            required: true,
+            maxlength: 30
+        },
+        inputPassword: {
+            required: true,
+            maxlength: 100
+        },
+        inputDomain: {
+            required: true,
+            maxlength: 100
+        },
+        inputSenderName: {
+            required: true,
+            maxlength: 100
+        },
+        inputEmailAddress: {
+            required: true,
+            maxlength: 100,
+            email: true
+        },
+        inputProtocol: {
+            required: true,
+            maxlength: 100
+        },
+    },
+    messages: {
+        inputIp: {
+            required: function () {
+                toastr.error("Địa chỉ IP không được trống");
+            },
+            maxlength: function () {
+                toastr.error("Địa chỉ IP không vượt quá 100 ký tự")
+            }
+        },
+        inputPort: {
+            required: function () {
+                toastr.error("Port không được trống")
+            },
+            maxlength: function () {
+                toastr.error("Port không vượt quá 50 ký tự")
+            }
+        },
+        inputUsername: {
+            required: function () {
+                toastr.error("Tên đăng nhập không được trống")
+            },
+            maxlength: function () {
+                toastr.error("Tên đăng nhập không vượt quá 30 ký tự")
+            }
+        },
+        inputPassword: {
+            required: function () {
+                toastr.error("Mật khẩu không được trống")
+            },
+            maxlength: function () {
+                toastr.error("Mật khẩu không vượt quá 100 ký tự")
+            }
+        },
+        inputDomain: {
+            required: function () {
+                toastr.error("Domain không được trống")
+            },
+            maxlength: function () {
+                toastr.error("Domain không vượt quá 100 ký tự")
+            }
+        },
+        inputSenderName: {
+            required: function () {
+                toastr.error("Tên người gửi không được trống")
+            },
+            maxlength: function () {
+                toastr.error("Tên người gửi không vượt quá 100 ký tự")
+            }
+        },
+        inputEmailAddress: {
+            required: function () {
+                toastr.error("Email không được trống")
+            },
+            email: function () {
+                toastr.error("Email không hợp lệ")
+            }
+        },
+        inputProtocol: {
+            required: function () {
+                toastr.error("Giao thức không được trống")
+            },
+            maxlength: function () {
+                toastr.error("Giao thức không vượt quá 100 ký tự")
+            }
+        },
+    },
+    errorElement: 'span',
+    errorPlacement: function (error, element) {
+        error.addClass('invalid-feedback');
+        element.closest('.form-group').append(error);
+    },
+    highlight: function (element, errorClass, validClass) {
+        $(element).addClass('is-invalid');
+    },
+    unhighlight: function (element, errorClass, validClass) {
+        $(element).removeClass('is-invalid');
+    }
+});
+
+$('input').bind('keypress', function(e) {
+    if(e.keyCode == 13)
+    {
+        return false;
     }
 });
