@@ -24,7 +24,7 @@
                         <h4>Cấu hình min-max cho từng yếu tố cho từng trạm</h4>
                     </div>
                     <div class="container-fluid">
-                        <div class="row content" style="height: 1119px;width: 100%">
+                        <div class="row content" style="width: 100%">
                             <div class="col-sm-5" id="box_search">
                                 <div class="card-header">
                                     <h3 style="text-align: center"><b>Tìm kiếm thông tin trạm</b></h3>
@@ -107,14 +107,23 @@
                                     <form class="form-horizontal" id="form_input">
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
-                                                <label for="input_code">Trạm<span style="color: red;">*</span></label>
-                                                <input type="text" class="form-control" id="input_code" placeholder="">
+                                                <label for="station_add">Trạm<span style="color: red;">*</span></label>
+                                                <div class="select2-purple">
+                                                    <select id="station_add" data-placeholder="Select a State"
+                                                            data-dropdown-css-class="select2-purple" style="width: 100%;">
+                                                    </select>
+                                                </div>
                                             </div>
+
                                             <div class="form-group col-md-6">
-                                                <label for="input_email">Yếu tố</label>
-                                                <input type="text" class="form-control" id="input_email"
-                                                       placeholder="">
+                                                <label for="value-type-station">Yếu tố<span style="color: red;">*</span></label>
+                                                <div class="select2-purple">
+                                                    <select id="value-type-station" data-placeholder="Select a State"
+                                                            data-dropdown-css-class="select2-purple" style="width: 100%;">
+                                                    </select>
+                                                </div>
                                             </div>
+
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
@@ -151,19 +160,53 @@
                                     <div>
                                         <h3 style="text-align: center"><b>Danh sách các trạm biến đổi theo không gian</b></h3>
                                     </div>
-                                    <form class="form-horizontal" id="form_input">
+                                    <form class="form-horizontal" id="formStationSpatial">
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
-                                                <label for="input_code">Trạm<span style="color: red;">*</span></label>
-                                                <input type="text" class="form-control" id="input_code" placeholder="">
+                                                <label for="stationSpatial">Trạm</label>
+                                                <div class="select2-purple">
+                                                    <select id="stationSpatial" data-placeholder="Select a State"
+                                                            data-dropdown-css-class="select2-purple" style="width: 100%;">
+                                                        <!--                                                            -->
+                                                    </select>
+                                                </div>
                                             </div>
                                             <div class="form-group col-md-6">
-                                                <label for="input_email">Yếu tố</label>
-                                                <input type="text" class="form-control" id="input_email"
-                                                       placeholder="">
+                                                <label for="valueTypeSpatial">Trạm</label>
+                                                <div class="select2-purple" style="height: 38px">
+                                                    <select id="valueTypeSpatial" data-placeholder="Select a State"
+                                                            data-dropdown-css-class="select2-purple" style="width: 100%; height: 38px">
+                                                        <!--                                                            -->
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
                                     </form>
+                                    <div class="wrap-button-control">
+                                        <button class="btn btn-primary" id="btnsaveStationValueType" style="width: 100px;">
+                                            <i class="fas fa-plus"></i> Lưu
+                                        </button>
+                                    </div>
+                                    <hr>
+                                    <table id="tableStationSpatial" class="table table-bordered table-hover" style="margin: 0 auto; width: 100%">
+                                        <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Id trạm</th>
+                                            <th>Id Yếu tố</th>
+                                            <th>Mã trạm</th>
+                                            <th>Tên trạm</th>
+                                            <th>Mã yếu tố</th>
+                                            <th>Tên yếu tố</th>
+                                            <th>Mức độ biến đổi theo không gian</th>
+                                            <th>Xóa</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+
+                                    <hr>
                                     <div class="wrap-button-control">
                                         <button class="btn btn-primary" id="btnsave" style="display:none;width: 100px;">
                                             <i class="fas fa-plus"></i> Lưu

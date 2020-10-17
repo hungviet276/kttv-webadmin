@@ -15,6 +15,22 @@ $('#start_date').daterangepicker({
     $('#start_date').val(choosen_date.format('DD/MM/YYYY'));
 });
 
+$('#btncancer').click(function () {
+    // disabled_right();
+    $("#btnsave").css("display", "none");
+    $("#btnDelete").css("display", "none");
+    $("#btnReset").css("display", "none");
+    $("#btncancer").css("display", "none");
+    $("#btnDonew").attr("disabled", false);
+    show_search();
+});
+
+function show_search() {
+    $("#box_info").hide(0);
+    $("#box_search").show(500);
+    $("#box_search").attr('class', 'col-sm-12');
+}
+
 function show_search() {
     $("#box_info").hide(0);
     $("#box_search").show(500);
@@ -68,6 +84,46 @@ $('#station').select2({
         },
         processResults: function (data) {
             var datas =  $('#station').val();
+            return {
+                results: $.map(data, function (item) {
+                    return {
+                        text: item.text,
+                        id: item.id,
+                        data: item
+                    }
+                })
+            };
+        }
+    }
+});
+
+$('#valueTypeSpatial').select2({
+
+});
+$('#value-type-station').select2({
+
+});
+
+$('#stationSpatial').select2({
+    minimumInputLength: 0,
+    delay: 350,
+    ajax: {
+        headers: {
+            'Authorization': token
+        },
+        url: apiUrl + "config-value-type/get-list-station",
+        contentType: 'application/json',
+        method: "POST",
+        quietMillis: 50,
+        data: function (term) {
+            if(term.term==null || term.term== undefined){
+                term.term = null;
+            }
+            return JSON.stringify(term);
+
+        },
+        processResults: function (data) {
+            var datas =  $('#stationSpatial').val();
             return {
                 results: $.map(data, function (item) {
                     return {
@@ -293,5 +349,151 @@ $("#btnSearch").click(function (event){
     tableConfigValueType.search(objSearch).draw();
 
 });
+$("#stationSpatial").change(function () {
+    $('#valueTypeSpatial').empty();
+    $.ajax({
+        headers: {
+            'Authorization': token
+        },
+        "url": apiUrl + "config-value-type/get-list-value-type?idStation="+ $("#stationSpatial").val(),
+        "method": "POST",
+        "contentType": "application/json",
+        "success": function (response) {
+            $('#valueTypeSpatial').val(null).trigger('change');
+            for (let i = 0; i < response.length; i++){
+                var newOption = new Option(response[i].text, response[i].id, false, false);
+                $('#valueTypeSpatial').append(newOption).trigger('change');
+            }
+        },
+        "error": function (error) {
+            toastr.error('Lỗi', data.message);
+        }
+    });
+});
+// table thêm yếu tố
+var tableStationSpatial = $('#tableStationSpatial').DataTable({
+    columns: [
+        {"data": "id"},
+        {"data": "stationId"},
+        {"data": "valueTypeId"},
+        {"data" : "stationCode"},
+        {"data": "stationName"},
+        {"data" : "valueTypeCode"},
+        {"data": "valueTypeName"},
+        {"data": "variableSpatial"},
+        {
+            data: null,
+            className: "center",
+            defaultContent: '<a href="" class="editor_remove">Delete</a>'
+        }
+    ]
+});
+$("#btnsaveStationValueType").click(function () {
+    var dataStation = $('#stationSpatial').select2('data');
+    var valueType = $('#valueTypeSpatial').select2('data')
 
+    if(dataStation.length == 0){
+        toastr.error('Lỗi', "Hãy chọn trạm");
+        $('#stationSpatial').focus();
+        return;
+    }
+    if(valueType.length == 0){
+        toastr.error('Lỗi', "Hãy yếu tố");
+        $('#valueTypeSpatial').focus();
+        return;
+    }
+
+    // call ajax lấy thông tin config yếu tố
+    $.ajax({
+        headers: {
+            'Authorization': token
+        },
+        "url": apiUrl + "config-value-type/get-station-value-type-spatial?idStation="+ dataStation[0].id+"&idValueType="+valueType[0].id,
+        "method": "GET",
+        "contentType": "application/json",
+        "success": function (response) {
+            // kiểm tra xem nếu đã tồn tại trong bảng rồi thì thông báo ra không thêm nữa
+            var formData  = tableStationSpatial.rows().data();
+            let insert = true;
+            $.each( formData, function( key, value ) {
+                if(dataStation[0].id == value.stationId && valueType[0].id == value.valueTypeId){
+                    insert = false;
+                }
+            });
+            if(insert == false){
+                toastr.warning('Lỗi', "Bản ghi đã tồn tại");
+                return;
+            }
+            tableStationSpatial.row.add(response).draw( true );
+
+        },
+        "error": function (error) {
+            toastr.error('Lỗi', error.responseJSON.message);
+        }
+    });
+
+});
+// Delete a record
+tableStationSpatial.on('click', 'a.editor_remove', function (e) {
+    e.preventDefault();
+    var table = $('#tableStationSpatial').DataTable();
+    table
+        .row( $(this).parents('tr') )
+        .remove().draw();
+});
+
+$('#station_add').select2({
+    minimumInputLength: 0,
+    delay: 350,
+    ajax: {
+        headers: {
+            'Authorization': token
+        },
+        url: apiUrl + "station/station-select",
+        contentType: 'application/json',
+        method: "POST",
+        quietMillis: 50,
+        data: function (term) {
+            if(term.term==null || term.term== undefined){
+                term.term = null;
+            }
+            return JSON.stringify(term);
+
+        },
+        processResults: function (data) {
+            var datas =  $('#station').val();
+            return {
+                results: $.map(data, function (item) {
+                    return {
+                        text: item.text,
+                        id: item.id,
+                        data: item
+                    }
+                })
+            };
+        }
+    }
+});
+$("#station_add").change(function () {
+    var dataStation = $('#station_add').select2('data');
+    $.ajax({
+        headers: {
+            'Authorization': token
+        },
+        "url": apiUrl + "config-value-type/get-value-type-station-select?idStation="+dataStation[0].id,
+        "method": "GET",
+        "contentType": "application/json",
+        "success": function (response) {
+            $('#value-type-station').val(null).trigger('change');
+            $('#value-type-station').empty();
+            for (let i = 0; i < response.length; i++){
+                var newOption = new Option(response[i].text, response[i].id, false, false);
+                $('#value-type-station').append(newOption).trigger('change');
+            }
+        },
+        "error": function (error) {
+            toastr.error('Lỗi', error.responseJSON.message);
+        }
+    });
+});
 
