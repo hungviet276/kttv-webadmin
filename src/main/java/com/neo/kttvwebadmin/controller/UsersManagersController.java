@@ -12,6 +12,6 @@ public class UsersManagersController {
     @GetMapping
     public String getHomePage(Model model) {
 //        model.addAttribute("a", 1);
-        return "/users_manager/users_manager";
+        return "users_manager/users_manager";
     }
 }
