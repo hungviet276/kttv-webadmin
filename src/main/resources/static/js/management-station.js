@@ -335,11 +335,32 @@ var station =
             let latitude = $("#latitude").val().trim();
 
             let areaId = $("#areaId").val().trim();
+            let areaName = null;
+            if(areaId !== "-1") {
+                areaName = $("#areaId :selected").text().trim();
+            }
+
             let provinceId = $("#provinceId").val().trim();
+            let provinceName = null;
+            if(provinceId !== "-1") {
+                provinceName = $("#provinceId :selected").text().split("-")[1].trim();
+            }
             let districtId = $("#districtId").val().trim();
+            let districtName = null;
+            if(districtId !== "-1") {
+                districtName = $("#districtId :selected").text().split("-")[1].trim();
+            }
             let wardId = $("#wardId").val().trim();
+            let wardName = null;
+            if(wardId !== "-1") {
+                wardName = $("#wardId :selected").text().split("-")[1].trim();
+            }
             let address = $("#address").val().trim();
             let riverId = $("#riverId").val();
+            let riverName = null;
+            if(riverId !== "-1") {
+                riverName = $("#riverId :selected").text().split("-")[1].trim();
+            }
             let status = $("#status").val().trim();
             riverId = riverId === "-1" ? null : riverId;
             let data = {
@@ -355,11 +376,16 @@ var station =
                 "latitude": latitude,
                 "countryId": 281,
                 "areaId": areaId,
+                "areaName":areaName,
                 "provinceId": provinceId,
+                "provinceName":provinceName,
                 "districtId": districtId,
+                "districtName":districtName,
                 "wardId": wardId,
+                "wardName":wardName,
                 "address": address,
                 "riverId": riverId,
+                "riverName":riverName,
                 "status": status,
                 "username": global.username
             }
@@ -408,11 +434,32 @@ var station =
             let latitude = $("#latitude").val().trim();
 
             let areaId = $("#areaId").val().trim();
+            let areaName = null;
+            if(areaId !== "-1") {
+                areaName = $("#areaId :selected").text().trim();
+            }
+
             let provinceId = $("#provinceId").val().trim();
+            let provinceName = null;
+            if(provinceId !== "-1") {
+                provinceName = $("#provinceId :selected").text().split("-")[1].trim();
+            }
             let districtId = $("#districtId").val().trim();
+            let districtName = null;
+            if(districtId !== "-1") {
+                districtName = $("#districtId :selected").text().split("-")[1].trim();
+            }
             let wardId = $("#wardId").val().trim();
+            let wardName = null;
+            if(wardId !== "-1") {
+                wardName = $("#wardId :selected").text().split("-")[1].trim();
+            }
             let address = $("#address").val().trim();
-            let riverId = $("#riverId").val().trim();
+            let riverId = $("#riverId").val();
+            let riverName = null;
+            if(riverId !== "-1") {
+                riverName = $("#riverId :selected").text().split("-")[1].trim();
+            }
             let status = $("#status").val().trim();
             riverId = riverId === "-1" ? null : riverId;
             let data = {
@@ -428,11 +475,16 @@ var station =
                 "latitude": latitude,
                 "countryId": 281,
                 "areaId": areaId,
+                "areaName":areaName,
                 "provinceId": provinceId,
+                "provinceName":provinceName,
                 "districtId": districtId,
+                "districtName":districtName,
                 "wardId": wardId,
+                "wardName":wardName,
                 "address": address,
                 "riverId": riverId,
+                "riverName":riverName,
                 "status": status,
                 "username": global.username
             }
