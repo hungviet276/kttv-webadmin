@@ -96,7 +96,7 @@ public class DomainUserDetailsService implements UserDetailsService {
             } else {
                 htmlMenu.append("<li class='nav-item has-treeview'><a href='").append((treeMenu.getDetailFile() != null) ? treeMenu.getDetailFile() : "#").append("' class='nav-link'><i class='nav-icon ").append(treeMenu.getPictureFile()).append("'></i><p>").append(treeMenu.getName()).append("<i class='right fas fa-angle-left'></i></p></a><ul class='nav nav-treeview'>");
                 for (Menu menu : treeMenu.getChildren()) {
-                    htmlMenu.append("<li class='nav-item'><a href='").append(menu.getDetailFile()).append("' class='nav-link direct'><i class='").append(menu.getPictureFile()).append(" nav-icon'/><p>").append(menu.getName()).append("</p></a></li>");
+                    htmlMenu.append("<li class='nav-item'><a href='").append(menu.getDetailFile()).append("' class='nav-link direct'>&nbsp;&nbsp;&nbsp;&nbsp;<i class='").append(menu.getPictureFile()).append(" nav-icon'/><p>").append(menu.getName()).append("</p></a></li>");
                 }
                 htmlMenu.append("</ul></li>");
             }

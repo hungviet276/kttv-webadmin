@@ -421,6 +421,16 @@ var station =
                         //reset cac thong tin them moi
                         // station.btnRefresh();
                         // station.uuid = global.uuidv4();
+                        station.disabled_right();
+                        $("#btnsave").css("display", "none");
+                        $("#btnDelete").css("display", "none");
+                        $("#btnReset").css("display", "none");
+                        $("#btncancer").css("display", "none");
+                        $("#btnDonew").attr("disabled", false);
+                        if(station.indexOfRow > -1) {
+                            station.table.row(station.indexOfRow).deselect();
+                        }
+                        station.show_search();
                     } else {
                         toastr.error('', data.message);
                     }
@@ -467,6 +477,16 @@ var station =
                             station.btnRefreshParameter();
                             station.uuid = global.uuidv4();
                             station.table.ajax.reload();
+                            station.disabled_right();
+                            $("#btnsave").css("display", "none");
+                            $("#btnDelete").css("display", "none");
+                            $("#btnReset").css("display", "none");
+                            $("#btncancer").css("display", "none");
+                            $("#btnDonew").attr("disabled", false);
+                            if(station.indexOfRow > -1) {
+                                station.table.row(station.indexOfRow).deselect();
+                            }
+                            station.show_search();
                         } else {
                             toastr.error('', data.message);
                         }
@@ -929,7 +949,7 @@ $(document).ready(function () {
             // Apply the search
             this.api().columns().every(function () {
                 var that = this;
-                $('.table-data-input-search').on('keyup', function () {
+                $('.table-data-input-search').on('keyup onchange', function () {
                     let id = $(this).attr("id");
                     // if (that.search() !== this.value) {
                     //
@@ -962,26 +982,26 @@ $(document).ready(function () {
                 });
             },
             "dataFilter": function (response) {
-                station.objSearch = {
-                    s_objectType: '',
-                    s_objectTypeName: '',
-                    s_stationCode: '',
-                    s_stationName: '',
-                    s_longtitude: '',
-                    s_latitude: '',
-                    s_provinceName: '',
-                    s_districtName: '',
-                    s_wardName: '',
-                    s_address: '',
-                    s_riverName: '',
-                    // s_stationHeight: '',
-                    s_status: '',
-                    // s_parameterTypeName: '',
-                    // s_unitName: '',
-                    // s_device: '',
-                    // s_measure: '',
-                    // s_note: ''
-                };
+                // station.objSearch = {
+                //     s_objectType: '',
+                //     s_objectTypeName: '',
+                //     s_stationCode: '',
+                //     s_stationName: '',
+                //     s_longtitude: '',
+                //     s_latitude: '',
+                //     s_provinceName: '',
+                //     s_districtName: '',
+                //     s_wardName: '',
+                //     s_address: '',
+                //     s_riverName: '',
+                //     // s_stationHeight: '',
+                //     s_status: '',
+                //     // s_parameterTypeName: '',
+                //     // s_unitName: '',
+                //     // s_device: '',
+                //     // s_measure: '',
+                //     // s_note: ''
+                // };
                 let responseJson = JSON.parse(response);
                 let dataRes = {
                     "draw": draw,
