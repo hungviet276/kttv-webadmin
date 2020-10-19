@@ -76,11 +76,27 @@
 					<li class="user-body"></li>
 					<!-- Menu Footer-->
 					<li class="user-footer">
-						<div class="pull-left">
-							<a href="#" class="btn btn-default btn-flat">Profile</a>
+<!--						<div class="pull-left" style="float: left">-->
+<!--							<a href="#" class="btn btn-default btn-flat">Profile</a>-->
+<!--						</div>-->
+<!--						<div class="pull-right" style="float: left" >-->
+<!--							<a href="/logout" class="btn btn-default btn-flat">Sign out</a>-->
+<!--						</div>-->
+					<li class="user-header" style="text-align: center;background: cornflowerblue">
+						<img src="/img/user.png" class="img-circle" alt="User Image" style="z-index: 5;height: 90px;width: 90px;border: 3px solid;border-color: transparent;border-color: rgba(255,255,255,0.2);"/>
+						<div style="background: cadetblue">
+							<p>
+								Xin chào <span th:text="${#authentication.getPrincipal().getUsername()}"></span>
+							</p>
 						</div>
-						<div class="pull-right">
-							<a href="/logout" class="btn btn-default btn-flat">Sign out</a>
+
+					</li>
+						<div class="pull-left" style="float: left;" >
+							<a href="#" style="width: 100px;" class="btn btn-default btn-flat">Đổi mật
+								khẩu</a>
+						</div>
+						<div class="pull-right" style="float: left;">
+							<a href="/logout"  style="width: 100px;" class="btn btn-default btn-flat">Thoát</a>
 						</div>
 					</li>
 				</ul>

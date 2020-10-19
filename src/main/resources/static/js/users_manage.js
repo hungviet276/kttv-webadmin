@@ -1,11 +1,9 @@
-$(document).ready(function () {
+$( function() {
     show_search();
     getStationType();
 
-    $('#start_date').daterangepicker({
-        timePicker: false,
-        singleDatePicker: true,
-        autoUpdateInput: false
+    $('#start_date').datepicker()({
+        uiLibrary: 'bootstrap4'
     }, function (choosen_date) {
             $('#start_date').val(choosen_date.format('DD/MM/YYYY'));
         });
@@ -13,11 +11,12 @@ $(document).ready(function () {
     $('#end_date').daterangepicker({
         timePicker: false,
         singleDatePicker: true,
-        autoUpdateInput: false
+        autoUpdateInput: true
     }, function (choosen_date) {
         $('#end_date').val(choosen_date.format('DD/MM/YYYY'));
     });
-
+    $('#start_date').val('');
+    $('#end_date').val('');
 });
 
 function validateSearch(){
@@ -877,6 +876,15 @@ function resetRight() {
     $('#input_phone').val('');
     $('#checkNam').prop('checked', true);
     $('#checkNu').prop('checked', false);
+    thread_id = createUUID();
+    console.log("resetRight =" + thread_id);
+    get_tab_nghiepvu('','disabled');
+    get_tab_role('','unable');
+    $('#checkNam').prop('checked', true);
+    $('#checkNu').prop('checked', false);
+    $('#checkNhomquyen').prop('checked', true);
+    $('#checktacvu').prop('checked', false);
+
 }
 
 function ckNhom_quyen() {
@@ -928,4 +936,5 @@ $('#btnSearch').on('click', function (e) {
         table.search(objSearch).draw();
     }
 });
+
 
