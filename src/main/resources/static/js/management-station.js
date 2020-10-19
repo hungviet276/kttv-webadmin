@@ -6,6 +6,8 @@ var station =
         table: undefined,
         tableParamter: undefined,
         numOfInputSearch: 0,
+        oldValue: undefined,
+        keyUpTime: undefined,
         uuid: uuid,
         objSearch: {
             s_objectType: '',
@@ -227,6 +229,9 @@ var station =
             }
         },
         btnAddParameter: function () {
+            if(!station.validateParameter()){
+                return false;
+            }
             let tsConfigId = $("#tsConfigId").val();
             let stationId = station.parameter.stationId;
             let tsName = $("#tsName").val().trim();
@@ -264,8 +269,8 @@ var station =
         },
         btnRefreshParameter: function () {
             $("#parameter").val('-1').trigger('change');
-            // $("#unit").val('-1').trigger('change');
-            $("#timeseriesName").val('');
+            $("#tsConfigId").val('-1').trigger('change');
+            $("#tsName").val('');
             // $("#note").val('');
         },
         deleteParameter: function (id) {
@@ -274,7 +279,7 @@ var station =
                 headers: {
                     'Authorization': token
                 },
-                url: apiUrl + "station-type/delete-parameter?stationParamterId=" + id,
+                url: apiUrl + "station-type/delete-time-series?stationParamterId=" + id,
                 method: "POST",
                 contentType: "application/json",
                 //data: {"stationParamterId" : id},
@@ -685,6 +690,7 @@ var station =
             station.fillDataToForm(rowData);
         },
         fillDataToForm: function (rowData) {
+            $('.help-block').html('');
             if (rowData != null && rowData != undefined && rowData.length > 0) {
                 console.log(rowData);
                 station.enabled_right();
@@ -783,34 +789,56 @@ var station =
             $('#form_data')[0].reset();
         },
         validate: function () {
+            $('.help-block').html('');
+
             if ($('#stationTypeId').val().trim() === "-1") {
-                toastr.error('', 'Loại trạm không được để trống');
+                $('#stationTypeId_error').html('Loại trạm không được để trống');
                 $('#stationTypeId').focus();
                 return false;
             }
             if ($('#modeStationType').val().trim() === "-1") {
-                toastr.error('', 'Chế độ điều khiển không được để trống');
+                $('#modeStationType_error').html('Chế độ điều khiển không được để trống');
                 $('#modeStationType').focus();
                 return false;
             }
             if ($('#stationCode').val().trim().length < 1) {
-                toastr.error('', 'Mã trạm không được để trống');
+                $('#stationCode_error').html('Mã trạm không được để trống');
                 $('#stationCode').focus();
                 return false;
             }
             if ($('#stationName').val().trim().length < 1) {
-                toastr.error('', 'Tên trạm không được để trống');
+                $('#stationName_error').html('Tên trạm không được để trống');
                 $('#stationName').focus();
                 return false;
             }
             if ($('#longtitude').val().trim().length < 1) {
-                toastr.error('', 'Kinh độ không được để trống');
+                $('#longtitude_error').html('Kinh độ không được để trống');
                 $('#longtitude').focus();
                 return false;
             }
             if ($('#latitude').val().trim().length < 1) {
-                toastr.error('', 'Vĩ độ không được để trống');
+                $('#latitude_error').html('Vĩ độ không được để trống');
                 $('#latitude').focus();
+                return false;
+            }
+            return true;
+        },
+        validateParameter:function (){
+            $('.help-block').html('');
+
+            if ($('#parameter').val().trim() === "-1") {
+                $('#parameter_error').html('Yếu tố không được để trống');
+                $('#parameter').focus();
+                return false;
+            }
+            if ($('#tsName').val().trim().length < 1) {
+                $('#tsName_error').html('Time series name không được để trống');
+                $('#tsName').focus();
+                return false;
+            }
+            if ($('#tsConfigId').val().trim() === "-1") {
+                $('#tsConfigId_error').html('Time series config không được để trống');
+                $('#tsConfigId').focus();
                 return false;
             }
             return true;
@@ -915,6 +943,7 @@ var station =
         },
         closePopup: function () {
             station.disabled_right();
+            $('.help-block').html('');
             $("#btnsave").css("display", "none");
             $("#btnDelete").css("display", "none");
             $("#btnReset").css("display", "none");
@@ -936,7 +965,7 @@ $(document).ready(function () {
             if (is_select == null || is_select == undefined) {
                 $(this).html('<input id="' + dataId + '" class="table-data-input-search" type="text" placeholder="Search ' + title + '" />');
             } else {
-                $(this).html('<select class="select_table" id="+ dataId +"> <option value="">Hãy chọn</option><option value=1>Hoạt động</option> <option value=0>Không hoạt động</option> </select>');
+                $(this).html('<select class="select_table" id='+ dataId +'> <option value="">Hãy chọn</option><option value="1">Hoạt động</option> <option value="0">Không hoạt động</option> </select>');
             }
         }
     });
@@ -1022,18 +1051,37 @@ $(document).ready(function () {
             this.api().columns().every(function () {
                 var that = this;
                 $('.table-data-input-search').on('keyup onchange', function () {
-                    let id = $(this).attr("id");
-                    // if (that.search() !== this.value) {
-                    //
+                    // let id = $(this).attr("id");
+                    // // if (that.search() !== this.value) {
+                    // //
+                    // // }
+                    // station.objSearch[id] = this.value;
+                    // station.numOfInputSearch++;
+                    // if (station.numOfInputSearch > 11) {
+                    //     that.search(JSON.stringify(station.objSearch)).draw();
+                    //     station.numOfInputSearch = 0;
                     // }
+                    station.oldValue = this.___value___;
+                    this.___value___ = this.value;
+                    if (station.oldValue == this.___value___) return;
+                    station.keyUpTime = new Date().getTime();
+                    let id = $(this).attr('id');
                     station.objSearch[id] = this.value;
-                    station.numOfInputSearch++;
-                    if (station.numOfInputSearch > 11) {
-                        that.search(JSON.stringify(station.objSearch)).draw();
-                        station.numOfInputSearch = 0;
-                    }
+                    setTimeout(function () {
+                        if (new Date().getTime() - station.keyUpTime > 1000) {
+                            station.table.search(station.objSearch).draw();
+                            station.keyUpTime = new Date().getTime();
+                        }
+                        return;
+                    }, 1100);
                 });
 
+
+            });
+            $('.select_table').on('change', function () {
+                let id = $(this).attr("id");
+                station.objSearch[id] = this.value;
+                station.table.search(JSON.stringify(station.objSearch)).draw();
             });
         },
         "ajax": {
@@ -1054,26 +1102,6 @@ $(document).ready(function () {
                 });
             },
             "dataFilter": function (response) {
-                // station.objSearch = {
-                //     s_objectType: '',
-                //     s_objectTypeName: '',
-                //     s_stationCode: '',
-                //     s_stationName: '',
-                //     s_longtitude: '',
-                //     s_latitude: '',
-                //     s_provinceName: '',
-                //     s_districtName: '',
-                //     s_wardName: '',
-                //     s_address: '',
-                //     s_riverName: '',
-                //     // s_stationHeight: '',
-                //     s_status: '',
-                //     // s_parameterTypeName: '',
-                //     // s_unitName: '',
-                //     // s_device: '',
-                //     // s_measure: '',
-                //     // s_note: ''
-                // };
                 let responseJson = JSON.parse(response);
                 let dataRes = {
                     "draw": draw,
@@ -1107,7 +1135,7 @@ $(document).ready(function () {
                         "stationHeight": responseJson.content[i].stationHeight,
                         "status": responseJson.content[i].status,
                         "riverId": (responseJson.content[i].riverId === null || responseJson.content[i].riverId === 0) ? -1 : responseJson.content[i].riverId,
-                        "stationTypeId": responseJson.content[i].stationTypeId,
+                        "stationTypeId": responseJson.content[i].objectTypeId,
                         "districtId": responseJson.content[i].districtId,
                         "wardId": responseJson.content[i].wardId,
                         "siteId": responseJson.content[i].siteId,
