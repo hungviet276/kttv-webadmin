@@ -7,8 +7,8 @@ $(document).ready(function () {
         singleDatePicker: true,
         autoUpdateInput: false
     }, function (choosen_date) {
-        $('#start_date').val(choosen_date.format('DD/MM/YYYY'));
-    });
+            $('#start_date').val(choosen_date.format('DD/MM/YYYY'));
+        });
 
     $('#end_date').daterangepicker({
         timePicker: false,
@@ -19,6 +19,24 @@ $(document).ready(function () {
     });
 
 });
+
+function validateSearch(){
+    var patt = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/;
+    if ($('#start_date').val() != '' && !patt.test($.trim($('#start_date').val()))) {
+        toastr.error('Điều kiện tìm kiếm Từ ngày không đúng định dạng dd/mm/yyyy');
+        $('#start_date').focus();
+        return;
+    }
+
+    var patt = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/;
+    if ($('#end_date').val() != '' && !patt.test($.trim($('#end_date').val()))) {
+        toastr.error('Điều kiện tìm kiếm đến ngày không đúng định dạng dd/mm/yyyy');
+        $('#end_date').focus();
+        return;
+    }
+    return true;
+}
+
 //dat bien cuc bo o day
 var thread_id = '';
 var nhomquyen_id = '';
@@ -28,8 +46,8 @@ $('#btnDonew').click(function () {
     // enabled_right();
     $('#action_info').val(1);
     togle_search();
-    get_tab_nghiepvu('');
-    get_tab_role('');
+    get_tab_nghiepvu('','disabled');
+    get_tab_role('','unable');
     $('#input_Username').attr("disabled", false);
     thread_id = createUUID();
     console.log("thread_id : " + thread_id);
@@ -41,6 +59,9 @@ $('#btnDonew').click(function () {
     $('.nav-tabs a[href="#menu2"]').tab('show');
     resetRight();
     $('.err_msg').html('');
+    $("#icon_penc").css("display", "none");
+    $("#icon_dis_penc").css("display", "none");
+    $("#input_Password").attr("disabled", false);
 });
 
 $('#btncancer').click(function () {
@@ -52,9 +73,14 @@ $('#btncancer').click(function () {
     $("#btnDonew").attr("disabled", false);
     table.rows(indexRowDt).deselect();
     show_search();
+    resetRight();
 });
 
-function get_tab_nghiepvu(user_id) {
+$('#btnReset').click(function () {
+    resetRight();
+});
+
+function get_tab_nghiepvu(user_id,checkDisble) {
     getact_basic().done(function (data) {
         var list_act_basic = data;
         var htmlNv = '<div class="tscroll"><table id="tableNV" class="table table-condensed table-striped table-bordered" cellspacing="0" width="100%">';
@@ -71,16 +97,36 @@ function get_tab_nghiepvu(user_id) {
                     var ACTU = list_act_basic[i].ACTU;
                     var ACTUC = list_act_basic[i].ACTUC;
                     var ACT = list_act_basic[i].ACT;
-                    if (data[j][ACTU] != 0) {
-                        if (data[j][ACTUC] != 0) {
-                            htmlNv += '<td style="text-align: center;"><input   type="checkbox" checked id="chek_' + ACT + '' + data[j].ID + '" name="' + data[j].ID + '_' + ACT + '" value="' + j + '" onclick="chk_nv_click(\'' + ACT + '\',\'' + data[j].ID + '\')" class="checkboxNVenb"></td>';
+                    if(checkDisble == 'disabled'){
+                        if (data[j][ACTU] != 0) {
+                            if(user_id !=''){
+                                if (data[j][ACTUC] != 0) {
+                                    htmlNv += '<td style="text-align: center;"><input disabled  type="checkbox" checked id="chek_' + ACT + '' + data[j].ID + '" name="' + data[j].ID + '_' + ACT + '" value="' + j + '" onclick="chk_nv_click(\'' + ACT + '\',\'' + data[j].ID + '\')" class="checkboxNVenb"></td>';
+                                } else {
+                                    htmlNv += '<td style="text-align: center;"><input  disabled type="checkbox"  id="chek_' + ACT + '' + data[j].ID + '" name="' + data[j].ID + '_' + ACT + '" value="' + j + '" onclick="chk_nv_click(\'' + ACT + '\',\'' + data[j].ID + '\')" class="checkboxNVenb"></td>';
+                                }
+                            }else{
+                                htmlNv += '<td style="text-align: center;"><input  disabled type="checkbox"  id="chek_' + ACT + '' + data[j].ID + '" name="' + data[j].ID + '_' + ACT + '" value="' + j + '" onclick="chk_nv_click(\'' + ACT + '\',\'' + data[j].ID + '\')" class="checkboxNVenb"></td>';
+                            }
                         } else {
-                            htmlNv += '<td style="text-align: center;"><input   type="checkbox"  id="chek_' + ACT + '' + data[j].ID + '" name="' + data[j].ID + '_' + ACT + '" value="' + j + '" onclick="chk_nv_click(\'' + ACT + '\',\'' + data[j].ID + '\')" class="checkboxNVenb"></td>';
+                            htmlNv += '<td style="text-align: center;"><input  disabled type="checkbox"  id="chek_' + ACT + '' + data[j].ID + '" name="' + data[j].ID + '_' + ACT + '" value="' + j + '" onclick="chk_nv_click(\'' + ACT + '\',\'' + data[j].ID + '\')" class="checkboxNVdis"></td>';
                         }
-
-                    } else {
-                        htmlNv += '<td style="text-align: center;"><input  disabled type="checkbox"  id="chek_' + ACT + '' + data[j].ID + '" name="' + data[j].ID + '_' + ACT + '" value="' + j + '" onclick="chk_nv_click(\'' + ACT + '\',\'' + data[j].ID + '\')" class="checkboxNVdis"></td>';
+                    }else{
+                        if (data[j][ACTU] != 0) {
+                            if(user_id !=''){
+                                if (data[j][ACTUC] != 0) {
+                                    htmlNv += '<td style="text-align: center;"><input  type="checkbox" checked id="chek_' + ACT + '' + data[j].ID + '" name="' + data[j].ID + '_' + ACT + '" value="' + j + '" onclick="chk_nv_click(\'' + ACT + '\',\'' + data[j].ID + '\')" class="checkboxNVenb"></td>';
+                                } else {
+                                    htmlNv += '<td style="text-align: center;"><input  type="checkbox"  id="chek_' + ACT + '' + data[j].ID + '" name="' + data[j].ID + '_' + ACT + '" value="' + j + '" onclick="chk_nv_click(\'' + ACT + '\',\'' + data[j].ID + '\')" class="checkboxNVenb"></td>';
+                                }
+                            }else{
+                                htmlNv += '<td style="text-align: center;"><input  type="checkbox"  id="chek_' + ACT + '' + data[j].ID + '" name="' + data[j].ID + '_' + ACT + '" value="' + j + '" onclick="chk_nv_click(\'' + ACT + '\',\'' + data[j].ID + '\')" class="checkboxNVenb"></td>';
+                            }
+                        } else {
+                            htmlNv += '<td style="text-align: center;"><input  disabled type="checkbox"  id="chek_' + ACT + '' + data[j].ID + '" name="' + data[j].ID + '_' + ACT + '" value="' + j + '" onclick="chk_nv_click(\'' + ACT + '\',\'' + data[j].ID + '\')" class="checkboxNVdis"></td>';
+                        }
                     }
+
                 }
             }
             htmlNv += '</tr></tbody></table></div>';
@@ -95,19 +141,35 @@ function get_tab_nghiepvu(user_id) {
 }
 
 //get tab nhom quyen
-function get_tab_role(user_id) {
+function get_tab_role(user_id,checkDisable) {
     get_role(user_id).done(function (data) {
         var htmlRole = '<table id="tableNV" class="table table-condensed table-striped table-bordered" cellspacing="0" width="53%"><thead>';
-        htmlRole += '<tr><th style="text-align: center;">Nhóm Quyền</th><th style="text-align: center;"><input   type="checkbox" name="checkboxNQAll" id="checkboxNQAll" class="checkboxNQAll" onclick="checkNQ_clickAll()"></th></tr></thead><tbody>';
+        htmlRole += '<tr><th style="text-align: center;">Nhóm Quyền</th><th style="text-align: center;">';
+        if(checkDisable=='disabled'){
+            htmlRole += '<input disabled  type="checkbox" name="checkboxNQAll" id="checkboxNQAll" class="checkboxNQAll" onclick="checkNQ_clickAll()"></th></tr></thead><tbody>'
+        }else{
+            htmlRole += '<input   type="checkbox" name="checkboxNQAll" id="checkboxNQAll" class="checkboxNQAll" onclick="checkNQ_clickAll()"></th></tr></thead><tbody>'
+        }
         for (var j = 0; j < data.length; j++) {
-
-            if (user_id == '') {
-                htmlRole += '</tr><td>' + data[j].ROLE_NAME + '</td><td style="text-align: center;"><input   type="checkbox" value="' + j + '" id="checkbox_' + data[j].ID + '" name="checkboxNQ"  class="checkNQ" onclick="checkNQ_click(' + data[j].ID + ')" ></td></tr>';
-            } else {
-                if (data[j].A1 == '1') {
-                    htmlRole += '<tr><td>' + data[j].ROLE_NAME + '</td><td style="text-align: center;"><input  checked  type="checkbox" value="' + j + '" id="checkbox_' + data[j].ID + '" name="checkboxNQ"  class="checkNQ" onclick="checkNQ_click(' + data[j].ID + ')"></td></tr>';
+            if(checkDisable=='disabled'){
+                if (user_id == '') {
+                    htmlRole += '</tr><td>' + data[j].ROLE_NAME + '</td><td style="text-align: center;"><input disabled  type="checkbox" value="' + j + '" id="checkbox_' + data[j].ID + '" name="checkboxNQ"  class="checkNQ" onclick="checkNQ_click(' + data[j].ID + ')" ></td></tr>';
                 } else {
-                    htmlRole += '<tr><td>' + data[j].ROLE_NAME + '</td><td style="text-align: center;"><input   type="checkbox" value="' + j + '" id="checkbox_' + data[j].ID + '" name="checkboxNQ"  class="checkNQ" onclick="checkNQ_click(' + data[j].ID + ')"></td></tr>';
+                    if (data[j].A1 == '1') {
+                        htmlRole += '<tr><td>' + data[j].ROLE_NAME + '</td><td style="text-align: center;"><input disabled checked  type="checkbox" value="' + j + '" id="checkbox_' + data[j].ID + '" name="checkboxNQ"  class="checkNQ" onclick="checkNQ_click(' + data[j].ID + ')"></td></tr>';
+                    } else {
+                        htmlRole += '<tr><td>' + data[j].ROLE_NAME + '</td><td style="text-align: center;"><input disabled  type="checkbox" value="' + j + '" id="checkbox_' + data[j].ID + '" name="checkboxNQ"  class="checkNQ" onclick="checkNQ_click(' + data[j].ID + ')"></td></tr>';
+                    }
+                }
+            }else{
+                if (user_id == '') {
+                    htmlRole += '</tr><td>' + data[j].ROLE_NAME + '</td><td style="text-align: center;"><input   type="checkbox" value="' + j + '" id="checkbox_' + data[j].ID + '" name="checkboxNQ"  class="checkNQ" onclick="checkNQ_click(' + data[j].ID + ')" ></td></tr>';
+                } else {
+                    if (data[j].A1 == '1') {
+                        htmlRole += '<tr><td>' + data[j].ROLE_NAME + '</td><td style="text-align: center;"><input  checked  type="checkbox" value="' + j + '" id="checkbox_' + data[j].ID + '" name="checkboxNQ"  class="checkNQ" onclick="checkNQ_click(' + data[j].ID + ')"></td></tr>';
+                    } else {
+                        htmlRole += '<tr><td>' + data[j].ROLE_NAME + '</td><td style="text-align: center;"><input   type="checkbox" value="' + j + '" id="checkbox_' + data[j].ID + '" name="checkboxNQ"  class="checkNQ" onclick="checkNQ_click(' + data[j].ID + ')"></td></tr>';
+                    }
                 }
             }
         }
@@ -392,9 +454,10 @@ function rowDeselect(e, dt, type, indexes) {
     show_search();
 
 }
-
+var edit_pass_var ='1';
 //doEdit
 function fillDataToForm(rowData) {
+    edit_pass_var ='1';
     $('#action_info').val(2);
     thread_id = createUUID();
     console.log("fillDataToForm : " + thread_id);
@@ -409,9 +472,22 @@ function fillDataToForm(rowData) {
     $('#input_time_download').val(rowData[0].dateRole);
     $('#input_phone').val(rowData[0].mobile);
     $('#input_Password').val('');
-
-    get_tab_nghiepvu(rowData[0].id);
-    get_tab_role(rowData[0].id);
+    if(rowData[0].gender == 'Nam'){
+        $('#checkNam').prop('checked', true);
+    }else{
+        $('#checkNu').prop('checked', true);
+    }
+    if(rowData[0].checkRole == '0'){//nghiep vu
+        $('#checktacvu').prop('checked', true);
+        $('#checkNhomquyen').prop('checked', false);
+        get_tab_nghiepvu(rowData[0].id,'unable');
+        get_tab_role(rowData[0].id,'disabled');
+    }else{//nhom quyen
+        $('#checkNhomquyen').prop('checked', true);
+        $('#checktacvu').prop('checked', false);
+        get_tab_nghiepvu(rowData[0].id,'disabled');
+        get_tab_role(rowData[0].id,'unable');
+    }
     togle_search();
     $("#btnsave").css("display", "inline");
     // $("#btnDelete").css("display", "inline");
@@ -423,9 +499,22 @@ function fillDataToForm(rowData) {
     $('.nav-tabs a[href="#menu2"]').tab('show');
     $('.err_msg').html('');
     $("#icon_penc").css("display", "inline");
+    $("#icon_dis_penc").css("display", "none");
 
 }
+function edit_pass() {
+    edit_pass_var = '';
+    $("#input_Password").attr("disabled", false);
+    $("#icon_penc").css("display", "none");
+    $("#icon_dis_penc").css("display", "inline");
+}
 
+function dis_penc() {
+    edit_pass_var = '1';
+    $("#input_Password").attr("disabled", true);
+    $("#icon_penc").css("display", "inline");
+    $("#icon_dis_penc").css("display", "none");
+}
 //action dieu huong khi tich chon tab nghiep vu
 function chk_nv_click(act, menuId) {
     // $('#chkAll'+act).prop('checked', false);
@@ -698,63 +787,69 @@ function validateForm() {
     $('.err_msg').html('');
 
     if ($.trim($('#input_Username').val()) == '') {
-        $('#input_Username_msg').html('Tên đăng nhập không được để trống!');
+        toastr.error('Tên đăng nhập không được để trống!');
         $('#input_Username').focus();
         return;
     }
     var patt = /^[A-Za-z0-9_\.]+$/;
     if (!patt.test(($.trim($('#input_Username').val())).toLowerCase())) {
-        $('#input_Username_msg').html('username không hợp lệ! (Chỉ bao gồm các ký tự chữ cái, chữ số, dấu gạch dưới, dấu chấm.)');
+        toastr.error('username không hợp lệ! (Chỉ bao gồm các ký tự chữ cái, chữ số, dấu gạch dưới, dấu chấm.)');
         $('#input_Username').focus();
         return;
     }
 
-    if ($.trim($('#input_Password').val()) == '' && edit_pass_var == '1') {
-        $('#input_Password_msg').html('Mật khẩu không được để trống!');
+    if ($.trim($('#input_Password').val()) == '' && edit_pass_var == '') {
+        toastr.error('Mật khẩu không được để trống!');
         $('#input_Password').focus();
         return;
     }
 
     if ($.trim($('#input_name').val()) == '') {
-        $('#input_name_msg').html('Họ và tên không được để trống!');
+        toastr.error('Họ và tên không được để trống!');
         $('#input_name').focus();
         return;
     }
 
     if ($.trim($('#input_email').val()) == '') {
-        $('#input_email_msg').html('Email không được để trống!');
+        toastr.error('Email không được để trống!');
         $('#input_email').focus();
         return;
     }
 
     if ($('#input_email').val() != '' && !validateEmail($('#input_email').val())) {
-        $('#input_email_msg').html($('#input_email').val() + ' không hợp lệ!');
+        toastr.error($('#input_email').val() + ' không hợp lệ!');
         $('#input_email').focus();
         return;
     }
 
     if ($.trim($('#input_group_id').val()) == '-1') {
-        $('#input_group_id_msg').html('Nhóm người dùng không được để trống!');
+        toastr.error('Nhóm người dùng không được để trống!');
         $('#input_group_id').focus();
         return;
     }
 
     var patt = /^[0-9 ]+$/;
     if ($('#input_cardNumber').val() != '' && !patt.test($.trim($('#input_cardNumber').val()))) {
-        $('#input_cardNumber_msg').html('Số chứng minh thư không hợp lệ! (phải là chuỗi số nguyên dương!)');
+        toastr.error('Số chứng minh thư không hợp lệ! (phải là chuỗi số nguyên dương!)');
         $('#input_cardNumber').focus();
         return;
     }
     var patt = /^[0-9 ]+$/;
     if ($.trim($('#input_phone').val()) != '' && !patt.test($.trim($('#input_phone').val()))) {
-        $('#input_phone_msg').html('Số điện thoại không hợp lệ! (phải là chuỗi số nguyên dương!)');
+        toastr.error('Số điện thoại không hợp lệ! (phải là chuỗi số nguyên dương!)');
         $('#input_phone').focus();
         return;
     }
 
-    var patt = /^[0-9 ]+$/;
+    var patt = /^[1-9 ]+$/;
     if ($('#input_time_download').val() != '' && !patt.test($.trim($('#input_time_download').val()))) {
-        $('#input_time_download_msg').html('Thời gian download không hợp lệ! (phải là chuỗi số nguyên dương!)');
+        toastr.error('Thời gian download không hợp lệ! (phải là chuỗi số nguyên dương > 0!)');
+        $('#input_time_download').focus();
+        return;
+    }
+
+    if ($('#input_time_download').val() == '' ) {
+        toastr.error('Thời gian download không được bỏ trống!)');
         $('#input_time_download').focus();
         return;
     }
@@ -770,13 +865,18 @@ function validateEmail(email) {
 function resetRight() {
     $('#input_code').val('');
     $('#input_email').val('');
-    $('#input_Username').val('');
+    if($('#action_info').val()!='2'){
+        $('#input_Username').val('');
+    }
     $('#input_Password').val('');
     $('#input_name').val('');
     $('#input_cardNumber').val('');
-    $('#input_group_id').val(-1);
+    $('#input_group_id').val(-1).change();
     $('#status_id').val(1);
     $('#input_time_download').val('');
+    $('#input_phone').val('');
+    $('#checkNam').prop('checked', true);
+    $('#checkNu').prop('checked', false);
 }
 
 function ckNhom_quyen() {
@@ -822,22 +922,10 @@ function delete_temp(tempId) {
 }
 
 $('#btnSearch').on('click', function (e) {
-    objSearch.s_fromdate = $("#start_date").val();
-    objSearch.s_todate = $("#end_date").val();
-    table.search(objSearch).draw();
+    if(validateSearch()){
+        objSearch.s_fromdate = $("#start_date").val();
+        objSearch.s_todate = $("#end_date").val();
+        table.search(objSearch).draw();
+    }
 });
-var edit_pass_var ='';
-function edit_pass() {
-    edit_pass_var = 1;
-    $("#input_Password").attr("disabled", false);
-    $("#icon_penc").css("display", "none");
-    $("#icon_dis_penc").css("display", "inline");
-}
-
-function dis_penc() {
-    edit_pass_var = '';
-    $("#input_Password").attr("disabled", true);
-    $("#icon_penc").css("display", "inline");
-    $("#icon_dis_penc").css("display", "none");
-}
 
