@@ -106,53 +106,73 @@
                                     </div>
                                     <form class="form-horizontal" id="form_input">
                                         <div class="form-row">
-                                            <div class="form-group col-md-6">
+                                            <div class="form-group col-md-6 errorTxt">
                                                 <label for="station_add">Trạm<span style="color: red;">*</span></label>
-                                                <div class="select2-purple">
-                                                    <select id="station_add" data-placeholder="Select a State"
+                                                <div class="select2-purple insertError">
+                                                    <select id="station_add" name="station_add" data-placeholder="Select a State"
                                                             data-dropdown-css-class="select2-purple" style="width: 100%;">
                                                     </select>
                                                 </div>
+                                                <label></label>
                                             </div>
 
-                                            <div class="form-group col-md-6">
+                                            <div class="form-group col-md-6 errorTxt">
                                                 <label for="value-type-station">Yếu tố<span style="color: red;">*</span></label>
-                                                <div class="select2-purple">
-                                                    <select id="value-type-station" data-placeholder="Select a State"
+                                                <div class="select2-purple insertError">
+                                                    <select id="value-type-station" name="value_type_station" data-placeholder="Select a State"
                                                             data-dropdown-css-class="select2-purple" style="width: 100%;">
                                                     </select>
                                                 </div>
+                                                <label></label>
                                             </div>
 
                                         </div>
                                         <div class="form-row">
-                                            <div class="form-group col-md-6">
-                                                <label for="min">Giá trị min<span style="color: red;">*</span></label>
-                                                <input type="number" class="form-control" id="min" placeholder="">
+                                            <div class="form-group col-md-6 errorTxt">
+                                                <div class="insertError">
+                                                    <label for="min">Giá trị min<span style="color: red;">*</span></label>
+                                                    <input type="number" class="form-control" id="min" name="min" placeholder="">
+                                                </div>
+                                                <label></label>
                                             </div>
-                                            <div class="col-md-6">
-                                                <label for="max">Giá trị max<span style="color: red;">*</span></label>
-                                                <input type="number" class="form-control" id="max" placeholder="">
-                                            </div>
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6">
-                                                <label for="variableTime">Mức độ biến đổi theo thời gian<span style="color: red;">*</span></label>
-                                                <input type="number" class="form-control" id="variableTime" placeholder="">
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <label for="variableSpatial">Mức độ biến đổi theo không gian <span style="color: red;">*</span></label>
-                                                <input type="number" class="form-control" id="variableSpatial" placeholder="">
+                                            <div class="col-md-6 errorTxt">
+                                                <div class="insertError">
+                                                    <label for="max">Giá trị max<span style="color: red;">*</span></label>
+                                                    <input type="number" class="form-control" id="max" name="max" placeholder="">
+                                                </div>
+                                                <label></label>
                                             </div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="form-group col-md-6">
-                                                <label for="startDateApply">Áp dụng từ <span style="color: red;">*</span></label>
-                                                <input type="email" class="form-control" id="startDateApply" placeholder="">
+                                            <div class="form-group col-md-6 errorTxt">
+                                                <div class="insertError">
+                                                    <label for="variableTime">Mức độ biến đổi theo thời gian<span style="color: red;">*</span></label>
+                                                    <input type="number" class="form-control" id="variableTime" name="variableTime" placeholder="">
+                                                </div>
+                                                <label></label>
                                             </div>
-                                            <div class="form-group col-md-6">
-                                                <label for="endDateApply">Áp dụng đến</label>
-                                                <input type="text" class="form-control" id="endDateApply" placeholder="">
+                                            <div class="form-group col-md-6 errorTxt">
+                                                <div class="insertError">
+                                                    <label for="variableSpatial">Mức độ biến đổi theo không gian<span style="color: red;">*</span></label>
+                                                    <input type="number" class="form-control" id="variableSpatial" name="variableSpatial" placeholder="">
+                                                </div>
+                                                <label></label>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6 errorTxt">
+                                                <div class="insertError">
+                                                    <label for="startDateApply">Áp dụng từ <span style="color: red;">*</span></label>
+                                                    <input type="email" class="form-control" id="startDateApply" name="startDateApply" placeholder="">
+                                                </div>
+                                                <label></label>
+                                            </div>
+                                            <div class="form-group col-md-6 errorTxt">
+                                                <div class="insertError">
+                                                    <label for="endDateApply">Áp dụng đến</label>
+                                                    <input type="text" class="form-control" id="endDateApply" name="endDateApply" placeholder="">
+                                                </div>
+                                                <label></label>
                                             </div>
                                         </div>
 

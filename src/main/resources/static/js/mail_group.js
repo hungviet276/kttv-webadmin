@@ -191,14 +191,13 @@ $(document).ready(function () {
                     }
                     // console.log(this);
                 });
-
-                $('.select_table').on('keyup change clear', function () {
-                    let id = $(this).attr("id");
-                    objSearch[id] = this.value;
-                    that
-                        .search(JSON.stringify(objSearch))
-                        .draw();
-                });
+            });
+            $('.select_table').on('keyup change clear', function () {
+                let id = $(this).attr("id");
+                objSearch[id] = this.value;
+                that
+                    .search(JSON.stringify(objSearch))
+                    .draw();
             });
         },
         "ajax": {

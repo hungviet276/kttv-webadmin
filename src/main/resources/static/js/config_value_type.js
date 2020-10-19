@@ -482,27 +482,35 @@ $("#station_add").change(function () {
 });
 
 // form thêm mới sửa xóa
-$('#start_date').daterangepicker({
+    $('#start_date').daterangepicker({
     "singleDatePicker": true,
     "linkedCalendars": false,
     "showCustomRangeLabel": false,
-    "alwaysShowCalendars": true,
+    "alwaysShowCalendars": false,
+    "autoUpdateInput" : false,
     locale: {
-        cancelLabel: 'Clear'
+        cancelLabel: 'Clear',
+        format: 'DD/MM/YYYY'
     }
 }, function(start, end, label) {
-
+    console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
 });
 $('#start_date').on('cancel.daterangepicker', function(ev, picker) {
     $(this).val('');
+});
+$('#start_date').on('apply.daterangepicker', function(ev, picker) {
+    $("#start_date").val(picker.startDate.format('DD/MM/YYYY'));
 });
 $('#end_date').daterangepicker({
     "singleDatePicker": true,
     "linkedCalendars": false,
     "showCustomRangeLabel": false,
-    "alwaysShowCalendars": true,
+    "alwaysShowCalendars": false,
+    "autoApply" : false,
+    "autoUpdateInput" : false,
     locale: {
-        cancelLabel: 'Clear'
+        cancelLabel: 'Clear',
+        format: 'DD/MM/YYYY'
     }
 }, function(start, end, label) {
 
@@ -510,13 +518,21 @@ $('#end_date').daterangepicker({
 $('#end_date').on('cancel.daterangepicker', function(ev, picker) {
     $(this).val('');
 });
+
+$('#end_date').on('apply.daterangepicker', function(ev, picker) {
+    $("#end_date").val(picker.startDate.format('DD/MM/YYYY'));
+});
+
 $("#startDateApply").daterangepicker({
     "singleDatePicker": true,
     "linkedCalendars": false,
     "showCustomRangeLabel": false,
-    "alwaysShowCalendars": true,
+    "alwaysShowCalendars": false,
+    "autoApply" : false,
+    "autoUpdateInput" : false,
     locale: {
-        cancelLabel: 'Clear'
+        cancelLabel: 'Clear',
+        format: 'DD/MM/YYYY'
     }
 }, function(start, end, label) {
 
@@ -524,20 +540,114 @@ $("#startDateApply").daterangepicker({
 $('#startDateApply').on('cancel.daterangepicker', function(ev, picker) {
     $(this).val('');
 });
+$('#startDateApply').on('apply.daterangepicker', function(ev, picker) {
+    $("#startDateApply").val(picker.startDate.format('DD/MM/YYYY'));
+});
 
 $("#endDateApply").daterangepicker({
     "singleDatePicker": true,
     "linkedCalendars": false,
     "showCustomRangeLabel": false,
-    "alwaysShowCalendars": true,
+    "alwaysShowCalendars": false,
+    "autoApply" : false,
+    "autoUpdateInput" : false,
     locale: {
-        cancelLabel: 'Clear'
+        cancelLabel: 'Clear',
+        format: 'DD/MM/YYYY'
     }
 }, function(start, end, label) {
 });
 $('#endDateApply').on('cancel.daterangepicker', function(ev, picker) {
     $(this).val('');
 });
+
+$('#endDateApply').on('apply.daterangepicker', function(ev, picker) {
+    $("#endDateApply").val(picker.startDate.format('DD/MM/YYYY'));
+});
+
+
+
+var validator = $("#form_input").validate({
+    rules : {
+        min : {
+            required : true,
+            maxlength : 15
+        },
+        max : {
+            required : true,
+            maxlength : 15
+        },
+        station_add : {
+            required : true,
+        },
+        value_type_station : {
+            required : true
+        },
+        variableTime : {
+            required : true
+        },
+        variableSpatial : {
+            required : true
+        },
+        startDateApply : {
+            required : true
+        },
+        endDateApply : {
+            required : true
+        }
+    },
+    messages: {
+        min: {
+            required: "Bắt buộc nhập min",
+            maxlength: "Nhập tối đa 15 ký tự"
+        },
+        max: {
+            required: "Bắt buộc nhập min",
+            maxlength: "Nhập tối đa 15 ký tự"
+        },
+        station_add : {
+            required: "Bắt buộc nhập trạm",
+        },
+        value_type_station : {
+            required: "Bắt buộc chọn yếu tố",
+        },
+        variableTime : {
+            required: "Bắt buộc nhập giá trị biến đổi theo thời gian",
+        },
+        variableSpatial : {
+            required: "Bắt buộc nhập giá trị biến đổi theo không gian",
+        },
+        startDateApply : {
+            required: "Bắt buộc nhập ngày bắt đầu",
+        },
+        endDateApply : {
+            required: "Bắt buộc nhập ngày kết thúc",
+        }
+    },
+    errorPlacement : function(error, element) {
+        console.log(error);
+        console.log(element)
+        error.insertAfter(element.parents("div.insertError"));
+    }
+});
+$("#btnsave").click(function () {
+    var submit = $("#form_input").valid();
+    if(submit == false){
+        var dataStation = $('#station_add').select2('data');
+        var dataValueType = $('#value-type-station').select2('data');
+        if(dataStation.length == 0){
+            $('#station_add').select2('open');
+            return;
+        }
+        if(dataValueType.length == 0){
+            $('#value-type-station').select2('open');
+            return;
+        }
+        validator.focusInvalid();
+    }
+});
+
+
 
 $("#endDateApply").val("");
 $("#startDateApply").val("");
