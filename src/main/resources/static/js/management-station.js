@@ -274,6 +274,9 @@ var station =
             // $("#note").val('');
         },
         deleteParameter: function (id) {
+            if (!confirm('Bạn thực sự muốn xóa ?')) {
+                return ;
+            }
             global.showLoading();
             $.ajax({
                 headers: {
@@ -546,45 +549,46 @@ var station =
             $("#status").val('1').trigger('change');
         },
         btnDelete: function () {
-            if (confirm('Bạn thực sự muốn xóa ?')) {
-                global.showLoading();
-                $.ajax({
-                    headers: {
-                        'Authorization': token
-                    },
-                    url: apiUrl + "station-type/delete-station-time-series",
-                    method: "POST",
-                    // contentType: "application/json",
-                    data: jQuery.param({stationId: station.parameter.stationId}),
-                    success: function (data) {
-                        if (data.status == 1) {
-                            toastr.success('Thành công', data.message);
-                            //reset cac thong tin them moi
-                            station.btnRefresh();
-                            station.btnRefreshParameter();
-                            station.uuid = global.uuidv4();
-                            station.table.ajax.reload();
-                            station.disabled_right();
-                            $("#btnsave").css("display", "none");
-                            $("#btnDelete").css("display", "none");
-                            $("#btnReset").css("display", "none");
-                            $("#btncancer").css("display", "none");
-                            $("#btnDonew").attr("disabled", false);
-                            if (station.indexOfRow > -1) {
-                                station.table.row(station.indexOfRow).deselect();
-                            }
-                            station.show_search();
-                        } else {
-                            toastr.error('', data.message);
-                        }
-                        global.disableLoading();
-                    },
-                    error: function (err) {
-                        global.disableLoading();
-                        toastr.error("", "Lỗi thực hiện");
-                    }
-                });
+            if (!confirm('Bạn thực sự muốn xóa ?')) {
+                return ;
             }
+            global.showLoading();
+            $.ajax({
+                headers: {
+                    'Authorization': token
+                },
+                url: apiUrl + "station-type/delete-station-time-series",
+                method: "POST",
+                // contentType: "application/json",
+                data: jQuery.param({stationId: station.parameter.stationId}),
+                success: function (data) {
+                    if (data.status == 1) {
+                        toastr.success('Thành công', data.message);
+                        //reset cac thong tin them moi
+                        station.btnRefresh();
+                        station.btnRefreshParameter();
+                        station.uuid = global.uuidv4();
+                        station.table.ajax.reload();
+                        station.disabled_right();
+                        $("#btnsave").css("display", "none");
+                        $("#btnDelete").css("display", "none");
+                        $("#btnReset").css("display", "none");
+                        $("#btncancer").css("display", "none");
+                        $("#btnDonew").attr("disabled", false);
+                        if (station.indexOfRow > -1) {
+                            station.table.row(station.indexOfRow).deselect();
+                        }
+                        station.show_search();
+                    } else {
+                        toastr.error('', data.message);
+                    }
+                    global.disableLoading();
+                },
+                error: function (err) {
+                    global.disableLoading();
+                    toastr.error("", "Lỗi thực hiện");
+                }
+            });
         },
         searchParameter: function () {
             if (station.tableParameter === undefined) {
