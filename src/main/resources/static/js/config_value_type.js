@@ -7,14 +7,6 @@ function show_search() {
     $("#box_search").attr('class', 'col-sm-12');
 }
 
-$('#start_date').daterangepicker({
-    timePicker: false,
-    singleDatePicker: true,
-    autoUpdateInput: false
-}, function(choosen_date) {
-    $('#start_date').val(choosen_date.format('DD/MM/YYYY'));
-});
-
 $('#btncancer').click(function () {
     // disabled_right();
     $("#btnsave").css("display", "none");
@@ -43,14 +35,6 @@ function togle_search() {
     $("#box_search").hide(0);
     // $("#box_search").attr('class', 'col-sm-5');
 }
-
-$('#end_date').daterangepicker({
-    timePicker: false,
-    singleDatePicker: true,
-    autoUpdateInput: false
-}, function(choosen_date) {
-    $('#end_date').val(choosen_date.format('DD/MM/YYYY'));
-});
 
 $('#btnDonew').click(function () {
     // enabled_right();
@@ -497,3 +481,77 @@ $("#station_add").change(function () {
     });
 });
 
+// form thêm mới sửa xóa
+$('#start_date').daterangepicker({
+    "singleDatePicker": true,
+    "linkedCalendars": false,
+    "showCustomRangeLabel": false,
+    "alwaysShowCalendars": true,
+    locale: {
+        cancelLabel: 'Clear'
+    }
+}, function(start, end, label) {
+
+});
+$('#start_date').on('cancel.daterangepicker', function(ev, picker) {
+    $(this).val('');
+});
+$('#end_date').daterangepicker({
+    "singleDatePicker": true,
+    "linkedCalendars": false,
+    "showCustomRangeLabel": false,
+    "alwaysShowCalendars": true,
+    locale: {
+        cancelLabel: 'Clear'
+    }
+}, function(start, end, label) {
+
+});
+$('#end_date').on('cancel.daterangepicker', function(ev, picker) {
+    $(this).val('');
+});
+$("#startDateApply").daterangepicker({
+    "singleDatePicker": true,
+    "linkedCalendars": false,
+    "showCustomRangeLabel": false,
+    "alwaysShowCalendars": true,
+    locale: {
+        cancelLabel: 'Clear'
+    }
+}, function(start, end, label) {
+
+});
+$('#startDateApply').on('cancel.daterangepicker', function(ev, picker) {
+    $(this).val('');
+});
+
+$("#endDateApply").daterangepicker({
+    "singleDatePicker": true,
+    "linkedCalendars": false,
+    "showCustomRangeLabel": false,
+    "alwaysShowCalendars": true,
+    locale: {
+        cancelLabel: 'Clear'
+    }
+}, function(start, end, label) {
+});
+$('#endDateApply').on('cancel.daterangepicker', function(ev, picker) {
+    $(this).val('');
+});
+
+$("#endDateApply").val("");
+$("#startDateApply").val("");
+$("#start_date").val("");
+$("#end_date").val("");
+$("#endDateApply").keyup(function () {
+    $("#endDateApply").val("")
+});
+$("#startDateApply").keyup(function () {
+    $("#startDateApply").val("")
+});
+$("#start_date").keyup(function () {
+    $("#start_date").val("")
+});
+$("#end_date").keyup(function () {
+    $("#end_date").val("")
+});
