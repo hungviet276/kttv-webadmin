@@ -15,6 +15,10 @@ public class ManagementStationController {
         return "management-station/index";
     }
 
+    @GetMapping("parameter/index.html")
+    public String parameterIndex() {
+        return "management-station/parameter";
+    }
     @ResponseBody
     @PostMapping("check-connect")
     public String checkConnect(@RequestParam String host, @RequestParam int port) {
