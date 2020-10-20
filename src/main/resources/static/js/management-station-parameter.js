@@ -311,8 +311,8 @@ var station =
                     },
                     "pagingType": "full_numbers",
                     "lengthMenu": [
-                        [10, 25, 50, -1],
-                        [10, 25, 50, "Tất cả"]
+                        [10, 25, 50, 100],
+                        [10, 25, 50, 100]
                     ],
                     "lengthChange": true,
                     "searchDelay": 1500,
@@ -683,8 +683,8 @@ $(document).ready(function () {
         },
         "pagingType": "full_numbers",
         "lengthMenu": [
-            [10, 25, 50, -1],
-            [10, 25, 50, "Tất cả"]
+            [10, 25, 50],
+            [10, 25, 50]
         ],
         "lengthChange": true,
         "searchDelay": 1500,

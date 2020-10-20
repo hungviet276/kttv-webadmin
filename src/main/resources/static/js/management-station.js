@@ -605,8 +605,8 @@ var station =
                     },
                     "pagingType": "full_numbers",
                     "lengthMenu": [
-                        [10, 25, 50, -1],
-                        [10, 25, 50, "Tất cả"]
+                        [10, 25, 50, 100],
+                        [10, 25, 50, 100]
                     ],
                     "lengthChange": true,
                     "searchDelay": 1500,
@@ -957,6 +957,34 @@ var station =
                 station.table.row(station.indexOfRow).deselect();
             }
             station.show_search();
+        },
+        btnExport:function (){
+            global.showLoading();
+            $.ajax({
+                headers: {
+                    'Authorization': token
+                },
+                url: apiUrl + 'station-type/export',
+                data: JSON.stringify(station.objSearch),
+                method: 'POST',
+                contentType: "application/json",
+                xhrFields: {
+                    responseType: 'blob'
+                },
+                success: function (data, textStatus, xhr) {
+                    global.disableLoading();
+                    console.log(textStatus + "| " + xhr.getAllResponseHeaders());
+                    var a = document.createElement('a');
+                    var url = window.URL.createObjectURL(data);
+                    console.log("url: "+ url);
+                    a.href = url;
+                    a.download = xhr.getResponseHeader("content-disposition");
+                    document.body.append(a);
+                    a.click();
+                    a.remove();
+                    window.URL.revokeObjectURL(url);
+                }
+            });
         }
     }
 
@@ -1007,8 +1035,8 @@ $(document).ready(function () {
         },
         "pagingType": "full_numbers",
         "lengthMenu": [
-            [10, 25, 50, -1],
-            [10, 25, 50, "Tất cả"]
+            [10, 25, 50],
+            [10, 25, 50]
         ],
         "lengthChange": true,
         "searchDelay": 1500,
