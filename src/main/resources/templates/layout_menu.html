@@ -73,30 +73,32 @@
 			</a>
 
 				<ul class="dropdown-menu dropdown-menu-right">
-					<div class="card card-widget widget-user">
-						<!-- Add the bg color to the header using any of the bg-* classes -->
-						<div class="widget-user-header">
-							<h3 class="widget-user-username" th:text="${#authentication.getPrincipal().getUsername()}"></h3>
+					<li class="user-body"></li>
+					<!-- Menu Footer-->
+					<li class="user-footer">
+<!--						<div class="pull-left" style="float: left">-->
+<!--							<a href="#" class="btn btn-default btn-flat">Profile</a>-->
+<!--						</div>-->
+<!--						<div class="pull-right" style="float: left" >-->
+<!--							<a href="/logout" class="btn btn-default btn-flat">Sign out</a>-->
+<!--						</div>-->
+					<li class="user-header" style="text-align: center;background: cornflowerblue">
+						<img src="/img/user.png" class="img-circle" alt="User Image" style="z-index: 5;height: 90px;width: 90px;border: 3px solid;border-color: transparent;border-color: rgba(255,255,255,0.2);"/>
+						<div style="background: cadetblue">
+							<p>
+								Xin chào <span th:text="${#authentication.getPrincipal().getUsername()}"></span>
+							</p>
 						</div>
-						<div class="widget-user-image">
-							<img class="img-circle elevation-2" src="/img/logo.jpg" alt="User Avatar">
-						</div>
-						<div class="card-footer">
-							<div class="row">
-								<div class="col-sm-4 mr-5">
-									<div class="description-block">
-										<a href="" class="btn btn-default btn-flat">Đổi mật khẩu</a>
-									</div>
-								</div>
 
-								<div class="col-sm-4">
-									<div class="description-block">
-										<a href="/logout" class="btn btn-default btn-flat">Đăng xuất</a>
-									</div>
-								</div>
-							</div>
+					</li>
+						<div class="pull-left" style="float: left;" >
+							<a href="#" style="width: 100px;" class="btn btn-default btn-flat">Đổi mật
+								khẩu</a>
 						</div>
-					</div>
+						<div class="pull-right" style="float: left;">
+							<a href="/logout"  style="width: 100px;" class="btn btn-default btn-flat">Thoát</a>
+						</div>
+					</li>
 				</ul>
 			</section>
 			</li>
