@@ -12,20 +12,6 @@ var station =
             s_parameterDesc: '',
             s_unit: '',
             s_timeseries: '',
-            // s_longtitude: '',
-            // s_latitude: '',
-            // s_provinceName: '',
-            // s_districtName: '',
-            // s_wardName: '',
-            // s_address: '',
-            // s_riverName: '',
-            // s_stationHeight: '',
-            // s_status: '',
-            // s_parameterTypeName: '',
-            // s_unitName: '',
-            // s_device: '',
-            // s_measure: '',
-            // s_note: ''
         },
         objParameterSearch: {
             s_uuid: uuid,//'ffaaf28d-58b9-4fb8-b5b8-d5120f3b0e53',//
@@ -110,6 +96,9 @@ var station =
             });
         },
         btnAddSeries: function () {
+            if(!station.validateSeries()){
+                return ;
+            }
             let timeTypeId = $("#timeSeries").val();
             let tsConfigName = $("#tsConfigName").val();
             let data = {
@@ -143,9 +132,14 @@ var station =
             });
         },
         btnRefreshSeries: function () {
-            $("#unitId").val('-1').trigger('change');
+            $('.help-block').html('');
+            $("#timeSeries").val('-1').trigger('change');
+            $("#tsConfigName").val('');
         },
         deleteSeries: function (id) {
+            if (!confirm('Bạn thực sự muốn xóa ?')) {
+                return ;
+            }
             global.showLoading();
             $.ajax({
                 headers: {
@@ -262,6 +256,7 @@ var station =
             });
         },
         btnRefresh: function () {
+            $('.help-block').html('');
             $("#parameter").val('');
             $("#parameterDesc").val('');
             $("#unitId").val('-1').trigger('change');
@@ -269,36 +264,37 @@ var station =
             $("#timeSeries").val('-1').trigger('change');
         },
         btnDelete: function () {
-            if (confirm('Bạn thực sự muốn xóa ?')) {
-                global.showLoading();
-                $.ajax({
-                    headers: {
-                        'Authorization': token
-                    },
-                    url: apiUrl + "station-type/delete-station-time-series",
-                    method: "POST",
-                    // contentType: "application/json",
-                    data: jQuery.param({stationId: station.parameter.stationId}),
-                    success: function (data) {
-                        if (data.status == 1) {
-                            toastr.success('Thành công', data.message);
-                            //reset cac thong tin them moi
-                            station.btnRefresh();
-                            station.btnRefreshSeries();
-                            station.uuid = global.uuidv4();
-                            station.table.ajax.reload();
-                            station.closePopup();
-                        } else {
-                            toastr.error('', data.message);
-                        }
-                        global.disableLoading();
-                    },
-                    error: function (err) {
-                        global.disableLoading();
-                        toastr.error("", "Lỗi thực hiện");
-                    }
-                });
+            if (!confirm('Bạn thực sự muốn xóa ?')) {
+                return ;
             }
+            global.showLoading();
+            $.ajax({
+                headers: {
+                    'Authorization': token
+                },
+                url: apiUrl + "station-type/delete-time-series-config-parameter",
+                method: "POST",
+                // contentType: "application/json",
+                data: jQuery.param({"parameterId": station.parameter.stationId}),
+                success: function (data) {
+                    if (data.status == 1) {
+                        toastr.success('Thành công', data.message);
+                        //reset cac thong tin them moi
+                        station.btnRefresh();
+                        station.btnRefreshSeries();
+                        station.uuid = global.uuidv4();
+                        station.table.ajax.reload();
+                        station.closePopup();
+                    } else {
+                        toastr.error('', data.message);
+                    }
+                    global.disableLoading();
+                },
+                error: function (err) {
+                    global.disableLoading();
+                    toastr.error("", "Lỗi thực hiện");
+                }
+            });
         },
         searchSeries: function () {
             if (station.tableParameter === undefined) {
@@ -419,6 +415,7 @@ var station =
             station.fillDataToForm(rowData);
         },
         fillDataToForm: function (rowData) {
+            $('.help-block').html('');
             if (rowData != null && rowData != undefined && rowData.length > 0) {
                 console.log(rowData);
                 station.enabled_right();
@@ -498,9 +495,10 @@ var station =
             $('#form_data')[0].reset();
         },
         validate: function () {
-            if ($('#parameter').val().trim() === "-1") {
-                toastr.error('', 'Tên yếu không được để trống');
-                $('#stationTypeId').focus();
+            $('.help-block').html('');
+            if ($('#parameter').val().trim().length < 1) {
+                $('#parameter_error').html('Tên yếu không được để trống');
+                $('#parameter').focus();
                 return false;
             }
             // if($('#parameterDesc').val().trim() === "-1"){
@@ -508,9 +506,28 @@ var station =
             //     $('#modeStationType').focus();
             //     return false;
             // }
-            if ($('#unitId').val().trim().length < 1) {
-                toastr.error('', 'Đơn vị tính không được để trống');
-                $('#stationCode').focus();
+            if ($('#unitId').val().trim() === "-1") {
+                $('#unitId_error').html('Đơn vị tính không được để trống');
+                $('#unitId').focus();
+                return false;
+            }
+            return true;
+        },
+        validateSeries: function () {
+            $('.help-block').html('');
+            if ($('#timeSeries').val().trim() === "-1") {
+                $('#timeSeries_error').html('Time series không được để trống');
+                $('#timeSeries').focus();
+                return false;
+            }
+            // if($('#parameterDesc').val().trim() === "-1"){
+            //     toastr.error('', 'Chế độ điều khiển không được để trống');
+            //     $('#modeStationType').focus();
+            //     return false;
+            // }
+            if ($('#tsConfigName').val().trim().length < 1) {
+                $('#tsConfigName_error').html('Time series config name tính không được để trống');
+                $('#tsConfigName').focus();
                 return false;
             }
             return true;
@@ -809,6 +826,7 @@ $(document).ready(function () {
 
     $('#btncancer').click(function () {
         station.disabled_right();
+        $('.help-block').html('');
         $("#btnsave").css("display", "none");
         $("#btnDelete").css("display", "none");
         $("#btnReset").css("display", "none");

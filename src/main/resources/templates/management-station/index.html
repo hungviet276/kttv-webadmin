@@ -109,6 +109,7 @@
                                                 <select id="stationTypeId" class="form-control" style="width: 100%;"
                                                         onchange="station.checkStationType(this)">
                                                 </select>
+                                                <span id="stationTypeId_error" class="help-block" style="color: red"></span>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label for="modeStationType">Chế độ điều khiển <span
@@ -117,6 +118,7 @@
                                                     <option value="1">Qua API</option>
                                                     <option value="2">Lệnh điều khiển hỗ trợ</option>
                                                 </select>
+                                                <span id="modeStationType_error" class="help-block" style="color: red"></span>
                                             </div>
                                         </div>
                                         <div class="form-row">
@@ -126,11 +128,13 @@
                                                 <input type="text" class="form-control" id="stationCode" placeholder=""
                                                        onkeypress="return station.stationCodeKeyPress(event)"
                                                        onkeyup="station.stationCodeKeyUp(event)">
+                                                <span id="stationCode_error" class="help-block" style="color: red"></span>
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="stationName">Tên trạm <span
                                                         style="color: red;">*</span></label>
                                                 <input type="text" class="form-control" id="stationName" placeholder="">
+                                                <span id="stationName_error" class="help-block" style="color: red"></span>
                                             </div>
                                         </div>
                                         <div class="form-row">
@@ -139,10 +143,12 @@
                                                         style="color: red;">*</span></label>
                                                 <input type="number" class="form-control" id="longtitude"
                                                        placeholder="">
+                                                <span id="longtitude_error" class="help-block" style="color: red"></span>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label for="latitude">Vĩ độ <span style="color: red;">*</span></label>
                                                 <input type="number" class="form-control" id="latitude" placeholder="">
+                                                <span id="latitude_error" class="help-block" style="color: red"></span>
                                             </div>
                                         </div>
                                         <div class="form-row">
@@ -214,10 +220,12 @@
                                                             onchange="station.onChangeParameter(this)">
                                                         <option value="-1">Lựa chọn</option>
                                                     </select>
+                                                    <span id="parameter_error" class="help-block" style="color: red"></span>
                                                 </div>
                                                 <div class="form-group col-md-6">
-                                                    <label for="tsName">Time series</label>
+                                                    <label for="tsName">Time series name</label>
                                                     <input type="text" class="form-control" id="tsName" placeholder="">
+                                                    <span id="tsName_error" class="help-block" style="color: red"></span>
                                                 </div>
                                                 <!--                                                    <div class="form-group col-md-6">-->
                                                 <!--                                                        <label for="unit">Đơn vị tính <span style="color: red;">*</span></label>-->
@@ -232,6 +240,7 @@
                                                     <select id="tsConfigId" class="form-control" style="width: 100%;">
                                                         <option value="-1">Lựa chọn</option>
                                                     </select>
+                                                    <span id="tsConfigId_error" class="help-block" style="color: red"></span>
                                                 </div>
 
                                                 <!--                                                    <div class="form-group col-md-6">-->
