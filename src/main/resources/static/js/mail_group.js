@@ -39,8 +39,6 @@
             },
             processResults: function (data) {
                 var datas =  $('#detail-receive-mail').val();
-                console.log("data");
-                console.log(datas);
                 return {
                     results: $.map(data, function (item) {
                         return {
@@ -58,25 +56,6 @@
     $('.select2bs4').select2({
         theme: 'bootstrap4'
     });
-    // $('#example3').DataTable({
-    //     "paging": true,
-    //     "lengthChange": false,
-    //     "searching": false,
-    //     "ordering": true,
-    //     "info": false,
-    //     "autoWidth": true,
-    //     "responsive": false,
-    // });
-    // $('#example4').DataTable({
-    //     "paging": true,
-    //     "lengthChange": false,
-    //     "searching": false,
-    //     "ordering": true,
-    //     "info": false,
-    //     "autoWidth": true,
-    //     "responsive": false,
-    // });
-
 let objSearch = {
     s_id: '',
     s_name: '',
@@ -257,7 +236,6 @@ $(document).ready(function () {
         for(let i =0; i< data.length ; i++){
             object[''+data[i].getAttribute('name')] = data[i].value;
         }
-        console.log(object);
         return object;
     }
     // set default state for button control
@@ -774,7 +752,6 @@ $(document).ready(function () {
         let rowData = tableDetail.rows( { selected: true } ).data().toArray();
         data.id =rowData[0].id;
 
-        console.log(data);
         $.ajax({
             headers: {
                 'Authorization': token
