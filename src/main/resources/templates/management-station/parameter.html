@@ -121,8 +121,8 @@
                                             <div class="form-group col-md-6">
                                                 <label for="parameter">Tên yếu tố <span
                                                         style="color: red;">*</span></label>
-                                                <input type="text" class="form-control" id="parameter" placeholder=""
-                                                >
+                                                <input type="text" class="form-control" id="parameter" placeholder="">
+                                                <span id="parameter_error" class="help-block" style="color: red"></span>
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="parameterDesc">Mô tả </label>
@@ -137,6 +137,7 @@
                                                 <select id="unitId" class="form-control" style="width: 100%;">
                                                     <option value="-1">Lựa chọn</option>
                                                 </select>
+                                                <span id="unitId_error" class="help-block" style="color: red"></span>
                                             </div>
                                             <!--                                            </div>
                                                                                         <div class="form-group col-md-6">
@@ -209,11 +210,12 @@
                                                     <select id="timeSeries" class="form-control" style="width: 100%;">
                                                         <option value="-1">Lựa chọn</option>
                                                     </select>
+                                                    <span id="timeSeries_error" class="help-block" style="color: red"></span>
                                                 </div>
                                                 <div class="form-group col-md-6">
-                                                    <label for="tsConfigName">Time series config name</label>
-                                                    <input type="text" class="form-control" id="tsConfigName"
-                                                           placeholder="">
+                                                    <label for="tsConfigName">Time series config name <span style="color: red;">*</span></label>
+                                                    <input type="text" class="form-control" id="tsConfigName" placeholder="">
+                                                    <span id="tsConfigName_error" class="help-block" style="color: red"></span>
                                                 </div>
                                                 <!--                                                    <div class="form-group col-md-6">-->
                                                 <!--                                                        <label for="unit">Đơn vị tính <span style="color: red;">*</span></label>-->

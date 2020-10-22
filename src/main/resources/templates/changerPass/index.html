@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:replace="layout_header.html :: head_tag" />
+    <link rel="stylesheet" href="/css/users_manage.css" type="text/css">
+    <title>Quản lý người dùng</title>
+</head>
+<body  class="hold-transition sidebar-mini layout-fixed text-sm">
+<div class="wrapper">
+
+    <th:block th:replace="layout_menu.html :: menu_tag" />
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="container-fluid">
+                <div class="card card-default">
+                    <div class="card-header">
+                        <h4>Quản lý người dùng</h4>
+                    </div>
+                    <div class="container-fluid">
+                        <div class="row content" style="height: 1119px;width: 100%">
+                        <div class="col-sm-12" id="box_search">
+                            <div class="card-header">
+                                <h3 style="text-align: center"><b>Đổi mật khẩu</b></h3>
+                            </div>
+                            <br/>
+                            <form class="form-horizontal" id="form_data">
+                                <div style="text-align: center;width: 100%">
+                            <div class="form-row" >
+                                <div class="form-group col-md-6">
+                                    <label for="pass_old">Mật khẩu cũ</label>
+                                    <input type="text" class="form-control" id="pass_old"
+                                           placeholder="">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="pass_new">Mật khẩu mới</label>
+                                    <input type="text" class="form-control" id="pass_new"
+                                           placeholder="">
+                                </div>
+                            </div>
+                            <div class="form-row" >
+                                <div class="form-group col-md-6">
+                                    <label for="re_pass_new">Nhập lại mật khẩu mới</label>
+                                    <input type="text" class="form-control" id="re_pass_new"
+                                           placeholder="">
+                                </div>
+                            </div>
+                                </div>
+                            </form>
+                            <div class="wrap-button-control">
+                                <button class="btn btn-primary" id="btnSearch" style="width:100px;">
+                                    <i class="fas fa-search"></i> Tìm kiếm
+                                </button>
+                                <button class="btn btn-primary" id="btnDonew" style="width:100px;">
+                                    <i class="fas fa-plus"></i> Thêm
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+        <div class="popup-loading">
+            <div class="wrapper-loading">
+                <div class="sub-wrapper-loading">
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only" th:text="#{action.loading}">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+    </div>
+</div>
+</body>
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <th:block th:replace="layout_footer.html :: footer_tag" />
+    <script type="text/javascript">
+        var apiUrl = "[[${session.apiUrl}]]";
+        var userBO = "[[${session.userBO}]]";
+        var username = "[[${session.userBO.Username}]]";
+        var token = "[[${session.token}]]";
+        // console.log(apiUrl + "|" + JSON.stringify(userBO) + "|" + token);
+    </script>
+<!--    <script src="/js/users_manage.js"></script>-->
+
+</html>
