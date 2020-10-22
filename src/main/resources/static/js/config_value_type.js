@@ -89,11 +89,11 @@ $('#value-type-station').select2({
 $('#stationSpatial').select2({
     minimumInputLength: 0,
     delay: 350,
-    ajax: {
+    ajax:{
         headers: {
             'Authorization': token
         },
-        url: apiUrl + "config-value-type/get-list-station",
+        url: apiUrl + "config-value-type/get-list-station-other",
         contentType: 'application/json',
         method: "POST",
         quietMillis: 50,
@@ -101,6 +101,7 @@ $('#stationSpatial').select2({
             if(term.term==null || term.term== undefined){
                 term.term = null;
             }
+            term.station = $("#station_add").val();
             return JSON.stringify(term);
 
         },
@@ -694,6 +695,13 @@ $("#btnsave").click(function () {
         "success": function (response) {
             toastr.success('Thành công', response.message);
             show_search();
+            $("#btnsave").css("display", "none");
+            $("#btnDelete").css("display", "none");
+            $("#btnReset").css("display", "none");
+            $("#btncancer").css("display", "none");
+            $("#btnDonew").attr("disabled", false);
+            show_search();
+            tableConfigValueType.ajax.reload();
         },
         "error": function (error) {
             toastr.error('Lỗi', error.responseJSON.message);
@@ -848,6 +856,13 @@ $("#btnsaveEdit").click(function(){
         "data" : JSON.stringify(data),
         "success": function (response) {
             toastr.success('Thành công', response.message);
+            $("#btnsave").css("display", "none");
+            $("#btnDelete").css("display", "none");
+            $("#btnReset").css("display", "none");
+            $("#btncancer").css("display", "none");
+            $("#btnDonew").attr("disabled", false);
+            show_search();
+            tableConfigValueType.ajax.reload();
         },
         "error": function (error) {
             toastr.error('Lỗi', error.responseJSON.message);
@@ -877,4 +892,12 @@ $("#btnDelete").click(function () {
 
         }
     });
+});
+$('#stationSpatial').on('select2:opening', function (e) {
+    var dataStation = $('#station_add').select2('data');
+       if(dataStation.length == 0){
+           $('#station_add').select2('open');
+           toastr.warning('Lỗi',"hãy chọn trạm trước");
+           return;
+   }
 });
