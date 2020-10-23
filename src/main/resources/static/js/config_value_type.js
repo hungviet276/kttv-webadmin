@@ -17,18 +17,6 @@ $('#btncancer').click(function () {
     show_search();
 });
 
-function show_search() {
-    $("#box_info").hide(0);
-    $("#box_search").show(500);
-    $("#box_search").attr('class', 'col-sm-12');
-}
-
-function show_search() {
-    $("#box_info").hide(0);
-    $("#box_search").show(500);
-    $("#box_search").attr('class', 'col-sm-12');
-}
-
 function togle_search() {
     $("#box_info").show(500);
     $("#box_info").attr('class', 'col-sm-12');
@@ -46,6 +34,16 @@ $('#btnDonew').click(function () {
     $("#btncancer").css("display", "inline");
     $("#btnDonew").attr("disabled", true);
     $('.nav-tabs a[href="#menu2"]').tab('show');
+    $("#form_input").get(0).reset();
+    $("#station_add").empty();
+    $("#value-type-station").empty();
+    $("#station_add").prop( "disabled", false );
+    $("#value-type-station").prop( "disabled", false );
+    $("#btnsaveEdit").hide();
+
+    tableStationSpatial
+        .clear()
+        .draw();
 });
 
 $('#station').select2({
@@ -91,11 +89,11 @@ $('#value-type-station').select2({
 $('#stationSpatial').select2({
     minimumInputLength: 0,
     delay: 350,
-    ajax: {
+    ajax:{
         headers: {
             'Authorization': token
         },
-        url: apiUrl + "config-value-type/get-list-station",
+        url: apiUrl + "config-value-type/get-list-station-other",
         contentType: 'application/json',
         method: "POST",
         quietMillis: 50,
@@ -103,6 +101,7 @@ $('#stationSpatial').select2({
             if(term.term==null || term.term== undefined){
                 term.term = null;
             }
+            term.station = $("#station_add").val();
             return JSON.stringify(term);
 
         },
@@ -158,6 +157,7 @@ let objSearch = {
     s_value_type_id: '',
     s_station_name: '',
     s_value_type_name: '',
+    s_code: '',
     s_min: '',
     s_max: '',
     s_variable_time: '',
@@ -210,6 +210,7 @@ var tableConfigValueType = $('#tableValueTypeConfig').DataTable({
         {"data": "valueTypeId", "render": $.fn.dataTable.render.text()},
         {"data": "stationName", "render": $.fn.dataTable.render.text()},
         {"data": "valueTypename", "render": $.fn.dataTable.render.text()},
+        {"data": "code", "render": $.fn.dataTable.render.text()},
         {"data": "min", "render": $.fn.dataTable.render.text()},
         {"data": "max", "render": $.fn.dataTable.render.text()},
         {"data": "variableTime", "render": $.fn.dataTable.render.text()},
@@ -290,6 +291,7 @@ var tableConfigValueType = $('#tableValueTypeConfig').DataTable({
                     "valueTypeId": responseJson.content[i].valueTypeId,
                     "stationName": responseJson.content[i].stationName,
                     "valueTypename": responseJson.content[i].valueTypename,
+                    "code": responseJson.content[i].code,
                     "min": responseJson.content[i].min,
                     "max": responseJson.content[i].max,
                     "variableTime": responseJson.content[i].variableTime,
@@ -339,7 +341,7 @@ $("#stationSpatial").change(function () {
         headers: {
             'Authorization': token
         },
-        "url": apiUrl + "config-value-type/get-list-value-type?idStation="+ $("#stationSpatial").val(),
+        "url": apiUrl + "config-value-type/get-list-value-type?idStation="+ $("#stationSpatial").val()+"&valueTypeId="+$("#value-type-station").val(),
         "method": "POST",
         "contentType": "application/json",
         "success": function (response) {
@@ -364,6 +366,7 @@ var tableStationSpatial = $('#tableStationSpatial').DataTable({
         {"data": "stationName"},
         {"data" : "valueTypeCode"},
         {"data": "valueTypeName"},
+        {"data": "code"},
         {"data": "variableSpatial"},
         {
             data: null,
@@ -373,26 +376,27 @@ var tableStationSpatial = $('#tableStationSpatial').DataTable({
     ]
 });
 $("#btnsaveStationValueType").click(function () {
+    var submit = $("#formStationSpatial").valid();
     var dataStation = $('#stationSpatial').select2('data');
-    var valueType = $('#valueTypeSpatial').select2('data')
-
-    if(dataStation.length == 0){
-        toastr.error('Lỗi', "Hãy chọn trạm");
-        $('#stationSpatial').focus();
+    var dataValueType = $('#valueTypeSpatial').select2('data');
+    var dataValueTypeText = dataValueType[0].text;
+    var dataValueTypeTexts = dataValueTypeText.split("-");
+    if(submit == false) {
+        if (dataStation.length == 0) {
+            $('#stationSpatial').select2('open');
+            return;
+        }
+        if (dataValueType.length == 0) {
+            $('#valueTypeSpatial').select2('open');
+            return;
+        }
         return;
     }
-    if(valueType.length == 0){
-        toastr.error('Lỗi', "Hãy yếu tố");
-        $('#valueTypeSpatial').focus();
-        return;
-    }
-
-    // call ajax lấy thông tin config yếu tố
     $.ajax({
         headers: {
             'Authorization': token
         },
-        "url": apiUrl + "config-value-type/get-station-value-type-spatial?idStation="+ dataStation[0].id+"&idValueType="+valueType[0].id,
+        "url": apiUrl + "config-value-type/get-station-value-type-spatial?idStation="+ dataStation[0].id+"&idValueType="+dataValueType[0].id+"&code="+dataValueTypeTexts[2],
         "method": "GET",
         "contentType": "application/json",
         "success": function (response) {
@@ -400,7 +404,7 @@ $("#btnsaveStationValueType").click(function () {
             var formData  = tableStationSpatial.rows().data();
             let insert = true;
             $.each( formData, function( key, value ) {
-                if(dataStation[0].id == value.stationId && valueType[0].id == value.valueTypeId){
+                if(dataStation[0].id == value.stationId && dataValueType[0].id == value.valueTypeId&& dataValueTypeTexts[2]==value.code){
                     insert = false;
                 }
             });
@@ -482,41 +486,78 @@ $("#station_add").change(function () {
 });
 
 // form thêm mới sửa xóa
-$('#start_date').daterangepicker({
+    $('#start_date').daterangepicker({
     "singleDatePicker": true,
     "linkedCalendars": false,
     "showCustomRangeLabel": false,
-    "alwaysShowCalendars": true,
+    "alwaysShowCalendars": false,
+    "autoUpdateInput" : false,
     locale: {
-        cancelLabel: 'Clear'
+        cancelLabel: 'Clear',
+        format: 'DD/MM/YYYY'
     }
 }, function(start, end, label) {
-
+    console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
 });
 $('#start_date').on('cancel.daterangepicker', function(ev, picker) {
     $(this).val('');
+});
+$('#start_date').on('apply.daterangepicker', function(ev, picker) {
+    $("#start_date").val(picker.startDate.format('DD/MM/YYYY'));
 });
 $('#end_date').daterangepicker({
     "singleDatePicker": true,
     "linkedCalendars": false,
     "showCustomRangeLabel": false,
-    "alwaysShowCalendars": true,
+    "alwaysShowCalendars": false,
+    "autoApply" : false,
+    "autoUpdateInput" : false,
     locale: {
-        cancelLabel: 'Clear'
+        cancelLabel: 'Clear',
+        format: 'DD/MM/YYYY'
     }
 }, function(start, end, label) {
 
 });
+var validatorhorizontal = $("#formStationSpatial").validate({
+    rules : {
+        stationSpatial : {
+            required : true,
+        },
+        valueTypeSpatial : {
+            required : true,
+        }
+    },
+    messages: {
+        stationSpatial: {
+            required: "Hãy chọn trạm",
+        },
+        valueTypeSpatial: {
+            required: "Hãy chọn yếu tố",
+        }
+    },
+    errorPlacement : function(error, element) {
+        error.insertAfter(element.parents("div.insertError"));
+    }
+});
 $('#end_date').on('cancel.daterangepicker', function(ev, picker) {
     $(this).val('');
 });
+
+$('#end_date').on('apply.daterangepicker', function(ev, picker) {
+    $("#end_date").val(picker.startDate.format('DD/MM/YYYY'));
+});
+
 $("#startDateApply").daterangepicker({
     "singleDatePicker": true,
     "linkedCalendars": false,
     "showCustomRangeLabel": false,
-    "alwaysShowCalendars": true,
+    "alwaysShowCalendars": false,
+    "autoApply" : false,
+    "autoUpdateInput" : false,
     locale: {
-        cancelLabel: 'Clear'
+        cancelLabel: 'Clear',
+        format: 'DD/MM/YYYY'
     }
 }, function(start, end, label) {
 
@@ -524,20 +565,197 @@ $("#startDateApply").daterangepicker({
 $('#startDateApply').on('cancel.daterangepicker', function(ev, picker) {
     $(this).val('');
 });
+$('#startDateApply').on('apply.daterangepicker', function(ev, picker) {
+    $("#startDateApply").val(picker.startDate.format('DD/MM/YYYY'));
+});
 
 $("#endDateApply").daterangepicker({
     "singleDatePicker": true,
     "linkedCalendars": false,
     "showCustomRangeLabel": false,
-    "alwaysShowCalendars": true,
+    "alwaysShowCalendars": false,
+    "autoApply" : false,
+    "autoUpdateInput" : false,
     locale: {
-        cancelLabel: 'Clear'
+        cancelLabel: 'Clear',
+        format: 'DD/MM/YYYY'
     }
 }, function(start, end, label) {
 });
 $('#endDateApply').on('cancel.daterangepicker', function(ev, picker) {
     $(this).val('');
 });
+
+$('#endDateApply').on('apply.daterangepicker', function(ev, picker) {
+    $("#endDateApply").val(picker.startDate.format('DD/MM/YYYY'));
+});
+
+
+var validator = $("#form_input").validate({
+    rules : {
+        min : {
+            required : true,
+            maxlength : 15
+        },
+        max : {
+            required : true,
+            maxlength : 15,
+            validMin : "#min"
+        },
+        station_add : {
+            required : true,
+        },
+        value_type_station : {
+            required : true
+        },
+        variableTime : {
+            required : true
+        },
+        variableSpatial : {
+            required : true
+        },
+        startDateApply : {
+            required : true,
+            validDate : "#endDateApply"
+        },
+        endDateApply : {
+            required : true
+        },
+        code : {
+            required : true,
+        }
+    },
+    messages: {
+        min: {
+            required: "Bắt buộc nhập min",
+            maxlength: "Nhập tối đa 15 ký tự"
+        },
+        max: {
+            required: "Bắt buộc nhập min",
+            maxlength: "Nhập tối đa 15 ký tự",
+            validMin : "Giá trị max chưa hợp lệ"
+        },
+        station_add : {
+            required: "Bắt buộc nhập trạm",
+        },
+        value_type_station : {
+            required: "Bắt buộc chọn yếu tố",
+        },
+        variableTime : {
+            required: "Bắt buộc nhập giá trị biến đổi theo thời gian",
+        },
+        variableSpatial : {
+            required: "Bắt buộc nhập giá trị biến đổi theo không gian",
+        },
+        startDateApply : {
+            required: "Bắt buộc nhập ngày bắt đầu",
+            validDate :"Ngày bắt đầu phải nhỏ hơn ngày kết thúc"
+        },
+        endDateApply : {
+            required: "Bắt buộc nhập ngày kết thúc",
+        },
+        code : {
+            required: "Bắt buộc nhập mã code",
+        }
+    },
+    errorPlacement : function(error, element) {
+        error.insertAfter(element.parents("div.insertError"));
+    }
+});
+jQuery.validator.addMethod('validMin', function (value, element, param) {
+    return this.optional(element) || value >= $(param).val();
+}, 'Invalid value');
+
+jQuery.validator.addMethod('validDate', function (value, element, param) {
+    var start = stringToDate(value,"dd/MM/yyyy","/");
+    var end =  stringToDate($(param).val(),"dd/MM/yyyy","/");
+    return start.getTime() < end.getTime();
+}, 'Invalid value');
+
+function stringToDate(_date,_format,_delimiter) {
+    var formatLowerCase=_format.toLowerCase();
+    var formatItems=formatLowerCase.split(_delimiter);
+    var dateItems=_date.split(_delimiter);
+    var monthIndex=formatItems.indexOf("mm");
+    var dayIndex=formatItems.indexOf("dd");
+    var yearIndex=formatItems.indexOf("yyyy");
+    var year = parseInt(dateItems[yearIndex]);
+    // adjust for 2 digit year
+    if (year < 100) { year += 2000; }
+    var month=parseInt(dateItems[monthIndex]);
+    month-=1;
+    var formatedDate = new Date(year,month,dateItems[dayIndex]);
+    return formatedDate;
+}
+
+$("#btnsave").click(function () {
+    var submit = $("#form_input").valid();
+    if(submit == false){
+        var dataStation = $('#station_add').select2('data');
+        var dataValueType = $('#value-type-station').select2('data');
+        if(dataStation.length == 0){
+            $('#station_add').select2('open');
+            return;
+        }
+        if(dataValueType.length == 0){
+            $('#value-type-station').select2('open');
+            return;
+        }
+        validator.focusInvalid();
+        return;
+    }
+    var $form = $("#form_input");
+    var data = getFormData($form);
+    //.log(data);
+    //láy ra toàn bộ sanh sách trong table
+
+    var formData  = tableStationSpatial.rows().data();
+    let insert = [];
+    $.each( formData, function( key, value ) {
+        insert.push(value.id);
+    });
+    data.stationSpatial = insert;
+    data.id = null;
+    data.startDateApply= $('#startDateApply').data('daterangepicker').startDate._d;
+    data.endDateApply =  $('#endDateApply').data('daterangepicker').startDate._d;
+    //console.log(data);
+    $.ajax({
+        headers: {
+            'Authorization': token
+        },
+        "url": apiUrl + "config-value-type",
+        "method": "POST",
+        "contentType": "application/json",
+        "data" : JSON.stringify(data),
+        "success": function (response) {
+            toastr.success('Thành công', response.message);
+            show_search();
+            $("#btnsave").css("display", "none");
+            $("#btnDelete").css("display", "none");
+            $("#btnReset").css("display", "none");
+            $("#btncancer").css("display", "none");
+            $("#btnDonew").attr("disabled", false);
+            show_search();
+            tableConfigValueType.ajax.reload();
+        },
+        "error": function (error) {
+            toastr.error('Lỗi', error.responseJSON.message);
+        }
+    });
+
+});
+
+function getFormData($form){
+    var unindexed_array = $form.serializeArray();
+    var indexed_array = {};
+
+    $.map(unindexed_array, function(n, i){
+        indexed_array[n['name']] = n['value'];
+    });
+
+    return indexed_array;
+}
+
 
 $("#endDateApply").val("");
 $("#startDateApply").val("");
@@ -553,5 +771,192 @@ $("#start_date").keyup(function () {
     $("#start_date").val("")
 });
 $("#end_date").keyup(function () {
-    $("#end_date").val("")
+    $("#end_date").val("");
+});
+//làm chức năng thêm sửa xóa
+// chức năng sửa
+tableConfigValueType
+    .on('select', rowSelect)
+    .on('deselect', rowDeselect);
+function rowSelect(e, dt, type, indexes) { // load các thông tin của những cái bên trái ra
+    $("#btnDetail").prop( "disabled", false );
+}
+function rowDeselect(e, dt, type, indexes) { // khóa các form bên trái
+    $("#btnDetail").prop( "disabled", true );
+}
+$("#btnDetail").click(function () {
+    var rowDt = tableConfigValueType.rows('.selected').data()[0];
+    $('#action_info').val(1);
+    togle_search();
+    $("#btnsave").css("display", "none");
+    $("#btnDelete").css("display", "inline");
+    $("#btnReset").css("display", "inline");
+    $("#btncancer").css("display", "inline");
+    $("#btnDonew").attr("disabled", true);
+    $('.nav-tabs a[href="#menu2"]').tab('show');
+    $("#btnsaveEdit").css("display", "inline");
+
+    showDetailData(rowDt);
+
+});
+
+function setDataTableSpatial(rowDt){
+    $.ajax({
+        headers: {
+            'Authorization': token
+        },
+        "url": apiUrl + "config-value-type/get-list-station-value-type-spatial?idConfigValueType="+rowDt.id,
+        "method": "GET",
+        "contentType": "application/json",
+        "success": function (response) {
+            for(let i =0; i< response.length; i++){
+                tableStationSpatial.row.add(response[i]).draw( true );
+            }
+        },
+        "error": function (error) {
+            toastr.error('Lỗi', error.responseJSON.message);
+        }
+    });
+}
+
+function showDetailData(rowDt){
+    $("#station_add").empty();
+    var newOption = new Option(rowDt.stationName, rowDt.stationId, true, true);
+    $('#station_add').append(newOption).trigger('change');
+    $('#station_add').prop( "disabled", true );
+    $("#id").val(rowDt.id);
+    $("#min").val(rowDt.min);
+    $("#max").val(rowDt.max);
+    $("#startDateApply").val(rowDt.startDate);
+    $("#endDateApply").val(rowDt.endDate);
+    $("#variableTime").val(rowDt.variableTime);
+    $("#variableSpatial").val(rowDt.variableSpatial);
+    $("#code").val(rowDt.code);
+    $.ajax({
+        headers: {
+            'Authorization': token
+        },
+        "url": apiUrl + "config-value-type/get-value-type-station-value-type?idStation="+rowDt.stationId+"&idValueType="+rowDt.valueTypeId,
+        "method": "GET",
+        "contentType": "application/json",
+        "success": function (response) {
+            $("#value-type-station").empty();
+            var newOption = new Option(response.text, response.id, true, true);
+            $('#value-type-station').append(newOption).trigger('change');
+            $('#value-type-station').prop( "disabled", true );
+        },
+        "error": function (error) {
+            toastr.error('Lỗi', error.responseJSON.message);
+        }
+    });
+    setDataTableSpatial(rowDt);
+}
+$("#btnsaveEdit").click(function(){
+    var submit = $("#form_input").valid();
+    if(submit == false){
+        var dataStation = $('#station_add').select2('data');
+        var dataValueType = $('#value-type-station').select2('data');
+        if(dataStation.length == 0){
+            $('#station_add').select2('open');
+            return;
+        }
+        if(dataValueType.length == 0){
+            $('#value-type-station').select2('open');
+            return;
+        }
+        validator.focusInvalid();
+        return;
+    }
+    var $form = $("#form_input");
+    var data = getFormData($form);
+    //.log(data);
+    //láy ra toàn bộ sanh sách trong table
+
+    var formData  = tableStationSpatial.rows().data();
+    let insert = [];
+    $.each( formData, function( key, value ) {
+        insert.push(value.id);
+    });
+    data.stationSpatial = insert;
+    data.startDateApply= $('#startDateApply').data('daterangepicker').startDate._d;
+    data.endDateApply =  $('#endDateApply').data('daterangepicker').startDate._d;
+    //console.log(data);
+    $.ajax({
+        headers: {
+            'Authorization': token
+        },
+        "url": apiUrl + "config-value-type",
+        "method": "PUT",
+        "contentType": "application/json",
+        "data" : JSON.stringify(data),
+        "success": function (response) {
+            toastr.success('Thành công', response.message);
+            $("#btnsave").css("display", "none");
+            $("#btnDelete").css("display", "none");
+            $("#btnReset").css("display", "none");
+            $("#btncancer").css("display", "none");
+            $("#btnDonew").attr("disabled", false);
+            show_search();
+            tableConfigValueType.ajax.reload();
+        },
+        "error": function (error) {
+            toastr.error('Lỗi', error.responseJSON.message);
+        }
+    });
+});
+$("#btnDelete").click(function () {
+    $.ajax({
+        headers: {
+            'Authorization': token
+        },
+        "url": apiUrl + "config-value-type?id="+$("#id").val(),
+        "method": "DELETE",
+        "contentType": "application/json",
+        "success": function (response) {
+            toastr.success('Thành công', response.message);
+            $("#btnsave").css("display", "none");
+            $("#btnDelete").css("display", "none");
+            $("#btnReset").css("display", "none");
+            $("#btncancer").css("display", "none");
+            $("#btnDonew").attr("disabled", false);
+            show_search();
+            tableConfigValueType.ajax.reload();
+        },
+        "error": function (error) {
+            toastr.error('Lỗi', error.responseJSON.message);
+
+        }
+    });
+});
+$('#stationSpatial').on('select2:opening', function (e) {
+    var dataStation = $('#station_add').select2('data');
+    if(dataStation.length == 0){
+        $( "#station_add" ).focus();
+       $('#station_add').select2('open');
+       toastr.warning('Lỗi',"hãy chọn trạm trước");
+       return false;
+    }
+    var dataValueType = $('#value-type-station').select2('data');
+    if(dataValueType.length == 0){
+        $( "#value-type-station" ).focus();
+        $('#value-type-station').select2('open');
+        toastr.warning('Lỗi',"hãy chọn yếu tố trước");
+        return false;
+    }
+});
+$('#valueTypeSpatial').on('select2:opening', function (e) {
+    var dataStation = $('#station_add').select2('data');
+    if(dataStation.length == 0){
+        $( "#station_add" ).focus();
+        $('#station_add').select2('open');
+        toastr.warning('Lỗi',"hãy chọn trạm trước");
+        return false;
+    }
+    var dataValueType = $('#value-type-station').select2('data');
+    if(dataValueType.length == 0){
+        $( "#value-type-station" ).focus();
+        $('#value-type-station').select2('open');
+        toastr.warning('Lỗi',"hãy chọn yếu tố trước");
+        return false;
+    }
 });

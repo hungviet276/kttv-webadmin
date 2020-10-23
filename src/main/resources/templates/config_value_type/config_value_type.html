@@ -71,6 +71,9 @@
                                     <button class="btn btn-primary" id="btnDonew" style="width:100px;">
                                         <i class="fas fa-plus"></i> Thêm
                                     </button>
+                                    <button class="btn btn-primary" id="btnDetail" style="width:100px;" disabled="disabled">
+                                        <i class="fa fa-eye" aria-hidden="true"></i> Chi tiết
+                                    </button>
                                 </div>
                                 <!--                            <p th:text="${a}"></p>-->
                                 <div><input style="display:none" type="text" class="form-control" name="action_info" id="action_info" value="0"></div>
@@ -85,6 +88,7 @@
                                             <th data-id="s_value_type_id">Id Yếu tố</th>
                                             <th data-id="s_station_name">Tên trạm</th>
                                             <th data-id="s_value_type_name">Tên Yếu tố</th>
+                                            <th data-id="s_code">Code</th>
                                             <th data-id="s_min">Cực tiểu</th>
                                             <th data-id="s_max">Cực đại</th>
                                             <th data-id="s_variable_time">Ngưỡng biến đổi liên tiếp theo không gian</th>
@@ -106,79 +110,110 @@
                                     </div>
                                     <form class="form-horizontal" id="form_input">
                                         <div class="form-row">
-                                            <div class="form-group col-md-6">
+                                            <div class="form-group col-md-6 errorTxt">
                                                 <label for="station_add">Trạm<span style="color: red;">*</span></label>
-                                                <div class="select2-purple">
-                                                    <select id="station_add" data-placeholder="Select a State"
+                                                <div class="select2-purple insertError">
+                                                    <select id="station_add" name="station_add" data-placeholder="Select a State"
                                                             data-dropdown-css-class="select2-purple" style="width: 100%;">
                                                     </select>
                                                 </div>
+                                                <label></label>
                                             </div>
 
-                                            <div class="form-group col-md-6">
+                                            <div class="form-group col-md-6 errorTxt">
                                                 <label for="value-type-station">Yếu tố<span style="color: red;">*</span></label>
-                                                <div class="select2-purple">
-                                                    <select id="value-type-station" data-placeholder="Select a State"
+                                                <div class="select2-purple insertError">
+                                                    <select id="value-type-station" name="value_type_station" data-placeholder="Select a State"
                                                             data-dropdown-css-class="select2-purple" style="width: 100%;">
                                                     </select>
                                                 </div>
+                                                <label></label>
                                             </div>
 
                                         </div>
                                         <div class="form-row">
-                                            <div class="form-group col-md-6">
-                                                <label for="min">Giá trị min<span style="color: red;">*</span></label>
-                                                <input type="number" class="form-control" id="min" placeholder="">
+                                            <div class="form-group col-md-6 errorTxt">
+                                                <div class="insertError">
+                                                    <label for="min">Giá trị min<span style="color: red;">*</span></label>
+                                                    <input type="number" class="form-control" id="min" name="min" placeholder="">
+                                                </div>
+                                                <label></label>
                                             </div>
-                                            <div class="col-md-6">
-                                                <label for="max">Giá trị max<span style="color: red;">*</span></label>
-                                                <input type="number" class="form-control" id="max" placeholder="">
-                                            </div>
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6">
-                                                <label for="variableTime">Mức độ biến đổi theo thời gian<span style="color: red;">*</span></label>
-                                                <input type="number" class="form-control" id="variableTime" placeholder="">
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <label for="variableSpatial">Mức độ biến đổi theo không gian <span style="color: red;">*</span></label>
-                                                <input type="number" class="form-control" id="variableSpatial" placeholder="">
+                                            <div class="col-md-6 errorTxt">
+                                                <div class="insertError">
+                                                    <label for="max">Giá trị max<span style="color: red;">*</span></label>
+                                                    <input type="number" class="form-control" id="max" name="max" placeholder="">
+                                                </div>
+                                                <label></label>
                                             </div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="form-group col-md-6">
-                                                <label for="startDateApply">Áp dụng từ <span style="color: red;">*</span></label>
-                                                <input type="email" class="form-control" id="startDateApply" placeholder="">
+                                            <div class="form-group col-md-6 errorTxt">
+                                                <div class="insertError">
+                                                    <label for="variableTime">Mức độ biến đổi theo thời gian<span style="color: red;">*</span></label>
+                                                    <input type="number" class="form-control" id="variableTime" name="variableTime" placeholder="">
+                                                </div>
+                                                <label></label>
                                             </div>
-                                            <div class="form-group col-md-6">
-                                                <label for="endDateApply">Áp dụng đến</label>
-                                                <input type="text" class="form-control" id="endDateApply" placeholder="">
+                                            <div class="form-group col-md-6 errorTxt">
+                                                <div class="insertError">
+                                                    <label for="variableSpatial">Mức độ biến đổi theo không gian<span style="color: red;">*</span></label>
+                                                    <input type="number" class="form-control" id="variableSpatial" name="variableSpatial" placeholder="">
+                                                </div>
+                                                <label></label>
                                             </div>
                                         </div>
-
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6 errorTxt">
+                                                <div class="insertError">
+                                                    <label for="startDateApply">Áp dụng từ <span style="color: red;">*</span></label>
+                                                    <input class="form-control" id="startDateApply" name="startDateApply" placeholder="">
+                                                </div>
+                                                <label></label>
+                                            </div>
+                                            <div class="form-group col-md-6 errorTxt">
+                                                <div class="insertError">
+                                                    <label for="endDateApply">Áp dụng đến</label>
+                                                    <input type="text" class="form-control" id="endDateApply" name="endDateApply" placeholder="">
+                                                </div>
+                                                <label></label>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6 errorTxt">
+                                                <div class="insertError">
+                                                    <label for="code">code<span style="color: red;">*</span></label>
+                                                    <input class="form-control" id="code" name="code" placeholder="">
+                                                </div>
+                                                <label></label>
+                                            </div>
+                                        </div>
+                                        <input type="number" class="form-control" id="id" name="id" hidden>
                                     </form>
                                     <div>
                                         <h3 style="text-align: center"><b>Danh sách các trạm biến đổi theo không gian</b></h3>
                                     </div>
                                     <form class="form-horizontal" id="formStationSpatial">
                                         <div class="form-row">
-                                            <div class="form-group col-md-6">
+                                            <div class="form-group col-md-6 errorTxt">
                                                 <label for="stationSpatial">Trạm</label>
-                                                <div class="select2-purple">
+                                                <div class="select2-purple insertError">
                                                     <select id="stationSpatial" data-placeholder="Select a State"
-                                                            data-dropdown-css-class="select2-purple" style="width: 100%;">
+                                                            data-dropdown-css-class="select2-purple" name="stationSpatial" style="width: 100%;">
                                                         <!--                                                            -->
                                                     </select>
                                                 </div>
+                                                <label></label>
                                             </div>
-                                            <div class="form-group col-md-6">
-                                                <label for="valueTypeSpatial">Trạm</label>
-                                                <div class="select2-purple" style="height: 38px">
-                                                    <select id="valueTypeSpatial" data-placeholder="Select a State"
+                                            <div class="form-group col-md-6 errorTxt">
+                                                <label for="valueTypeSpatial">Yếu tố</label>
+                                                <div class="select2-purple insertError" style="height: 38px">
+                                                    <select id="valueTypeSpatial" data-placeholder="Select a State" name="valueTypeSpatial"
                                                             data-dropdown-css-class="select2-purple" style="width: 100%; height: 38px">
                                                         <!--                                                            -->
                                                     </select>
                                                 </div>
+                                                <label></label>
                                             </div>
                                         </div>
                                     </form>
@@ -198,6 +233,7 @@
                                             <th>Tên trạm</th>
                                             <th>Mã yếu tố</th>
                                             <th>Tên yếu tố</th>
+                                            <th>Code</th>
                                             <th>Mức độ biến đổi theo không gian</th>
                                             <th>Xóa</th>
                                         </tr>
@@ -209,6 +245,9 @@
                                     <hr>
                                     <div class="wrap-button-control">
                                         <button class="btn btn-primary" id="btnsave" style="display:none;width: 100px;">
+                                            <i class="fas fa-plus"></i> Lưu
+                                        </button>
+                                        <button class="btn btn-primary" id="btnsaveEdit" style="display:none;width: 100px;">
                                             <i class="fas fa-plus"></i> Lưu
                                         </button>
                                         <button class="btn btn-primary" id="btnDelete" style="display:none;width: 100px;">
