@@ -76,3 +76,8 @@
 .wrap-table-data {
     margin-top: 1em;
 }
+.error{
+    color: red;
+    font-size: 14px;
+    margin-bottom: 0px;
+}
