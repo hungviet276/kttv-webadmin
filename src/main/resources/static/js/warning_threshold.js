@@ -86,7 +86,7 @@ $('#code').select2({
         headers: {
             'Authorization': token
         },
-        url: apiUrl + "value-type/get-value-type-select",
+        url: apiUrl + "warning-thresold/get-select-warning-thresold",
         contentType: 'application/json',
         method: "POST",
         quietMillis: 50,
