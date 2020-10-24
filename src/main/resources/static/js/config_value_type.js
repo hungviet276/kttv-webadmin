@@ -87,7 +87,6 @@ $('#station').select2({
         }
     }
 });
-// $('#station').select2.defaults.set("theme", "classic");q
 
 $('#valueTypeSpatial').select2({
 
@@ -706,7 +705,7 @@ var validator = $("#form_input").validate({
             number : "Giá trị phải là số"
         },
         max: {
-            required: "Bắt buộc nhập min",
+            required: "Bắt buộc nhập max",
             maxlength: "Nhập tối đa 15 ký tự",
             validMin : "Giá trị max chưa hợp lệ",
             min : "Giá trị không được âm",
@@ -1002,6 +1001,7 @@ $("#btnsaveEdit").click(function(){
             $("#btnDonew").attr("disabled", false);
             show_search();
             tableConfigValueType.ajax.reload();
+            $("#btnDetail").prop( "disabled", true );
         },
         "error": function (error) {
             toastr.error('Lỗi', error.responseJSON.message);
