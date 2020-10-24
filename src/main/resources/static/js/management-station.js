@@ -42,7 +42,8 @@ var station =
             provinceId: null,
             districtId: null,
             wardId: null,
-            siteId: null
+            siteId: null,
+            riverId:null
         },
         init: function () {
             station.getStationType();
@@ -181,6 +182,9 @@ var station =
                     console.log(data);
                     $("#riverId").empty();
                     $("#riverId").select2({data: data});
+                    if (clientAction === 'update') {
+                        $('#riverId').val(station.parameter.riverId).trigger('change');
+                    }
                     global.disableLoading();
                 }
             });
@@ -718,12 +722,13 @@ var station =
                 station.parameter.provinceId = rowData[0].provinceId;
                 station.parameter.districtId = rowData[0].districtId;
                 station.parameter.wardId = rowData[0].wardId;
-                station.parameter.provinceId = rowData[0].provinceId;
+                station.parameter.siteId = rowData[0].siteId;
+                station.parameter.riverId = rowData[0].riverId;
 
                 // $('#districtId').val(rowData[0].districtId).trigger('change');
                 // $('#wardId').val(rowData[0].wardId).trigger('change');
                 $('#address').val(rowData[0].address);
-                $('#riverId').val(rowData[0].riverId).trigger('change');
+                // $('#riverId').val(rowData[0].riverId).trigger('change');
                 $('#status').val(rowData[0].status).trigger('change');
 
                 //lay thong tin list parameter
