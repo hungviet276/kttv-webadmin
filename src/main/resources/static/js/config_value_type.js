@@ -42,7 +42,8 @@ $('#btnDonew').click(function () {
     $("#station_add").prop( "disabled", false );
     $("#value-type-station").prop( "disabled", false );
     $("#btnsaveEdit").hide();
-
+    validator.resetForm();
+    validatorhorizontal.resetForm();
     tableStationSpatial
         .clear()
         .draw();
@@ -838,6 +839,7 @@ $("#btnsave").click(function () {
             $("#btnReset").css("display", "none");
             $("#btncancer").css("display", "none");
             $("#btnDonew").attr("disabled", false);
+            $("#btnDetail").attr("disabled", true);
             show_search();
             tableConfigValueType.ajax.reload();
         },
@@ -883,9 +885,11 @@ tableConfigValueType
     .on('deselect', rowDeselect);
 function rowSelect(e, dt, type, indexes) { // load các thông tin của những cái bên trái ra
     $("#btnDetail").prop( "disabled", false );
+    $("#btnDonew").attr("disabled", true);
 }
 function rowDeselect(e, dt, type, indexes) { // khóa các form bên trái
     $("#btnDetail").prop( "disabled", true );
+    $("#btnDonew").attr("disabled", false);
 }
 $("#btnDetail").click(function () {
     var rowDt = tableConfigValueType.rows('.selected').data()[0];
@@ -898,7 +902,8 @@ $("#btnDetail").click(function () {
     $("#btnDonew").attr("disabled", true);
     $('.nav-tabs a[href="#menu2"]').tab('show');
     $("#btnsaveEdit").css("display", "inline");
-
+    validator.resetForm();
+    validatorhorizontal.resetForm();
     showDetailData(rowDt);
 
 });
@@ -1002,6 +1007,7 @@ $("#btnsaveEdit").click(function(){
             show_search();
             tableConfigValueType.ajax.reload();
             $("#btnDetail").prop( "disabled", true );
+            $("#btnDonew").attr("disabled", true);
         },
         "error": function (error) {
             toastr.error('Lỗi', error.responseJSON.message);
