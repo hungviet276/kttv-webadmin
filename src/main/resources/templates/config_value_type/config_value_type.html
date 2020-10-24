@@ -21,13 +21,13 @@
             <div class="container-fluid">
                 <div class="card card-default">
                     <div class="card-header">
-                        <h4>Cấu hình min-max cho từng yếu tố cho từng trạm</h4>
+                        <h4><b>Quản lý cấu hình chuẩn hóa số liệu cho từng trạm</b></h4>
                     </div>
                     <div class="container-fluid">
                         <div class="row content" style="width: 100%">
                             <div class="col-sm-5" id="box_search">
                                 <div class="card-header">
-                                    <h3 style="text-align: center"><b>Tìm kiếm thông tin trạm</b></h3>
+                                    <h3 style="text-align: center">Tìm kiếm thông tin trạm</h3>
                                 </div>
                                 <br/>
                                 <form class="form-horizontal" id="form_data">
@@ -38,6 +38,7 @@
                                                 <select id="station" data-placeholder="Select a State"
                                                         data-dropdown-css-class="select2-purple" style="width: 100%;">
                                                     <!--                                                            -->
+                                                    <option value="">--- Hãy Chọn ---</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -106,7 +107,7 @@
                             <div class="col-sm-7"  id ="box_info">
                                 <div style="width: 95%;float: right">
                                     <div class="card-header">
-                                        <h3 style="text-align: center"><b>Thông tin min max cho từng loại dữ liệu</b></h3>
+                                        <h3 style="text-align: center">Cấu hình chuẩn hóa số liệu cho từng trạm</h3>
                                     </div>
                                     <form class="form-horizontal" id="form_input">
                                         <div class="form-row">
@@ -166,15 +167,15 @@
                                         <div class="form-row">
                                             <div class="form-group col-md-6 errorTxt">
                                                 <div class="insertError">
-                                                    <label for="startDateApply">Áp dụng từ <span style="color: red;">*</span></label>
-                                                    <input class="form-control" id="startDateApply" name="startDateApply" placeholder="">
+                                                    <label for="startDateApply">Áp dụng từ</label>
+                                                    <input class="form-control" id="startDateApply" name="startDateApply" placeholder="" autocomplete="off">
                                                 </div>
                                                 <label></label>
                                             </div>
                                             <div class="form-group col-md-6 errorTxt">
                                                 <div class="insertError">
                                                     <label for="endDateApply">Áp dụng đến</label>
-                                                    <input type="text" class="form-control" id="endDateApply" name="endDateApply" placeholder="">
+                                                    <input type="text" class="form-control" id="endDateApply" name="endDateApply" placeholder="" autocomplete="off">
                                                 </div>
                                                 <label></label>
                                             </div>
