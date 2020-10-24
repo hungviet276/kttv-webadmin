@@ -14,6 +14,8 @@ $('#btncancer').click(function () {
     $("#btnReset").css("display", "none");
     $("#btncancer").css("display", "none");
     $("#btnDonew").attr("disabled", false);
+    validator.resetForm();
+    validatorhorizontal.resetForm();
     show_search();
 });
 
@@ -49,6 +51,13 @@ $('#btnDonew').click(function () {
 $('#station').select2({
     minimumInputLength: 0,
     delay: 350,
+    templateSelection: function (data) {
+        if (data.id === '' || data.id == null || data.id == undefined) {
+            return '---- hãy chọn ----';
+        }
+
+        return data.text;
+    },
     ajax: {
         headers: {
             'Authorization': token
@@ -65,7 +74,7 @@ $('#station').select2({
 
         },
         processResults: function (data) {
-            var datas =  $('#station').val();
+            data = [{id: -1,text : '----hãy chọn----'}].concat(data);
             return {
                 results: $.map(data, function (item) {
                     return {
@@ -78,6 +87,7 @@ $('#station').select2({
         }
     }
 });
+// $('#station').select2.defaults.set("theme", "classic");q
 
 $('#valueTypeSpatial').select2({
 
@@ -89,6 +99,13 @@ $('#value-type-station').select2({
 $('#stationSpatial').select2({
     minimumInputLength: 0,
     delay: 350,
+    templateSelection: function (data) {
+        if (data.id === '' || data.id == null || data.id == undefined) {
+            return '---- hãy chọn ----';
+        }
+
+        return data.text;
+    },
     ajax:{
         headers: {
             'Authorization': token
@@ -138,7 +155,7 @@ $('#value-type').select2({
 
         },
         processResults: function (data) {
-            var datas =  $('#station').val();
+            data = [{id: -1,text : '----hãy chọn----'}].concat(data);
             return {
                 results: $.map(data, function (item) {
                     return {
@@ -269,19 +286,26 @@ var tableConfigValueType = $('#tableValueTypeConfig').DataTable({
             };
 
             for (let i = 0; i < responseJson.content.length; i++) {
-                 let todayTime =new Date(responseJson.content[i].startDate)
-                 let month = todayTime.getMonth() + 1;
-                 let day = todayTime.getDate();
-                 let year = todayTime.getFullYear();
-                 let dateStart =  month + "/" + day + "/" + year;
-                responseJson.content[i].startDate = dateStart;
-
-                let todayTimeEnd =new Date(responseJson.content[i].endDate)
-                let monthEnd = todayTimeEnd.getMonth() + 1;
-                let dayEnd = todayTimeEnd.getDate();
-                let yearEnd = todayTimeEnd.getFullYear();
-                let dateEnd =  monthEnd + "/" + dayEnd + "/" + yearEnd;
-                responseJson.content[i].endDate = dateEnd;
+                 if(responseJson.content[i].startDate!=null){
+                     let todayTime =new Date(responseJson.content[i].startDate)
+                     let month = todayTime.getMonth() + 1;
+                     let day = todayTime.getDate();
+                     let year = todayTime.getFullYear();
+                     let dateStart =  month + "/" + day + "/" + year;
+                     responseJson.content[i].startDate = dateStart;
+                 } else{
+                     responseJson.content[i].startDate = "";
+                 }
+                 if(responseJson.content[i].endDate!=null){
+                     let todayTimeEnd =new Date(responseJson.content[i].endDate)
+                     let monthEnd = todayTimeEnd.getMonth() + 1;
+                     let dayEnd = todayTimeEnd.getDate();
+                     let yearEnd = todayTimeEnd.getFullYear();
+                     let dateEnd =  monthEnd + "/" + dayEnd + "/" + yearEnd;
+                     responseJson.content[i].endDate = dateEnd;
+                 } else{
+                     responseJson.content[i].endDate = "";
+                 }
 
                 dataRes.data.push({
                     "": "",
@@ -328,8 +352,17 @@ $("#btnSearch").click(function (event){
     for(let i =0 ; i < inputSearch.length; i ++){
         $(inputSearch[i]).val("");
     }
-    objSearch.s_station_id = $("#station").val();
-    objSearch.s_value_type_id = $("#value-type").val();
+    if($("#station").val()==-1){
+        objSearch.s_station_id = null;
+    } else{
+        objSearch.s_station_id = $("#station").val();
+    }
+
+    if($("#value-type").val()==-1){
+        objSearch.s_value_type_id = null;
+    } else{
+        objSearch.s_value_type_id = $("#value-type").val();
+    }
     objSearch.s_start_apply_date = $("#start_date").val();
     objSearch.s_end_apply_date = $("#end_date").val();
     tableConfigValueType.search(objSearch).draw();
@@ -337,6 +370,13 @@ $("#btnSearch").click(function (event){
 });
 $("#stationSpatial").change(function () {
     $('#valueTypeSpatial').empty();
+
+    let dataStation = $("#stationSpatial").val();
+    let dataValueType = $("#value-type-station").val();
+    if(dataStation == null || dataValueType == null){
+        return;
+    }
+
     $.ajax({
         headers: {
             'Authorization': token
@@ -352,7 +392,8 @@ $("#stationSpatial").change(function () {
             }
         },
         "error": function (error) {
-            toastr.error('Lỗi', data.message);
+            console.log(error);
+            toastr.error('Lỗi', error.statusText);
         }
     });
 });
@@ -379,6 +420,9 @@ $("#btnsaveStationValueType").click(function () {
     var submit = $("#formStationSpatial").valid();
     var dataStation = $('#stationSpatial').select2('data');
     var dataValueType = $('#valueTypeSpatial').select2('data');
+    if(dataStation[0]==null || dataStation[0] == undefined || dataValueType[0]== null || dataValueType[0] == undefined){
+        return;
+    }
     var dataValueTypeText = dataValueType[0].text;
     var dataValueTypeTexts = dataValueTypeText.split("-");
     if(submit == false) {
@@ -392,6 +436,7 @@ $("#btnsaveStationValueType").click(function () {
         }
         return;
     }
+
     $.ajax({
         headers: {
             'Authorization': token
@@ -464,6 +509,19 @@ $('#station_add').select2({
 });
 $("#station_add").change(function () {
     var dataStation = $('#station_add').select2('data');
+    $('#value-type-station').val(null).trigger('change');
+    $('#value-type-station').empty();
+
+    $('#stationSpatial').val(null);
+    $('#stationSpatial').empty();
+
+    $('#valueTypeSpatial').val(null);
+    $('#valueTypeSpatial').empty();
+
+    tableStationSpatial
+        .clear()
+        .draw();
+
     $.ajax({
         headers: {
             'Authorization': token
@@ -472,8 +530,7 @@ $("#station_add").change(function () {
         "method": "GET",
         "contentType": "application/json",
         "success": function (response) {
-            $('#value-type-station').val(null).trigger('change');
-            $('#value-type-station').empty();
+
             for (let i = 0; i < response.length; i++){
                 var newOption = new Option(response[i].text, response[i].id, false, false);
                 $('#value-type-station').append(newOption).trigger('change');
@@ -483,6 +540,19 @@ $("#station_add").change(function () {
             toastr.error('Lỗi', error.responseJSON.message);
         }
     });
+});
+
+$("#value-type-station").change(function () {
+
+    $('#stationSpatial').val(null).trigger('change');
+    $('#stationSpatial').empty();
+
+    $('#valueTypeSpatial').val(null).trigger('change');
+    $('#valueTypeSpatial').empty();
+
+    tableStationSpatial
+        .clear()
+        .draw();
 });
 
 // form thêm mới sửa xóa
@@ -595,12 +665,14 @@ var validator = $("#form_input").validate({
     rules : {
         min : {
             required : true,
-            maxlength : 15
+            maxlength : 15,
+            min : 0
         },
         max : {
             required : true,
             maxlength : 15,
-            validMin : "#min"
+            validMin : "#min",
+            min : 0
         },
         station_add : {
             required : true,
@@ -609,17 +681,18 @@ var validator = $("#form_input").validate({
             required : true
         },
         variableTime : {
-            required : true
+            required : true,
+            min : 0
         },
         variableSpatial : {
-            required : true
+            required : true,
+            min : 0
         },
         startDateApply : {
-            required : true,
             validDate : "#endDateApply"
         },
         endDateApply : {
-            required : true
+            validDateStart : "#startDateApply"
         },
         code : {
             required : true,
@@ -628,12 +701,16 @@ var validator = $("#form_input").validate({
     messages: {
         min: {
             required: "Bắt buộc nhập min",
-            maxlength: "Nhập tối đa 15 ký tự"
+            maxlength: "Nhập tối đa 15 ký tự",
+            min : "Giá trị không được âm",
+            number : "Giá trị phải là số"
         },
         max: {
             required: "Bắt buộc nhập min",
             maxlength: "Nhập tối đa 15 ký tự",
-            validMin : "Giá trị max chưa hợp lệ"
+            validMin : "Giá trị max chưa hợp lệ",
+            min : "Giá trị không được âm",
+            number : "Giá trị phải là số"
         },
         station_add : {
             required: "Bắt buộc nhập trạm",
@@ -643,16 +720,19 @@ var validator = $("#form_input").validate({
         },
         variableTime : {
             required: "Bắt buộc nhập giá trị biến đổi theo thời gian",
+            min : "Giá trị không được âm",
+            number : "Giá trị phải là số"
         },
         variableSpatial : {
             required: "Bắt buộc nhập giá trị biến đổi theo không gian",
+            min : "Giá trị không được âm",
+            number : "Giá trị phải là số"
         },
         startDateApply : {
-            required: "Bắt buộc nhập ngày bắt đầu",
             validDate :"Ngày bắt đầu phải nhỏ hơn ngày kết thúc"
         },
         endDateApply : {
-            required: "Bắt buộc nhập ngày kết thúc",
+            validDateStart : "Ngày kết thúc phải lớn hơn ngày hiện tại"
         },
         code : {
             required: "Bắt buộc nhập mã code",
@@ -663,14 +743,33 @@ var validator = $("#form_input").validate({
     }
 });
 jQuery.validator.addMethod('validMin', function (value, element, param) {
-    return this.optional(element) || value >= $(param).val();
+    return this.optional(element) || parseFloat(value) > parseFloat($(param).val());
 }, 'Invalid value');
 
 jQuery.validator.addMethod('validDate', function (value, element, param) {
+    if(value=="" || value == null || value == undefined||$(param).val()==null || $(param).val() == null || $(param).val() == undefined){
+        return true;
+    }
     var start = stringToDate(value,"dd/MM/yyyy","/");
     var end =  stringToDate($(param).val(),"dd/MM/yyyy","/");
+
     return start.getTime() < end.getTime();
 }, 'Invalid value');
+
+jQuery.validator.addMethod('validDateStart', function (value, element, param) {
+    var end = value
+    var start =  $(param).val();
+    var currentDate = new Date();
+    var strDate = currentDate.getDate()+"/"+currentDate.getMonth()+"/"+currentDate.getFullYear();
+    var dateCompare =  stringToDate(strDate,"dd/MM/yyyy","/");
+    if(end!=""&& start==""){
+        let dateEndCompare = stringToDate(end,"dd/MM/yyyy","/");
+        if(dateEndCompare.getTime()>dateCompare.getTime()){
+            return false;
+        }
+    }
+    return true
+}, 'Ngày kết thúc không hợp lệ');
 
 function stringToDate(_date,_format,_delimiter) {
     var formatLowerCase=_format.toLowerCase();
@@ -718,7 +817,12 @@ $("#btnsave").click(function () {
     data.id = null;
     data.startDateApply= $('#startDateApply').data('daterangepicker').startDate._d;
     data.endDateApply =  $('#endDateApply').data('daterangepicker').startDate._d;
-    //console.log(data);
+    if($("#startDateApply").val()==""){
+        data.startDateApply=null;
+    }
+    if($("#endDateApply").val()==""){
+        data.endDateApply=null;
+    }
     $.ajax({
         headers: {
             'Authorization': token
@@ -933,14 +1037,14 @@ $('#stationSpatial').on('select2:opening', function (e) {
     if(dataStation.length == 0){
         $( "#station_add" ).focus();
        $('#station_add').select2('open');
-       toastr.warning('Lỗi',"hãy chọn trạm trước");
+       toastr.error('Lỗi',"Chưa chọn trạm");
        return false;
     }
     var dataValueType = $('#value-type-station').select2('data');
     if(dataValueType.length == 0){
         $( "#value-type-station" ).focus();
         $('#value-type-station').select2('open');
-        toastr.warning('Lỗi',"hãy chọn yếu tố trước");
+        toastr.error('Lỗi',"Chưa chọn yếu tố cho trạm");
         return false;
     }
 });
