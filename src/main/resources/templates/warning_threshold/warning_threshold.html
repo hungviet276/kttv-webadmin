@@ -2,8 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <th:block th:replace="layout_header.html :: head_tag" />
-<!--    <link rel="stylesheet" href="/css/users_manage.css" type="text/css">-->
-    <link rel="stylesheet" href="css/config_value_type.css" type="text/css">
+    <link rel="stylesheet" href="/css/config_value_type.css" type="text/css">
     <title>Quản lý người dùng</title>
 </head>
 <body  class="hold-transition sidebar-mini layout-fixed text-sm">
@@ -21,13 +20,13 @@
             <div class="container-fluid">
                 <div class="card card-default">
                     <div class="card-header">
-                        <h4><b>Quản lý cấu hình chuẩn hóa số liệu cho từng trạm</b></h4>
+                        <h3><b>Quản lý cảnh báo</b></h3>
                     </div>
                     <div class="container-fluid">
                         <div class="row content" style="width: 100%">
                             <div class="col-sm-5" id="box_search">
                                 <div class="card-header">
-                                    <h3 style="text-align: center">Tìm kiếm thông tin trạm</h3>
+                                    <h3 style="text-align: center"><b>Tìm kiếm thông tin cấu hình cảnh báo</b></h3>
                                 </div>
                                 <br/>
                                 <form class="form-horizontal" id="form_data">
@@ -38,14 +37,13 @@
                                                 <select id="station" data-placeholder="Select a State"
                                                         data-dropdown-css-class="select2-purple" style="width: 100%;">
                                                     <!--                                                            -->
-                                                    <option value="">--- Hãy Chọn ---</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for="value-type">Yếu tố</label>
+                                            <label for="code">Mã ngưỡng cảnh báo</label>
                                             <div class="select2-purple">
-                                                <select id="value-type" data-placeholder="Select a State"
+                                                <select id="code" data-placeholder="Select a State"
                                                         data-dropdown-css-class="select2-purple" style="width: 100%;">
                                                     <!--                                                            -->
                                                 </select>
@@ -54,13 +52,13 @@
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
-                                            <label for="start_date">Từ ngày</label>
-                                            <input type="text" class="form-control" id="start_date"
+                                            <label for="name">Tên cảnh báo</label>
+                                            <input type="text" class="form-control" id="name"
                                                    placeholder="" autocomplete="off">
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for="end_date">Đến ngày</label>
-                                            <input type="text" class="form-control" id="end_date"
+                                            <label for="code_warning">Mã cảnh báo</label>
+                                            <input type="text" class="form-control" id="code_warning"
                                                    placeholder="" autocomplete="off">
                                         </div>
                                     </div>
@@ -86,16 +84,10 @@
                                             <th>#</th>
                                             <th data-id="s_id">ID</th>
                                             <th data-id="s_station_id">Id trạm</th>
-                                            <th data-id="s_value_type_id">Id Yếu tố</th>
-                                            <th data-id="s_station_name">Tên trạm</th>
-                                            <th data-id="s_value_type_name">Tên Yếu tố</th>
-                                            <th data-id="s_code">Code</th>
-                                            <th data-id="s_min">Cực tiểu</th>
-                                            <th data-id="s_max">Cực đại</th>
-                                            <th data-id="s_variable_time">Ngưỡng biến đổi liên tiếp theo không gian</th>
-                                            <th data-id="s_variable_spatial">Ngưỡng biến đổi liên tiếp theo thời gian</th>
-                                            <th>Ngày bắt đầu</th>
-                                            <th>Ngày kết thúc</th>
+                                            <th data-id="s_value_type_id">Tên trạm</th>
+                                            <th data-id="s_station_name">Mã cảnh báo</th>
+                                            <th data-id="s_value_type_name">Tên cảnh báo</th>
+                                            <th data-id="s_code">Icon</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -107,7 +99,7 @@
                             <div class="col-sm-7"  id ="box_info">
                                 <div style="width: 95%;float: right">
                                     <div class="card-header">
-                                        <h3 style="text-align: center">Cấu hình chuẩn hóa số liệu cho từng trạm</h3>
+                                        <h3 style="text-align: center"><b>Thông tin min max cho từng loại dữ liệu</b></h3>
                                     </div>
                                     <form class="form-horizontal" id="form_input">
                                         <div class="form-row">
@@ -167,15 +159,15 @@
                                         <div class="form-row">
                                             <div class="form-group col-md-6 errorTxt">
                                                 <div class="insertError">
-                                                    <label for="startDateApply">Áp dụng từ</label>
-                                                    <input class="form-control" id="startDateApply" name="startDateApply" placeholder="" autocomplete="off">
+                                                    <label for="startDateApply">Áp dụng từ <span style="color: red;">*</span></label>
+                                                    <input class="form-control" id="startDateApply" name="startDateApply" placeholder="">
                                                 </div>
                                                 <label></label>
                                             </div>
                                             <div class="form-group col-md-6 errorTxt">
                                                 <div class="insertError">
                                                     <label for="endDateApply">Áp dụng đến</label>
-                                                    <input type="text" class="form-control" id="endDateApply" name="endDateApply" placeholder="" autocomplete="off">
+                                                    <input type="text" class="form-control" id="endDateApply" name="endDateApply" placeholder="">
                                                 </div>
                                                 <label></label>
                                             </div>
@@ -295,6 +287,5 @@
     var username = "[[${session.userBO.Username}]]";
     var token = "[[${session.token}]]";
 </script>
-<!--<script src="/js/users_manage.js"></script>-->
-    <script src="js/config_value_type.js"></script>
+<script src="js/warning_threshold.js"></script>
 </html>
