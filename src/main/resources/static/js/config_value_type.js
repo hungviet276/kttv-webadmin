@@ -2,8 +2,8 @@ $(document).ready(function () {
     show_search();
 });
 function show_search() {
-    $("#box_info").hide(0);
-    $("#box_search").show(500);
+    $("#box_info").hide(150);
+    $("#box_search").show(250);
     $("#box_search").attr('class', 'col-sm-12');
 }
 
@@ -11,18 +11,19 @@ $('#btncancer').click(function () {
     // disabled_right();
     $("#btnsave").css("display", "none");
     $("#btnDelete").css("display", "none");
-    $("#btnReset").css("display", "none");
+    $("#btnResetUpdate").css("display", "none");
     $("#btncancer").css("display", "none");
     $("#btnDonew").attr("disabled", false);
+    $("#btnResetNew").css("display", "none");
     validator.resetForm();
     validatorhorizontal.resetForm();
     show_search();
 });
 
 function togle_search() {
-    $("#box_info").show(500);
+    $("#box_info").show(150);
     $("#box_info").attr('class', 'col-sm-12');
-    $("#box_search").hide(0);
+    $("#box_search").hide(250);
     // $("#box_search").attr('class', 'col-sm-5');
 }
 
@@ -32,7 +33,7 @@ $('#btnDonew').click(function () {
     togle_search();
     $("#btnsave").css("display", "inline");
     $("#btnDelete").css("display", "inline");
-    $("#btnReset").css("display", "inline");
+    $("#btnResetNew").css("display", "inline");
     $("#btncancer").css("display", "inline");
     $("#btnDonew").attr("disabled", true);
     $('.nav-tabs a[href="#menu2"]').tab('show');
@@ -517,7 +518,9 @@ $("#station_add").change(function () {
 
     $('#valueTypeSpatial').val(null);
     $('#valueTypeSpatial').empty();
-
+    if(dataStation[0]==undefined){
+        return;
+    }
     tableStationSpatial
         .clear()
         .draw();
@@ -894,12 +897,12 @@ $("#btnDetail").click(function () {
     togle_search();
     $("#btnsave").css("display", "none");
     $("#btnDelete").css("display", "inline");
-    $("#btnReset").css("display", "inline");
+    $("#btnResetUpdate").css("display", "inline");
     $("#btncancer").css("display", "inline");
     $("#btnDonew").attr("disabled", true);
     $('.nav-tabs a[href="#menu2"]').tab('show');
     $("#btnsaveEdit").css("display", "inline");
-
+    $("#btnResetNew").css("display", "none");
     showDetailData(rowDt);
 
 });
@@ -948,12 +951,12 @@ function showDetailData(rowDt){
             var newOption = new Option(response.text, response.id, true, true);
             $('#value-type-station').append(newOption).trigger('change');
             $('#value-type-station').prop( "disabled", true );
+            setDataTableSpatial(rowDt);
         },
         "error": function (error) {
             toastr.error('Lỗi', error.responseJSON.message);
         }
     });
-    setDataTableSpatial(rowDt);
 }
 $("#btnsaveEdit").click(function(){
     var submit = $("#form_input").valid();
@@ -1063,4 +1066,36 @@ $('#valueTypeSpatial').on('select2:opening', function (e) {
         toastr.warning('Lỗi',"hãy chọn yếu tố trước");
         return false;
     }
+});
+$("#btnResetNew").click(function(){
+    $("#form_input").get(0).reset();
+    $('#station_add').val(null).trigger('change');
+    $('#station_add').empty();
+    $('#value-type-station').val(null).trigger('change');
+    $('#value-type-station').empty();
+    $('#stationSpatial').val(null).trigger('change');
+    $('#stationSpatial').empty();
+    $('#valueTypeSpatial').val(null).trigger('change');
+    $('#valueTypeSpatial').empty();
+    validator.resetForm();
+    validatorhorizontal.resetForm();
+    tableStationSpatial
+        .clear()
+        .draw();
+});
+$("#btnResetUpdate").click(function(){
+    tableStationSpatial
+        .clear()
+        .draw();
+    $('#stationSpatial').val(null).trigger('change');
+    $('#stationSpatial').empty();
+    $('#valueTypeSpatial').val(null).trigger('change');
+    $('#valueTypeSpatial').empty();
+    validator.resetForm();
+    validatorhorizontal.resetForm();
+    setTimeout(function(){
+        var rowDt = tableConfigValueType.rows('.selected').data()[0];
+        showDetailData(rowDt);
+    }, 200);
+
 });
