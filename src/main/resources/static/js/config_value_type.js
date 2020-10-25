@@ -16,7 +16,11 @@ $('#btncancer').click(function () {
     $("#btnDonew").attr("disabled", false);
     validator.resetForm();
     validatorhorizontal.resetForm();
+    var rowDt = tableConfigValueType.rows('.selected').data()[0];
     show_search();
+    if(rowDt!=undefined){
+        $("#btnDonew").attr("disabled", true);
+    }
 });
 
 function togle_search() {
