@@ -1071,14 +1071,14 @@ $('#valueTypeSpatial').on('select2:opening', function (e) {
     if(dataStation.length == 0){
         $( "#station_add" ).focus();
         $('#station_add').select2('open');
-        toastr.warning('Lỗi',"hãy chọn trạm trước");
+        toastr.error('Lỗi',"hãy chọn trạm trước");
         return false;
     }
     var dataValueType = $('#value-type-station').select2('data');
     if(dataValueType.length == 0){
         $( "#value-type-station" ).focus();
         $('#value-type-station').select2('open');
-        toastr.warning('Lỗi',"hãy chọn yếu tố trước");
+        toastr.error('Lỗi',"hãy chọn yếu tố trước");
         return false;
     }
 });
