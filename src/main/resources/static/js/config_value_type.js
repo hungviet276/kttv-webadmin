@@ -46,6 +46,7 @@ $('#btnDonew').click(function () {
     $("#station_add").prop( "disabled", false );
     $("#value-type-station").prop( "disabled", false );
     $("#btnsaveEdit").hide();
+    $("#btnResetUpdate").hide();
     validator.resetForm();
     validatorhorizontal.resetForm();
     tableStationSpatial
@@ -353,6 +354,8 @@ function stringToDate(_date,_format,_delimiter)
 $("#btnSearch").click(function (event){
     event.preventDefault();
     event.stopPropagation();
+    $("#btnDetail").prop( "disabled", true );
+    $("#btnDonew").attr("disabled", false);
     var inputSearch = $(".table-data-input-search");
     for(let i =0 ; i < inputSearch.length; i ++){
         $(inputSearch[i]).val("");
@@ -847,6 +850,7 @@ $("#btnsave").click(function () {
             $("#btncancer").css("display", "none");
             $("#btnDonew").attr("disabled", false);
             $("#btnDetail").attr("disabled", true);
+
             show_search();
             tableConfigValueType.ajax.reload();
         },
@@ -1015,7 +1019,7 @@ $("#btnsaveEdit").click(function(){
             show_search();
             tableConfigValueType.ajax.reload();
             $("#btnDetail").prop( "disabled", true );
-            $("#btnDonew").attr("disabled", true);
+            $("#btnDonew").prop("disabled", false);
         },
         "error": function (error) {
             toastr.error('Lỗi', error.responseJSON.message);
