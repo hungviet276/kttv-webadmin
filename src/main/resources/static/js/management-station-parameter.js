@@ -333,9 +333,9 @@ var station =
                     "serverSide": true,
                     "columns": [
 
-                        {"data": "indexCount"},
-                        {"data": "parameterName"},
-                        {"data": "unitName"},
+                        {"data": "indexCount","render": $.fn.dataTable.render.text()},
+                        {"data": "parameterName","render": $.fn.dataTable.render.text()},
+                        {"data": "unitName","render": $.fn.dataTable.render.text()},
                         // {"data": "note"},
                         {"data": ""}
                     ],
@@ -705,13 +705,13 @@ $(document).ready(function () {
         "serverSide": true,
         "columns": [
             {"data": ""},
-            {"data": "indexCount"},
+            {"data": "indexCount","render": $.fn.dataTable.render.text()},
             // {"data": "control"},
             // {"data": "parameterTypeId"},
-            {"data": "parameterTypeName"},
-            {"data": "parameterTypeDescription"},
-            {"data": "unitName"},
-            {"data": "timeSeries"},
+            {"data": "parameterTypeName","render": $.fn.dataTable.render.text()},
+            {"data": "parameterTypeDescription","render": $.fn.dataTable.render.text()},
+            {"data": "unitName","render": $.fn.dataTable.render.text()},
+            {"data": "timeSeries","render": $.fn.dataTable.render.text()},
         ],
         initComplete: function () {
             // Apply the search
