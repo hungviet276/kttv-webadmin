@@ -4,6 +4,28 @@
     <title>Thông tin trạm quan trắc</title>
     <th:block th:replace="layout_header.html :: head_tag"/>
     <link rel="stylesheet" href="/css/management-station.css" type="text/css">
+
+    <style>
+        .legend-normal {
+            margin-left: 1em;
+            padding: 5px;
+            width: auto;
+            font-size: inherit;
+            font-weight: bold;
+        }
+
+        .fieldset-normal {
+            border: 1px gray solid;
+            padding: 10px;
+        }
+
+        .btn-100 {
+            width: 100px;
+        }
+        .hide-col {
+            display: none;
+        }
+    </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed text-sm">
 <div class="wrapper">
@@ -24,34 +46,182 @@
                     </div>
                     <div class="container-fluid">
                         <div class="row content" style="width: 100%">
-Con ga con
-                        </div>
-                    </div>
-                </div>
+                            <div class="col-lg-12" id="box_search">
+                                <div class="mt-1">
+                                    <button class="btn btn-primary btn-100" id="btnNew">
+                                        <i class="fas fa-plus"></i> Thêm
+                                    </button>
+                                </div>
 
-                <div class="popup-loading">
-                    <div class="wrapper-loading">
-                        <div class="sub-wrapper-loading">
-                            <div class="d-flex justify-content-center">
-                                <div class="spinner-border" role="statusLoading">
-                                    <span class="sr-only" th:text="#{action.loading}">Loading...</span>
+                                <div class="card-body" style="width: 100%;overflow: auto">
+                                    <table id="uGroupTable" class="table table-bordered table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>#</th>
+                                            <th data-id="s_Tram">Trạm</th>
+                                            <th data-id="s_TenNhom">Tên nhóm</th>
+                                            <th data-id="s_QuanLy">Quản lý</th>
+                                            <th data-id="s_Trangthai" is-select>Trạng thái</th>
+                                            <th style="display: none"></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- /.card-footer -->
+                            <div class="col-lg-12" style="display: none;" id="box_info">
+                                <div style="width: 100%;float: right">
+                                    <fieldset class="fieldset-normal">
+                                        <legend class="legend-normal">Thông tin nhóm NSD</legend>
+                                        <div class="form-horizontal" id="form_input">
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="tram">Trạm <span style="color: red;">*</span></label>
+                                                    <select id="tram" class="form-control" style="width: 100%;">
+                                                        <option value="">--Chọn Trạm--</option>
+                                                    </select>
+                                                    <span id="tram_error" class="help-block" style="color: red"></span>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="ten_nhom_nsd">Tên nhóm người sử dụng <span
+                                                            style="color: red;">*</span></label>
+                                                    <input type="text" class="form-control" id="ten_nhom_nsd"
+                                                           maxlength="100"
+                                                           placeholder="">
+                                                    <span id="ten_nhom_nsd_error" class="help-block"
+                                                          style="color: red"></span>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="nhom_nsd_cha">Nhóm NSD cha</label>
+                                                    <select id="nhom_nsd_cha" class="form-control" style="width: 100%;">
+                                                        <option value="0">--Chọn nhóm NSD cha--</option>
+                                                    </select>
+                                                    <span id="nhom_nsd_cha_error" class="help-block"
+                                                          style="color: red"></span>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="cap">Cấp</label>
+                                                    <input type="text" disabled value="1" class="form-control" id="cap"
+                                                           placeholder="">
+                                                    <span id="cap_error" class="help-block" style="color: red"></span>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="trangthai">Trạng thái</label>
+                                                    <select id="trangthai" class="form-control" style="width: 100%;">
+                                                        <option value="1">Hoạt động</option>
+                                                        <option value="0">Không hoạt động</option>
+                                                    </select>
+                                                    <span id="trangthai_error" class="help-block"
+                                                          style="color: red"></span>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="mota">Mô tả</label>
+                                                    <input type="text" class="form-control" id="mota" maxlength="500"
+                                                           placeholder="">
+                                                    <span id="mota_error" class="help-block"
+                                                          style="color: red"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+
+                                    <fieldset class="fieldset-normal" style="margin-top: 15px;">
+                                        <legend class="legend-normal">Thông tin người dùng</legend>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="nguoi_dung">Chọn người dùng</span></label>
+                                                <select id="nguoi_dung" class="form-control" style="width: 100%;">
+                                                    <option value="">--Chọn NSD--</option>
+                                                </select>
+                                                <span id="nguoi_dung_error" class="help-block"
+                                                      style="color: red"></span>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="chucvu">Chức vụ</label>
+                                                <select id="chucvu" class="form-control" style="width: 100%;">
+                                                    <option value="1">Trưởng nhóm</option>
+                                                    <option value="0">Thành viên thường</option>
+                                                </select>
+                                            </div>
+
+                                        </div>
+                                        <div class="wrap-button-control">
+                                            <button class="btn btn-primary btn-100" id="btn-add-user">
+                                                <i class="fas fa-plus"></i> Thêm
+                                            </button>
+                                        </div>
+
+                                        <table id="tableDataParameter" class="table table-bordered table-hover"
+                                               style="width: 100%">
+                                            <thead style="width: 100%">
+                                            <tr>
+                                                <th>#</th>
+                                                <th data-id="s_nguoidung">Người dùng</th>
+                                                <th data-id="s_chucvu">Chức vụ</th>
+                                                <th>Thao tác</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody style="width: 100%">
+                                            </tbody>
+                                        </table>
+                                    </fieldset>
+                                    <div class="wrap-button-control" id="div-btn" style="margin-top: 15px;">
+                                        <button class="btn btn-primary btn-100" id="btn-save" style="display:none;">
+                                            <i class="fas fa-plus"></i> Lưu
+                                        </button>
+                                        <button class="btn btn-primary btn-100" id="btn-update"
+                                                style="display:none;">
+                                            <i class="fas fa-edit"></i> Cập nhật
+                                        </button>
+                                        <button class="btn btn-primary btn-100" id="btn-delete"
+                                                style="display:none;">
+                                            <i class="far fa-trash-alt"></i> Xoá
+                                        </button>
+                                        <button class="btn btn-primary btn-100" id="btn-reset" style="display:none;">
+                                            <i class="fas fa-redo-alt"></i> Làm mới
+                                        </button>
+                                        <button class="btn btn-primary btn-100" id="btn-cancle"
+                                                style="display:none;">
+                                            <i class="fas fa-times"></i> Hủy
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <th:block th:replace="management-station/control.html :: management-station-control"/>
-        </div>
-    </div>
 
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark" style="top: 0px; height: 306px; display: none; bottom: 28.6px;">
-        <!-- Control sidebar content goes here -->
-    </aside>
+            <div class="popup-loading">
+                <div class="wrapper-loading">
+                    <div class="sub-wrapper-loading">
+                        <div class="d-flex justify-content-center">
+                            <div class="spinner-border" role="statusLoading">
+                                <span class="sr-only" th:text="#{action.loading}">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <th:block th:replace="management-station/control.html :: management-station-control"/>
+    </div>
+</div>
+
+<!-- Control Sidebar -->
+<aside class="control-sidebar control-sidebar-dark" style="top: 0px; height: 306px; display: none; bottom: 28.6px;">
+    <!-- Control sidebar content goes here -->
+</aside>
 </div>
 <th:block th:replace="layout_footer.html :: footer_tag"/>
 <th:block th:replace="global_import_js.html :: global_import_js"/>
-<script src="/js/management-station.js"></script>
+<script src="/js/user_group.js"></script>
 </body>
 </html>
