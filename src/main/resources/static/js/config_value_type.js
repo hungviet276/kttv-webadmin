@@ -297,7 +297,7 @@ var tableConfigValueType = $('#tableValueTypeConfig').DataTable({
                      let month = todayTime.getMonth() + 1;
                      let day = todayTime.getDate();
                      let year = todayTime.getFullYear();
-                     let dateStart =  month + "/" + day + "/" + year;
+                     let dateStart =  day + "/" + month + "/" + year;
                      responseJson.content[i].startDate = dateStart;
                  } else{
                      responseJson.content[i].startDate = "";
@@ -307,7 +307,7 @@ var tableConfigValueType = $('#tableValueTypeConfig').DataTable({
                      let monthEnd = todayTimeEnd.getMonth() + 1;
                      let dayEnd = todayTimeEnd.getDate();
                      let yearEnd = todayTimeEnd.getFullYear();
-                     let dateEnd =  monthEnd + "/" + dayEnd + "/" + yearEnd;
+                     let dateEnd =  dayEnd + "/" + monthEnd + "/" + yearEnd;
                      responseJson.content[i].endDate = dateEnd;
                  } else{
                      responseJson.content[i].endDate = "";
