@@ -604,68 +604,36 @@ var validator = $('#form_data').validate({
     },
     messages: {
         inputIp: {
-            required: function () {
-                toastr.error("Địa chỉ IP không được trống");
-            },
-            maxlength: function () {
-                toastr.error("Địa chỉ IP không vượt quá 100 ký tự")
-            }
+            required: "Địa chỉ IP không được trống",
+            maxlength: "Địa chỉ IP không vượt quá 100 ký tự"
         },
         inputPort: {
-            required: function () {
-                toastr.error("Port không được trống")
-            },
-            maxlength: function () {
-                toastr.error("Port không vượt quá 50 ký tự")
-            }
+            required: "Port không được trống",
+            maxlength: "Port không vượt quá 50 ký tự"
         },
         inputUsername: {
-            required: function () {
-                toastr.error("Tên đăng nhập không được trống")
-            },
-            maxlength: function () {
-                toastr.error("Tên đăng nhập không vượt quá 30 ký tự")
-            }
+            required: "Tên đăng nhập không được trống",
+            maxlength: "Tên đăng nhập không vượt quá 30 ký tự"
         },
         inputPassword: {
-            required: function () {
-                toastr.error("Mật khẩu không được trống")
-            },
-            maxlength: function () {
-                toastr.error("Mật khẩu không vượt quá 100 ký tự")
-            }
+            required: "Mật khẩu không được trống",
+            maxlength: "Mật khẩu không vượt quá 100 ký tự"
         },
         inputDomain: {
-            required: function () {
-                toastr.error("Domain không được trống")
-            },
-            maxlength: function () {
-                toastr.error("Domain không vượt quá 100 ký tự")
-            }
+            required: "Domain không được trống",
+            maxlength: "Domain không vượt quá 100 ký tự"
         },
         inputSenderName: {
-            required: function () {
-                toastr.error("Tên người gửi không được trống")
-            },
-            maxlength: function () {
-                toastr.error("Tên người gửi không vượt quá 100 ký tự")
-            }
+            required: "Tên người gửi không được trống",
+            maxlength: "Tên người gửi không vượt quá 100 ký tự"
         },
         inputEmailAddress: {
-            required: function () {
-                toastr.error("Email không được trống")
-            },
-            email: function () {
-                toastr.error("Email không hợp lệ")
-            }
+            required: "Email không được trống",
+            email: "Email không hợp lệ"
         },
         inputProtocol: {
-            required: function () {
-                toastr.error("Giao thức không được trống")
-            },
-            maxlength: function () {
-                toastr.error("Giao thức không vượt quá 100 ký tự")
-            }
+            required: "Giao thức không được trống",
+            maxlength: "Giao thức không vượt quá 100 ký tự"
         },
     },
     errorElement: 'span',

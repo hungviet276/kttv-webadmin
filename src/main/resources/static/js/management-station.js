@@ -42,7 +42,8 @@ var station =
             provinceId: null,
             districtId: null,
             wardId: null,
-            siteId: null
+            siteId: null,
+            riverId:null
         },
         init: function () {
             station.getStationType();
@@ -181,6 +182,9 @@ var station =
                     console.log(data);
                     $("#riverId").empty();
                     $("#riverId").select2({data: data});
+                    if (clientAction === 'update') {
+                        $('#riverId').val(station.parameter.riverId).trigger('change');
+                    }
                     global.disableLoading();
                 }
             });
@@ -605,8 +609,8 @@ var station =
                     },
                     "pagingType": "full_numbers",
                     "lengthMenu": [
-                        [10, 25, 50, -1],
-                        [10, 25, 50, "Tất cả"]
+                        [10, 25, 50, 100],
+                        [10, 25, 50, 100]
                     ],
                     "lengthChange": true,
                     "searchDelay": 1500,
@@ -627,8 +631,8 @@ var station =
                     "serverSide": true,
                     "columns": [
 
-                        {"data": "indexCount"},
-                        {"data": "parameterName"},
+                        {"data": "indexCount","render": $.fn.dataTable.render.text()},
+                        {"data": "parameterName","render": $.fn.dataTable.render.text()},
                         // {"data": "unitName"},
                         // {"data": "note"},
                         {"data": ""}
@@ -718,12 +722,13 @@ var station =
                 station.parameter.provinceId = rowData[0].provinceId;
                 station.parameter.districtId = rowData[0].districtId;
                 station.parameter.wardId = rowData[0].wardId;
-                station.parameter.provinceId = rowData[0].provinceId;
+                station.parameter.siteId = rowData[0].siteId;
+                station.parameter.riverId = rowData[0].riverId;
 
                 // $('#districtId').val(rowData[0].districtId).trigger('change');
                 // $('#wardId').val(rowData[0].wardId).trigger('change');
                 $('#address').val(rowData[0].address);
-                $('#riverId').val(rowData[0].riverId).trigger('change');
+                // $('#riverId').val(rowData[0].riverId).trigger('change');
                 $('#status').val(rowData[0].status).trigger('change');
 
                 //lay thong tin list parameter
@@ -957,6 +962,34 @@ var station =
                 station.table.row(station.indexOfRow).deselect();
             }
             station.show_search();
+        },
+        btnExport:function (){
+            global.showLoading();
+            $.ajax({
+                headers: {
+                    'Authorization': token
+                },
+                url: apiUrl + 'station-type/export',
+                data: JSON.stringify(station.objSearch),
+                method: 'POST',
+                contentType: "application/json",
+                xhrFields: {
+                    responseType: 'blob'
+                },
+                success: function (data, textStatus, xhr) {
+                    global.disableLoading();
+                    console.log(textStatus + "| " + xhr.getAllResponseHeaders());
+                    var a = document.createElement('a');
+                    var url = window.URL.createObjectURL(data);
+                    console.log("url: "+ url);
+                    a.href = url;
+                    a.download = xhr.getResponseHeader("content-disposition");
+                    document.body.append(a);
+                    a.click();
+                    a.remove();
+                    window.URL.revokeObjectURL(url);
+                }
+            });
         }
     }
 
@@ -1007,8 +1040,8 @@ $(document).ready(function () {
         },
         "pagingType": "full_numbers",
         "lengthMenu": [
-            [10, 25, 50, -1],
-            [10, 25, 50, "Tất cả"]
+            [10, 25, 50],
+            [10, 25, 50]
         ],
         "lengthChange": true,
         "searchDelay": 1500,
@@ -1029,21 +1062,21 @@ $(document).ready(function () {
         "serverSide": true,
         "columns": [
             {"data": ""},
-            {"data": "indexCount"},
+            {"data": "indexCount","render": $.fn.dataTable.render.text()},
             {"data": "control"},
-            {"data": "objectType"},
-            {"data": "objectTypeName"},
-            {"data": "stationCode"},
-            {"data": "stationName"},
-            {"data": "longtitude"},
-            {"data": "latitude"},
-            {"data": "provinceName"},
-            {"data": "districtName"},
-            {"data": "wardName"},
-            {"data": "address"},
-            {"data": "riverName"},
+            {"data": "objectType","render": $.fn.dataTable.render.text()},
+            {"data": "objectTypeName","render": $.fn.dataTable.render.text()},
+            {"data": "stationCode","render": $.fn.dataTable.render.text()},
+            {"data": "stationName","render": $.fn.dataTable.render.text()},
+            {"data": "longtitude","render": $.fn.dataTable.render.text()},
+            {"data": "latitude","render": $.fn.dataTable.render.text()},
+            {"data": "provinceName","render": $.fn.dataTable.render.text()},
+            {"data": "districtName","render": $.fn.dataTable.render.text()},
+            {"data": "wardName","render": $.fn.dataTable.render.text()},
+            {"data": "address","render": $.fn.dataTable.render.text()},
+            {"data": "riverName","render": $.fn.dataTable.render.text()},
             // {"data": "stationHeight"},
-            {"data": "status"},
+            {"data": "status","render": $.fn.dataTable.render.text()},
             // {"data": "parameterTypeName"},
             // {"data": "unitName"},
             // {"data": "device"},

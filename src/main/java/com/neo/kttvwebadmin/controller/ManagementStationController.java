@@ -19,18 +19,20 @@ public class ManagementStationController {
     public String parameterIndex() {
         return "management-station/parameter";
     }
+
     @ResponseBody
     @PostMapping("check-connect")
     public String checkConnect(@RequestParam String host, @RequestParam int port) {
         String result = "";
-        try(Socket socketOfClient = new Socket(host, port);
-            BufferedReader is = new BufferedReader(new InputStreamReader(socketOfClient.getInputStream()));) {
-            String responseLine;
-            while ((responseLine = is.readLine()) != null) {
-                System.out.println("Server: " + responseLine);
-                break;
+        try (Socket socketOfClient = new Socket(host, port)) {
+            try (BufferedReader is = new BufferedReader(new InputStreamReader(socketOfClient.getInputStream()))) {
+                String responseLine;
+                while ((responseLine = is.readLine()) != null) {
+                    System.out.println("Server: " + responseLine);
+                    break;
+                }
+                result = "OK";
             }
-            result = "OK";
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + host);
             result = e.getMessage();
