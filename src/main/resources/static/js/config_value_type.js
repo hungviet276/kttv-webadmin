@@ -253,14 +253,14 @@ var tableConfigValueType = $('#tableValueTypeConfig').DataTable({
                 let id = $(this).attr('id');
                 objSearch[id] = this.value;
                 setTimeout(function () {
-                    if (new Date().getTime() - keyUpTime > 350) {
+                    if (new Date().getTime() - keyUpTime > 550) {
                         tableConfigValueType.search(objSearch).draw();
                         $('#station').val(null).trigger('change');
                         $('#value-type').val(null).trigger('change');
                         keyUpTime = new Date().getTime();
                     }
                     return;
-                }, 350);
+                }, 550);
 
             });
         });

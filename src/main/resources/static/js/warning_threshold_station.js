@@ -93,7 +93,6 @@ $('#station').select2({
         }
     }
 });
-// $('#station').select2.defaults.set("theme", "classic");q
 
 $('#valueTypeSpatial').select2({
 
@@ -176,17 +175,16 @@ $('#value-type').select2({
 });
 let objSearch = {
     s_id: '',
-    s_station_id: '',
-    s_value_type_id: '',
-    s_station_name: '',
-    s_value_type_name: '',
-    s_code: '',
-    s_min: '',
-    s_max: '',
-    s_variable_time: '',
-    s_variable_spatial: '',
-    s_start_apply_date: '',
-    s_end_apply_date: ''
+    s_id_station: '',
+    s_parameter_type_id: '',
+    s_name_station: '',
+    s_parameter_name: '',
+    s_threshold_code: '',
+    s_value_level1: '',
+    s_value_level2: '',
+    s_value_level3: '',
+    s_value_level4: '',
+    s_value_level5: ''
 };
 $('#tableValueTypeConfig thead th').each(function () {
     var title = $(this).text();
@@ -230,16 +228,15 @@ var tableConfigValueType = $('#tableValueTypeConfig').DataTable({
         {"data": "indexCount", "render": $.fn.dataTable.render.text()},
         {"data": "id", "render": $.fn.dataTable.render.text()},
         {"data": "stationId", "render": $.fn.dataTable.render.text()},
-        {"data": "valueTypeId", "render": $.fn.dataTable.render.text()},
+        {"data": "parameterId", "render": $.fn.dataTable.render.text()},
         {"data": "stationName", "render": $.fn.dataTable.render.text()},
-        {"data": "valueTypename", "render": $.fn.dataTable.render.text()},
-        {"data": "code", "render": $.fn.dataTable.render.text()},
-        {"data": "min", "render": $.fn.dataTable.render.text()},
-        {"data": "max", "render": $.fn.dataTable.render.text()},
-        {"data": "variableTime", "render": $.fn.dataTable.render.text()},
-        {"data": "variableSpatial", "render": $.fn.dataTable.render.text()},
-        {"data": "startDate", "render": $.fn.dataTable.render.text()},
-        {"data": "endDate", "render": $.fn.dataTable.render.text()}
+        {"data": "parameterName", "render": $.fn.dataTable.render.text()},
+        {"data": "thresholdCode", "render": $.fn.dataTable.render.text()},
+        {"data": "valueLevel1", "render": $.fn.dataTable.render.text()},
+        {"data": "valueLevel2", "render": $.fn.dataTable.render.text()},
+        {"data": "valueLevel3", "render": $.fn.dataTable.render.text()},
+        {"data": "valueLevel4", "render": $.fn.dataTable.render.text()},
+        {"data": "valueLevel5", "render": $.fn.dataTable.render.text()}
     ],
     initComplete: function () {
         // Apply the search
@@ -253,14 +250,14 @@ var tableConfigValueType = $('#tableValueTypeConfig').DataTable({
                 let id = $(this).attr('id');
                 objSearch[id] = this.value;
                 setTimeout(function () {
-                    if (new Date().getTime() - keyUpTime > 350) {
+                    if (new Date().getTime() - keyUpTime > 550) {
                         tableConfigValueType.search(objSearch).draw();
                         $('#station').val(null).trigger('change');
                         $('#value-type').val(null).trigger('change');
                         keyUpTime = new Date().getTime();
                     }
                     return;
-                }, 350);
+                }, 550);
 
             });
         });
@@ -269,7 +266,7 @@ var tableConfigValueType = $('#tableValueTypeConfig').DataTable({
         headers: {
             'Authorization': token
         },
-        "url": apiUrl + "config-value-type/get-list-config-value-type",
+        "url": apiUrl + "warning-threshold-station/get-list-warning-threshold-station",
         "method": "POST",
         "contentType": "application/json",
         "data": function (d) {
@@ -292,42 +289,20 @@ var tableConfigValueType = $('#tableValueTypeConfig').DataTable({
             };
 
             for (let i = 0; i < responseJson.content.length; i++) {
-                if(responseJson.content[i].startDate!=null){
-                    let todayTime =new Date(responseJson.content[i].startDate)
-                    let month = todayTime.getMonth() + 1;
-                    let day = todayTime.getDate();
-                    let year = todayTime.getFullYear();
-                    let dateStart =  day + "/" + month + "/" + year;
-                    responseJson.content[i].startDate = dateStart;
-                } else{
-                    responseJson.content[i].startDate = "";
-                }
-                if(responseJson.content[i].endDate!=null){
-                    let todayTimeEnd =new Date(responseJson.content[i].endDate)
-                    let monthEnd = todayTimeEnd.getMonth() + 1;
-                    let dayEnd = todayTimeEnd.getDate();
-                    let yearEnd = todayTimeEnd.getFullYear();
-                    let dateEnd =  dayEnd + "/" + monthEnd + "/" + yearEnd;
-                    responseJson.content[i].endDate = dateEnd;
-                } else{
-                    responseJson.content[i].endDate = "";
-                }
-
                 dataRes.data.push({
                     "": "",
                     "indexCount": i + 1,
                     "id": responseJson.content[i].id,
                     "stationId": responseJson.content[i].stationId,
-                    "valueTypeId": responseJson.content[i].valueTypeId,
+                    "parameterId": responseJson.content[i].parameterId,
                     "stationName": responseJson.content[i].stationName,
-                    "valueTypename": responseJson.content[i].valueTypename,
-                    "code": responseJson.content[i].code,
-                    "min": responseJson.content[i].min,
-                    "max": responseJson.content[i].max,
-                    "variableTime": responseJson.content[i].variableTime,
-                    "variableSpatial": responseJson.content[i].variableSpatial,
-                    "startDate": responseJson.content[i].startDate,
-                    "endDate": responseJson.content[i].endDate
+                    "parameterName": responseJson.content[i].parameterName,
+                    "thresholdCode": responseJson.content[i].thresholdCode,
+                    "valueLevel1": responseJson.content[i].valueLevel1,
+                    "valueLevel2": responseJson.content[i].valueLevel2,
+                    "valueLevel3": responseJson.content[i].valueLevel3,
+                    "valueLevel4": responseJson.content[i].valueLevel4,
+                    "valueLevel5": responseJson.content[i].valueLevel5
                 })
             }
 
@@ -337,8 +312,7 @@ var tableConfigValueType = $('#tableValueTypeConfig').DataTable({
 });
 
 
-function stringToDate(_date,_format,_delimiter)
-{
+function stringToDate(_date,_format,_delimiter) {
     let formatLowerCase=_format.toLowerCase();
     let formatItems=formatLowerCase.split(_delimiter);
     let dateItems=_date.split(_delimiter);
