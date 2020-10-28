@@ -82,7 +82,7 @@ $('#btnDonew').click(function () {
     thread_id = createUUID();
     console.log("thread_id : " + thread_id);
     $("#btnsave").css("display", "inline");
-    // $("#btnDelete").css("display", "inline");
+    $("#btnDelete").css("display", "inline");
     $("#btnReset").css("display", "inline");
     $("#btncancer").css("display", "inline");
     $("#btnDonew").attr("disabled", true);
@@ -97,7 +97,7 @@ $('#btnDonew').click(function () {
 $('#btncancer').click(function () {
     // disabled_right();
     $("#btnsave").css("display", "none");
-    // $("#btnDelete").css("display", "none");
+    $("#btnDelete").css("display", "none");
     $("#btnReset").css("display", "none");
     $("#btncancer").css("display", "none");
     $("#btnDonew").attr("disabled", false);
@@ -276,18 +276,19 @@ let objSearch = {
     s_datedwl: ''
 };
 
-
 $('#tableDataView thead th').each(function () {
     var title = $(this).text();
     var dataId = $(this).attr("data-id");
     var is_select = $(this).attr("is_select");
     if (dataId != null && dataId != undefined) {
         if (is_select == null || is_select == undefined) {
-            $(this).html('<p style="text-align: center">' + title + '</p><input id="' + dataId + '" class="table-data-input-search" type="text" placeholder="Tìm kiếm ' + title + '" />');
+            $(this).html('<p style="text-align: center">' + title + '</p><input  id="' + dataId + '" class="table-data-input-search" type="text"  placeholder="Tìm kiếm ' + title + '" autocomplete="off" />');
         } else if (is_select == 1) {
             $(this).html('<p style="text-align: center">Ngày tạo</p>');
-        } else {
-            $(this).html('<p style="text-align: center">Trạng thái</p>');
+        } else if (is_select == 2) {
+            $(this).html('<select class="select_table"  id="' + dataId + '"><option value="">Không chọn</option><option  value="1">Hoạt động</option><option value="0">Không hoạt động</option></select>');
+        }else{
+            $(this).html('<select  class="select_table" id="' + dataId + '"><option value="">Không chọn</option><option value="1">Nam</option><option value="0">Nữ</option></select>');
         }
     }
 });
@@ -367,6 +368,11 @@ var table = $('#tableDataView').DataTable({
 
                 });
             });
+        });
+        $('.select_table').on('change', function () {
+            let id = $(this).attr("id");
+            objSearch[id] = this.value;
+            table.search(JSON.stringify(objSearch)).draw();
         });
     },
     "ajax": {
@@ -498,10 +504,15 @@ function fillDataToForm(rowData) {
     $('#input_cardNumber').val(rowData[0].cardNumber);
     // $('#input_group_id').val(rowData[0].group_id);
     $("#input_group_id").val(rowData[0].group_id).change();
-    $('#status_id').val(rowData[0].statusId);
+
     $('#input_time_download').val(rowData[0].dateRole);
     $('#input_phone').val(rowData[0].mobile);
     $('#input_Password').val('');
+    if(rowData[0].statusIds == 'Hoạt động'){
+        $('#status_id').val(1);
+    }else{
+        $('#status_id').val(0);
+    }
     if(rowData[0].gender == 'Nam'){
         $('#checkNam').prop('checked', true);
     }else{
@@ -520,7 +531,7 @@ function fillDataToForm(rowData) {
     }
     togle_search();
     $("#btnsave").css("display", "inline");
-    // $("#btnDelete").css("display", "inline");
+    $("#btnDelete").css("display", "inline");
     $("#btnReset").css("display", "inline");
     $("#btncancer").css("display", "inline");
     $("#btnDonew").attr("disabled", true);
@@ -530,7 +541,6 @@ function fillDataToForm(rowData) {
     $('.err_msg').html('');
     $("#icon_penc").css("display", "inline");
     $("#icon_dis_penc").css("display", "none");
-
 }
 function edit_pass() {
     edit_pass_var = '';
@@ -542,6 +552,7 @@ function edit_pass() {
 function dis_penc() {
     edit_pass_var = '1';
     $("#input_Password").attr("disabled", true);
+    $("#input_Password").val('');
     $("#icon_penc").css("display", "inline");
     $("#icon_dis_penc").css("display", "none");
 }
@@ -720,7 +731,7 @@ $('#btnsave').on('click', function (e) {
         };
 
         if ($('#action_info').val() == 1) {
-            // call ajax here edit
+            // call ajax here add new
             $.ajax({
                 headers: {
                     'Authorization': token
