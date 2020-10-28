@@ -245,7 +245,7 @@ var tableConfigValueType = $('#tableValueTypeConfig').DataTable({
         // Apply the search
         this.api().columns().every(function () {
             var that = this;
-            $('.table-data-input-search').on('keyup', function () {
+            $('.table-data-input-search').on('keyup change clear', function () {
                 oldValue = this.___value___;
                 this.___value___ = this.value;
                 if (oldValue == this.___value___) return;
@@ -253,15 +253,12 @@ var tableConfigValueType = $('#tableValueTypeConfig').DataTable({
                 let id = $(this).attr('id');
                 objSearch[id] = this.value;
                 setTimeout(function () {
-                    if (new Date().getTime() - keyUpTime > 550) {
+                    if (new Date().getTime() - keyUpTime > 500) {
                         tableConfigValueType.search(objSearch).draw();
-                        $('#station').val(null).trigger('change');
-                        $('#value-type').val(null).trigger('change');
                         keyUpTime = new Date().getTime();
                     }
                     return;
-                }, 550);
-
+                }, 5500);
             });
         });
     },
