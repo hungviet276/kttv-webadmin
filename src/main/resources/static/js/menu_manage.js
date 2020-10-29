@@ -309,6 +309,9 @@ $('#btnSaveCreate').on('click', function (e) {
     e.preventDefault();
     e.stopPropagation();
 
+    if(!$('#form_data').valid())
+        return;
+
     // call ajax here
     showLoading();
 
@@ -413,6 +416,9 @@ $('#btnSaveEdit').on('click', function (e) {
     e.preventDefault();
     e.stopPropagation();
 
+    if(!$('#form_data').valid())
+        return;
+
     showLoading();
     // set data
     let data = {
@@ -506,6 +512,9 @@ $('#btnSaveCopy').on('click', function (e) {
 
     e.preventDefault();
     e.stopPropagation();
+
+    if(!$('#form_data').valid())
+        return;
 
     showLoading();
 
@@ -612,6 +621,63 @@ $('#btnDelete').on('click', function (e) {
                 toastr.error(err.responseJSON.message, err.responseJSON.code);
             }
         })
+    }
+});
+
+// validate form jquery
+var validator = $('#form_data').validate({
+    rules: {
+        inputMenuName: {
+            required: true,
+            maxlength: 200
+        },
+        inputDisplayOrder: {
+            required: true,
+            maxlength: 6
+        },
+        inputPictureFile: {
+            required: false,
+            maxlength: 200
+        },
+        inputDetailFile: {
+            required: false,
+            maxlength: 200
+        },
+        inputPublish: {
+            required: true,
+            maxlength: 5
+        }
+    },
+    messages: {
+        inputMenuName: {
+            required: "Tên menu không được trống",
+            maxlength: "Tên menu không được quá 200 ký tự"
+        },
+        inputDisplayOrder: {
+            required: "Độ ưu tiên không được trống",
+            maxlength: "Độ ưu tiên không quá 6 ký tự"
+        },
+        inputPictureFile: {
+            maxlength: "Icon không quá 200 ký tự"
+        },
+        inputDetailFile: {
+            maxlength: "Đường dẫn không quá 200 ký tự"
+        },
+        inputPublish: {
+            required: "Trạng thái không được trống",
+            maxlength: "Trạng thái không quá 5 ký tự"
+        }
+    },
+    errorElement: 'span',
+    errorPlacement: function (error, element) {
+        error.addClass('invalid-feedback');
+        element.closest('.form-group').append(error);
+    },
+    highlight: function (element, errorClass, validClass) {
+        $(element).addClass('is-invalid');
+    },
+    unhighlight: function (element, errorClass, validClass) {
+        $(element).removeClass('is-invalid');
     }
 });
 
