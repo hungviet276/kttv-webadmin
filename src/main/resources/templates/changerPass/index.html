@@ -4,6 +4,23 @@
     <th:block th:replace="layout_header.html :: head_tag" />
     <link rel="stylesheet" href="/css/users_manage.css" type="text/css">
     <title>Quản lý người dùng</title>
+    <style>
+        .input_container {
+            position:relative;
+        }
+        .input {
+            margin:0;
+            width: 100%;
+            text-align: left;
+        }
+        .icon {
+            position:absolute;
+            bottom:2px;
+            right:5px;
+            width:24px;
+            height:24px;
+        }
+    </style>
 </head>
 <body  class="hold-transition sidebar-mini layout-fixed text-sm">
 <div class="wrapper">
@@ -20,7 +37,7 @@
             <div class="container-fluid">
                 <div class="card card-default">
                     <div class="card-header">
-                        <h4>Quản lý người dùng</h4>
+<!--                        <h4>Quản lý người dùng</h4>-->
                     </div>
                     <div class="container-fluid">
                         <div class="row content" style="height: 1119px;width: 100%">
@@ -30,38 +47,50 @@
                             </div>
                             <br/>
                             <form class="form-horizontal" id="form_data">
-                                <div style="text-align: center;width: 100%">
-                            <div class="form-row" >
-                                <div class="form-group col-md-6">
-                                    <label for="pass_old">Mật khẩu cũ</label>
-                                    <input type="text" class="form-control" id="pass_old"
-                                           placeholder="">
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="pass_new">Mật khẩu mới</label>
-                                    <input type="text" class="form-control" id="pass_new"
-                                           placeholder="">
-                                </div>
-                            </div>
-                            <div class="form-row" >
-                                <div class="form-group col-md-6">
-                                    <label for="re_pass_new">Nhập lại mật khẩu mới</label>
-                                    <input type="text" class="form-control" id="re_pass_new"
-                                           placeholder="">
-                                </div>
-                            </div>
+                                <div style="margin-left: 30%;width: 41%;">
+                                    <div >
+                                        <label for="pass_old">Mật khẩu cũ</label>
+                                        <div class= "input_container">
+                                            <input type="password" class="form-control input" id="pass_old"  />
+                                            <i id="show_old_pass" class="fas fa-eye icon" onclick="show_pass_text();" ></i>
+                                            <i id="hidden_old_pass"  style="display: none" class="fas fa-eye icon" onclick="hidden_old_pass();" ></i>
+                                        </div>
+                                         <span id="pass_old_msg" class="err_msg"></span>
+                                    </div>
+                                    <div >
+                                        <label for="pass_new">Mật khẩu mới</label>
+                                        <div class="input_container">
+                                            <input type="password" class="form-control input" id="pass_new"  />
+                                            <i id="show_pass_new" class="fas fa-eye icon" onclick="show_pass_new();" ></i>
+                                            <i id="hidden_pass_new"  style="display: none" class="fas fa-eye icon" onclick="hidden_pass_new();" ></i>
+                                        </div>
+                                        <span id="pass_new_msg" class="err_msg"></span>
+                                    </div>
+                                    <div >
+                                        <label for="re_pass_new">Nhập lại mật khẩu mới</label>
+
+                                        <div class="input_container">
+                                            <input type="password" class="form-control input" id="re_pass_new"  />
+                                            <i id="show_re_new_pass" class="fas fa-eye icon" onclick="show_re_new_pass();" ></i>
+                                            <i id="hidden_re_new_pass"  style="display: none" class="fas fa-eye icon" onclick="hidden_re_new_pass();" ></i>
+                                        </div>
+                                        <span id="re_pass_new_msg" class="err_msg"></span>
+                                    </div>
                                 </div>
                             </form>
                             <div class="wrap-button-control">
-                                <button class="btn btn-primary" id="btnSearch" style="width:100px;">
-                                    <i class="fas fa-search"></i> Tìm kiếm
+                                <button class="btn btn-primary" id="btnSave" onclick="changer_password();" style="width:100px;">
+                                    <a>Đồng ý</a>
                                 </button>
-                                <button class="btn btn-primary" id="btnDonew" style="width:100px;">
-                                    <i class="fas fa-plus"></i> Thêm
-                                </button>
+                                <a href="/"> <button class="btn btn-primary"  style="width:100px;">
+                                     Hủy
+                                </button></a>
+
                             </div>
+                            <div style="text-align: center">
+                                <span id="nofication_msg"  style="color: red">  </span>
+                            </div>
+
 
                         </div>
                     </div>
@@ -96,6 +125,6 @@
         var token = "[[${session.token}]]";
         // console.log(apiUrl + "|" + JSON.stringify(userBO) + "|" + token);
     </script>
-<!--    <script src="/js/users_manage.js"></script>-->
+    <script src="/js/changerPass.js"></script>
 
 </html>
