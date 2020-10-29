@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Clone') {
             steps {
-                git branch: "prod", url: 'https://192.168.1.21:9998/tb5/kttv-webadmin.git'
+                git branch: "prod", url: 'http://192.168.1.21:9998/tb5/kttv-webadmin.git'
             }
         }
         stage('Build') {
