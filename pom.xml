@@ -143,7 +143,7 @@
                     </execution>
                 </executions>
 				<configuration>
-					<repository>levietthang1997/${project.name}</repository>
+					<repository>tb5/${project.name}</repository>
 					<tag>${project.name}-${project.version}</tag>
 					<skipDockerInfo>true</skipDockerInfo>
 				</configuration>
