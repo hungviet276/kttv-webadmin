@@ -3,7 +3,7 @@
 <head>
     <th:block th:replace="layout_header.html :: head_tag" />
     <link rel="stylesheet" href="/css/log_act.css" type="text/css">
-    <link rel="stylesheet" href="/admin_lte/plugins/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="/admin_lte/plugins/daterangepicker-master/daterangepicker.css">
     <title>Tra cứu lịch sử tác động</title>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed text-sm">
@@ -46,18 +46,18 @@
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label for="inputUsername">Tài khoản</label>
-                                    <input type="text" class="form-control" id="inputUsername" placeholder="Tài khoản">
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
                                     <label for="inputFromDate">Từ ngày</label>
                                     <input type="text" class="form-control" id="inputFromDate" placeholder="Từ ngày">
                                 </div>
                                 <div class="col-md-6">
                                     <label for="inputToDate">Đến ngày</label>
                                     <input type="text" class="form-control" id="inputToDate" placeholder="Đến ngày">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputUsername">Tài khoản</label>
+                                    <input type="text" class="form-control" id="inputUsername" placeholder="Tài khoản">
                                 </div>
                             </div>
                         </div>
@@ -69,6 +69,9 @@
                                 </button>
                                 <button class="btn btn-primary" id="btnCleanForm">
                                     <i class="fas fa-eraser"></i> Làm mới
+                                </button>
+                                <button class="btn btn-primary" id="btnExportLogAct">
+                                    <i class="fas fa-file-export"></i> Xuất báo cáo
                                 </button>
                             </div>
                         </div>
@@ -137,7 +140,7 @@
         var token = "[[${session.token}]]";
         console.log(apiUrl + "|" + JSON.stringify(userBO) + "|" + token);
     </script>
-    <link rel="stylesheet" href="/admin_lte/plugins/daterangepicker/daterangepicker.js">
+    <link rel="stylesheet" href="/admin_lte/plugins/daterangepicker-master/daterangepicker.js">
     <script src="/js/log_act.js"></script>
 </div>
 </body>
