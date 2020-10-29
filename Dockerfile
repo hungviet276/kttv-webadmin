@@ -1,4 +1,4 @@
-FROM openjdk:8-jre-slim
+FROM store/oracle/serverjre:1.8.0_241-b07
 WORKDIR /kttv-webadmin
 COPY ./target/*-1.0.jar kttv-webadmin.jar
 EXPOSE 8081
