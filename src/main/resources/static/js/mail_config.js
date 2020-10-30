@@ -346,6 +346,9 @@ $('#btnSaveEdit').on('click', function (e) {
     e.preventDefault();
     e.stopPropagation();
 
+    if(!$('#form_data').valid())
+        return;
+
     showLoading();
     // set data
     let data = {
@@ -440,6 +443,9 @@ $('#btnSaveCopy').on('click', function (e) {
 
     e.preventDefault();
     e.stopPropagation();
+
+    if(!$('#form_data').valid())
+        return;
 
     showLoading();
 
