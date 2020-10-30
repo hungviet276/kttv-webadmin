@@ -42,4 +42,9 @@ public class ManagementStationController {
         }
         return result;
     }
+
+    @GetMapping("history.html")
+    public String onSearchHistory() {
+        return "management-station/history";
+    }
 }
