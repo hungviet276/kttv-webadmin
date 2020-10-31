@@ -1,3 +1,50 @@
+//var newOption = new Option(response.text, response.id, true, true);
+//$('#value-type-station').append(newOption).trigger('change');
+//$('#value-type-station').prop( "disabled", true );
+const constantThreshold = [
+    {
+        id : "-1",
+        text : "--- Hãy chọn ---"
+    },
+    {
+        id : "1",
+        text : "Mức 1"
+    },
+    {
+        id : "2",
+        text : "Mức 2"
+    },
+    {
+        id : "3",
+        text : "Mức 3"
+    },
+    {
+        id : "4",
+        text : "Mức 4"
+    },
+    {
+        id : "5",
+        text : "Mức 5"
+    }
+]
+$('#thresholdWarning').select2({
+
+});
+$('#cancelWarning').select2({
+
+});
+(function(){
+   for(let i =0 ; i < constantThreshold.length ; i++){
+       var newOption = new Option(constantThreshold[i].text, constantThreshold[i].id, false, false);
+       $('#thresholdWarning').append(newOption).trigger('change');
+   }
+})();
+(function(){
+    for(let i =0 ; i < constantThreshold.length ; i++){
+        var newOption = new Option(constantThreshold[i].text, constantThreshold[i].id, false, false);
+        $('#cancelWarning').append(newOption).trigger('change');
+    }
+})();
 $(document).ready(function () {
     show_search();
 });
@@ -14,8 +61,8 @@ $('#btncancer').click(function () {
     $("#btnResetUpdate").css("display", "none");
     $("#btncancer").css("display", "none");
     $("#btnDonew").attr("disabled", false);
-    validator.resetForm();
-    validatorhorizontal.resetForm();
+    // validator.resetForm();
+    // validatorhorizontal.resetForm();
     var rowDt = tableConfigValueType.rows('.selected').data()[0];
     show_search();
     if(rowDt!=undefined){
@@ -48,10 +95,10 @@ $('#btnDonew').click(function () {
     $("#btnsaveEdit").hide();
     $("#btnResetUpdate").hide();
     validator.resetForm();
-    validatorhorizontal.resetForm();
-    tableStationSpatial
-        .clear()
-        .draw();
+    //validatorhorizontal.resetForm();
+    // tableStationSpatial
+    //     .clear()
+    //     .draw();
 });
 
 $('#station').select2({
@@ -179,7 +226,6 @@ let objSearch = {
     s_parameter_type_id: '',
     s_name_station: '',
     s_parameter_name: '',
-    s_threshold_code: '',
     s_value_level1: '',
     s_value_level2: '',
     s_value_level3: '',
@@ -231,7 +277,6 @@ var tableConfigValueType = $('#tableValueTypeConfig').DataTable({
         {"data": "parameterId", "render": $.fn.dataTable.render.text()},
         {"data": "stationName", "render": $.fn.dataTable.render.text()},
         {"data": "parameterName", "render": $.fn.dataTable.render.text()},
-        {"data": "thresholdCode", "render": $.fn.dataTable.render.text()},
         {"data": "valueLevel1", "render": $.fn.dataTable.render.text()},
         {"data": "valueLevel2", "render": $.fn.dataTable.render.text()},
         {"data": "valueLevel3", "render": $.fn.dataTable.render.text()},
@@ -250,14 +295,12 @@ var tableConfigValueType = $('#tableValueTypeConfig').DataTable({
                 let id = $(this).attr('id');
                 objSearch[id] = this.value;
                 setTimeout(function () {
-                    if (new Date().getTime() - keyUpTime > 550) {
+                    if (new Date().getTime() - keyUpTime > 500) {
                         tableConfigValueType.search(objSearch).draw();
-                        $('#station').val(null).trigger('change');
-                        $('#value-type').val(null).trigger('change');
                         keyUpTime = new Date().getTime();
                     }
                     return;
-                }, 550);
+                }, 560);
 
             });
         });
@@ -297,7 +340,6 @@ var tableConfigValueType = $('#tableValueTypeConfig').DataTable({
                     "parameterId": responseJson.content[i].parameterId,
                     "stationName": responseJson.content[i].stationName,
                     "parameterName": responseJson.content[i].parameterName,
-                    "thresholdCode": responseJson.content[i].thresholdCode,
                     "valueLevel1": responseJson.content[i].valueLevel1,
                     "valueLevel2": responseJson.content[i].valueLevel2,
                     "valueLevel3": responseJson.content[i].valueLevel3,
@@ -311,20 +353,6 @@ var tableConfigValueType = $('#tableValueTypeConfig').DataTable({
     }
 });
 
-
-function stringToDate(_date,_format,_delimiter) {
-    let formatLowerCase=_format.toLowerCase();
-    let formatItems=formatLowerCase.split(_delimiter);
-    let dateItems=_date.split(_delimiter);
-    let monthIndex=formatItems.indexOf("mm");
-    let dayIndex=formatItems.indexOf("dd");
-    let yearIndex=formatItems.indexOf("yyyy");
-    let month=parseInt(dateItems[monthIndex]);
-    month-=1;
-    let formatedDate = new Date(dateItems[yearIndex],month,dateItems[dayIndex]);
-    return formatedDate;
-}
-
 $("#btnSearch").click(function (event){
     event.preventDefault();
     event.stopPropagation();
@@ -335,62 +363,96 @@ $("#btnSearch").click(function (event){
         $(inputSearch[i]).val("");
     }
     if($("#station").val()==-1){
-        objSearch.s_station_id = null;
+        objSearch.s_id_station = null;
     } else{
-        objSearch.s_station_id = $("#station").val();
+        objSearch.s_id_station = $("#station").val();
     }
 
     if($("#value-type").val()==-1){
-        objSearch.s_value_type_id = null;
+        objSearch.s_parameter_type_id = null;
     } else{
-        objSearch.s_value_type_id = $("#value-type").val();
+        objSearch.s_parameter_type_id = $("#value-type").val();
     }
-    objSearch.s_start_apply_date = $("#start_date").val();
-    objSearch.s_end_apply_date = $("#end_date").val();
     tableConfigValueType.search(objSearch).draw();
 
 });
-$("#stationSpatial").change(function () {
-    $('#valueTypeSpatial').empty();
-
-    let dataStation = $("#stationSpatial").val();
-    let dataValueType = $("#value-type-station").val();
-    if(dataStation == null || dataValueType == null){
-        return;
+// table thêm yếu tố
+function genSelectThreshold(data, row, functionCallChange){
+    let dataSelect = [
+            {value : "1",text :"1", selected : ""}
+            ,{value : "2",text :"2", selected : ""}
+            ,{value : "3",text :"3", selected : ""}
+            ,{value : "4",text :"4", selected : ""}
+            ,{value : "5",text :"5", selected : ""}
+        ];
+    for(let i =0; i< dataSelect.length; i++){
+        if(dataSelect[i].value==data){
+            dataSelect[i].selected="selected";
+        }
+    }
+    let strError = " style=\" width: 230px;\"";
+    let messageError = "<label><\label>";
+    if(row.thresholdId==row.thresholdCancelID){
+        strError = " style=\" border-color: red; width: 230px;\"";
+        messageError = "<label id=\"threshold2-error\" class=\"error\" for=\"threshold2\">Giá trị cảnh báo và hủy cảnh báo phải khác nhau</label>";
     }
 
-    $.ajax({
-        headers: {
-            'Authorization': token
-        },
-        "url": apiUrl + "config-value-type/get-list-value-type?idStation="+ $("#stationSpatial").val()+"&valueTypeId="+$("#value-type-station").val(),
-        "method": "POST",
-        "contentType": "application/json",
-        "success": function (response) {
-            $('#valueTypeSpatial').val(null).trigger('change');
-            for (let i = 0; i < response.length; i++){
-                var newOption = new Option(response[i].text, response[i].id, false, false);
-                $('#valueTypeSpatial').append(newOption).trigger('change');
+    var str = `<select name="thresholdCancelID" id="thresholdCancelID" onchange="`+functionCallChange+`('`+row.warningThresholdCode+`',this)"`+strError+`>`
+
+    for(let i =0; i< dataSelect.length ; i++){
+        let strTmp = `<option value="`+dataSelect[i].value+`" `+dataSelect[i].selected+`>`+dataSelect[i].text+`</option>`;
+        str+=strTmp;
+    }
+    str+=`</select>`;
+    str+=messageError;
+    return str;
+
+}
+var tableWarningThreshold = $('#tableWarningThreshold').DataTable({
+    columns: [
+        {"data": "warningThresholdCode"},
+        {"data": "idParameter"},
+        {"data": "nameParameter"},
+        {
+            data: "thresholdId",
+            render: function ( data, type, row, meta ) {
+                let functionCallChange = "changeThresholdId";
+                return genSelectThreshold(data,row, functionCallChange);
             }
         },
-        "error": function (error) {
-            console.log(error);
-            toastr.error('Lỗi', error.statusText);
-        }
-    });
-});
-// table thêm yếu tố
-var tableStationSpatial = $('#tableStationSpatial').DataTable({
-    columns: [
-        {"data": "id"},
-        {"data": "stationId"},
-        {"data": "valueTypeId"},
-        {"data" : "stationCode"},
-        {"data": "stationName"},
-        {"data" : "valueTypeCode"},
-        {"data": "valueTypeName"},
-        {"data": "code"},
-        {"data": "variableSpatial"},
+
+        {
+            data: "thresholdCancelID",
+            render: function ( data, type, row, meta ) {
+                let functionCallChange = "changeThresholdCancelID";
+                return genSelectThreshold(data,row, functionCallChange);
+            }
+
+        },
+        {
+            data: "status",
+            render: function ( data, type, row, meta ) {
+                let valueSelect ="";
+                let valueUnSelect ="";
+                if(data==1){
+                    valueSelect = "Hoạt động";
+                    valueUnSelect = "Dừng hoạt động";
+                } else{
+                    valueSelect = "Dừng hoạt động";
+                    valueUnSelect = "Hoạt động";
+                }
+                let dataUnselect = 0;
+                if(data == 0){
+                    dataUnselect = 1;
+                }
+                return `
+                    <select name="status" id="status" onchange="changeStatus('`+row.warningThresholdCode+`')">
+                        <option value="`+data+`" selected>`+valueSelect+`</option>
+                        <option value="`+dataUnselect+`">`+valueUnSelect+`</option>
+                    </select>
+                `;
+            }
+        },
         {
             data: null,
             className: "center",
@@ -398,64 +460,164 @@ var tableStationSpatial = $('#tableStationSpatial').DataTable({
         }
     ]
 });
+function changeStatus(obj){
+    let dataTable = tableWarningThreshold.rows().data();
+    for(let i =0 ; i< dataTable.length ; i++){
+        if(dataTable[i].warningThresholdCode == obj){
+            if(dataTable[i].status == "1"){
+                dataTable[i].status = "0"
+            }else{
+                dataTable[i].status = "1"
+            }
+        }
+    }
+    tableWarningThreshold
+        .clear()
+        .draw();
+     for(let i =0 ; i< dataTable.length ; i++){
+         tableWarningThreshold.row.add(dataTable[i]).draw( true );
+     }
+}
+function changeThresholdCancelID(obj,data){
+    let dataTable = tableWarningThreshold.rows().data();
+    for(let i =0 ; i< dataTable.length ; i++){
+        if(dataTable[i].warningThresholdCode == obj){
+            dataTable[i].thresholdCancelID = data.value;
+        }
+    }
+    tableWarningThreshold
+        .clear()
+        .draw();
+    for(let i =0 ; i< dataTable.length ; i++){
+        tableWarningThreshold.row.add(dataTable[i]).draw( true );
+    }
+}
+function changeThresholdId(obj,data){
+    let dataTable = tableWarningThreshold.rows().data();
+    for(let i =0 ; i< dataTable.length ; i++){
+        if(dataTable[i].warningThresholdCode == obj){
+            dataTable[i].thresholdId = data.value;
+        }
+    }
+    tableWarningThreshold
+        .clear()
+        .draw();
+    for(let i =0 ; i< dataTable.length ; i++){
+        tableWarningThreshold.row.add(dataTable[i]).draw( true );
+    }
+}
+tableWarningThreshold.on('click', 'a.editor_remove', function (e) {
+    e.preventDefault();
+    var table = $('#tableWarningThreshold').DataTable();
+    table
+        .row( $(this).parents('tr') )
+        .remove().draw();
+});
 $("#btnsaveStationValueType").click(function () {
-    var submit = $("#formStationSpatial").valid();
-    var dataStation = $('#stationSpatial').select2('data');
-    var dataValueType = $('#valueTypeSpatial').select2('data');
-    if(dataStation[0]==null || dataStation[0] == undefined || dataValueType[0]== null || dataValueType[0] == undefined){
-        return;
-    }
-    var dataValueTypeText = dataValueType[0].text;
-    var dataValueTypeTexts = dataValueTypeText.split("-");
-    if(submit == false) {
-        if (dataStation.length == 0) {
-            $('#stationSpatial').select2('open');
-            return;
-        }
-        if (dataValueType.length == 0) {
-            $('#valueTypeSpatial').select2('open');
-            return;
-        }
-        return;
-    }
 
+    let submit = $("#formWarningThreshold").valid();
+    if(submit){
+        validWarningThreshold.resetForm();
+    } else{
+        return;
+    }
+    var codeCheck= $("#thresholdCode").val();
     $.ajax({
         headers: {
             'Authorization': token
         },
-        "url": apiUrl + "config-value-type/get-station-value-type-spatial?idStation="+ dataStation[0].id+"&idValueType="+dataValueType[0].id+"&code="+dataValueTypeTexts[2],
+        "url": apiUrl + "warning-threshold-station/duplicate-code-threshold-warning?code="+codeCheck,
         "method": "GET",
         "contentType": "application/json",
         "success": function (response) {
-            // kiểm tra xem nếu đã tồn tại trong bảng rồi thì thông báo ra không thêm nữa
-            var formData  = tableStationSpatial.rows().data();
-            let insert = true;
-            $.each( formData, function( key, value ) {
-                if(dataStation[0].id == value.stationId && dataValueType[0].id == value.valueTypeId&& dataValueTypeTexts[2]==value.code){
-                    insert = false;
+            if(response.status == 0){
+                // kiểm tra xem nếu đã tồn tại trong bảng rồi thì thông báo ra không thêm nữa
+                var dataTableWarningThreshold = {};
+                dataTableWarningThreshold.idParameter=$("#value-type-station").val();
+                dataTableWarningThreshold.nameParameter=$("#value-type-station").select2('val');
+                dataTableWarningThreshold.warningThresholdCode=$("#thresholdCode").val();
+                dataTableWarningThreshold.thresholdId = $("#thresholdWarning").val();
+                dataTableWarningThreshold.thresholdCancelID = $("#cancelWarning").val();
+                dataTableWarningThreshold.status = $("#status").val();
+                var formData  = tableWarningThreshold.rows().data();
+                let insert = true;
+                $.each( formData, function( key, value ) {
+                    if(value.warningThresholdCode==dataTableWarningThreshold.warningThresholdCode){
+                        insert = false;
+                    }
+                });
+                if(insert == false){
+                    toastr.error('Lỗi', "Bản ghi đã tồn tại");
+                    insert = true;
+                    return;
                 }
-            });
-            if(insert == false){
-                toastr.warning('Lỗi', "Bản ghi đã tồn tại");
-                return;
-            }
-            tableStationSpatial.row.add(response).draw( true );
+                tableWarningThreshold.row.add(dataTableWarningThreshold).draw( true );
 
+            }
+            else{
+                toastr.error('Lỗi', response.message);
+            }
         },
         "error": function (error) {
             toastr.error('Lỗi', error.responseJSON.message);
         }
     });
+    // var dataStation = $('#stationSpatial').select2('data');
+    // var dataValueType = $('#valueTypeSpatial').select2('data');
+    // if(dataStation[0]==null || dataStation[0] == undefined || dataValueType[0]== null || dataValueType[0] == undefined){
+    //     return;
+    // }
+    // var dataValueTypeText = dataValueType[0].text;
+    // var dataValueTypeTexts = dataValueTypeText.split("-");
+    // if(submit == false) {
+    //     if (dataStation.length == 0) {
+    //         $('#stationSpatial').select2('open');
+    //         return;
+    //     }
+    //     if (dataValueType.length == 0) {
+    //         $('#valueTypeSpatial').select2('open');
+    //         return;
+    //     }
+    //     return;
+    // }
+
+    // $.ajax({
+    //     headers: {
+    //         'Authorization': token
+    //     },
+    //     "url": apiUrl + "config-value-type/get-station-value-type-spatial?idStation="+ dataStation[0].id+"&idValueType="+dataValueType[0].id+"&code="+dataValueTypeTexts[2],
+    //     "method": "GET",
+    //     "contentType": "application/json",
+    //     "success": function (response) {
+    //         // kiểm tra xem nếu đã tồn tại trong bảng rồi thì thông báo ra không thêm nữa
+    //         var formData  = tableStationSpatial.rows().data();
+    //         let insert = true;
+    //         $.each( formData, function( key, value ) {
+    //             if(dataStation[0].id == value.stationId && dataValueType[0].id == value.valueTypeId&& dataValueTypeTexts[2]==value.code){
+    //                 insert = false;
+    //             }
+    //         });
+    //         if(insert == false){
+    //             toastr.warning('Lỗi', "Bản ghi đã tồn tại");
+    //             return;
+    //         }
+    //         tableStationSpatial.row.add(response).draw( true );
+    //
+    //     },
+    //     "error": function (error) {
+    //         toastr.error('Lỗi', error.responseJSON.message);
+    //     }
+    // });
 
 });
 // Delete a record
-tableStationSpatial.on('click', 'a.editor_remove', function (e) {
-    e.preventDefault();
-    var table = $('#tableStationSpatial').DataTable();
-    table
-        .row( $(this).parents('tr') )
-        .remove().draw();
-});
+// tableStationSpatial.on('click', 'a.editor_remove', function (e) {
+//     e.preventDefault();
+//     var table = $('#tableStationSpatial').DataTable();
+//     table
+//         .row( $(this).parents('tr') )
+//         .remove().draw();
+// });
 
 $('#station_add').select2({
     minimumInputLength: 0,
@@ -502,10 +664,10 @@ $("#station_add").change(function () {
     if(dataStation[0]==undefined){
         return;
     }
-    tableStationSpatial
+    tableWarningThreshold
         .clear()
         .draw();
-
+    //thêm vào đây
     $.ajax({
         headers: {
             'Authorization': token
@@ -519,6 +681,11 @@ $("#station_add").change(function () {
                 var newOption = new Option(response[i].text, response[i].id, false, false);
                 $('#value-type-station').append(newOption).trigger('change');
             }
+            //
+            var rowDt = tableConfigValueType.rows('.selected').data()[0];
+            if(rowDt!=""&& rowDt!=null&& rowDt!=undefined)
+                showDetailData(rowDt);
+
         },
         "error": function (error) {
             toastr.error('Lỗi', error.responseJSON.message);
@@ -534,129 +701,87 @@ $("#value-type-station").change(function () {
     $('#valueTypeSpatial').val(null).trigger('change');
     $('#valueTypeSpatial').empty();
 
-    tableStationSpatial
-        .clear()
+    tableWarningThreshold.clear()
         .draw();
 });
-
-// form thêm mới sửa xóa
-$('#start_date').daterangepicker({
-    "singleDatePicker": true,
-    "linkedCalendars": false,
-    "showCustomRangeLabel": false,
-    "alwaysShowCalendars": false,
-    "autoUpdateInput" : false,
-    locale: {
-        cancelLabel: 'Clear',
-        format: 'DD/MM/YYYY'
-    }
-}, function(start, end, label) {
-    console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
-});
-$('#start_date').on('cancel.daterangepicker', function(ev, picker) {
-    $(this).val('');
-});
-$('#start_date').on('apply.daterangepicker', function(ev, picker) {
-    $("#start_date").val(picker.startDate.format('DD/MM/YYYY'));
-});
-$('#end_date').daterangepicker({
-    "singleDatePicker": true,
-    "linkedCalendars": false,
-    "showCustomRangeLabel": false,
-    "alwaysShowCalendars": false,
-    "autoApply" : false,
-    "autoUpdateInput" : false,
-    locale: {
-        cancelLabel: 'Clear',
-        format: 'DD/MM/YYYY'
-    }
-}, function(start, end, label) {
-
-});
-var validatorhorizontal = $("#formStationSpatial").validate({
+var validWarningThreshold = $("#formWarningThreshold").validate({
     rules : {
-        stationSpatial : {
+        thresholdCode : {
             required : true,
+            maxlength : 15
         },
-        valueTypeSpatial : {
+        thresholdWarning : {
             required : true,
+            validEmpty : true,
+            validEqual : "#cancelWarning"
+        },
+        cancelWarning : {
+            required : true,
+            validEmpty : true
+        },
+        status : {
+            required : true
         }
     },
     messages: {
-        stationSpatial: {
-            required: "Hãy chọn trạm",
+        thresholdCode: {
+            required: "Hãy nhập mã cảnh báo",
+            maxlength  : "Code vượt quá độ dàin 15 ký tự"
         },
-        valueTypeSpatial: {
-            required: "Hãy chọn yếu tố",
+        thresholdWarning: {
+            required: "Hãy chọn mức cảnh báo",
+            validEmpty : "Hãy chọn mức cảnh báo",
+            validEqual :"Mức cảnh báo và mức hủy cảnh báo không được giống nhau"
+        },
+        cancelWarning : {
+            required: "Hãy chọn mức hủy cảnh báo",
+            validEmpty : "Hãy chọn mức hủy cảnh báo"
+        },
+        status : {
+            required : "Hãy chọn trạng thái"
         }
     },
     errorPlacement : function(error, element) {
         error.insertAfter(element.parents("div.insertError"));
     }
 });
-$('#end_date').on('cancel.daterangepicker', function(ev, picker) {
-    $(this).val('');
-});
-
-$('#end_date').on('apply.daterangepicker', function(ev, picker) {
-    $("#end_date").val(picker.startDate.format('DD/MM/YYYY'));
-});
-
-$("#startDateApply").daterangepicker({
-    "singleDatePicker": true,
-    "linkedCalendars": false,
-    "showCustomRangeLabel": false,
-    "alwaysShowCalendars": false,
-    "autoApply" : false,
-    "autoUpdateInput" : false,
-    locale: {
-        cancelLabel: 'Clear',
-        format: 'DD/MM/YYYY'
-    }
-}, function(start, end, label) {
-
-});
-$('#startDateApply').on('cancel.daterangepicker', function(ev, picker) {
-    $(this).val('');
-});
-$('#startDateApply').on('apply.daterangepicker', function(ev, picker) {
-    $("#startDateApply").val(picker.startDate.format('DD/MM/YYYY'));
-});
-
-$("#endDateApply").daterangepicker({
-    "singleDatePicker": true,
-    "linkedCalendars": false,
-    "showCustomRangeLabel": false,
-    "alwaysShowCalendars": false,
-    "autoApply" : false,
-    "autoUpdateInput" : false,
-    locale: {
-        cancelLabel: 'Clear',
-        format: 'DD/MM/YYYY'
-    }
-}, function(start, end, label) {
-});
-$('#endDateApply').on('cancel.daterangepicker', function(ev, picker) {
-    $(this).val('');
-});
-
-$('#endDateApply').on('apply.daterangepicker', function(ev, picker) {
-    $("#endDateApply").val(picker.startDate.format('DD/MM/YYYY'));
-});
-
-
+$.validator.addMethod("validEmpty",function(value,element){
+    if(value=="-1") return false;
+    return true;
+},"Please input a reason");
+jQuery.validator.addMethod('validEqual', function (value, element, param) {
+    return  value != $(param).val();
+}, 'Invalid value');
 var validator = $("#form_input").validate({
     rules : {
-        min : {
+        threshold1 : {
             required : true,
-            maxlength : 15,
-            min : 0
+            min : 0,
+            max : 1000000000000
         },
-        max : {
+        threshold2 : {
             required : true,
-            maxlength : 15,
-            validMin : "#min",
-            min : 0
+            min : 0,
+            max : 1000000000000,
+            validThreshold1: "#threshold1"
+        },
+        threshold3 : {
+            required : true,
+            min : 0,
+            max : 1000000000000,
+            validThreshold2 : "#threshold2"
+        },
+        threshold4 : {
+            required : true,
+            min : 0,
+            max : 1000000000000,
+            validThreshold3 : "#threshold3",
+        },
+        threshold5 : {
+            required : true,
+            min : 0,
+            max : 1000000000000,
+            validThreshold4 : "#threshold4",
         },
         station_add : {
             required : true,
@@ -664,157 +789,114 @@ var validator = $("#form_input").validate({
         value_type_station : {
             required : true
         },
-        variableTime : {
-            required : true,
-            min : 0
-        },
-        variableSpatial : {
-            required : true,
-            min : 0
-        },
-        startDateApply : {
-            validDate : "#endDateApply"
-        },
-        endDateApply : {
-            validDateStart : "#startDateApply"
-        },
-        code : {
-            required : true,
-        }
+
     },
     messages: {
-        min: {
-            required: "Bắt buộc nhập min",
-            maxlength: "Nhập tối đa 15 ký tự",
+        threshold1: {
+            required: "Bắt buộc nhập ngưỡng cảnh báo",
             min : "Giá trị không được âm",
+            max : "Giá trị nhập phải nhỏ hơn 1000000000000",
             number : "Giá trị phải là số"
         },
-        max: {
-            required: "Bắt buộc nhập max",
-            maxlength: "Nhập tối đa 15 ký tự",
-            validMin : "Giá trị max chưa hợp lệ",
+        threshold2: {
+            required: "Bắt buộc nhập ngưỡng cảnh báo",
             min : "Giá trị không được âm",
-            number : "Giá trị phải là số"
+            max : "Giá trị nhập phải nhỏ hơn 1000000000000",
+            number : "Giá trị phải là số",
+            validThreshold1 : "Ngưỡng cảnh báo 2 phải lớn hơn ngưỡng cảnh báo 1"
+        },
+        threshold3 : {
+            required: "Bắt buộc nhập ngưỡng cảnh báo",
+            min : "Giá trị không được âm",
+            max : "Giá trị nhập phải nhỏ hơn 1000000000000",
+            number : "Giá trị phải là số",
+            validThreshold2 : "Ngưỡng cảnh báo 3 phải lớn hơn ngưỡng cảnh báo 2"
+        },
+        threshold4 : {
+            required: "Bắt buộc nhập ngưỡng cảnh báo",
+            min : "Giá trị không được âm",
+            max : "Giá trị nhập phải nhỏ hơn 1000000000000",
+            number : "Giá trị phải là số",
+            validThreshold3 : "Ngưỡng cảnh báo 4 phải lớn hơn ngưỡng cảnh báo 3"
+        },
+        threshold5 : {
+            required: "Bắt buộc nhập ngưỡng cảnh báo",
+            min : "Giá trị không được âm",
+            max : "Giá trị nhập phải nhỏ hơn 1000000000000",
+            number : "Giá trị phải là số",
+            validThreshold4 :"Ngưỡng cảnh báo 5 phải lớn hơn ngưỡng cảnh báo 4"
         },
         station_add : {
             required: "Bắt buộc nhập trạm",
         },
         value_type_station : {
             required: "Bắt buộc chọn yếu tố",
-        },
-        variableTime : {
-            required: "Bắt buộc nhập giá trị biến đổi theo thời gian",
-            min : "Giá trị không được âm",
-            number : "Giá trị phải là số"
-        },
-        variableSpatial : {
-            required: "Bắt buộc nhập giá trị biến đổi theo không gian",
-            min : "Giá trị không được âm",
-            number : "Giá trị phải là số"
-        },
-        startDateApply : {
-            validDate :"Ngày bắt đầu phải nhỏ hơn ngày kết thúc"
-        },
-        endDateApply : {
-            validDateStart : "Ngày kết thúc phải lớn hơn ngày hiện tại"
-        },
-        code : {
-            required: "Bắt buộc nhập mã code",
         }
     },
     errorPlacement : function(error, element) {
         error.insertAfter(element.parents("div.insertError"));
     }
 });
-jQuery.validator.addMethod('validMin', function (value, element, param) {
+jQuery.validator.addMethod('validThreshold4', function (value, element, param) {
     return this.optional(element) || parseFloat(value) > parseFloat($(param).val());
 }, 'Invalid value');
 
-jQuery.validator.addMethod('validDate', function (value, element, param) {
-    if(value=="" || value == null || value == undefined||$(param).val()==null || $(param).val() == null || $(param).val() == undefined){
-        return true;
-    }
-    var start = stringToDate(value,"dd/MM/yyyy","/");
-    var end =  stringToDate($(param).val(),"dd/MM/yyyy","/");
-
-    return start.getTime() < end.getTime();
+jQuery.validator.addMethod('validThreshold3', function (value, element, param) {
+    return this.optional(element) || parseFloat(value) > parseFloat($(param).val());
 }, 'Invalid value');
 
-jQuery.validator.addMethod('validDateStart', function (value, element, param) {
-    var end = value
-    var start =  $(param).val();
-    var currentDate = new Date();
-    var strDate = currentDate.getDate()+"/"+currentDate.getMonth()+"/"+currentDate.getFullYear();
-    var dateCompare =  stringToDate(strDate,"dd/MM/yyyy","/");
-    if(end!=""&& start==""){
-        let dateEndCompare = stringToDate(end,"dd/MM/yyyy","/");
-        if(dateEndCompare.getTime()>dateCompare.getTime()){
-            return false;
-        }
-    }
-    return true
-}, 'Ngày kết thúc không hợp lệ');
-
-function stringToDate(_date,_format,_delimiter) {
-    var formatLowerCase=_format.toLowerCase();
-    var formatItems=formatLowerCase.split(_delimiter);
-    var dateItems=_date.split(_delimiter);
-    var monthIndex=formatItems.indexOf("mm");
-    var dayIndex=formatItems.indexOf("dd");
-    var yearIndex=formatItems.indexOf("yyyy");
-    var year = parseInt(dateItems[yearIndex]);
-    // adjust for 2 digit year
-    if (year < 100) { year += 2000; }
-    var month=parseInt(dateItems[monthIndex]);
-    month-=1;
-    var formatedDate = new Date(year,month,dateItems[dayIndex]);
-    return formatedDate;
-}
+jQuery.validator.addMethod('validThreshold2', function (value, element, param) {
+    return this.optional(element) || parseFloat(value) > parseFloat($(param).val());
+}, 'Invalid value');
+jQuery.validator.addMethod('validThreshold1', function (value, element, param) {
+    return this.optional(element) || parseFloat(value) > parseFloat($(param).val());
+}, 'Invalid value');
 
 $("#btnsave").click(function () {
-    var submit = $("#form_input").valid();
-    if(submit == false){
-        var dataStation = $('#station_add').select2('data');
-        var dataValueType = $('#value-type-station').select2('data');
-        if(dataStation.length == 0){
-            $('#station_add').select2('open');
-            return;
-        }
-        if(dataValueType.length == 0){
-            $('#value-type-station').select2('open');
-            return;
-        }
-        validator.focusInvalid();
-        return;
-    }
-    var $form = $("#form_input");
-    var data = getFormData($form);
-    //.log(data);
-    //láy ra toàn bộ sanh sách trong table
 
-    var formData  = tableStationSpatial.rows().data();
-    let insert = [];
-    $.each( formData, function( key, value ) {
-        insert.push(value.id);
-    });
-    data.stationSpatial = insert;
-    data.id = null;
-    data.startDateApply= $('#startDateApply').data('daterangepicker').startDate._d;
-    data.endDateApply =  $('#endDateApply').data('daterangepicker').startDate._d;
-    if($("#startDateApply").val()==""){
-        data.startDateApply=null;
+    var submit = $("#form_input").valid();
+
+     if(submit == false){
+         var dataStation = $('#station_add').select2('data');
+         var dataValueType = $('#value-type-station').select2('data');
+         if(dataStation.length == 0){
+             $('#station_add').select2('open');
+             return;
+         }
+         if(dataValueType.length == 0){
+             $('#value-type-station').select2('open');
+             return;
+         }
+         validator.focusInvalid();
+         return;
+     }
+     // lấy dữ liệu từ input
+
+    var $form = $("#form_input");
+    var dataParrent = getFormData($form);
+
+    let dataAll  = tableWarningThreshold.rows().data();
+    let dataSend = [];
+    for(let i =0; i< dataAll.length ; i++){
+        let tmp ={};
+        tmp.idParameter = dataAll[i].idParameter;
+        tmp.status = dataAll[i].status;
+        tmp.thresholdCancelID = dataAll[i].thresholdCancelID;
+        tmp.thresholdId = dataAll[i].thresholdId;
+        tmp.warningThresholdCode = dataAll[i].warningThresholdCode;
+        dataSend.push(tmp);
     }
-    if($("#endDateApply").val()==""){
-        data.endDateApply=null;
-    }
+
+    dataParrent.dataThreshold = dataSend;
+    //console.log(dataParrent);
     $.ajax({
         headers: {
             'Authorization': token
         },
-        "url": apiUrl + "config-value-type",
+        "url": apiUrl + "warning-threshold-station",
         "method": "POST",
         "contentType": "application/json",
-        "data" : JSON.stringify(data),
+        "data" : JSON.stringify(dataParrent),
         "success": function (response) {
             toastr.success('Thành công', response.message);
             show_search();
@@ -829,7 +911,7 @@ $("#btnsave").click(function () {
             tableConfigValueType.ajax.reload();
         },
         "error": function (error) {
-            toastr.error('Lỗi', error.responseJSON.message);
+           console.log(error);
         }
     });
 
@@ -889,56 +971,37 @@ $("#btnDetail").click(function () {
     $("#btnsaveEdit").css("display", "inline");
     $("#btnResetNew").css("display", "none");
     validator.resetForm();
-    validatorhorizontal.resetForm();
-    showDetailData(rowDt);
+    $("#station_add").empty();
+    var newOption = new Option(rowDt.stationName, rowDt.stationId, true, true);
+    $('#station_add').empty();
+    $('#station_add').append(newOption).trigger('change');
+    //validatorhorizontal.resetForm();
+    //showDetailData(rowDt); cái này chắc bỏ hẳn
 
 });
 
-function setDataTableSpatial(rowDt){
+function showDetailData(rowDt){
+
+    $('#station_add').prop( "disabled", true );
+    $('#value-type-station').prop( "disabled", true );
+    $("#id").val(rowDt.id);
+    $("#threshold1").val(rowDt.valueLevel1);
+    $("#threshold2").val(rowDt.valueLevel2);
+    $("#threshold3").val(rowDt.valueLevel3);
+    $("#threshold4").val(rowDt.valueLevel4);
+    $("#threshold5").val(rowDt.valueLevel5);
+
     $.ajax({
         headers: {
             'Authorization': token
         },
-        "url": apiUrl + "config-value-type/get-list-station-value-type-spatial?idConfigValueType="+rowDt.id,
+        "url": apiUrl + "warning-threshold-station/warning-thresholds?thresholdValueId="+rowDt.id,
         "method": "GET",
         "contentType": "application/json",
         "success": function (response) {
             for(let i =0; i< response.length; i++){
-                tableStationSpatial.row.add(response[i]).draw( true );
+                tableWarningThreshold.row.add(response[i]).draw(true);
             }
-        },
-        "error": function (error) {
-            toastr.error('Lỗi', error.responseJSON.message);
-        }
-    });
-}
-
-function showDetailData(rowDt){
-    $("#station_add").empty();
-    var newOption = new Option(rowDt.stationName, rowDt.stationId, true, true);
-    $('#station_add').append(newOption).trigger('change');
-    $('#station_add').prop( "disabled", true );
-    $("#id").val(rowDt.id);
-    $("#min").val(rowDt.min);
-    $("#max").val(rowDt.max);
-    $("#startDateApply").val(rowDt.startDate);
-    $("#endDateApply").val(rowDt.endDate);
-    $("#variableTime").val(rowDt.variableTime);
-    $("#variableSpatial").val(rowDt.variableSpatial);
-    $("#code").val(rowDt.code);
-    $.ajax({
-        headers: {
-            'Authorization': token
-        },
-        "url": apiUrl + "config-value-type/get-value-type-station-value-type?idStation="+rowDt.stationId+"&idValueType="+rowDt.valueTypeId,
-        "method": "GET",
-        "contentType": "application/json",
-        "success": function (response) {
-            $("#value-type-station").empty();
-            var newOption = new Option(response.text, response.id, true, true);
-            $('#value-type-station').append(newOption).trigger('change');
-            $('#value-type-station').prop( "disabled", true );
-            setDataTableSpatial(rowDt);
         },
         "error": function (error) {
             toastr.error('Lỗi', error.responseJSON.message);
@@ -962,40 +1025,43 @@ $("#btnsaveEdit").click(function(){
         return;
     }
     var $form = $("#form_input");
-    var data = getFormData($form);
-    //.log(data);
-    //láy ra toàn bộ sanh sách trong table
+    var dataParrent = getFormData($form);
 
-    var formData  = tableStationSpatial.rows().data();
-    let insert = [];
-    $.each( formData, function( key, value ) {
-        insert.push(value.id);
-    });
-    data.stationSpatial = insert;
-    data.startDateApply= $('#startDateApply').data('daterangepicker').startDate._d;
-    data.endDateApply =  $('#endDateApply').data('daterangepicker').startDate._d;
-    //console.log(data);
+    let dataAll  = tableWarningThreshold.rows().data();
+    let dataSend = [];
+    for(let i =0; i< dataAll.length ; i++){
+        let tmp ={};
+        tmp.idParameter = dataAll[i].idParameter;
+        tmp.status = dataAll[i].status;
+        tmp.thresholdCancelID = dataAll[i].thresholdCancelID;
+        tmp.thresholdId = dataAll[i].thresholdId;
+        tmp.warningThresholdCode = dataAll[i].warningThresholdCode;
+        dataSend.push(tmp);
+    }
+
+    dataParrent.dataThreshold = dataSend;
     $.ajax({
         headers: {
             'Authorization': token
         },
-        "url": apiUrl + "config-value-type",
+        "url": apiUrl + "warning-threshold-station",
         "method": "PUT",
         "contentType": "application/json",
-        "data" : JSON.stringify(data),
+        "data" : JSON.stringify(dataParrent),
         "success": function (response) {
             toastr.success('Thành công', response.message);
-            $("#btnsave").css("display", "none");
-            $("#btnDelete").css("display", "none");
-            $("#btnReset").css("display", "none");
-            $("#btncancer").css("display", "none");
-            $("#btnDonew").attr("disabled", false);
-            show_search();
-            tableConfigValueType.ajax.reload();
-            $("#btnDetail").prop( "disabled", true );
-            $("#btnDonew").prop("disabled", false);
+            // $("#btnsave").css("display", "none");
+            // $("#btnDelete").css("display", "none");
+            // $("#btnReset").css("display", "none");
+            // $("#btncancer").css("display", "none");
+            // $("#btnDonew").attr("disabled", false);
+            // show_search();
+            // tableConfigValueType.ajax.reload();
+            // $("#btnDetail").prop( "disabled", true );
+            // $("#btnDonew").prop("disabled", false);
         },
         "error": function (error) {
+            alert("lỗi to đùng");
             toastr.error('Lỗi', error.responseJSON.message);
         }
     });
@@ -1024,7 +1090,23 @@ $("#btnDelete").click(function () {
         }
     });
 });
-$('#stationSpatial').on('select2:opening', function (e) {
+$('#thresholdWarning').on('select2:opening', function (e) {
+    var dataStation = $('#station_add').select2('data');
+    if(dataStation.length == 0){
+        $( "#station_add" ).focus();
+        $('#station_add').select2('open');
+        toastr.error('Lỗi',"Chưa chọn trạm");
+        return false;
+    }
+    var dataValueType = $('#value-type-station').select2('data');
+    if(dataValueType.length == 0){
+        $( "#value-type-station" ).focus();
+        $('#value-type-station').select2('open');
+        toastr.error('Lỗi',"Chưa chọn yếu tố cho trạm");
+        return false;
+    }
+});
+$('#cancelWarning').on('select2:opening', function (e) {
     var dataStation = $('#station_add').select2('data');
     if(dataStation.length == 0){
         $( "#station_add" ).focus();
@@ -1067,7 +1149,7 @@ $("#btnResetNew").click(function(){
     $('#valueTypeSpatial').val(null).trigger('change');
     $('#valueTypeSpatial').empty();
     validator.resetForm();
-    validatorhorizontal.resetForm();
+    //validatorhorizontal.resetForm();
     tableStationSpatial
         .clear()
         .draw();
@@ -1081,7 +1163,7 @@ $("#btnResetUpdate").click(function(){
     $('#valueTypeSpatial').val(null).trigger('change');
     $('#valueTypeSpatial').empty();
     validator.resetForm();
-    validatorhorizontal.resetForm();
+    //validatorhorizontal.resetForm();
     setTimeout(function(){
         var rowDt = tableConfigValueType.rows('.selected').data()[0];
         showDetailData(rowDt);

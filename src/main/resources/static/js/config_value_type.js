@@ -258,7 +258,7 @@ var tableConfigValueType = $('#tableValueTypeConfig').DataTable({
                         keyUpTime = new Date().getTime();
                     }
                     return;
-                }, 5500);
+                }, 560);
             });
         });
     },
