@@ -56,6 +56,7 @@ function show_search() {
 
 $('#btncancer').click(function () {
     // disabled_right();
+    $("#id").val("");
     $("#btnsave").css("display", "none");
     $("#btnDelete").css("display", "none");
     $("#btnResetUpdate").css("display", "none");
@@ -79,6 +80,8 @@ function togle_search() {
 
 $('#btnDonew').click(function () {
     // enabled_right();
+
+    $("#id").val("");
     $('#action_info').val(1);
     togle_search();
     $("#btnsave").css("display", "inline");
@@ -92,13 +95,14 @@ $('#btnDonew').click(function () {
     $("#value-type-station").empty();
     $("#station_add").prop( "disabled", false );
     $("#value-type-station").prop( "disabled", false );
+    $("#btnDelete").prop( "disabled", true );
     $("#btnsaveEdit").hide();
     $("#btnResetUpdate").hide();
     validator.resetForm();
-    //validatorhorizontal.resetForm();
-    // tableStationSpatial
-    //     .clear()
-    //     .draw();
+    validWarningThreshold.resetForm();
+    tableWarningThreshold
+         .clear()
+         .draw();
 });
 
 $('#station').select2({
@@ -664,10 +668,18 @@ $("#station_add").change(function () {
     if(dataStation[0]==undefined){
         return;
     }
+    console.log("trước khi chạy qua")
+    if($("#id").val()==""||$("#id").val()== null || $("#id").val()==undefined){
+
+    } else {
+        return;
+    }
+    console.log("sau khi chạy qua");
+    // console.log("aaaaaa");
+    // console.log($("#id").val())
     tableWarningThreshold
         .clear()
         .draw();
-    //thêm vào đây
     $.ajax({
         headers: {
             'Authorization': token
@@ -682,9 +694,9 @@ $("#station_add").change(function () {
                 $('#value-type-station').append(newOption).trigger('change');
             }
             //
-            var rowDt = tableConfigValueType.rows('.selected').data()[0];
-            if(rowDt!=""&& rowDt!=null&& rowDt!=undefined)
-                showDetailData(rowDt);
+            // var rowDt = tableConfigValueType.rows('.selected').data()[0];
+            // if(rowDt!=""&& rowDt!=null&& rowDt!=undefined)
+            //     showDetailData(rowDt);
 
         },
         "error": function (error) {
@@ -876,6 +888,19 @@ $("#btnsave").click(function () {
     var dataParrent = getFormData($form);
 
     let dataAll  = tableWarningThreshold.rows().data();
+
+    let dataThresholdWarning = true;
+    //console.log(dataAll);
+    for(let i =0; i< dataAll.length ; i++){
+        if(dataAll[i].thresholdId == dataAll[i].thresholdCancelID){
+            dataThresholdWarning = false;
+            break;
+        }
+    }
+    if(!dataThresholdWarning){
+        toastr.error('Lỗi',"Cấu hình mức cảnh báo chưa hợp lệ");
+        return;
+    }
     let dataSend = [];
     for(let i =0; i< dataAll.length ; i++){
         let tmp ={};
@@ -959,7 +984,10 @@ function rowDeselect(e, dt, type, indexes) { // khóa các form bên trái
     $("#btnDonew").attr("disabled", false);
 }
 $("#btnDetail").click(function () {
+    $("#btnDelete").prop( "disabled", false );
     var rowDt = tableConfigValueType.rows('.selected').data()[0];
+    //console.log(rowDt);
+    $("#id").val(rowDt.id);
     $('#action_info').val(1);
     togle_search();
     $("#btnsave").css("display", "none");
@@ -976,7 +1004,7 @@ $("#btnDetail").click(function () {
     $('#station_add').empty();
     $('#station_add').append(newOption).trigger('change');
     //validatorhorizontal.resetForm();
-    //showDetailData(rowDt); cái này chắc bỏ hẳn
+    showDetailData(rowDt);
 
 });
 
@@ -990,18 +1018,35 @@ function showDetailData(rowDt){
     $("#threshold3").val(rowDt.valueLevel3);
     $("#threshold4").val(rowDt.valueLevel4);
     $("#threshold5").val(rowDt.valueLevel5);
-
+    //lấy ra yếu tố cài đặt cho select yếu tố
     $.ajax({
         headers: {
             'Authorization': token
         },
-        "url": apiUrl + "warning-threshold-station/warning-thresholds?thresholdValueId="+rowDt.id,
+        "url": apiUrl + "warning-threshold-station/get-parameter-select?id="+rowDt.id,
         "method": "GET",
         "contentType": "application/json",
         "success": function (response) {
-            for(let i =0; i< response.length; i++){
-                tableWarningThreshold.row.add(response[i]).draw(true);
-            }
+                $('#value-type-station').empty();
+                var newOption = new Option(response.text, response.id, true, true);
+                $('#value-type-station').append(newOption).trigger('change');
+                //call hàm reload table ở đây để không bị lỗi
+            $.ajax({
+                headers: {
+                    'Authorization': token
+                },
+                "url": apiUrl + "warning-threshold-station/warning-thresholds?thresholdValueId="+rowDt.id,
+                "method": "GET",
+                "contentType": "application/json",
+                "success": function (response) {
+                    for(let i =0; i< response.length; i++){
+                        tableWarningThreshold.row.add(response[i]).draw(true);
+                    }
+                },
+                "error": function (error) {
+                    toastr.error('Lỗi', error.responseJSON.message);
+                }
+            });
         },
         "error": function (error) {
             toastr.error('Lỗi', error.responseJSON.message);
@@ -1028,6 +1073,20 @@ $("#btnsaveEdit").click(function(){
     var dataParrent = getFormData($form);
 
     let dataAll  = tableWarningThreshold.rows().data();
+
+    let dataThresholdWarning = true;
+    //console.log(dataAll);
+    for(let i =0; i< dataAll.length ; i++){
+        if(dataAll[i].thresholdId == dataAll[i].thresholdCancelID){
+            dataThresholdWarning = false;
+            break;
+        }
+    }
+    if(!dataThresholdWarning){
+        toastr.error('Lỗi',"Cấu hình mức cảnh báo chưa hợp lệ");
+        return;
+    }
+
     let dataSend = [];
     for(let i =0; i< dataAll.length ; i++){
         let tmp ={};
@@ -1050,15 +1109,15 @@ $("#btnsaveEdit").click(function(){
         "data" : JSON.stringify(dataParrent),
         "success": function (response) {
             toastr.success('Thành công', response.message);
-            // $("#btnsave").css("display", "none");
-            // $("#btnDelete").css("display", "none");
-            // $("#btnReset").css("display", "none");
-            // $("#btncancer").css("display", "none");
-            // $("#btnDonew").attr("disabled", false);
-            // show_search();
-            // tableConfigValueType.ajax.reload();
-            // $("#btnDetail").prop( "disabled", true );
-            // $("#btnDonew").prop("disabled", false);
+            $("#btnsave").css("display", "none");
+            $("#btnDelete").css("display", "none");
+            $("#btnReset").css("display", "none");
+            $("#btncancer").css("display", "none");
+            $("#btnDonew").attr("disabled", false);
+            show_search();
+            tableConfigValueType.ajax.reload();
+            $("#btnDetail").prop( "disabled", true );
+            $("#btnDonew").prop("disabled", false);
         },
         "error": function (error) {
             alert("lỗi to đùng");
@@ -1067,11 +1126,16 @@ $("#btnsaveEdit").click(function(){
     });
 });
 $("#btnDelete").click(function () {
+    if(confirm("Bạn có muốn xóa bản ghi")){
+
+    } else {
+        return;
+    }
     $.ajax({
         headers: {
             'Authorization': token
         },
-        "url": apiUrl + "config-value-type?id="+$("#id").val(),
+        "url": apiUrl + "warning-threshold-station?id="+$("#id").val(),
         "method": "DELETE",
         "contentType": "application/json",
         "success": function (response) {
@@ -1081,6 +1145,7 @@ $("#btnDelete").click(function () {
             $("#btnReset").css("display", "none");
             $("#btncancer").css("display", "none");
             $("#btnDonew").attr("disabled", false);
+            $("#btnDetail").prop("disabled",true);
             show_search();
             tableConfigValueType.ajax.reload();
         },
