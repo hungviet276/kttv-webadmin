@@ -171,6 +171,53 @@ $('#btnSearch').on('click', function (e) {
     table.search(objSearch).draw();
 });
 
+$('#btnExportLogAct').on('click', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    let dataReq = {
+        s_menu_id: $('#inputMenuId').val(),
+        s_act: $('#inputAct').val(),
+        s_username: $('#inputUsername').val(),
+        s_from_date: $('#inputFromDate').val(),
+        s_to_date: $('#inputToDate').val()
+    };
+
+    showLoading();
+
+    $.ajax({
+        headers: {
+            'Authorization': token
+        },
+        url: apiUrl + 'log-act/export',
+        method: 'POST',
+        data: JSON.stringify(dataReq),
+        contentType: "application/json",
+        xhrFields: {
+            responseType: 'blob'
+        },
+        success: function (data, textStatus, xhr) {
+            var a = document.createElement('a');
+            var url = window.URL.createObjectURL(data);
+            a.href = url;
+            a.download = xhr.getResponseHeader("content-disposition").replace("attachment; filename=","");
+            document.body.append(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(url);
+            // disableLoading();
+        },
+        complete: function(){
+            disableLoading();
+        },
+        always: function (dataOrjqXHR, textStatus, jqXHRorErrorThrown) {
+            disableLoading();
+        }
+    });
+});
+
+
+
 
 $('input').bind('keypress', function(e) {
     if(e.keyCode == 13)

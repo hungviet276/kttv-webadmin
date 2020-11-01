@@ -986,8 +986,8 @@ var station =
                     a.download = xhr.getResponseHeader("content-disposition");
                     document.body.append(a);
                     a.click();
-                    a.remove();
-                    window.URL.revokeObjectURL(url);
+                    // a.remove();
+                    // window.URL.revokeObjectURL(url);
                 }
             });
         }
@@ -1076,7 +1076,7 @@ $(document).ready(function () {
             {"data": "address","render": $.fn.dataTable.render.text()},
             {"data": "riverName","render": $.fn.dataTable.render.text()},
             // {"data": "stationHeight"},
-            {"data": "status","render": $.fn.dataTable.render.text()},
+            {"data": "status"},
             // {"data": "parameterTypeName"},
             // {"data": "unitName"},
             // {"data": "device"},

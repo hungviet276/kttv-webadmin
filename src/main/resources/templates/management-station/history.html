@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Thông tin trạm quan trắc</title>
+    <th:block th:replace="layout_header.html :: head_tag"/>
+    <link rel="stylesheet" href="/css/management-station.css" type="text/css">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed text-sm">
+<div class="wrapper">
+
+    <th:block th:replace="layout_menu.html :: menu_tag"/>
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="container-fluid">
+                <div class="card card-default">
+                    <div class="card-header">
+                        <h4>Tra cứu lịch sử cập nhật trạm đo</h4>
+                    </div>
+                    <div class="container-fluid">
+                        <div class="row content" style="width: 100%">
+                            <div class="col-sm-12" id="box_search">
+                                <div class="card-header">
+                                    <h3 style="text-align: center"><b>Tìm kiếm</b></h3>
+                                </div>
+                                <div class="form-horizontal" id="form_data">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="stationTypeId">Loại trạm <span
+                                                    style="color: red;">*</span></label>
+                                            <select id="stationTypeId" class="form-control" style="width: 100%;">
+                                            </select>
+                                            <span id="stationTypeId_error" class="help-block" style="color: red"></span>
+                                        </div>
+                                        <!--                                        <div class="form-group col-md-6 col-sm-6 col-lg-6">-->
+                                        <!--                                            <label for="stationNameSearch">Tên trạm</label>-->
+                                        <!--                                            <input type="text" class="form-control" id="stationNameSearch"-->
+                                        <!--                                                   placeholder="Tên trạm">-->
+                                        <!--                                        </div>-->
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="inputFromDate">Từ ngày<span
+                                                    style="color: red;">*</span></label>
+                                            <input type="text" class="form-control" id="inputFromDate" placeholder="">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="inputToDate">Đến ngày <span
+                                                    style="color: red;">*</span></label>
+                                            <input type="text" class="form-control" id="inputToDate" placeholder="">
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="mt-1">
+                                    <!--                                    <button class="btn btn-primary" id="btnSearch" style="width:100px;">-->
+                                    <!--                                        <i class="fas fa-search"></i> Tìm kiếm-->
+                                    <!--                                    </button>-->
+                                    <button class="btn btn-primary" id="btnDoSearch" style="width:100px;"
+                                            onclick="station.onSearch()">
+                                        <i class="fas fa-search"></i> Tìm kiếm
+                                    </button>
+                                    <button class="btn btn-primary" id="btnExport" style="width:100px;"
+                                            onclick="station.btnExport()">
+                                        <i class="fas fa-download"></i> Export
+                                    </button>
+                                </div>
+
+                                <div class="card-body" style="width: 100%;overflow: auto">
+                                    <table id="tableDataView" class="table table-bordered table-hover">
+                                        <thead>
+                                        <tr>
+                                            <!--                                            <th></th>-->
+                                            <th>#</th>
+                                            <!--                                            <th></th>-->
+                                            <th data-id="s_objectType">Loại trạm</th>
+                                            <!--                                            <th data-id="s_objectTypeName">Tên loại trạm</th>-->
+                                            <th data-id="s_stationCode">Mã trạm</th>
+                                            <th data-id="s_stationName">Tên trạm</th>
+                                            <!--                                            <th data-id="s_longtitude">Kinh độ</th>-->
+                                            <!--                                            <th data-id="s_latitude">Vĩ độ</th>-->
+                                            <!--                                            <th data-id="s_provinceName">Tỉnh</th>-->
+                                            <!--                                            <th data-id="s_districtName">Quận/Huyện</th>-->
+                                            <!--                                            <th data-id="s_wardName">Xã</th>-->
+                                            <th data-id="s_createdAt">Ngày cập nhật</th>
+                                            <th data-id="s_createById">Người cập nhật</th>
+                                            <!--                                            <th data-id="s_stationHeight">Độ cao của trạm</th>-->
+                                            <th>Chi tiết</th>
+                                            <!--                                            <th data-id="s_parameterTypeName">Yếu tố</th>-->
+                                            <!--                                            <th data-id="s_unitName">Đơn vị tính</th>-->
+                                            <!--                                            <th data-id="s_device">Thiết bị đo</th>-->
+                                            <!--                                            <th data-id="s_measure">Tần số đo</th>-->
+                                            <!--                                            <th data-id="s_note">Ghi chú</th>-->
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- /.card-footer -->
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="popup-loading">
+                    <div class="wrapper-loading">
+                        <div class="sub-wrapper-loading">
+                            <div class="d-flex justify-content-center">
+                                <div class="spinner-border" role="statusLoading">
+                                    <span class="sr-only" th:text="#{action.loading}">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal fade" id="management-station-control" aria-modal="false"
+                 style="padding-right: 16px; display: none;">
+                <div class="modal-dialog">
+                    <div class="modal-content" style="width: 55em">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Chi tiết cập nhật thông tin trạm đo ngày</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div style="width: 95%;">
+                                        <div class="form-row">
+                                        <div class="card-header  col-md-6">
+                                            <h3 style="text-align: center"><b>Nội dung cũ</b></h3>
+                                        </div>
+                                        <div class="card-header  col-md-6">
+                                            <h3 style="text-align: center"><b>Nội dung thay đổi</b></h3>
+                                        </div>
+                                        </div>
+                                        <div class="form-horizontal" id="form_input">
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="stationTypeIdP">Loại trạm</label>
+                                                    <select id="stationTypeIdP" class="form-control" disabled
+                                                            style="width: 100%;">
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="stationTypeIdC">Loại trạm</label>
+                                                    <select id="stationTypeIdC" class="form-control" disabled
+                                                            style="width: 100%;">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="modeStationTypeP">Chế độ điều khiển</label>
+                                                    <select id="modeStationTypeP" class="form-control" disabled
+                                                            style="width: 100%;">
+                                                        <option value="1">Qua API</option>
+                                                        <option value="2">Lệnh điều khiển hỗ trợ</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="modeStationTypeC">Chế độ điều khiển</label>
+                                                    <select id="modeStationTypeC" class="form-control" disabled
+                                                            style="width: 100%;">
+                                                        <option value="1">Qua API</option>
+                                                        <option value="2">Lệnh điều khiển hỗ trợ</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="stationCodeP">Mã trạm</label>
+                                                    <input type="text" class="form-control" id="stationCodeP" readonly
+                                                           placeholder="">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="stationCodeC">Mã trạm</label>
+                                                    <input type="text" class="form-control" id="stationCodeC" readonly
+                                                           placeholder="">
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="stationNameP">Tên trạm</label>
+                                                    <input type="text" class="form-control" id="stationNameP" readonly
+                                                           placeholder="">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="stationNameC">Tên trạm</label>
+                                                    <input type="text" class="form-control" id="stationNameC" readonly
+                                                           placeholder="">
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="longtitudeP">Kinh độ </label>
+                                                    <input type="number" class="form-control" id="longtitudeP" readonly
+                                                           placeholder="">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="longtitudeC">Kinh độ </label>
+                                                    <input type="number" class="form-control" id="longtitudeC" readonly
+                                                           placeholder="">
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="latitudeP">Vĩ độ </label>
+                                                    <input type="number" class="form-control" id="latitudeP" readonly
+                                                           placeholder="">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="latitudeC">Vĩ độ </label>
+                                                    <input type="number" class="form-control" id="latitudeC" readonly
+                                                           placeholder="">
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="areaIdP">Khu vực</label>
+                                                    <select id="areaIdP" class="form-control" style="width: 100%;" disabled onchange="station.getProvince(this)">
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="areaIdC">Khu vực</label>
+                                                    <select id="areaIdC" class="form-control" style="width: 100%;" disabled>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="provinceIdP">Tỉnh</label>
+                                                    <select id="provinceIdP" class="form-control" disabled onchange="station.getDistrict(this)"
+                                                            style="width: 100%;">
+                                                        <option value="-1">Lựa chọn</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="provinceIdC">Tỉnh</label>
+                                                    <select id="provinceIdC" class="form-control" disabled
+                                                            style="width: 100%;">
+                                                        <option value="-1">Lựa chọn</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="districtIdP">Quận/huyện</label>
+                                                    <select id="districtIdP" class="form-control" disabled onchange="station.getWard(this)"
+                                                            style="width: 100%;">
+                                                        <option value="-1">Lựa chọn</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="districtIdC">Quận/huyện</label>
+                                                    <select id="districtIdC" class="form-control" disabled
+                                                            style="width: 100%;">
+                                                        <option value="-1">Lựa chọn</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="wardIdP">Xã</label>
+                                                    <select id="wardIdP" class="form-control" style="width: 100%;"  disabled>
+                                                        <option value="-1">Lựa chọn</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="wardIdC">Xã</label>
+                                                    <select id="wardIdC" class="form-control" style="width: 100%;" disabled>
+                                                        <option value="-1">Lựa chọn</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="addressP">Địa chỉ cụ thể</label>
+                                                    <input type="text" class="form-control" id="addressP" disabled
+                                                           placeholder="">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="addressC">Địa chỉ cụ thể</label>
+                                                    <input type="text" class="form-control" id="addressC" disabled
+                                                           placeholder="">
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="riverIdP">Thuộc sông</label>
+                                                    <select id="riverIdP" class="form-control" style="width: 100%;" disabled>
+                                                        <option value="-1">Lựa chọn</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="riverIdC">Thuộc sông</label>
+                                                    <select id="riverIdC" class="form-control" style="width: 100%;" disabled>
+                                                        <option value="-1">Lựa chọn</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="statusP">Trạng thái</label>
+                                                    <select id="statusP" class="form-control" style="width: 100%;" disabled>
+                                                        <option value="1">Hoạt động</option>
+                                                        <option value="0">Không hoạt động</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="statusC">Trạng thái</label>
+                                                    <select id="statusC" class="form-control" style="width: 100%;" disabled>
+                                                        <option value="1">Hoạt động</option>
+                                                        <option value="0">Không hoạt động</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+<!--                            <button type="button" class="btn btn-primary" onclick="station.control()">Thực hiện</button>-->
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark" style="top: 0px; height: 306px; display: none; bottom: 28.6px;">
+        <!-- Control sidebar content goes here -->
+    </aside>
+</div>
+<th:block th:replace="layout_footer.html :: footer_tag"/>
+<th:block th:replace="global_import_js.html :: global_import_js"/>
+<script src="/js/history-station.js"></script>
+</body>
+</html>
