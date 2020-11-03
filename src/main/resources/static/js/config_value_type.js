@@ -31,6 +31,7 @@ function togle_search() {
 }
 
 $('#btnDonew').click(function () {
+    $("#btnDelete").prop("disabled",true);
     // enabled_right();
     $('#action_info').val(1);
     togle_search();
@@ -258,7 +259,7 @@ var tableConfigValueType = $('#tableValueTypeConfig').DataTable({
                         keyUpTime = new Date().getTime();
                     }
                     return;
-                }, 5500);
+                }, 560);
             });
         });
     },
@@ -900,6 +901,7 @@ function rowDeselect(e, dt, type, indexes) { // khóa các form bên trái
     $("#btnDonew").attr("disabled", false);
 }
 $("#btnDetail").click(function () {
+    $("#btnDelete").prop("disabled",false);
     var rowDt = tableConfigValueType.rows('.selected').data()[0];
     $('#action_info').val(1);
     togle_search();
@@ -1024,6 +1026,11 @@ $("#btnsaveEdit").click(function(){
     });
 });
 $("#btnDelete").click(function () {
+    if(confirm("Bạn có muốn xóa bản ghi")){
+
+    } else{
+        return;
+    }
     $.ajax({
         headers: {
             'Authorization': token

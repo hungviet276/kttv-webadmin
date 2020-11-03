@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Dữ liệu nhập tay</title>
+    <th:block th:replace="layout_header.html :: head_tag"/>
+    <link rel="stylesheet" href="/css/management-station.css" type="text/css">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed text-sm">
+<div class="wrapper">
+
+    <th:block th:replace="layout_menu.html :: menu_tag"/>
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="container-fluid">
+                <div class="card card-default">
+                    <div class="card-header">
+                        <h4>Dữ liệu nhập tay</h4>
+                    </div>
+                    <div class="container-fluid">
+                        <div class="row content" style="width: 100%">
+                            <div class="col-sm-12" id="box_search">
+                                <div class="card-header">
+                                    <h3 style="text-align: center"><b>Tìm kiếm trạm</b></h3>
+                                </div>
+                                <div class="form-horizontal" id="form_data">
+                                    <input th:type="hidden" value = "1" placeholder="dat gia tri ap dung cho do man">
+                                    <input th:type="hidden" value = "2" placeholder="dat gia tri ap dung cho nhiet do nuoc">
+                                    <input th:type="hidden" value = "3" placeholder="dat gia tri ap dung cho do man">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4 col-sm-4 col-lg-4">
+                                            <label for="stationCode">Mã trạm</label>
+                                            <select id="stationCode" class="form-control" style="width: 100%;">
+                                                <option value="-1">Lựa chọn</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-4 col-sm-4 col-lg-4">
+                                            <label for="timestamp">Ngày giờ</label>
+                                            <input type="text" class="form-control" id="timestamp"
+                                                   placeholder="Ngày giờ">
+                                        </div>
+                                        <div class="form-group col-md-4 col-sm-4 col-lg-4">
+                                            <label for="status">Tình trạng</label>
+                                            <select id="status" class="form-control" style="width: 100%;">
+                                                <option value="-1">Lựa chọn</option>
+                                                <option value="1">Quan trắc</option>
+                                                <option value="2">Không có dữ liệu</option>
+                                                <option value="3">Sai định dạng</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4 col-sm-4 col-lg-4">
+                                            <label for="salinity">Độ mặn</label>
+                                            <input id="salinity" th:type="number" class="form-control" style="width: 100%;"/>
+                                        </div>
+                                        <div class="form-group col-md-4 col-sm-4 col-lg-4">
+                                            <label for="water_temperature">Nhiệt độ nước</label>
+                                            <input id="water_temperature" th:type="number" class="form-control" style="width: 100%;"/>
+                                        </div>
+                                        <div class="form-group col-md-4 col-sm-4 col-lg-4">
+                                            <label for="conductivity">Độ dẫn điện</label>
+                                            <input id="conductivity" th:type="number" class="form-control" style="width: 100%;"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-1" th:class="wrap-button-control">
+                                    <button class="btn btn-primary" id="btnSearch" style="width:100px;">
+                                        <i class="fas fa-search"></i> Tìm kiếm
+                                    </button>
+                                    <button class="btn btn-primary" id="btnDonew" style="width:100px;">
+                                        <i class="fas fa-plus"></i> Thêm
+                                    </button>
+                                    <button class="btn btn-primary" id="btnDoDelete" style="width:100px;">
+                                        <i class="fas fa-trash"></i> Xóa
+                                    </button>
+                                    <button class="btn btn-primary" id="btnDoUpdate" style="width:100px;">
+                                        <i class="fas fa-plus"></i> Cập nhật
+                                    </button>
+                                </div>
+
+                                <div class="card-body" style="width: 100%;overflow: auto">
+                                    <table id="tableDataView" class="table table-bordered table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>#</th>
+                                            <th data-id="s_parameter">Tên yếu tố</th>
+                                            <th data-id="s_parameterDesc">Mô tả</th>
+                                            <th data-id="s_unit">Đơn vị</th>
+                                            <th data-id="s_timeseries">Time series</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- /.card-footer -->
+                            <br>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="popup-loading">
+                    <div class="wrapper-loading">
+                        <div class="sub-wrapper-loading">
+                            <div class="d-flex justify-content-center">
+                                <div class="spinner-border" role="statusLoading">
+                                    <span class="sr-only" th:text="#{action.loading}">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <th:block th:replace="management-station/control.html :: management-station-control"/>
+        </div>
+    </div>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark" style="top: 0px; height: 306px; display: none; bottom: 28.6px;">
+        <!-- Control sidebar content goes here -->
+    </aside>
+</div>
+<th:block th:replace="layout_footer.html :: footer_tag"/>
+<th:block th:replace="global_import_js.html :: global_import_js"/>
+<script src="/js/manual-input.js"></script>
+</body>
+</html>

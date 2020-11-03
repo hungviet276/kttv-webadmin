@@ -1,4 +1,12 @@
 <!DOCTYPE html>
+<style>
+    .select{
+        text-transform: none;
+        height: 38px;
+        border-radius: 5px;
+        width: 100%;
+    }
+</style>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <th:block th:replace="layout_header.html :: head_tag" />
@@ -74,7 +82,6 @@
                                             <th data-id="s_parameter_type_id">ID yếu tố</th>
                                             <th data-id="s_name_station">Tên trạm</th>
                                             <th data-id="s_parameter_name">Tên yếu tố</th>
-                                            <th data-id="s_threshold_code">Mã cảnh báo</th>
                                             <th data-id="s_value_level1">Mức cảnh báo 1</th>
                                             <th data-id="s_value_level2">Mức cảnh báo 2</th>
                                             <th data-id="s_value_level3">Mức cảnh báo 3</th>
@@ -91,12 +98,12 @@
                             <div class="col-sm-7"  id ="box_info">
                                 <div style="width: 95%;float: right">
                                     <div class="card-header">
-                                        <h3 style="text-align: center"><b>Thông tin min max cho từng loại dữ liệu</b></h3>
+                                        <h3 style="text-align: center"><b>Thông tin cảnh báo và mức độ cảnh báo của từng yếu tố</b></h3>
                                     </div>
                                     <form class="form-horizontal" id="form_input">
                                         <div class="form-row">
                                             <div class="form-group col-md-6 errorTxt">
-                                                <label for="station_add">Trạm<span style="color: red;">*</span></label>
+                                                <label for="station_add">Trạm <span style="color: red;">*</span></label>
                                                 <div class="select2-purple insertError">
                                                     <select id="station_add" name="station_add" data-placeholder="Select a State"
                                                             data-dropdown-css-class="select2-purple" style="width: 100%;">
@@ -106,7 +113,7 @@
                                             </div>
 
                                             <div class="form-group col-md-6 errorTxt">
-                                                <label for="value-type-station">Yếu tố<span style="color: red;">*</span></label>
+                                                <label for="value-type-station">Yếu tố <span style="color: red;">*</span></label>
                                                 <div class="select2-purple insertError">
                                                     <select id="value-type-station" name="value_type_station" data-placeholder="Select a State"
                                                             data-dropdown-css-class="select2-purple" style="width: 100%;">
@@ -117,17 +124,17 @@
 
                                         </div>
                                         <div class="form-row">
-                                            <div class="form-group col-md-6 errorTxt">
-                                                <div class="insertError">
-                                                    <label for="min">Giá trị min<span style="color: red;">*</span></label>
-                                                    <input type="number" class="form-control" id="min" name="min" placeholder="">
-                                                </div>
-                                                <label></label>
-                                            </div>
                                             <div class="col-md-6 errorTxt">
                                                 <div class="insertError">
-                                                    <label for="max">Giá trị max<span style="color: red;">*</span></label>
-                                                    <input type="number" class="form-control" id="max" name="max" placeholder="">
+                                                    <label for="threshold1">Ngưỡng 1 <span style="color: red;">*</span></label>
+                                                    <input type="number" class="form-control" id="threshold1" name="threshold1" placeholder="" step="0.01">
+                                                </div>
+                                                <label></label>
+                                            </div>
+                                            <div class="form-group col-md-6 errorTxt">
+                                                <div class="insertError">
+                                                    <label for="threshold2">Ngưỡng 2 <span style="color: red;">*</span></label>
+                                                    <input type="number" class="form-control" id="threshold2" name="threshold2" placeholder="" step="0.01">
                                                 </div>
                                                 <label></label>
                                             </div>
@@ -135,31 +142,15 @@
                                         <div class="form-row">
                                             <div class="form-group col-md-6 errorTxt">
                                                 <div class="insertError">
-                                                    <label for="variableTime">Mức độ biến đổi theo thời gian<span style="color: red;">*</span></label>
-                                                    <input type="number" class="form-control" id="variableTime" name="variableTime" placeholder="">
+                                                    <label for="threshold3">Ngưỡng 3 <span style="color: red;">*</span></label>
+                                                    <input type="number" class="form-control" id="threshold3" name="threshold3" placeholder="" step="0.01">
                                                 </div>
                                                 <label></label>
                                             </div>
                                             <div class="form-group col-md-6 errorTxt">
                                                 <div class="insertError">
-                                                    <label for="variableSpatial">Mức độ biến đổi theo không gian<span style="color: red;">*</span></label>
-                                                    <input type="number" class="form-control" id="variableSpatial" name="variableSpatial" placeholder="">
-                                                </div>
-                                                <label></label>
-                                            </div>
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6 errorTxt">
-                                                <div class="insertError">
-                                                    <label for="startDateApply">Áp dụng từ <span style="color: red;">*</span></label>
-                                                    <input class="form-control" id="startDateApply" name="startDateApply" placeholder="">
-                                                </div>
-                                                <label></label>
-                                            </div>
-                                            <div class="form-group col-md-6 errorTxt">
-                                                <div class="insertError">
-                                                    <label for="endDateApply">Áp dụng đến</label>
-                                                    <input type="text" class="form-control" id="endDateApply" name="endDateApply" placeholder="">
+                                                    <label for="threshold4">Ngưỡng 4 <span style="color: red;">*</span></label>
+                                                    <input class="form-control" id="threshold4" name="threshold4" placeholder="" step="0.01">
                                                 </div>
                                                 <label></label>
                                             </div>
@@ -167,8 +158,8 @@
                                         <div class="form-row">
                                             <div class="form-group col-md-6 errorTxt">
                                                 <div class="insertError">
-                                                    <label for="code">code<span style="color: red;">*</span></label>
-                                                    <input class="form-control" id="code" name="code" placeholder="">
+                                                    <label for="threshold5">Ngưỡng 5 <span style="color: red;">*</span></label>
+                                                    <input type="text" class="form-control" id="threshold5" name="threshold5" placeholder="" step="0.01">
                                                 </div>
                                                 <label></label>
                                             </div>
@@ -176,26 +167,44 @@
                                         <input type="number" class="form-control" id="id" name="id" hidden>
                                     </form>
                                     <div>
-                                        <h3 style="text-align: center"><b>Danh sách các trạm biến đổi theo không gian</b></h3>
+                                        <h3 style="text-align: center"><b>Danh sách mức cảnh báo của yếu tố</b></h3>
                                     </div>
-                                    <form class="form-horizontal" id="formStationSpatial">
+                                    <form class="form-horizontal" id="formWarningThreshold">
                                         <div class="form-row">
                                             <div class="form-group col-md-6 errorTxt">
-                                                <label for="stationSpatial">Trạm</label>
-                                                <div class="select2-purple insertError">
-                                                    <select id="stationSpatial" data-placeholder="Select a State"
-                                                            data-dropdown-css-class="select2-purple" name="stationSpatial" style="width: 100%;">
+                                                <div class="insertError">
+                                                    <label for="thresholdCode">Mã mức cảnh báo <span style="color: red;">*</span></label>
+                                                    <input type="text" class="form-control" id="thresholdCode" name="thresholdCode" placeholder="">
+                                                </div>
+                                                <label></label>
+                                            </div>
+                                            <div class="form-group col-md-6 errorTxt">
+                                                <label for="thresholdWarning">Mức cảnh báo <span style="color: red;">*</span></label>
+                                                <div class="select2-purple insertError" style="height: 38px">
+                                                    <select id="thresholdWarning" data-placeholder="Select a State" name="thresholdWarning"
+                                                            data-dropdown-css-class="select2-purple" style="width: 100%; height: 38px">
                                                         <!--                                                            -->
                                                     </select>
                                                 </div>
                                                 <label></label>
                                             </div>
                                             <div class="form-group col-md-6 errorTxt">
-                                                <label for="valueTypeSpatial">Yếu tố</label>
+                                                <label for="cancelWarning">Mức hủy cảnh báo <span style="color: red;">*</span></label>
                                                 <div class="select2-purple insertError" style="height: 38px">
-                                                    <select id="valueTypeSpatial" data-placeholder="Select a State" name="valueTypeSpatial"
+                                                    <select id="cancelWarning" data-placeholder="Select a State" name="cancelWarning"
                                                             data-dropdown-css-class="select2-purple" style="width: 100%; height: 38px">
                                                         <!--                                                            -->
+                                                    </select>
+                                                </div>
+                                                <label></label>
+                                            </div>
+                                            <div class="form-group col-md-6 errorTxt">
+                                                <label for="status">Trạng thái <span style="color: red;">*</span></label>
+                                                <div class="select2-purple insertError" style="height: 38px">
+                                                    <select name="status" id="status" class="select">
+                                                        <option value="">--- Hãy chọn ---</option>
+                                                        <option value="1">Hoạt động</option>
+                                                        <option value="0">Không hoạt động</option>
                                                     </select>
                                                 </div>
                                                 <label></label>
@@ -208,18 +217,15 @@
                                         </button>
                                     </div>
                                     <hr>
-                                    <table id="tableStationSpatial" class="table table-bordered table-hover" style="margin: 0 auto; width: 100%">
+                                    <table id="tableWarningThreshold" class="table table-bordered table-hover" style="margin: 0 auto; width: 100%">
                                         <thead>
                                         <tr>
-                                            <th>ID</th>
-                                            <th>Id trạm</th>
+                                            <th>Mã mức cảnh báo</th>
                                             <th>Id Yếu tố</th>
-                                            <th>Mã trạm</th>
-                                            <th>Tên trạm</th>
-                                            <th>Mã yếu tố</th>
                                             <th>Tên yếu tố</th>
-                                            <th>Code</th>
-                                            <th>Mức độ biến đổi theo không gian</th>
+                                            <th>Ngưỡng cảnh báo</th>
+                                            <th>Ngưỡng hủy cảnh báo</th>
+                                            <th>Trạng thái</th>
                                             <th>Xóa</th>
                                         </tr>
                                         </thead>
