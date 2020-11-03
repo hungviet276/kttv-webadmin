@@ -48,12 +48,12 @@
                                         <div class="form-group col-md-6">
                                             <label for="inputFromDate">Từ ngày<span
                                                     style="color: red;">*</span></label>
-                                            <input type="text" class="form-control" id="inputFromDate" placeholder="">
+                                            <input type="text" class="form-control" id="inputFromDate" placeholder="" autocomplete="off">
                                         </div>
                                         <div class="col-md-6">
                                             <label for="inputToDate">Đến ngày <span
                                                     style="color: red;">*</span></label>
-                                            <input type="text" class="form-control" id="inputToDate" placeholder="">
+                                            <input type="text" class="form-control" id="inputToDate" placeholder="" autocomplete="off">
                                         </div>
                                     </div>
 
@@ -149,15 +149,11 @@
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                     <label for="stationTypeIdP">Loại trạm</label>
-                                                    <select id="stationTypeIdP" class="form-control" disabled
-                                                            style="width: 100%;">
-                                                    </select>
+                                                    <input id="stationTypeIdP" class="form-control" readonly>
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label for="stationTypeIdC">Loại trạm</label>
-                                                    <select id="stationTypeIdC" class="form-control" disabled
-                                                            style="width: 100%;">
-                                                    </select>
+                                                    <input id="stationTypeIdC" class="form-control" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-row">
@@ -229,85 +225,63 @@
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                     <label for="areaIdP">Khu vực</label>
-                                                    <select id="areaIdP" class="form-control" style="width: 100%;" disabled onchange="station.getProvince(this)">
-                                                    </select>
+                                                    <input id="areaIdP" class="form-control" style="width: 100%;"  readonly>
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label for="areaIdC">Khu vực</label>
-                                                    <select id="areaIdC" class="form-control" style="width: 100%;" disabled>
-                                                    </select>
+                                                    <input id="areaIdC" class="form-control" style="width: 100%;" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                     <label for="provinceIdP">Tỉnh</label>
-                                                    <select id="provinceIdP" class="form-control" disabled onchange="station.getDistrict(this)"
-                                                            style="width: 100%;">
-                                                        <option value="-1">Lựa chọn</option>
-                                                    </select>
+                                                    <input id="provinceIdP" class="form-control" readonly>
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label for="provinceIdC">Tỉnh</label>
-                                                    <select id="provinceIdC" class="form-control" disabled
-                                                            style="width: 100%;">
-                                                        <option value="-1">Lựa chọn</option>
-                                                    </select>
+                                                    <input id="provinceIdC" class="form-control" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                     <label for="districtIdP">Quận/huyện</label>
-                                                    <select id="districtIdP" class="form-control" disabled onchange="station.getWard(this)"
-                                                            style="width: 100%;">
-                                                        <option value="-1">Lựa chọn</option>
-                                                    </select>
+                                                    <input id="districtIdP" class="form-control" readonly>
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label for="districtIdC">Quận/huyện</label>
-                                                    <select id="districtIdC" class="form-control" disabled
-                                                            style="width: 100%;">
-                                                        <option value="-1">Lựa chọn</option>
-                                                    </select>
+                                                    <input id="districtIdC" class="form-control" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                     <label for="wardIdP">Xã</label>
-                                                    <select id="wardIdP" class="form-control" style="width: 100%;"  disabled>
-                                                        <option value="-1">Lựa chọn</option>
-                                                    </select>
+                                                    <input id="wardIdP" class="form-control" style="width: 100%;"  readonly>
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label for="wardIdC">Xã</label>
-                                                    <select id="wardIdC" class="form-control" style="width: 100%;" disabled>
-                                                        <option value="-1">Lựa chọn</option>
-                                                    </select>
+                                                    <input id="wardIdC" class="form-control" style="width: 100%;" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                     <label for="addressP">Địa chỉ cụ thể</label>
-                                                    <input type="text" class="form-control" id="addressP" disabled
+                                                    <input type="text" class="form-control" id="addressP" readonly
                                                            placeholder="">
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label for="addressC">Địa chỉ cụ thể</label>
-                                                    <input type="text" class="form-control" id="addressC" disabled
+                                                    <input type="text" class="form-control" id="addressC" readonly
                                                            placeholder="">
                                                 </div>
                                             </div>
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                     <label for="riverIdP">Thuộc sông</label>
-                                                    <select id="riverIdP" class="form-control" style="width: 100%;" disabled>
-                                                        <option value="-1">Lựa chọn</option>
-                                                    </select>
+                                                    <input id="riverIdP" class="form-control" style="width: 100%;" readonly>
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label for="riverIdC">Thuộc sông</label>
-                                                    <select id="riverIdC" class="form-control" style="width: 100%;" disabled>
-                                                        <option value="-1">Lựa chọn</option>
-                                                    </select>
+                                                    <input id="riverIdC" class="form-control" style="width: 100%;" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-row">

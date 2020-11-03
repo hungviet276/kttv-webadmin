@@ -32,10 +32,10 @@ var station =
         objStation: {},
         init: function () {
             station.getStationType();
-            // station.getArea();
+            station.getArea();
             // station.getProvince();
             // station.getDistrict();
-            // station.getRiver();
+            station.getRiver();
         },
         //lay loai tram
         getStationType: function () {
@@ -49,8 +49,8 @@ var station =
                 contentType: "application/json",
                 success: function (data) {
                     console.log(data);
-                    // $("#stationTypeIdP").select2({data: data});
-                    // $("#stationTypeIdC").select2({data: data});
+                    $("#stationTypeIdP").select2({data: data});
+                    $("#stationTypeIdC").select2({data: data});
                     $("#stationTypeId").select2({data: data});
                     global.disableLoading();
                 }
@@ -203,7 +203,6 @@ var station =
                     console.log(data);
                     station.objStation['address'] = data[0].address;
                     station.objStation['areaId'] = data[0].areaId;
-                    station.objStation['areaName'] = data[0].areaName;
                     station.objStation['countryId'] = data[0].countryId;
                     station.objStation['districtId'] = data[0].districtId;
                     station.objStation['districtName'] = data[0].districtName;
@@ -229,18 +228,18 @@ var station =
                     station.objStation['wardName'] = data[0].wardName;
                     console.log(station.objStation);
 
-                    $('#stationTypeIdC').val(station.objStation.objectTypeName);
+                    $('#stationTypeIdC').val(station.objStation.stationTypeId).trigger('change');
                     $('#modeStationTypeC').val(station.objStation.modeStationType);
                     $('#stationCodeC').val(station.objStation.stationCode);
                     $('#stationNameC').val(station.objStation.stationName);
                     $('#longtitudeC').val(station.objStation.longtitude);
                     $('#latitudeC').val(station.objStation.latitude);
-                    $('#areaIdC').val(station.objStation.areaName);
-                    $('#provinceIdC').val(station.objStation.provinceName);
-                    $('#districtIdC').val(station.objStation.districtName);
-                    $('#wardIdC').val(station.objStation.wardName);
+                    $('#areaIdC').val(station.objStation.areaId).trigger('change');
+                    // $('#provinceIdP').val(rowData[0].areaId).trigger('change');
+                    // $('#districtIdP').val(rowData[0].districtId).trigger('change');
+                    // $('#wardIdP').val(rowData[0].wardId).trigger('change');
                     $('#addressC').val(station.objStation.address);
-                    $('#riverIdC').val(station.objStation.riverName);
+                    $('#riverIdC').val(station.objStation.riverId).trigger('change');
                     // console.log("rowData[0].status",rowData[0].status)
                     $('#statusC').val(station.objStation.status);
 
@@ -254,21 +253,19 @@ var station =
             if (rowData != null && rowData != undefined && rowData.length > 0) {
                 console.log(rowData);
 
-                // $('#stationTypeIdP').val(rowData[0].stationTypeId).trigger('change');
-                $('#stationTypeIdP').val(rowData[0].objectTypeName);
+                $('#stationTypeIdP').val(rowData[0].stationTypeId).trigger('change');
                 $('#modeStationTypeP').val(rowData[0].modeStationType);
                 $('#stationCodeP').val(rowData[0].stationCode);
                 $('#stationNameP').val(rowData[0].stationName);
                 $('#longtitudeP').val(rowData[0].longtitude);
                 $('#latitudeP').val(rowData[0].latitude);
-                // $('#areaIdP').val(rowData[0].areaId).trigger('change');
-                $('#areaIdP').val(rowData[0].areaName);
-                $('#provinceIdP').val(rowData[0].provinceName);
-                $('#districtIdP').val(rowData[0].districtName);
-                $('#wardIdP').val(rowData[0].wardName);
+                $('#areaIdP').val(rowData[0].areaId).trigger('change');
+                // $('#provinceIdP').val(rowData[0].areaId).trigger('change');
+                // $('#districtIdP').val(rowData[0].districtId).trigger('change');
+                // $('#wardIdP').val(rowData[0].wardId).trigger('change');
                 $('#addressP').val(rowData[0].address);
-                // $('#riverIdP').val(rowData[0].riverId).trigger('change');
-                $('#riverIdP').val(rowData[0].riverName);
+                $('#riverIdP').val(rowData[0].riverId).trigger('change');
+                // console.log("rowData[0].status",rowData[0].status)
                 $('#statusP').val(rowData[0].status);
 
                 station.getStation(rowData[0].stationId);
@@ -327,20 +324,20 @@ var station =
     }
 
 $(document).ready(function () {
-    $('#inputFromDate').daterangepicker({
-        timePicker: false,
+    $('#timestamp').daterangepicker({
+        timePicker: true,
         singleDatePicker: true,
         autoUpdateInput: false
     }, function (choosen_date) {
-        $('#inputFromDate').val(choosen_date.format('DD/MM/YYYY'));
+        $('#inputFromDate').val(choosen_date.format('DD/MM/YYYY hh:mm'));
     });
-    $('#inputToDate').daterangepicker({
-        timePicker: false,
-        singleDatePicker: true,
-        autoUpdateInput: false
-    }, function (choosen_date) {
-        $('#inputToDate').val(choosen_date.format('DD/MM/YYYY'));
-    });
+    // $('#inputToDate').daterangepicker({
+    //     timePicker: false,
+    //     singleDatePicker: true,
+    //     autoUpdateInput: false
+    // }, function (choosen_date) {
+    //     $('#inputToDate').val(choosen_date.format('DD/MM/YYYY'));
+    // });
 
     $('#tableDataView thead th').each(function () {
         var title = $(this).text();
@@ -348,7 +345,7 @@ $(document).ready(function () {
         var is_select = $(this).attr("is_select");
         if (dataId != null && dataId != undefined) {
             if (is_select == null || is_select == undefined) {
-                $(this).html('<input id="' + dataId + '" class="table-data-input-search" type="text"  autocomplete="off" placeholder="Search ' + title + '" />');
+                $(this).html('<input id="' + dataId + '" class="table-data-input-search" type="text" placeholder="Search ' + title + '" />');
             } else {
                 $(this).html('<select class="select_table" id=' + dataId + '> <option value="">Hãy chọn</option><option value="1">Hoạt động</option> <option value="0">Không hoạt động</option> </select>');
             }
@@ -474,7 +471,6 @@ $(document).ready(function () {
                         "elevation": responseJson.content[i].elevation,
                         "trans_miss": responseJson.content[i].trans_miss,
                         "areaId": responseJson.content[i].areaId,
-                        "areaName": responseJson.content[i].areaName,
                         "provinceId": responseJson.content[i].provinceId,
                         "stationCode": responseJson.content[i].stationCode,
                         "stationName": responseJson.content[i].stationName,
