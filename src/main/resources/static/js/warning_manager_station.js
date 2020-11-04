@@ -1,52 +1,96 @@
-//var newOption = new Option(response.text, response.id, true, true);
-//$('#value-type-station').append(newOption).trigger('change');
-//$('#value-type-station').prop( "disabled", true );
-const constantThreshold = [
+//constant
+var icons = [
     {
-        id : "-1",
-        text : "--- Hãy chọn ---"
-    },
-    {
-        id : "1",
-        text : "Mức 1"
-    },
-    {
-        id : "2",
-        text : "Mức 2"
-    },
-    {
-        id : "3",
-        text : "Mức 3"
-    },
-    {
-        id : "4",
-        text : "Mức 4"
-    },
-    {
-        id : "5",
-        text : "Mức 5"
+    text : '<i class="fas fa-bolt"></i>',
+    value : '<i class="fas fa-bolt"></i>'
+    },{
+    text : '<i class="fas fa-wind"></i>',
+    value : '<i class="fas fa-wind"></i>'
+    },{
+    text : '<i class="fas fa-smog"></i>',
+    value : '<i class="fas fa-smog"></i>'
+    },{
+    text : '<i class="fas fa-cloud"></i>',
+    value : '<i class="fas fa-cloud"></i>'
+    },{
+    text : '<i class="fas fa-sun"></i>',
+    value : '<i class="fas fa-sun"></i>'
+    },{
+    text : '<i class="far fa-sun"></i>',
+    value : '<i class="far fa-sun"></i>'
+    },{
+    text : '<i class="fas fa-umbrella"></i>',
+    value : '<i class="fas fa-umbrella"></i>'
+    },{
+    text : '<i class="fas fa-rainbow"></i>',
+    value : '<i class="fas fa-rainbow"></i>'
+    },{
+    text : '<i class="fas fa-poo-storm"></i>',
+    value : '<i class="fas fa-poo-storm"></i>'
+    },{
+    text : '<i class="fas fa-cloud-sun-rain"></i>',
+    value : '<i class="fas fa-cloud-sun-rain"></i>'
+    },{
+    text : '<i class="fas fa-cloud-sun"></i>',
+    value : '<i class="fas fa-cloud-sun"></i>'
+    },{
+    text : '<i class="fas fa-cloud-showers-heavy"></i>',
+    value : '<i class="fas fa-cloud-showers-heavy"></i>'
+    },{
+    text : '<i class="fas fa-cloud-rain"></i>',
+    value : '<i class="fas fa-cloud-rain"></i>'
+    },{
+    text : '<i class="fas fa-cloud-moon-rain"></i>',
+    value : '<i class="fas fa-cloud-moon-rain"></i>'
+    },{
+    text : '<i class="fas fa-cloud-meatball"></i>',
+    value : '<i class="fas fa-cloud-meatball"></i>'
+    },{
+    text : '<i class="fas fa-temperature-low"></i>',
+    value : '<i class="fas fa-temperature-low"></i>'
+    },{
+    text : '<i class="fas fa-temperature-high"></i>',
+    value : '<i class="fas fa-temperature-high"></i>'
+    },{
+    text : '<i class="fas fa-snowflake"></i>',
+    value : '<i class="fas fa-snowflake"></i>'
+    },{
+    text : '<i class="fas fa-cloud-moon"></i>',
+    value : '<i class="fas fa-cloud-moon"></i>'
+    },{
+    text : '<i class="fas fa-moon"></i>',
+    value : '<i class="fas fa-moon"></i>'
+    },{
+    text : '<i class="fas fa-water"></i>',
+    value : '<i class="fas fa-water"></i>'
+    },{
+    text : '<i class="fas fa-backspace"></i>',
+    value : '<i class="fas fa-backspace"></i>'
+    },{
+    text : '<i class="fas fa-car-crash"></i>',
+    value : '<i class="fas fa-car-crash"></i>'
+    },{
+    text : '<i class="fas fa-first-aid"></i>',
+    value : '<i class="fas fa-first-aid"></i>'
     }
-]
-$('#thresholdWarning').select2({
-
-});
-$('#cancelWarning').select2({
-
-});
-function addSelect2ThresholdWarning(){
-   for(let i =0 ; i < constantThreshold.length ; i++){
-       var newOption = new Option(constantThreshold[i].text, constantThreshold[i].id, false, false);
-       $('#thresholdWarning').append(newOption).trigger('change');
-   }
-};
-function addSelect2CancelWarning(){
-    for(let i =0 ; i < constantThreshold.length ; i++){
-        var newOption = new Option(constantThreshold[i].text, constantThreshold[i].id, false, false);
-        $('#cancelWarning').append(newOption).trigger('change');
+];
+//end constant
+$('#iconWarningAdd').select2({
+    minimumResultsForSearch: -1,
+    escapeMarkup: function(markup) {
+        return markup;
+    },
+    templateSelection: function(data) {
+        return data.text;
     }
-};
-addSelect2CancelWarning();
-addSelect2ThresholdWarning();
+});
+(function (){
+    for(let i =0 ; i < icons.length ; i++){
+        var newOption = new Option(icons[i].text, icons[i].value, false, false);
+        $('#iconWarningAdd').append(newOption).trigger('change');
+    }
+})();
+//tìm kiếm
 $(document).ready(function () {
     show_search();
 });
@@ -56,63 +100,74 @@ function show_search() {
     $("#box_search").attr('class', 'col-sm-12');
 }
 
-$('#btncancer').click(function () {
-    // disabled_right();
-    $("#id").val("");
-    $("#btnsave").css("display", "none");
-    $("#btnDelete").css("display", "none");
-    $("#btnResetUpdate").css("display", "none");
-    $("#btncancer").css("display", "none");
-    $("#btnDonew").attr("disabled", false);
-    validWarningThreshold.resetForm();
-    validator.resetForm();
-    $("#formWarningThreshold").get(0).reset();
-    $("#thresholdWarning").empty();
-    $("#cancelWarning").empty();
-    addSelect2CancelWarning();
-    addSelect2ThresholdWarning();
-
-    var rowDt = tableConfigValueType.rows('.selected').data()[0];
-    show_search();
-    if(rowDt!=undefined){
-        $("#btnDonew").attr("disabled", true);
-    }
-});
-
-function togle_search() {
-    $("#box_info").show(150);
-    $("#box_info").attr('class', 'col-sm-12');
-    $("#box_search").hide(250);
-    // $("#box_search").attr('class', 'col-sm-5');
+function stringToDate(_date,_format,_delimiter) {
+    var formatLowerCase=_format.toLowerCase();
+    var formatItems=formatLowerCase.split(_delimiter);
+    var dateItems=_date.split(_delimiter);
+    var monthIndex=formatItems.indexOf("mm");
+    var dayIndex=formatItems.indexOf("dd");
+    var yearIndex=formatItems.indexOf("yyyy");
+    var year = parseInt(dateItems[yearIndex]);
+    // adjust for 2 digit year
+    if (year < 100) { year += 2000; }
+    var month=parseInt(dateItems[monthIndex]);
+    month-=1;
+    var formatedDate = new Date(year,month,dateItems[dayIndex]);
+    return formatedDate;
 }
 
-$('#btnDonew').click(function () {
-    // enabled_right();
+function dateToString(date) {
+    let strDate = "";
+    let month = date.getMonth() + 1;
+    let dayTmp = date.getDate();
+    let day ="";
+    if(dayTmp< 10){
+        day = "0"+ dayTmp;
+    }
+    let year = date.getFullYear();
+    return strDate + day+"/"+month+"/"+year;
+}
 
-    $("#id").val("");
-    $('#action_info').val(1);
-    togle_search();
-    $("#btnsave").css("display", "inline");
-    $("#btnDelete").css("display", "inline");
-    $("#btnResetNew").css("display", "inline");
-    $("#btncancer").css("display", "inline");
-    $("#btnDonew").attr("disabled", true);
-    $('.nav-tabs a[href="#menu2"]').tab('show');
-    $("#form_input").get(0).reset();
-    $("#station_add").empty();
-    $("#value-type-station").empty();
-    $("#station_add").prop( "disabled", false );
-    $("#value-type-station").prop( "disabled", false );
-    $("#btnDelete").prop( "disabled", true );
-    $("#btnsaveEdit").hide();
-    $("#btnResetUpdate").hide();
-    validator.resetForm();
-    validWarningThreshold.resetForm();
-    tableWarningThreshold
-         .clear()
-         .draw();
+$('#startDate').daterangepicker({
+    "singleDatePicker": true,
+    "linkedCalendars": false,
+    "showCustomRangeLabel": false,
+    "alwaysShowCalendars": false,
+    "autoUpdateInput" : false,
+    startDate: moment(),
+    locale: {
+        cancelLabel: 'Clear',
+        format: 'DD/MM/YYYY'
+    }
+}, function(start, end, label) {
+    console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
+});
+$('#startDate').on('cancel.daterangepicker', function(ev, picker) {
+    $(this).val('');
+});
+$('#startDate').on('apply.daterangepicker', function(ev, picker) {
+    $("#startDate").val(picker.startDate.format('DD/MM/YYYY'));
 });
 
+$('#endDate').daterangepicker({
+    "singleDatePicker": true,
+    "linkedCalendars": false,
+    "showCustomRangeLabel": false,
+    "alwaysShowCalendars": false,
+    "autoUpdateInput" : false,
+    locale: {
+        cancelLabel: 'Clear',
+        format: 'DD/MM/YYYY'
+    }
+}, function(start, end, label) {
+    //console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
+});
+$('#endDate').on('cancel.daterangepicker', function(ev, picker) {
+    $(this).val('');
+});
+$('#endDate').on('apply.daterangepicker', function(ev, picker) {
+    $("#endDate").val(picker.startDate.format('DD/MM/YYYY'));
+});
 $('#station').select2({
     minimumInputLength: 0,
     delay: 350,
@@ -151,6 +206,341 @@ $('#station').select2({
             };
         }
     }
+});
+//end tìm kiếm
+
+// table search
+let objSearch = {
+    s_id: '',
+    s_id_station: '',
+    s_name_station: '',
+    s_code_warning: '',
+    s_name_warning: '',
+    s_icon: '',
+    s_start_date: '',
+    s_end_date : ''
+};
+$('#tableWarningManagerStation thead th').each(function () {
+    var title = $(this).text();
+    var dataId = $(this).attr("data-id");
+    if (dataId != null && dataId != undefined) {
+        $(this).html('<input class="table-data-input-search" id="'+ dataId +'" type="text" placeholder="Search ' + title + '" autocomplete="off"/>');
+    }
+});
+var tableWarningMangerStation = $('#tableWarningManagerStation').DataTable({
+    columnDefs: [ {
+        orderable: false,
+        className: 'select-checkbox',
+        targets:   0
+    } ],
+    select: {
+        style:    'os',
+        selector: 'td:first-child',
+        type: 'single'
+    },
+    "pagingType": "full_numbers",
+    "lengthMenu": [
+        [10, 25, 50],
+        [10, 25, 50]
+    ],
+    "lengthChange": true,
+    "searchDelay": 500,
+    "searching": false,
+    "ordering": false,
+    "info": true,
+    "autoWidth": false,
+    "scrollX": true,
+    "responsive": false,
+    language: {
+        search: "_INPUT_",
+        searchPlaceholder: "Nhập thông tin tìm kiếm",
+    },
+    "processing": true,
+    "serverSide": true,
+    "columns": [
+        { "data":""},
+        {"data": "indexCount", "render": $.fn.dataTable.render.text()},
+        {"data": "id", "render": $.fn.dataTable.render.text()},
+        {"data": "stationId", "render": $.fn.dataTable.render.text()},
+        {"data": "stationName", "render": $.fn.dataTable.render.text()},
+        {"data": "warningCode", "render": $.fn.dataTable.render.text()},
+        {"data": "warningName", "render": $.fn.dataTable.render.text()},
+        {"data": "icon", "render": $.fn.dataTable.render.text()},
+        {"data": "createDate", "render": $.fn.dataTable.render.text()}
+    ],
+    initComplete: function () {
+        // Apply the search
+        this.api().columns().every(function () {
+            var that = this;
+            $('.table-data-input-search').on('keyup', function () {
+                oldValue = this.___value___;
+                this.___value___ = this.value;
+                if (oldValue == this.___value___) return;
+                keyUpTime = new Date().getTime();
+                let id = $(this).attr('id');
+                objSearch[id] = this.value;
+                setTimeout(function () {
+                    if (new Date().getTime() - keyUpTime > 500) {
+                        tableWarningMangerStation.search(objSearch).draw();
+                        keyUpTime = new Date().getTime();
+                    }
+                    return;
+                }, 560);
+
+            });
+        });
+    },
+    "ajax": {
+        headers: {
+            'Authorization': token
+        },
+        "url": apiUrl + "warning-manager-station/get-list-warning-manager-station",
+        "method": "POST",
+        "contentType": "application/json",
+        "data": function (d) {
+            draw = d.draw;
+            return JSON.stringify({
+                "draw": d.draw,
+                "start": Math.round(d.start / d.length),
+                "length": d.length,
+                "search": JSON.stringify(objSearch)
+            });
+        },
+        "dataFilter": function (response) {
+
+            let responseJson = JSON.parse(response);
+            let dataRes = {
+                "draw": draw,
+                "recordsFiltered": responseJson.recordsTotal,
+                "recordsTotal": responseJson.recordsTotal,
+                "data": []
+            };
+
+            for (let i = 0; i < responseJson.content.length; i++) {
+                if(responseJson.content[i].createDate!=null){
+                    let todayTimeEnd =new Date(responseJson.content[i].createDate)
+                    let monthEnd = todayTimeEnd.getMonth() + 1;
+                    let dayEnd = todayTimeEnd.getDate();
+                    let yearEnd = todayTimeEnd.getFullYear();
+                    let dateEnd =  dayEnd + "/" + monthEnd + "/" + yearEnd;
+                    responseJson.content[i].createDate = dateEnd;
+                } else{
+                    responseJson.content[i].createDate = "";
+                }
+                dataRes.data.push({
+                    "": "",
+                    "indexCount": i + 1,
+                    "id": responseJson.content[i].id,
+                    "stationId": responseJson.content[i].stationId,
+                    "stationName": responseJson.content[i].stationName,
+                    "warningCode": responseJson.content[i].warningCode,
+                    "warningName": responseJson.content[i].warningName,
+                    "icon": responseJson.content[i].icon,
+                    "createDate": responseJson.content[i].createDate
+                })
+            }
+
+            return JSON.stringify(dataRes);
+        }
+    }
+});
+tableWarningMangerStation
+    .on('select', rowSelect)
+    .on('deselect', rowDeselect);
+function rowSelect(e, dt, type, indexes) { // load các thông tin của những cái bên trái ra
+    $("#btnDetail").prop( "disabled", false );
+    $("#btnDonew").attr("disabled", true);
+}
+function rowDeselect(e, dt, type, indexes) { // khóa các form bên trái
+    $("#btnDetail").prop( "disabled", true );
+    $("#btnDonew").attr("disabled", false);
+}
+// end table search
+//start form add
+$('#stationWarningAdd').select2({
+    minimumInputLength: 0,
+    delay: 350,
+    templateSelection: function (data) {
+        if (data.id === '' || data.id == null || data.id == undefined) {
+            return '---- hãy chọn ----';
+        }
+
+        return data.text;
+    },
+    ajax: {
+        headers: {
+            'Authorization': token
+        },
+        url: apiUrl + "station/station-select",
+        contentType: 'application/json',
+        method: "POST",
+        quietMillis: 50,
+        data: function (term) {
+            if(term.term==null || term.term== undefined){
+                term.term = null;
+            }
+            return JSON.stringify(term);
+
+        },
+        processResults: function (data) {
+            data = [{id: -1,text : '----hãy chọn----'}].concat(data);
+            return {
+                results: $.map(data, function (item) {
+                    return {
+                        text: item.text,
+                        id: item.id,
+                        data: item
+                    }
+                })
+            };
+        }
+    }
+});
+
+$('#parameterWarningAdd').select2({
+    minimumInputLength: 0,
+    delay: 350,
+    templateSelection: function (data) {
+        if (data.id === '' || data.id == null || data.id == undefined) {
+            return '---- hãy chọn ----';
+        }
+
+        return data.text;
+    },
+    ajax: {
+        headers: {
+            'Authorization': token
+        },
+        url: apiUrl + "warning-manager-station/get-list-param-warning-config",
+        contentType: 'application/json',
+        method: "POST",
+        quietMillis: 50,
+        data: function (term) {
+            if(term.term==null || term.term== undefined){
+                term.term = null;
+            }
+            term.id = $("#stationWarningAdd").val();
+            return JSON.stringify(term);
+
+        },
+        processResults: function (data) {
+            data = [{id: -1,text : '----hãy chọn----'}].concat(data);
+            return {
+                results: $.map(data, function (item) {
+                    return {
+                        text: item.text,
+                        id: item.id,
+                        data: item
+                    }
+                })
+            };
+        }
+    }
+});
+
+$('#WarningThresholdCode').select2({
+    minimumInputLength: 0,
+    delay: 350,
+    templateSelection: function (data) {
+        if (data.id === '' || data.id == null || data.id == undefined) {
+            return '---- hãy chọn ----';
+        }
+
+        return data.text;
+    },
+    ajax: {
+        headers: {
+            'Authorization': token
+        },
+        url: apiUrl + "warning-manager-station/get-list-warning-config-threshold",
+        contentType: 'application/json',
+        method: "POST",
+        quietMillis: 50,
+        data: function (term) {
+            if(term.term==null || term.term== undefined){
+                term.term = null;
+            }
+            term.id = $("#parameterWarningAdd").val();
+            return JSON.stringify(term);
+
+        },
+        processResults: function (data) {
+            data = [{id: -1,text : '----hãy chọn----'}].concat(data);
+            return {
+                results: $.map(data, function (item) {
+                    return {
+                        text: item.text,
+                        id: item.id,
+                        data: item
+                    }
+                })
+            };
+        }
+    }
+});
+
+var contentWarningAdd = '';
+$(document).ready(function() {
+    contentWarningAdd = CKEDITOR.replace('contentWarningAdd');
+});
+//end form add
+
+$('#thresholdWarning').select2({
+
+});
+$('#cancelWarning').select2({
+
+});
+
+$('#btncancer').click(function () {
+    // disabled_right();
+    $("#id").val("");
+    $("#btnsave").css("display", "none");
+    $("#btnDelete").css("display", "none");
+    $("#btnResetUpdate").css("display", "none");
+    $("#btncancer").css("display", "none");
+    $("#btnDonew").attr("disabled", false);
+    // validator.resetForm();
+    // validatorhorizontal.resetForm();
+    //var rowDt = tableConfigValueType.rows('.selected').data()[0];
+    show_search();
+    if(rowDt!=undefined){
+        $("#btnDonew").attr("disabled", true);
+    }
+});
+
+function togle_search() {
+    $("#box_info").show(150);
+    $("#box_info").attr('class', 'col-sm-12');
+    $("#box_search").hide(250);
+    // $("#box_search").attr('class', 'col-sm-5');
+}
+
+$('#btnDonew').click(function () {
+    // enabled_right();
+
+    $("#id").val("");
+    $('#action_info').val(1);
+    togle_search();
+    $("#btnsave").css("display", "inline");
+    $("#btnDelete").css("display", "inline");
+    $("#btnResetNew").css("display", "inline");
+    $("#btncancer").css("display", "inline");
+    $("#btnDonew").attr("disabled", true);
+    $('.nav-tabs a[href="#menu2"]').tab('show');
+    $("#form_input").get(0).reset();
+    $("#station_add").empty();
+    $("#value-type-station").empty();
+    $("#station_add").prop( "disabled", false );
+    $("#value-type-station").prop( "disabled", false );
+    $("#btnDelete").prop( "disabled", true );
+    $("#btnsaveEdit").hide();
+    $("#btnResetUpdate").hide();
+    validator.resetForm();
+    validWarningThreshold.resetForm();
+    tableWarningThreshold
+         .clear()
+         .draw();
 });
 
 $('#valueTypeSpatial').select2({
@@ -232,18 +622,6 @@ $('#value-type').select2({
         }
     }
 });
-let objSearch = {
-    s_id: '',
-    s_id_station: '',
-    s_parameter_type_id: '',
-    s_name_station: '',
-    s_parameter_name: '',
-    s_value_level1: '',
-    s_value_level2: '',
-    s_value_level3: '',
-    s_value_level4: '',
-    s_value_level5: ''
-};
 $('#tableValueTypeConfig thead th').each(function () {
     var title = $(this).text();
     var dataId = $(this).attr("data-id");
@@ -251,123 +629,11 @@ $('#tableValueTypeConfig thead th').each(function () {
         $(this).html('<input class="table-data-input-search" id="'+ dataId +'" type="text" placeholder="Search ' + title + '" autocomplete="off"/>');
     }
 });
-var tableConfigValueType = $('#tableValueTypeConfig').DataTable({
-    columnDefs: [ {
-        orderable: false,
-        className: 'select-checkbox',
-        targets:   0
-    } ],
-    select: {
-        style:    'os',
-        selector: 'td:first-child',
-        type: 'single'
-    },
-    "pagingType": "full_numbers",
-    "lengthMenu": [
-        [10, 25, 50],
-        [10, 25, 50]
-    ],
-    "lengthChange": true,
-    "searchDelay": 500,
-    "searching": false,
-    "ordering": false,
-    "info": true,
-    "autoWidth": false,
-    "scrollX": true,
-    "responsive": false,
-    language: {
-        search: "_INPUT_",
-        searchPlaceholder: "Nhập thông tin tìm kiếm",
-    },
-    "processing": true,
-    "serverSide": true,
-    "columns": [
-        { "data":""},
-        {"data": "indexCount", "render": $.fn.dataTable.render.text()},
-        {"data": "id", "render": $.fn.dataTable.render.text()},
-        {"data": "stationId", "render": $.fn.dataTable.render.text()},
-        {"data": "parameterId", "render": $.fn.dataTable.render.text()},
-        {"data": "stationName", "render": $.fn.dataTable.render.text()},
-        {"data": "parameterName", "render": $.fn.dataTable.render.text()},
-        {"data": "valueLevel1", "render": $.fn.dataTable.render.text()},
-        {"data": "valueLevel2", "render": $.fn.dataTable.render.text()},
-        {"data": "valueLevel3", "render": $.fn.dataTable.render.text()},
-        {"data": "valueLevel4", "render": $.fn.dataTable.render.text()},
-        {"data": "valueLevel5", "render": $.fn.dataTable.render.text()}
-    ],
-    initComplete: function () {
-        // Apply the search
-        this.api().columns().every(function () {
-            var that = this;
-            $('.table-data-input-search').on('keyup', function () {
-                oldValue = this.___value___;
-                this.___value___ = this.value;
-                if (oldValue == this.___value___) return;
-                keyUpTime = new Date().getTime();
-                let id = $(this).attr('id');
-                objSearch[id] = this.value;
-                setTimeout(function () {
-                    if (new Date().getTime() - keyUpTime > 500) {
-                        tableConfigValueType.search(objSearch).draw();
-                        keyUpTime = new Date().getTime();
-                    }
-                    return;
-                }, 560);
-
-            });
-        });
-    },
-    "ajax": {
-        headers: {
-            'Authorization': token
-        },
-        "url": apiUrl + "warning-threshold-station/get-list-warning-threshold-station",
-        "method": "POST",
-        "contentType": "application/json",
-        "data": function (d) {
-            draw = d.draw;
-            return JSON.stringify({
-                "draw": d.draw,
-                "start": Math.round(d.start / d.length),
-                "length": d.length,
-                "search": JSON.stringify(objSearch)
-            });
-        },
-        "dataFilter": function (response) {
-
-            let responseJson = JSON.parse(response);
-            let dataRes = {
-                "draw": draw,
-                "recordsFiltered": responseJson.recordsTotal,
-                "recordsTotal": responseJson.recordsTotal,
-                "data": []
-            };
-
-            for (let i = 0; i < responseJson.content.length; i++) {
-                dataRes.data.push({
-                    "": "",
-                    "indexCount": i + 1,
-                    "id": responseJson.content[i].id,
-                    "stationId": responseJson.content[i].stationId,
-                    "parameterId": responseJson.content[i].parameterId,
-                    "stationName": responseJson.content[i].stationName,
-                    "parameterName": responseJson.content[i].parameterName,
-                    "valueLevel1": responseJson.content[i].valueLevel1,
-                    "valueLevel2": responseJson.content[i].valueLevel2,
-                    "valueLevel3": responseJson.content[i].valueLevel3,
-                    "valueLevel4": responseJson.content[i].valueLevel4,
-                    "valueLevel5": responseJson.content[i].valueLevel5
-                })
-            }
-
-            return JSON.stringify(dataRes);
-        }
-    }
-});
 
 $("#btnSearch").click(function (event){
     event.preventDefault();
     event.stopPropagation();
+
     $("#btnDetail").prop( "disabled", true );
     $("#btnDonew").attr("disabled", false);
     var inputSearch = $(".table-data-input-search");
@@ -379,13 +645,16 @@ $("#btnSearch").click(function (event){
     } else{
         objSearch.s_id_station = $("#station").val();
     }
+    let name = $("#nameWarning").val();
+    let startDate = $("#startDate").val();
+    let endDate = $("#endDate").val();
+    let code = $("#codeWarning").val();
 
-    if($("#value-type").val()==-1){
-        objSearch.s_parameter_type_id = null;
-    } else{
-        objSearch.s_parameter_type_id = $("#value-type").val();
-    }
-    tableConfigValueType.search(objSearch).draw();
+    objSearch.s_name_warning = name;
+    objSearch.s_code_warning = code;
+    objSearch.s_start_date = startDate;
+    objSearch.s_end_date = endDate;
+    tableWarningMangerStation.search(objSearch).draw();
 
 });
 // table thêm yếu tố
@@ -980,17 +1249,7 @@ $("#end_date").keyup(function () {
 });
 //làm chức năng thêm sửa xóa
 // chức năng sửa
-tableConfigValueType
-    .on('select', rowSelect)
-    .on('deselect', rowDeselect);
-function rowSelect(e, dt, type, indexes) { // load các thông tin của những cái bên trái ra
-    $("#btnDetail").prop( "disabled", false );
-    $("#btnDonew").attr("disabled", true);
-}
-function rowDeselect(e, dt, type, indexes) { // khóa các form bên trái
-    $("#btnDetail").prop( "disabled", true );
-    $("#btnDonew").attr("disabled", false);
-}
+
 $("#btnDetail").click(function () {
     $("#btnDelete").prop( "disabled", false );
     var rowDt = tableConfigValueType.rows('.selected').data()[0];
@@ -1061,185 +1320,185 @@ function showDetailData(rowDt){
         }
     });
 }
-$("#btnsaveEdit").click(function(){
-    var submit = $("#form_input").valid();
-    if(submit == false){
-        var dataStation = $('#station_add').select2('data');
-        var dataValueType = $('#value-type-station').select2('data');
-        if(dataStation.length == 0){
-            $('#station_add').select2('open');
-            return;
-        }
-        if(dataValueType.length == 0){
-            $('#value-type-station').select2('open');
-            return;
-        }
-        validator.focusInvalid();
-        return;
-    }
-    var $form = $("#form_input");
-    var dataParrent = getFormData($form);
-
-    let dataAll  = tableWarningThreshold.rows().data();
-
-    let dataThresholdWarning = true;
-    //console.log(dataAll);
-    for(let i =0; i< dataAll.length ; i++){
-        if(dataAll[i].thresholdId == dataAll[i].thresholdCancelID){
-            dataThresholdWarning = false;
-            break;
-        }
-    }
-    if(!dataThresholdWarning){
-        toastr.error('Lỗi',"Cấu hình mức cảnh báo chưa hợp lệ");
-        return;
-    }
-
-    let dataSend = [];
-    for(let i =0; i< dataAll.length ; i++){
-        let tmp ={};
-        tmp.idParameter = dataAll[i].idParameter;
-        tmp.status = dataAll[i].status;
-        tmp.thresholdCancelID = dataAll[i].thresholdCancelID;
-        tmp.thresholdId = dataAll[i].thresholdId;
-        tmp.warningThresholdCode = dataAll[i].warningThresholdCode;
-        dataSend.push(tmp);
-    }
-
-    dataParrent.dataThreshold = dataSend;
-    $.ajax({
-        headers: {
-            'Authorization': token
-        },
-        "url": apiUrl + "warning-threshold-station",
-        "method": "PUT",
-        "contentType": "application/json",
-        "data" : JSON.stringify(dataParrent),
-        "success": function (response) {
-            toastr.success('Thành công', response.message);
-            $("#btnsave").css("display", "none");
-            $("#btnDelete").css("display", "none");
-            $("#btnReset").css("display", "none");
-            $("#btncancer").css("display", "none");
-            $("#btnDonew").attr("disabled", false);
-            show_search();
-            tableConfigValueType.ajax.reload();
-            $("#btnDetail").prop( "disabled", true );
-            $("#btnDonew").prop("disabled", false);
-        },
-        "error": function (error) {
-            alert("lỗi to đùng");
-            toastr.error('Lỗi', error.responseJSON.message);
-        }
-    });
-});
-$("#btnDelete").click(function () {
-    if(confirm("Bạn có muốn xóa bản ghi")){
-
-    } else {
-        return;
-    }
-    $.ajax({
-        headers: {
-            'Authorization': token
-        },
-        "url": apiUrl + "warning-threshold-station?id="+$("#id").val(),
-        "method": "DELETE",
-        "contentType": "application/json",
-        "success": function (response) {
-            toastr.success('Thành công', response.message);
-            $("#btnsave").css("display", "none");
-            $("#btnDelete").css("display", "none");
-            $("#btnReset").css("display", "none");
-            $("#btncancer").css("display", "none");
-            $("#btnDonew").attr("disabled", false);
-            $("#btnDetail").prop("disabled",true);
-            show_search();
-            tableConfigValueType.ajax.reload();
-        },
-        "error": function (error) {
-            toastr.error('Lỗi', error.responseJSON.message);
-
-        }
-    });
-});
-$('#thresholdWarning').on('select2:opening', function (e) {
-    var dataStation = $('#station_add').select2('data');
-    if(dataStation.length == 0){
-        $( "#station_add" ).focus();
-        $('#station_add').select2('open');
-        toastr.error('Lỗi',"Chưa chọn trạm");
-        return false;
-    }
-    var dataValueType = $('#value-type-station').select2('data');
-    if(dataValueType.length == 0){
-        $( "#value-type-station" ).focus();
-        $('#value-type-station').select2('open');
-        toastr.error('Lỗi',"Chưa chọn yếu tố cho trạm");
-        return false;
-    }
-});
-$('#cancelWarning').on('select2:opening', function (e) {
-    var dataStation = $('#station_add').select2('data');
-    if(dataStation.length == 0){
-        $( "#station_add" ).focus();
-        $('#station_add').select2('open');
-        toastr.error('Lỗi',"Chưa chọn trạm");
-        return false;
-    }
-    var dataValueType = $('#value-type-station').select2('data');
-    if(dataValueType.length == 0){
-        $( "#value-type-station" ).focus();
-        $('#value-type-station').select2('open');
-        toastr.error('Lỗi',"Chưa chọn yếu tố cho trạm");
-        return false;
-    }
-});
-$('#valueTypeSpatial').on('select2:opening', function (e) {
-    var dataStation = $('#station_add').select2('data');
-    if(dataStation.length == 0){
-        $( "#station_add" ).focus();
-        $('#station_add').select2('open');
-        toastr.error('Lỗi',"hãy chọn trạm trước");
-        return false;
-    }
-    var dataValueType = $('#value-type-station').select2('data');
-    if(dataValueType.length == 0){
-        $( "#value-type-station" ).focus();
-        $('#value-type-station').select2('open');
-        toastr.error('Lỗi',"hãy chọn yếu tố trước");
-        return false;
-    }
-});
-$("#btnResetNew").click(function(){
-    $("#form_input").get(0).reset();
-    $('#station_add').val(null).trigger('change');
-    $('#station_add').empty();
-    $('#value-type-station').val(null).trigger('change');
-    $('#value-type-station').empty();
-    $('#stationSpatial').val(null).trigger('change');
-    $('#stationSpatial').empty();
-    $('#valueTypeSpatial').val(null).trigger('change');
-    $('#valueTypeSpatial').empty();
-    validator.resetForm();
-    //validatorhorizontal.resetForm();
-    tableStationSpatial
-        .clear()
-        .draw();
-});
-$("#btnResetUpdate").click(function(){
-    tableStationSpatial
-        .clear()
-        .draw();
-    $('#stationSpatial').val(null).trigger('change');
-    $('#stationSpatial').empty();
-    $('#valueTypeSpatial').val(null).trigger('change');
-    $('#valueTypeSpatial').empty();
-    validator.resetForm();
-    //validatorhorizontal.resetForm();
-    setTimeout(function(){
-        var rowDt = tableConfigValueType.rows('.selected').data()[0];
-        showDetailData(rowDt);
-    }, 200);
-
-});
+// $("#btnsaveEdit").click(function(){
+//     var submit = $("#form_input").valid();
+//     if(submit == false){
+//         var dataStation = $('#station_add').select2('data');
+//         var dataValueType = $('#value-type-station').select2('data');
+//         if(dataStation.length == 0){
+//             $('#station_add').select2('open');
+//             return;
+//         }
+//         if(dataValueType.length == 0){
+//             $('#value-type-station').select2('open');
+//             return;
+//         }
+//         validator.focusInvalid();
+//         return;
+//     }
+//     var $form = $("#form_input");
+//     var dataParrent = getFormData($form);
+//
+//     let dataAll  = tableWarningThreshold.rows().data();
+//
+//     let dataThresholdWarning = true;
+//     //console.log(dataAll);
+//     for(let i =0; i< dataAll.length ; i++){
+//         if(dataAll[i].thresholdId == dataAll[i].thresholdCancelID){
+//             dataThresholdWarning = false;
+//             break;
+//         }
+//     }
+//     if(!dataThresholdWarning){
+//         toastr.error('Lỗi',"Cấu hình mức cảnh báo chưa hợp lệ");
+//         return;
+//     }
+//
+//     let dataSend = [];
+//     for(let i =0; i< dataAll.length ; i++){
+//         let tmp ={};
+//         tmp.idParameter = dataAll[i].idParameter;
+//         tmp.status = dataAll[i].status;
+//         tmp.thresholdCancelID = dataAll[i].thresholdCancelID;
+//         tmp.thresholdId = dataAll[i].thresholdId;
+//         tmp.warningThresholdCode = dataAll[i].warningThresholdCode;
+//         dataSend.push(tmp);
+//     }
+//
+//     dataParrent.dataThreshold = dataSend;
+//     $.ajax({
+//         headers: {
+//             'Authorization': token
+//         },
+//         "url": apiUrl + "warning-threshold-station",
+//         "method": "PUT",
+//         "contentType": "application/json",
+//         "data" : JSON.stringify(dataParrent),
+//         "success": function (response) {
+//             toastr.success('Thành công', response.message);
+//             $("#btnsave").css("display", "none");
+//             $("#btnDelete").css("display", "none");
+//             $("#btnReset").css("display", "none");
+//             $("#btncancer").css("display", "none");
+//             $("#btnDonew").attr("disabled", false);
+//             show_search();
+//             tableConfigValueType.ajax.reload();
+//             $("#btnDetail").prop( "disabled", true );
+//             $("#btnDonew").prop("disabled", false);
+//         },
+//         "error": function (error) {
+//             alert("lỗi to đùng");
+//             toastr.error('Lỗi', error.responseJSON.message);
+//         }
+//     });
+// });
+// $("#btnDelete").click(function () {
+//     if(confirm("Bạn có muốn xóa bản ghi")){
+//
+//     } else {
+//         return;
+//     }
+//     $.ajax({
+//         headers: {
+//             'Authorization': token
+//         },
+//         "url": apiUrl + "warning-threshold-station?id="+$("#id").val(),
+//         "method": "DELETE",
+//         "contentType": "application/json",
+//         "success": function (response) {
+//             toastr.success('Thành công', response.message);
+//             $("#btnsave").css("display", "none");
+//             $("#btnDelete").css("display", "none");
+//             $("#btnReset").css("display", "none");
+//             $("#btncancer").css("display", "none");
+//             $("#btnDonew").attr("disabled", false);
+//             $("#btnDetail").prop("disabled",true);
+//             show_search();
+//             tableConfigValueType.ajax.reload();
+//         },
+//         "error": function (error) {
+//             toastr.error('Lỗi', error.responseJSON.message);
+//
+//         }
+//     });
+// });
+// $('#thresholdWarning').on('select2:opening', function (e) {
+//     var dataStation = $('#station_add').select2('data');
+//     if(dataStation.length == 0){
+//         $( "#station_add" ).focus();
+//         $('#station_add').select2('open');
+//         toastr.error('Lỗi',"Chưa chọn trạm");
+//         return false;
+//     }
+//     var dataValueType = $('#value-type-station').select2('data');
+//     if(dataValueType.length == 0){
+//         $( "#value-type-station" ).focus();
+//         $('#value-type-station').select2('open');
+//         toastr.error('Lỗi',"Chưa chọn yếu tố cho trạm");
+//         return false;
+//     }
+// });
+// $('#cancelWarning').on('select2:opening', function (e) {
+//     var dataStation = $('#station_add').select2('data');
+//     if(dataStation.length == 0){
+//         $( "#station_add" ).focus();
+//         $('#station_add').select2('open');
+//         toastr.error('Lỗi',"Chưa chọn trạm");
+//         return false;
+//     }
+//     var dataValueType = $('#value-type-station').select2('data');
+//     if(dataValueType.length == 0){
+//         $( "#value-type-station" ).focus();
+//         $('#value-type-station').select2('open');
+//         toastr.error('Lỗi',"Chưa chọn yếu tố cho trạm");
+//         return false;
+//     }
+// });
+// $('#valueTypeSpatial').on('select2:opening', function (e) {
+//     var dataStation = $('#station_add').select2('data');
+//     if(dataStation.length == 0){
+//         $( "#station_add" ).focus();
+//         $('#station_add').select2('open');
+//         toastr.error('Lỗi',"hãy chọn trạm trước");
+//         return false;
+//     }
+//     var dataValueType = $('#value-type-station').select2('data');
+//     if(dataValueType.length == 0){
+//         $( "#value-type-station" ).focus();
+//         $('#value-type-station').select2('open');
+//         toastr.error('Lỗi',"hãy chọn yếu tố trước");
+//         return false;
+//     }
+// });
+// $("#btnResetNew").click(function(){
+//     $("#form_input").get(0).reset();
+//     $('#station_add').val(null).trigger('change');
+//     $('#station_add').empty();
+//     $('#value-type-station').val(null).trigger('change');
+//     $('#value-type-station').empty();
+//     $('#stationSpatial').val(null).trigger('change');
+//     $('#stationSpatial').empty();
+//     $('#valueTypeSpatial').val(null).trigger('change');
+//     $('#valueTypeSpatial').empty();
+//     validator.resetForm();
+//     //validatorhorizontal.resetForm();
+//     tableStationSpatial
+//         .clear()
+//         .draw();
+// });
+// $("#btnResetUpdate").click(function(){
+//     tableStationSpatial
+//         .clear()
+//         .draw();
+//     $('#stationSpatial').val(null).trigger('change');
+//     $('#stationSpatial').empty();
+//     $('#valueTypeSpatial').val(null).trigger('change');
+//     $('#valueTypeSpatial').empty();
+//     validator.resetForm();
+//     //validatorhorizontal.resetForm();
+//     setTimeout(function(){
+//         var rowDt = tableConfigValueType.rows('.selected').data()[0];
+//         showDetailData(rowDt);
+//     }, 200);
+//
+// });

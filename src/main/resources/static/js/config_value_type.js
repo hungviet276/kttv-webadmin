@@ -328,7 +328,6 @@ var tableConfigValueType = $('#tableValueTypeConfig').DataTable({
                     "endDate": responseJson.content[i].endDate
                 })
             }
-
             return JSON.stringify(dataRes);
         }
     }

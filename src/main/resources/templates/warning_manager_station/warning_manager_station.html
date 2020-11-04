@@ -6,6 +6,25 @@
         border-radius: 5px;
         width: 100%;
     }
+    .legend-normal {
+        margin-left: 1em;
+        padding: 5px;
+        width: auto;
+        font-size: inherit;
+        font-weight: bold;
+    }
+
+    .fieldset-normal {
+        border: 1px gray solid;
+        padding: 10px;
+    }
+
+    .btn-100 {
+        width: 100px;
+    }
+    .hide-col {
+        display: none;
+    }
 </style>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
@@ -27,13 +46,13 @@
             <div class="container-fluid">
                 <div class="card card-default">
                     <div class="card-header">
-                        <h3><b>Quản lý cảnh báo của từng yếu tố theo trạm</b></h3>
+                        <h3><b>Quản lý cảnh báo</b></h3>
                     </div>
                     <div class="container-fluid">
                         <div class="row content" style="width: 100%">
                             <div class="col-sm-5" id="box_search">
                                 <div class="card-header">
-                                    <h3 style="text-align: center"><b>Tìm kiếm thông tin cấu hình cảnh báo của yếu tố</b></h3>
+                                    <h3 style="text-align: center"><b>Tìm kiếm thông tin cấu hình cảnh báo</b></h3>
                                 </div>
                                 <br/>
                                 <form class="form-horizontal" id="form_data">
@@ -47,14 +66,33 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="value-type">Yếu tố</label>
-                                            <div class="select2-purple">
-                                                <select id="value-type" data-placeholder="Select a State"
-                                                        data-dropdown-css-class="select2-purple" style="width: 100%;">
-                                                    <!--                                                            -->
-                                                </select>
+                                        <div class="col-md-6 errorTxt">
+                                            <div class="insertError">
+                                                <label for="nameWarning">Tên cảnh báo</label>
+                                                <input type="text" class="form-control" id="nameWarning" name="nameWarning" placeholder="">
                                             </div>
+                                            <label></label>
+                                        </div>
+                                        <div class="col-md-6 errorTxt">
+                                            <div class="insertError">
+                                                <label for="startDate">Từ ngày</label>
+                                                <input type="text" class="form-control" id="startDate" name="threshold1" placeholder="">
+                                            </div>
+                                            <label></label>
+                                        </div>
+                                        <div class="col-md-6 errorTxt">
+                                            <div class="insertError">
+                                                <label for="endDate">Đến ngày</label>
+                                                <input type="text" class="form-control" id="endDate" name="threshold1" placeholder="">
+                                            </div>
+                                            <label></label>
+                                        </div>
+                                        <div class="col-md-6 errorTxt">
+                                            <div class="insertError">
+                                                <label for="codeWarning">Mã cảnh báo</label>
+                                                <input type="text" class="form-control" id="codeWarning" name="codeWarning" placeholder="">
+                                            </div>
+                                            <label></label>
                                         </div>
                                     </div>
                                 </form>
@@ -72,21 +110,18 @@
                                 <!--                            <p th:text="${a}"></p>-->
                                 <div><input style="display:none" type="text" class="form-control" name="action_info" id="action_info" value="0"></div>
                                 <div class="card-body" style="width: 100%;overflow: auto">
-                                    <table id="tableValueTypeConfig" class="table table-bordered table-hover">
+                                    <table id="tableWarningManagerStation" class="table table-bordered table-hover">
                                         <thead>
                                         <tr>
                                             <th></th>
                                             <th>#</th>
                                             <th data-id="s_id">ID</th>
                                             <th data-id="s_id_station">ID trạm</th>
-                                            <th data-id="s_parameter_type_id">ID yếu tố</th>
                                             <th data-id="s_name_station">Tên trạm</th>
-                                            <th data-id="s_parameter_name">Tên yếu tố</th>
-                                            <th data-id="s_value_level1">Mức cảnh báo 1</th>
-                                            <th data-id="s_value_level2">Mức cảnh báo 2</th>
-                                            <th data-id="s_value_level3">Mức cảnh báo 3</th>
-                                            <th data-id="s_value_level4">Mức cảnh báo 4</th>
-                                            <th data-id="s_value_level5">Mức cảnh báo 5</th>
+                                            <th data-id="s_code_warning">Mã cảnh báo</th>
+                                            <th data-id="s_name_warning">Tên cảnh báo</th>
+                                            <th data-id="s_icon">iCon</th>
+                                            <th >Ngày tạo</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -96,28 +131,25 @@
                             </div>
                             <!-- /.card-footer -->
                             <div class="col-sm-7"  id ="box_info">
-                                <div style="width: 95%;float: right">
-                                    <div class="card-header">
-                                        <h3 style="text-align: center"><b>Thông tin cảnh báo và mức độ cảnh báo của từng yếu tố</b></h3>
-                                    </div>
-                                    <form class="form-horizontal" id="form_input">
+                                <div style="width: 100%;float: right">
+                                    <fieldset class="fieldset-normal">
+                                        <legend class="legend-normal">Thông tin chi tiết và điều kiện cảnh báo</legend>
+                                        <form class="form-horizontal" id="form_input">
                                         <div class="form-row">
                                             <div class="form-group col-md-6 errorTxt">
-                                                <label for="station_add">Trạm <span style="color: red;">*</span></label>
+                                                <label for="stationWarningAdd">Trạm <span style="color: red;">*</span></label>
                                                 <div class="select2-purple insertError">
-                                                    <select id="station_add" name="station_add" data-placeholder="Select a State"
+                                                    <select id="stationWarningAdd" name="stationWarningAdd" data-placeholder="Select a State"
                                                             data-dropdown-css-class="select2-purple" style="width: 100%;">
                                                     </select>
                                                 </div>
                                                 <label></label>
                                             </div>
 
-                                            <div class="form-group col-md-6 errorTxt">
-                                                <label for="value-type-station">Yếu tố <span style="color: red;">*</span></label>
-                                                <div class="select2-purple insertError">
-                                                    <select id="value-type-station" name="value_type_station" data-placeholder="Select a State"
-                                                            data-dropdown-css-class="select2-purple" style="width: 100%;">
-                                                    </select>
+                                            <div class="col-md-6 errorTxt">
+                                                <div class="insertError">
+                                                    <label for="codeWarningAdd">Mã cảnh báo <span style="color: red;">*</span></label>
+                                                    <input type="text" class="form-control" id="codeWarningAdd" name="codeWarningAdd" placeholder="">
                                                 </div>
                                                 <label></label>
                                             </div>
@@ -126,106 +158,102 @@
                                         <div class="form-row">
                                             <div class="col-md-6 errorTxt">
                                                 <div class="insertError">
-                                                    <label for="threshold1">Ngưỡng 1 <span style="color: red;">*</span></label>
-                                                    <input type="number" class="form-control" id="threshold1" name="threshold1" placeholder="" step="0.01">
+                                                    <label for="nameWarningAdd">Tên cảnh báo <span style="color: red;">*</span></label>
+                                                    <input type="text" class="form-control" id="nameWarningAdd" name="nameWarningAdd" placeholder="">
+                                                </div>
+                                                <label></label>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="iconWarningAdd">Icon</label>
+                                                <div class="select2-purple">
+                                                    <select id="iconWarningAdd" data-placeholder="Select a State" name="iconWarningAdd"
+                                                            data-dropdown-css-class="select2-purple" style="width: 100%;">
+                                                        <!--                                                            -->
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="col-md-6 errorTxt">
+                                                <div class="insertError">
+                                                    <label for="colorWarningAdd">Màu sắc <span style="color: red;">*</span></label>
+                                                    <input type="color" class="form-control" id="colorWarningAdd" name="colorWarningAdd" placeholder="">
                                                 </div>
                                                 <label></label>
                                             </div>
                                             <div class="form-group col-md-6 errorTxt">
                                                 <div class="insertError">
-                                                    <label for="threshold2">Ngưỡng 2 <span style="color: red;">*</span></label>
-                                                    <input type="number" class="form-control" id="threshold2" name="threshold2" placeholder="" step="0.01">
+                                                    <label>Textarea</label>
+                                                    <textarea class="form-control col-md-12" rows="3" placeholder="Enter ..."></textarea>
                                                 </div>
                                                 <label></label>
                                             </div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="form-group col-md-6 errorTxt">
-                                                <div class="insertError">
-                                                    <label for="threshold3">Ngưỡng 3 <span style="color: red;">*</span></label>
-                                                    <input type="number" class="form-control" id="threshold3" name="threshold3" placeholder="" step="0.01">
-                                                </div>
-                                                <label></label>
-                                            </div>
-                                            <div class="form-group col-md-6 errorTxt">
-                                                <div class="insertError">
-                                                    <label for="threshold4">Ngưỡng 4 <span style="color: red;">*</span></label>
-                                                    <input class="form-control" id="threshold4" name="threshold4" placeholder="" step="0.01">
-                                                </div>
-                                                <label></label>
-                                            </div>
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6 errorTxt">
-                                                <div class="insertError">
-                                                    <label for="threshold5">Ngưỡng 5 <span style="color: red;">*</span></label>
-                                                    <input type="text" class="form-control" id="threshold5" name="threshold5" placeholder="" step="0.01">
-                                                </div>
-                                                <label></label>
+                                            <div class="insertError" style="margin: 0 auto;">
+                                                <label>Nội dung</label>
+                                                <textarea class="form-control col-md-12" id="contentWarningAdd" name="contentWarningAdd" rows="5" placeholder="Enter ..."></textarea>
                                             </div>
                                         </div>
                                         <input type="number" class="form-control" id="id" name="id" hidden>
                                     </form>
-                                    <div>
-                                        <h3 style="text-align: center"><b>Danh sách mức cảnh báo của yếu tố</b></h3>
-                                    </div>
-                                    <form class="form-horizontal" id="formWarningThreshold">
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6 errorTxt">
-                                                <div class="insertError">
-                                                    <label for="thresholdCode">Mã mức cảnh báo <span style="color: red;">*</span></label>
-                                                    <input type="text" class="form-control" id="thresholdCode" name="thresholdCode" placeholder="">
+                                    </fieldset>
+<!--                                    <div>-->
+<!--                                        <h3 style="text-align: center"><b>Danh sách điều kiện cho cảnh báo</b></h3>-->
+<!--                                    </div>-->
+                                    <fieldset class="fieldset-normal">
+                                        <legend class="legend-normal">Danh sách điều kiện cho cảnh báo</legend>
+                                        <form class="form-horizontal" id="formWarningThreshold">
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="station">Yếu tố</label>
+                                                    <div class="select2-purple">
+                                                        <select id="parameterWarningAdd" data-placeholder="Select a State"
+                                                                data-dropdown-css-class="select2-purple" style="width: 100%;">
+                                                            <!--                                                            -->
+                                                        </select>
+                                                    </div>
                                                 </div>
-                                                <label></label>
-                                            </div>
-                                            <div class="form-group col-md-6 errorTxt">
-                                                <label for="thresholdWarning">Mức cảnh báo <span style="color: red;">*</span></label>
-                                                <div class="select2-purple insertError" style="height: 38px">
-                                                    <select id="thresholdWarning" data-placeholder="Select a State" name="thresholdWarning"
-                                                            data-dropdown-css-class="select2-purple" style="width: 100%; height: 38px">
-                                                        <!--                                                            -->
-                                                    </select>
+                                                <div class="form-group col-md-6">
+                                                    <label for="WarningThresholdCode">Mức cảnh báo của yếu tố theo trạm </label>
+                                                    <div class="select2-purple">
+                                                        <select id="WarningThresholdCode" data-placeholder="Select a State"
+                                                                data-dropdown-css-class="select2-purple" style="width: 100%;">
+                                                            <!--                                                            -->
+                                                        </select>
+                                                    </div>
                                                 </div>
-                                                <label></label>
-                                            </div>
-                                            <div class="form-group col-md-6 errorTxt">
-                                                <label for="cancelWarning">Mức hủy cảnh báo <span style="color: red;">*</span></label>
-                                                <div class="select2-purple insertError" style="height: 38px">
-                                                    <select id="cancelWarning" data-placeholder="Select a State" name="cancelWarning"
-                                                            data-dropdown-css-class="select2-purple" style="width: 100%; height: 38px">
-                                                        <!--                                                            -->
-                                                    </select>
+                                                <div class="col-md-6 errorTxt">
+                                                    <div class="insertError">
+                                                        <label for="levelWarning">Mức cảnh báo <span style="color: red;">*</span></label>
+                                                        <input type="text" class="form-control" id="levelWarning" name="levelWarning" placeholder="" disabled="true">
+                                                    </div>
                                                 </div>
-                                                <label></label>
-                                            </div>
-                                            <div class="form-group col-md-6 errorTxt">
-                                                <label for="status">Trạng thái <span style="color: red;">*</span></label>
-                                                <div class="select2-purple insertError" style="height: 38px">
-                                                    <select name="status" id="status" class="select">
-                                                        <option value="">--- Hãy chọn ---</option>
-                                                        <option value="1">Hoạt động</option>
-                                                        <option value="0">Không hoạt động</option>
-                                                    </select>
+                                                <div class="col-md-6 errorTxt">
+                                                    <div class="insertError">
+                                                        <label for="levelClear">Mức hủy cảnh báo <span style="color: red;">*</span></label>
+                                                        <input type="text" class="form-control" id="levelClear" name="levelClear" placeholder="" disabled="true">
+                                                    </div>
                                                 </div>
-                                                <label></label>
                                             </div>
+                                        </form>
+                                        <div class="wrap-button-control">
+                                            <button class="btn btn-primary" id="btnsaveStationValueType" style="width: 100px;">
+                                                <i class="fas fa-plus"></i> Lưu
+                                            </button>
                                         </div>
-                                    </form>
-                                    <div class="wrap-button-control">
-                                        <button class="btn btn-primary" id="btnsaveStationValueType" style="width: 100px;">
-                                            <i class="fas fa-plus"></i> Lưu
-                                        </button>
-                                    </div>
+                                    </fieldset>
                                     <hr>
-                                    <table id="tableWarningThreshold" class="table table-bordered table-hover" style="margin: 0 auto; width: 100%">
+                                    <table id="tableConditionWarning" class="table table-bordered table-hover" style="margin: 0 auto; width: 100%">
                                         <thead>
                                         <tr>
-                                            <th>Mã mức cảnh báo</th>
-                                            <th>Id Yếu tố</th>
-                                            <th>Tên yếu tố</th>
+                                            <th>Id yếu tố</th>
+                                            <th>Yếu tố</th>
+                                            <th>Mã mức cảnh báo theo yếu tố</th>
                                             <th>Ngưỡng cảnh báo</th>
                                             <th>Ngưỡng hủy cảnh báo</th>
-                                            <th>Trạng thái</th>
+                                            <th>Người tạo</th>
+                                            <th>Ngày tạo</th>
                                             <th>Xóa</th>
                                         </tr>
                                         </thead>
@@ -285,5 +313,5 @@
     var username = "[[${session.userBO.Username}]]";
     var token = "[[${session.token}]]";
 </script>
-<script src="js/warning_threshold_station.js"></script>
+<script src="js/warning_manager_station.js"></script>
 </html>

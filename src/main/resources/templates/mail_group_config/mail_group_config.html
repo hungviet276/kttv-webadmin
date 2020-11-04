@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<style>
+    .select{
+        text-transform: none;
+        height: 38px;
+        border-radius: 5px;
+        width: 100%;
+    }
+    .card{
+        box-shadow: 0 0 0px rgba(0,0,0,.125), 0 0px 0px rgba(0,0,0,.2) !important;
+    }
+    .legend-normal {
+        margin-left: 1em;
+        padding: 5px;
+        width: auto;
+        font-size: inherit;
+        font-weight: bold;
+    }
+
+    .fieldset-normal {
+        border: 1px gray solid;
+        padding: 10px;
+    }
+
+    .btn-100 {
+        width: 100px;
+    }
+    .hide-col {
+        display: none;
+    }
+</style>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:replace="layout_header.html :: head_tag" />
+    <title>Quản lý người dùng</title>
+</head>
+<body  class="hold-transition sidebar-mini layout-fixed text-sm">
+<div class="wrapper">
+
+    <th:block th:replace="layout_menu.html :: menu_tag" />
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="container-fluid">
+                <div class="card card-default">
+                    <div class="card-header">
+                        <h3><b>Quản lý nhóm người nhận mail</b></h3>
+                    </div>
+                    <div class="container-fluid">
+                        <div class="row content" style="width: 100%">
+                            <div class="col-sm-5" id="box_search">
+                                <div class="card-header">
+                                    <h3 style="text-align: center"><b>Tìm kiếm thông tin nhóm người nhận mail</b></h3>
+                                </div>
+                                <br/>
+                                <form class="form-horizontal" id="form_data">
+                                    <div class="form-row" id ="search_users">
+                                        <div class="form-group col-md-6 errorTxt">
+                                            <div class="insertError">
+                                                <label for="codeMailGroup">Mã mức cảnh báo </label>
+                                                <input type="text" class="form-control" id="codeMailGroup" name="codeMailGroup" placeholder="">
+                                            </div>
+                                            <label></label>
+                                        </div>
+                                        <div class="form-group col-md-6 errorTxt">
+                                            <div class="insertError">
+                                                <label for="nameMailGroup">Tên mức cảnh báo </label>
+                                                <input type="text" class="form-control" id="nameMailGroup" name="nameMailGroup" placeholder="">
+                                            </div>
+                                            <label></label>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="statusMailGroup">Trạng thái</label>
+                                            <select class="form-control" id="statusMailGroup" data-placeholder="Select a State"
+                                                    data-dropdown-css-class="select2-purple" style="width: 100%;">
+                                                <option>--- Hãy chọn ---</option>
+                                                <option value="1">Hoạt động</option>
+                                                <option value="0">Dừng hoạt động</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="wrap-button-control">
+                                    <button class="btn btn-primary" id="btnSearch" style="width:100px;">
+                                        <i class="fas fa-search"></i> Tìm kiếm
+                                    </button>
+                                    <button class="btn btn-primary" id="btnDonew" style="width:100px;">
+                                        <i class="fas fa-plus"></i> Thêm
+                                    </button>
+                                    <button class="btn btn-primary" id="btnDetail" style="width:100px;" disabled="disabled">
+                                        <i class="fa fa-eye" aria-hidden="true"></i> Chi tiết
+                                    </button>
+                                </div>
+                                <!--                            <p th:text="${a}"></p>-->
+                                <div><input style="display:none" type="text" class="form-control" name="action_info" id="action_info" value="0"></div>
+                                <div class="card-body" style="width: 100%;overflow: auto">
+                                    <table id="tableGroupMailReceive" class="table table-bordered table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>#</th>
+                                            <th data-id="s_id">ID</th>
+                                            <th data-id="s_id_station">Mã nhóm</th>
+                                            <th data-id="s_parameter_type_id">Tên nhóm</th>
+                                            <th data-id="s_name_station">Trạng thái</th>
+                                            <th data-id="s_parameter_name">Mô tả</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- /.card-footer -->
+                            <div class="col-sm-7"  id ="box_info">
+                                <div class="card card-tabs">
+                                    <div class="card-header p-0 pt-1">
+                                        <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                                            <li class="nav-item child_template">
+                                                <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill"
+                                                   href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home"
+                                                   aria-selected="true">Nhóm người nhận trong hệ thống</a>
+                                            </li>
+                                            <li class="nav-item child_template">
+                                                <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill"
+                                                   href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile"
+                                                   aria-selected="false">Nhóm người nhận ngoài hệ thống</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="child_template">
+                                        <div class="tab-content" id="custom-tabs-one-tabContent">
+                                            <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel"
+                                                 aria-labelledby="custom-tabs-one-home-tab">
+                                                <div style="width: 95%;margin: 0 auto;">
+                                                    <fieldset class="fieldset-normal">
+                                                        <legend class="legend-normal">Thông tin nhóm người nhận mail trong hệ thống</legend>
+                                                        <form class="form-horizontal" id="formInSite">
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-6 errorTxt">
+                                                                <div class="insertError">
+                                                                    <label for="code">Mã mức cảnh báo </label>
+                                                                    <input type="text" class="form-control" id="code" name="code" placeholder="">
+                                                                </div>
+                                                                <label></label>
+                                                            </div>
+
+                                                            <div class="form-group col-md-6 errorTxt">
+                                                                <div class="insertError">
+                                                                    <label for="name">Tên mức cảnh báo </label>
+                                                                    <input type="text" class="form-control" id="name" name="name" placeholder="">
+                                                                </div>
+                                                                <label></label>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label>Textarea</label>
+                                                            <textarea class="form-control col-md-12" rows="5" placeholder="Enter ..."></textarea>
+                                                        </div>
+
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-6">
+                                                                <label for="status">Trạng thái</label>
+                                                                <select class="form-control" id="status" name="status" data-placeholder="Select a State"
+                                                                        data-dropdown-css-class="select2-purple" style="width: 100%;">
+                                                                    <option>--- Hãy chọn ---</option>
+                                                                    <option value="1">Hoạt động</option>
+                                                                    <option value="0">Dừng hoạt động</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <input type="number" class="form-control" id="id" name="id" hidden>
+                                                    </form>
+                                                    </fieldset>
+                                                    <div>
+                                                        <h3 style="text-align: center"><b>Danh sách nhóm người dùng trong hệ thống</b></h3>
+                                                    </div>
+                                                    <form class="form-horizontal" id="formUserReceiveInsite">
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-12 errorTxt">
+                                                                <label for="userReceiveInsite">Tài khoản - Tên - Email <span style="color: red;">*</span></label>
+                                                                <div class="select2-purple insertError" style="height: 38px">
+                                                                    <select id="userReceiveInsite" data-placeholder="Select a State" name="thresholdWarning"
+                                                                            data-dropdown-css-class="select2-purple" style="width: 100%; height: 38px">
+                                                                        <!--                                                            -->
+                                                                    </select>
+                                                                </div>
+                                                                <label></label>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <div class="wrap-button-control">
+                                                        <button class="btn btn-primary" id="btnSaveUserInsite" style="width: 100px;">
+                                                            <i class="fas fa-plus"></i> Lưu
+                                                        </button>
+                                                    </div>
+                                                    <table id="tableUserReceveiMailInSite" class="table table-bordered table-hover" style="margin: 0 auto; width: 100%">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>STT</th>
+                                                            <th>Tài khoản</th>
+                                                            <th>Email</th>
+                                                            <th>Xóa</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel"
+                                                 aria-labelledby="custom-tabs-one-profile-tab">
+                                                <div style="width: 95%;margin: 0 auto;">
+                                                    <fieldset class="fieldset-normal">
+                                                        <legend class="legend-normal">Thông tin nhóm người nhận mail ngoài hệ thống</legend>
+                                                        <form class="form-horizontal" id="form_input">
+                                                        <div class="form-row">
+                                                            <div class="col-md-6 errorTxt">
+                                                                <div class="insertError">
+                                                                    <label for="nameOutSite">Tên <span style="color: red;">*</span></label>
+                                                                    <input type="text" class="form-control" id="nameOutSite" name="nameOutSite" placeholder="" step="0.01">
+                                                                </div>
+                                                                <label></label>
+                                                            </div>
+
+                                                            <div class="col-md-6 errorTxt">
+                                                                <div class="insertError">
+                                                                    <label for="phoneOutSite">Số điện thoại</label>
+                                                                    <input type="number" class="form-control" id="phoneOutSite" name="phoneOutSite" placeholder="" step="0.01">
+                                                                </div>
+                                                                <label></label>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-row">
+                                                            <div class="col-md-6 errorTxt">
+                                                                <div class="insertError">
+                                                                    <label for="codeUserOutSite">Mã người dùng <span style="color: red;">*</span></label>
+                                                                    <input type="text" class="form-control" id="codeUserOutSite" name="codeUserOutSite" placeholder="" step="0.01">
+                                                                </div>
+                                                                <label></label>
+                                                            </div>
+                                                            <div class="form-group col-md-6 errorTxt">
+                                                                <div class="insertError">
+                                                                    <label for="emailOutSite">Email <span style="color: red;">*</span></label>
+                                                                    <input type="text" class="form-control" id="emailOutSite" name="emailOutSite" placeholder="">
+                                                                </div>
+                                                                <label></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-6 errorTxt">
+                                                                <div class="insertError">
+                                                                    <label for="sexOutSite">Giới tính</label>
+                                                                    <select id="sexOutSite" style="width: 100%">
+                                                                        <option>--- Hãy chọn ---</option>
+                                                                        <option value="1">Nam</option>
+                                                                        <option value="0">Nữ</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group col-md-6 errorTxt">
+                                                                <div class="insertError">
+                                                                    <label for="statusOutSite">Trạng thái <span style="color: red;">*</span></label>
+                                                                    <select id="statusOutSite" style="width: 100%">
+                                                                        <option>--- Hãy chọn ---</option>
+                                                                        <option value="1">Hoạt động</option>
+                                                                        <option value="0">Dừng hoạt động</option>
+                                                                    </select>
+                                                                </div>
+                                                                <label></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-6 errorTxt">
+                                                                <div class="insertError">
+                                                                    <label for="idOutSite">Số chứng minh thư</label>
+                                                                    <input type="text" class="form-control" id="idOutSite" name="idOutSite" placeholder="" step="0.01">
+                                                                </div>
+                                                                <label></label>
+                                                            </div>
+                                                            <div class="form-group col-md-6 errorTxt">
+                                                                <div class="insertError">
+                                                                    <label for="positionOutSite">Chức vụ</label>
+                                                                    <input type="text" class="form-control" id="positionOutSite" name="positionOutSite" placeholder="" step="0.01">
+                                                                </div>
+                                                                <label></label>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    </fieldset>
+                                                    <div class="wrap-button-control">
+                                                        <button class="btn btn-primary" id="btnsaveStationValueType" style="width: 100px;">
+                                                            <i class="fas fa-plus"></i> Lưu
+                                                        </button>
+                                                    </div>
+                                                    <table id="tableWarningThreshold" class="table table-bordered table-hover" style="margin: 0 auto; width: 100%">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>Mã mức cảnh báo</th>
+                                                            <th>Id Yếu tố</th>
+                                                            <th>Tên yếu tố</th>
+                                                            <th>Ngưỡng cảnh báo</th>
+                                                            <th>Ngưỡng hủy cảnh báo</th>
+                                                            <th>Trạng thái</th>
+                                                            <th>Xóa</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="wrap-button-control">
+                                        <button class="btn btn-primary" id="btnsave" style="display:none;width: 100px;">
+                                            <i class="fas fa-plus"></i> Lưu
+                                        </button>
+                                        <button class="btn btn-primary" id="btnsaveEdit" style="display:none;width: 100px;">
+                                            <i class="fas fa-plus"></i> Lưu
+                                        </button>
+                                        <button class="btn btn-primary" id="btnDelete" style="display:none;width: 100px;">
+                                            <i class="far fa-trash-alt"></i> Xoá
+                                        </button>
+                                        <button class="btn btn-primary" id="btnReset" style="display:none;width: 100px;">
+                                            <i class="fas fa-redo-alt"></i> Làm mới
+                                        </button>
+                                        <button class="btn btn-primary" id="btncancer" style="display:none;width: 100px;">
+                                            <i class="fas fa-times"></i> Hủy
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="popup-loading">
+                    <div class="wrapper-loading">
+                        <div class="sub-wrapper-loading">
+                            <div class="d-flex justify-content-center">
+                                <div class="spinner-border" role="status">
+                                    <span class="sr-only" th:text="#{action.loading}">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<!-- Control Sidebar -->
+<aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+</aside>
+<th:block th:replace="layout_footer.html :: footer_tag" />
+<script type="text/javascript">
+    var apiUrl = "[[${session.apiUrl}]]";
+    var userBO = "[[${session.userBO}]]";
+    var username = "[[${session.userBO.Username}]]";
+    var token = "[[${session.token}]]";
+</script>
+<script src="js/mail_group_config.js"></script>
+</html>
