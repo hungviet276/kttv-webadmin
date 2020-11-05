@@ -41,7 +41,7 @@ function changer_password() {
                 if ($.trim(data).indexOf("true") == 0) {
                     toastr.success('Đổi mật khẩu thành công!', data.message);
                     ;
-                    $('#nofication_msg').html('Đổi mật khẩu thành công!');
+                    // $('#nofication_msg').html('Đổi mật khẩu thành công!');
                     $('#pass_old').val('');
                     $('#pass_new').val('');
                     $('#re_pass_new').val('');
@@ -49,17 +49,17 @@ function changer_password() {
                     toastr.success('Mật khẩu cũ không chính xác!', data.message);
                     ;
                     $('#pass_old').focus();
-                    $('#pass_old').val('');
-                    $('#pass_new').val('');
-                    $('#re_pass_new').val('');
-                    $('#nofication_msg').html('Đổi mật khẩu thất bại!');
+                    // $('#pass_old').val('');
+                    // $('#pass_new').val('');
+                    // $('#re_pass_new').val('');
+                    // $('#nofication_msg').html('Đổi mật khẩu thất bại!');
                 }else {
                     toastr.success('Có lỗi xảy ra !', data.message);
                     ;
-                    $('#pass_old').val('');
-                    $('#pass_new').val('');
-                    $('#re_pass_new').val('');
-                    $('#nofication_msg').html('Đổi mật khẩu thất bại!');
+                    // $('#pass_old').val('');
+                    // $('#pass_new').val('');
+                    // $('#re_pass_new').val('');
+                    // $('#nofication_msg').html('Đổi mật khẩu thất bại!');
                 }
             }
         });
