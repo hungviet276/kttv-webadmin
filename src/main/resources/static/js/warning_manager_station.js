@@ -483,8 +483,81 @@ var contentWarningAdd = '';
 $(document).ready(function() {
     contentWarningAdd = CKEDITOR.replace('contentWarningAdd');
 });
-//end form add
 
+$("#WarningThresholdCode").change(function(){
+    $.ajax({
+        headers: {
+            'Authorization': token
+        },
+        "url": apiUrl + "warning-manager-station/get-info-warning-threshold?idThreshold="+$("#WarningThresholdCode").val(),
+        "method": "GET",
+        "contentType": "application/json",
+        "success": function (response) {
+            $("#levelWarning").val(response.warningThreshold);
+            $("#levelClear").val(response.warningThresholdCancel);
+        },
+        "error": function (error) {
+            toastr.error('Lỗi', error.responseJSON.message);
+        }
+    });
+
+});
+
+//table add thêm cảnh bảo
+
+var tableWarningThreshold = $('#tableConditionWarning').DataTable({
+    columns: [
+        {
+            "data": "id",
+            "visible": false
+        },
+        {
+            "data": "idParameter",
+            "visible": false
+        },
+        {"data": "nameParameter"},
+        {"data": "warningThresholdCode"},
+        {"data": "warningThreshold"},
+        {"data": "warningThresholdCancel"},
+        {"data": "createBy"},
+        {"data": "createAt"},
+        {
+            data: null,
+            className: "center",
+            defaultContent: '<a href="" class="editor_remove">Delete</a>'
+        }
+    ]
+});
+
+$("#btnsaveStationValueType").click(function(){
+    var dataParameter = $('#parameterWarningAdd').select2('data');
+    var dataWarningcode = $("#WarningThresholdCode").select2('data');
+    let dataInsertTable = {};
+    var data =[];
+    dataInsertTable.id = "";
+    dataInsertTable.idParameter = dataParameter[0].id;
+    dataInsertTable.nameParameter = dataParameter[0].text;
+    dataInsertTable.warningThresholdCode = dataWarningcode[0].text;
+    dataInsertTable.warningThreshold = $("#levelWarning").val();
+    dataInsertTable.warningThresholdCancel = $("#levelClear").val();
+    dataInsertTable.createBy = username;
+    dataInsertTable.createAt = dateToString(new Date());
+
+    data.push(dataInsertTable.id);
+    data.push(dataInsertTable.idParameter);
+    data.push(dataInsertTable.nameParameter);
+    data.push(dataInsertTable.warningThresholdCode);
+    data.push(dataInsertTable.warningThreshold);
+    data.push(dataInsertTable.warningThresholdCancel);
+    data.push(dataInsertTable.createBy);
+    data.push(dataInsertTable.createAt);
+
+    console.log(data);
+    tableWarningThreshold.row.add(data).draw(true);
+});
+
+//end form add
+// cuối cùng đến đây
 $('#thresholdWarning').select2({
 
 });

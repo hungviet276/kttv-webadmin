@@ -11,6 +11,15 @@ $('#statusOutSite').select2({
     }
 });
 
+
+let objSearch = {
+    s_id: '',
+    s_name: '',
+    s_code: '',
+    s_status: '',
+    s_description: ''
+};
+
 $('#sexOutSite').select2({
     minimumResultsForSearch: -1,
     escapeMarkup: function(markup) {
@@ -141,6 +150,168 @@ $('#station').select2({
                     }
                 })
             };
+        }
+    }
+});
+
+$('#tableGroupMailReceive thead th').each(function () {
+    var title = $(this).text();
+    var dataId = $(this).attr("data-id");
+    var is_select = $(this).attr("is_select");
+    if (dataId != null && dataId != undefined) {
+        if(is_select==null || is_select == undefined){
+            $(this).html('<input id="'+ dataId +'" class="table-data-input-search" type="text" placeholder="Search ' + title + '" />');
+        }else{
+            $(this).html(`
+                            <select class="select_table" id="`+ dataId +`">
+                                <option value="">Hãy chọn</option>
+                                <option value=1>hoạt động</option>
+                                <option value=0>không hoạt động</option>
+                            </select>
+                            `);
+        }
+    }
+});
+$('#s_status').select2({
+    minimumResultsForSearch: -1,
+    escapeMarkup: function(markup) {
+        return markup;
+    },
+    templateSelection: function(data) {
+        return data.text;
+    }
+});
+//table config mail
+var table = $('#tableGroupMailReceive').DataTable({
+    columnDefs: [
+        {
+            orderable: false,
+            className: 'select-checkbox',
+            targets:   0
+        },
+        {
+            targets: 5,
+            render : function(data, type, row) {
+                if(data===1){
+                    return '<div class="status_green">hoạt động</div>';
+                } else{
+                    return '<div class="status_red">không hoạt động</div>';
+                }
+            }
+        }
+    ],
+    select: {
+        style:    'os',
+        selector: 'td:first-child',
+        type: 'single'
+    },
+    "pagingType": "full_numbers",
+    "lengthMenu": [
+        [10, 25, 50, -1],
+        [10, 25, 50, "Tất cả"]
+    ],
+    "lengthChange": true,
+    "searching": false,
+    "ordering": false,
+    "info": true,
+    "autoWidth": false,
+    "scrollX": true,
+    "responsive": false,
+    "searchDelay": 1500,
+    language: {
+        search: "_INPUT_",
+        searchPlaceholder: "Nhập thông tin tìm kiếm",
+    },
+    "select": {
+        "style": "single"
+    },
+    "processing": true,
+    "serverSide": true,
+    "columns": [
+        { "data":""},
+        {"data": "indexCount"},
+        {"data": "id"},
+        {"data": "code"},
+        {"data": "name"},
+        {"data": "status"},
+        {"data": "description"}
+    ],
+    initComplete: function () {
+        this.api().columns().every(function () {
+            $('.table-data-input-search').on('keyup change clear', function () {
+                $('.table-data-input-search').on('keyup', function () {
+                    oldValue = this.___value___;
+                    this.___value___ = this.value;
+                    if (oldValue == this.___value___) return;
+                    keyUpTime = new Date().getTime();
+                    let id = $(this).attr('id');
+                    objSearch[id] = this.value;
+                    setTimeout(function () {
+                        if (new Date().getTime() - keyUpTime > 500) {
+                            table.search(objSearch).draw();
+                            keyUpTime = new Date().getTime();
+                        }
+                        return;
+                    }, 560);
+
+                });
+            });
+        });
+        $('.select_table').on('keyup change clear', function () {
+            let id = $(this).attr("id");
+            objSearch[id] = this.value;
+            table
+                .search(JSON.stringify(objSearch))
+                .draw();
+        });
+    },
+    "ajax": {
+        headers: {
+            'Authorization': token
+        },
+        "url":apiUrl + "group-mail-config/get-list-group-mail-paging-nation",
+        "method": "POST",
+        "contentType": "application/json",
+        "data": function (d) {
+            //console.log(d);
+            draw = d.draw;
+            return JSON.stringify({
+                "draw": d.draw,
+                "start": Math.round(d.start / d.length),
+                "length": d.length,
+                "search": JSON.stringify(objSearch)
+            });
+        },
+        "dataFilter": function (response) {
+            objSearch = {
+                s_id: '',
+                s_name: '',
+                s_code: '',
+                s_status: '',
+                s_description: ''
+            };
+            let responseJson = JSON.parse(response);
+            let dataRes = {
+                "draw": draw,
+                "recordsFiltered": responseJson.recordsTotal,
+                "recordsTotal": responseJson.recordsTotal,
+                "data": []
+            };
+
+            for (let i = 0; i < responseJson.content.length; i++) {
+                dataRes.data.push({
+                    "": "",
+                    "indexCount" : i+1,
+                    "id": responseJson.content[i].id,
+                    "code": responseJson.content[i].code,
+                    "name": responseJson.content[i].name,
+                    "status": responseJson.content[i].status,
+                    "description": responseJson.content[i].description,
+                })
+
+            }
+
+            return JSON.stringify(dataRes);
         }
     }
 });

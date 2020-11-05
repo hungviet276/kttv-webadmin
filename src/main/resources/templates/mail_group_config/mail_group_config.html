@@ -28,6 +28,9 @@
     .hide-col {
         display: none;
     }
+    #tableGroupMailReceive_wrapper > div:nth-child(2) > div > div.dataTables_scroll > div.dataTables_scrollHead > div > table > thead > tr > th:nth-child(6) > span > span.selection > span{
+        height: 27px !important;
+    }
 </style>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
@@ -104,13 +107,13 @@
                                     <table id="tableGroupMailReceive" class="table table-bordered table-hover">
                                         <thead>
                                         <tr>
-                                            <th></th>
-                                            <th>#</th>
+                                            <th >Chọn</th>
+                                            <th >STT</th>
                                             <th data-id="s_id">ID</th>
-                                            <th data-id="s_id_station">Mã nhóm</th>
-                                            <th data-id="s_parameter_type_id">Tên nhóm</th>
-                                            <th data-id="s_name_station">Trạng thái</th>
-                                            <th data-id="s_parameter_name">Mô tả</th>
+                                            <th data-id="s_code">CODE</th>
+                                            <th data-id="s_name">Tên nhóm</th>
+                                            <th data-id="s_status" is_select="1">Trạng thái</th>
+                                            <th data-id="s_description">Mô tả</th>
                                         </tr>
                                         </thead>
                                         <tbody>
