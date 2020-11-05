@@ -139,72 +139,13 @@
                                                 </select>
                                                 <span id="unitId_error" class="help-block" style="color: red"></span>
                                             </div>
-                                            <!--                                            </div>
-                                                                                        <div class="form-group col-md-6">
-                                                                                            <label for="latitude">Vĩ độ <span style="color: red;">*</span></label>
-                                                                                            <input type="number" class="form-control" id="latitude" placeholder="">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="form-row">
-                                                                                        <div class="form-group col-md-6">
-                                                                                            <label for="areaId">Khu vực</label>
-                                                                                            <select id="areaId" class="form-control" style="width: 100%;" onchange="station.getProvince(this)">
-                                                                                            </select>
-                                                                                        </div>
-
-                                                                                    </div>
-                                                                                    <div class="form-row">
-                                                                                        <div class="form-group col-md-6">
-                                                                                            <label for="provinceId">Tỉnh</label>
-                                                                                            <select id="provinceId" class="form-control" style="width: 100%;" onchange="station.getDistrict(this)">
-                                                                                                <option value="-1">Lựa chọn</option>
-                                                                                            </select>
-                                                                                        </div>
-                                                                                        <div class="form-group col-md-6">
-                                                                                            <label for="districtId">Quận/huyện</label>
-                                                                                            <select id="districtId" class="form-control" style="width: 100%;" onchange="station.getWard(this)">
-                                                                                                <option value="-1">Lựa chọn</option>
-                                                                                            </select>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="form-row">
-                                                                                        <div class="form-group col-md-6">
-                                                                                            <label for="wardId">Xã</label>
-                                                                                            <select id="wardId" class="form-control" style="width: 100%;">
-                                                                                                <option value="-1">Lựa chọn</option>
-                                                                                            </select>
-                                                                                        </div>
-                                                                                        <div class="form-group col-md-6">
-                                                                                            <label for="address">Địa chỉ cụ thể</label>
-                                                                                            <input type="text" class="form-control" id="address" placeholder="">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="form-row">
-                                                                                        <div class="form-group col-md-6">
-                                                                                            <label for="riverId">Thuộc sông</label>
-                                                                                            <select id="riverId" class="form-control" style="width: 100%;">
-                                                                                                <option value="-1">Lựa chọn</option>
-                                                                                            </select>
-                                                                                        </div>
-                                                                                        <!--                                            <div class="form-group col-md-6">-->
-                                            <!--                                                <label for="input_phone">Độ cao của trạm(*)</label>-->
-                                            <!--                                                <input type="text" class="form-control" id="input_phone" placeholder="">-->
-                                            <!--                                            </div>-->
                                         </div>
-                                        <!--                                        <div class="form-row">-->
-                                        <!--                                            <div class="form-group col-md-6">-->
-                                        <!--                                                <label for="status">Trạng thái</label>-->
-                                        <!--                                                <select id="status" class="form-control" style="width: 100%;">-->
-                                        <!--                                                    <option value="1">Hoạt động</option>-->
-                                        <!--                                                    <option value="0">Không hoạt động</option>-->
-                                        <!--                                                </select>-->
-                                        <!--                                            </div>-->
-                                        <!--                                        </div>-->
+
                                         <!--  tab phan quyen-->
                                         <h3>Danh sách time series cấu hình</h3>
                                         <div class="tab-content">
                                             <div class="form-row">
-                                                <div class="form-group col-md-6">
+                                                <div class="form-group col-md-4">
                                                     <label for="timeSeries">Time series <span
                                                             style="color: red;">*</span></label>
                                                     <select id="timeSeries" class="form-control" style="width: 100%;">
@@ -212,35 +153,18 @@
                                                     </select>
                                                     <span id="timeSeries_error" class="help-block" style="color: red"></span>
                                                 </div>
-                                                <div class="form-group col-md-6">
+                                                <div class="form-group col-md-4">
                                                     <label for="tsConfigName">Time series config name <span style="color: red;">*</span></label>
                                                     <input type="text" class="form-control" id="tsConfigName" placeholder="">
                                                     <span id="tsConfigName_error" class="help-block" style="color: red"></span>
                                                 </div>
-                                                <!--                                                    <div class="form-group col-md-6">-->
-                                                <!--                                                        <label for="unit">Đơn vị tính <span style="color: red;">*</span></label>-->
-                                                <!--                                                        <select id="unit" class="form-control" style="width: 100%;">-->
-                                                <!--                                                            <option value="-1">Lựa chọn</option>-->
-                                                <!--                                                        </select>-->
-                                                <!--                                                    </div>-->
+                                                <div class="form-group col-md-4">
+                                                    <label for="storage">Storage <span style="color: red;">*</span></label>
+                                                    <input type="text" class="form-control" id="storage" placeholder="Bảng lưu trữ giá trị product">
+                                                    <span id="storage_error" class="help-block" style="color: red"></span>
+                                                </div>
                                             </div>
-                                            <!--                                                <div class="form-row">-->
-                                            <!--                                                    <div class="form-group col-md-6">-->
-                                            <!--                                                        <label for="input_group_id">Thiết bị đo</label>-->
-                                            <!--                                                        <input type="email" class="form-control" id="input_group_id" placeholder="">-->
-                                            <!--                                                    </div>-->
 
-                                            <!--                                                    <div class="form-group col-md-6">-->
-                                            <!--                                                        <label for="note">Ghi chú</label>-->
-                                            <!--                                                        <input type="text" class="form-control" id="note" placeholder="">-->
-                                            <!--                                                    </div>-->
-                                            <!--                                                </div>-->
-                                            <!--                                                <div class="form-row">-->
-                                            <!--                                                    <div class="form-group col-md-6">-->
-                                            <!--                                                        <label for="input_group_id">Ghi chú</label>-->
-                                            <!--                                                        <input type="email" class="form-control" id="input_group_id" placeholder="">-->
-                                            <!--                                                    </div>-->
-                                            <!--                                                </div>-->
                                             <div class="wrap-button-control">
                                                 <button class="btn btn-primary" id="btnAddSeries" style="width: 100px;"
                                                         onclick="station.btnAddSeries()">
@@ -253,8 +177,8 @@
                                             </div>
 
                                             <table id="tableDataParameter" class="table table-bordered table-hover"
-                                                   style="width: 100%">
-                                                <thead style="width: 100%">
+                                                   style="width: 98%">
+                                                <thead style="width: 98%">
                                                 <tr>
                                                     <th>#</th>
                                                     <!--                                                    <th data-id="s_stationParamterId">Time series Id</th>-->
@@ -263,7 +187,7 @@
                                                     <th data-id="">Tác động</th>
                                                 </tr>
                                                 </thead>
-                                                <tbody style="width: 100%">
+                                                <tbody style="width: 98%">
                                                 </tbody>
                                             </table>
                                         </div>

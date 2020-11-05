@@ -106,7 +106,13 @@ var station =
                 contentType: "application/json",
                 success: function (data) {
                     console.log(data);
+                    let emptyOptions = new Option("Lựa chọn", "-1", true, false);
                     $("#provinceId").empty();
+                    $("#districtId").empty();
+                    $("#districtId").append(emptyOptions).trigger('change');
+                    let emptyOptions2 = new Option("Lựa chọn", "-1", true, false);
+                    $("#wardId").empty();
+                    $("#wardId").append(emptyOptions2).trigger('change');
                     $("#provinceId").select2({data: data});
                     if (clientAction === 'update') {
                         $('#provinceId').val(station.parameter.provinceId).trigger('change');
@@ -131,6 +137,9 @@ var station =
                 contentType: "application/json",
                 success: function (data) {
                     console.log(data);
+                    let emptyOptions = new Option("Lựa chọn", "-1", true, false);
+                    $("#wardId").empty();
+                    $("#wardId").append(emptyOptions).trigger('change');
                     $("#districtId").empty();
                     $("#districtId").select2({data: data});
                     if (clientAction === 'update') {
@@ -275,7 +284,6 @@ var station =
             $("#parameter").val('-1').trigger('change');
             $("#tsConfigId").val('-1').trigger('change');
             $("#tsName").val('');
-            // $("#note").val('');
         },
         deleteParameter: function (id) {
             if (!confirm('Bạn thực sự muốn xóa ?')) {
@@ -728,7 +736,7 @@ var station =
                 // $('#districtId').val(rowData[0].districtId).trigger('change');
                 // $('#wardId').val(rowData[0].wardId).trigger('change');
                 $('#address').val(rowData[0].address);
-                // $('#riverId').val(rowData[0].riverId).trigger('change');
+                $('#riverId').val(rowData[0].riverId).trigger('change');
                 $('#status').val(rowData[0].status).trigger('change');
 
                 //lay thong tin list parameter
@@ -1000,7 +1008,7 @@ $(document).ready(function () {
         var is_select = $(this).attr("is_select");
         if (dataId != null && dataId != undefined) {
             if (is_select == null || is_select == undefined) {
-                $(this).html('<input id="' + dataId + '" class="table-data-input-search" type="text" placeholder="Search ' + title + '" />');
+                $(this).html('<input id="' + dataId + '" class="table-data-input-search" type="text" autocomplete="off" placeholder="Search ' + title + '" />');
             } else {
                 $(this).html('<select class="select_table" id='+ dataId +'> <option value="">Hãy chọn</option><option value="1">Hoạt động</option> <option value="0">Không hoạt động</option> </select>');
             }
