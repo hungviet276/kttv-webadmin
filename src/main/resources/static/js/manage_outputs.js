@@ -126,6 +126,7 @@ $('#btnSearch').on('click', function (e) {
 
     var tablePrName = '';
     if(validateSearch()){
+
         let stationId = $('#stations_search').val();
         let parameterTypeId = $('#parameter_search').val();
         let fromDate = $('#start_date').val();
@@ -146,10 +147,12 @@ $('#btnSearch').on('click', function (e) {
                 }else{
                     tablePrName = data;
                 }
+                // alert(tablePrName);
                 objSearch.s_fromdate = $("#start_date").val();
                 objSearch.s_todate = $("#end_date").val();
                 objSearch.s_tableproductName =tablePrName;
                 table.search(objSearch).draw();
+
             },error: function (error) {
                 console.log(error);
             }
@@ -158,7 +161,6 @@ $('#btnSearch').on('click', function (e) {
 });
 
 function validateSearch(){
-    alert($('#start_date').daterangepicker('getDate').getMonth());
     if($('#parameter_search').val() == -1){
         toastr.error('Phải chọn yếu tố!');
         $('#parameter_search').focus();
@@ -195,7 +197,7 @@ function validateSearch(){
     if($('#start_date').data('daterangepicker').startDate > $('#end_date').data('daterangepicker').startDate){
         toastr.error('Từ ngày phải nhỏ hơn đến ngày !');
     }
-
+    return true;
 
 }
 
@@ -273,9 +275,9 @@ function validateSearch(){
             {
                 "data": "prWarning", "render": function (data, type, row) {
                     if(data ==1)
-                        return '<div style="width: 100%;text-align: center"><i class="fas fa-exclamation-triangle" style="color:red;" size="2px"></i></div>';
+                        return '<div style="width: 100%;text-align: center"><i class="fas fa-exclamation-triangle" style="color:red;" size="7px" title="Cảnh báo dữ liệu sai!"></i></div>';
                     else
-                        return '<div style="width: 100%;text-align: center"><i class="fas fa-exclamation-circle" style="color:forestgreen;" size="2px"></i></div>';
+                        return '<div style="width: 100%;text-align: center"><i class="fas fa-exclamation-circle" style="color:forestgreen;" size="7px" title="Dữ liệu bình thường!"></i></div>';
                 },
             },
             // {"data": "prWarning", "render": $.fn.dataTable.render.text()},
