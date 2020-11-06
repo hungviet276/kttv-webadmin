@@ -122,6 +122,9 @@
                                             <th data-id="s_name_warning">Tên cảnh báo</th>
                                             <th data-id="s_icon">iCon</th>
                                             <th >Ngày tạo</th>
+                                            <th >Mô tả</th>
+                                            <th >Nội dung</th>
+                                            <th >Màu sắc</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -139,7 +142,7 @@
                                             <div class="form-group col-md-6 errorTxt">
                                                 <label for="stationWarningAdd">Trạm <span style="color: red;">*</span></label>
                                                 <div class="select2-purple insertError">
-                                                    <select id="stationWarningAdd" name="stationWarningAdd" data-placeholder="Select a State"
+                                                    <select id="stationWarningAdd" name="stationWarning" data-placeholder="Select a State"
                                                             data-dropdown-css-class="select2-purple" style="width: 100%;">
                                                     </select>
                                                 </div>
@@ -149,7 +152,7 @@
                                             <div class="col-md-6 errorTxt">
                                                 <div class="insertError">
                                                     <label for="codeWarningAdd">Mã cảnh báo <span style="color: red;">*</span></label>
-                                                    <input type="text" class="form-control" id="codeWarningAdd" name="codeWarningAdd" placeholder="">
+                                                    <input type="text" class="form-control" id="codeWarningAdd" name="codeWarning" placeholder="">
                                                 </div>
                                                 <label></label>
                                             </div>
@@ -159,14 +162,14 @@
                                             <div class="col-md-6 errorTxt">
                                                 <div class="insertError">
                                                     <label for="nameWarningAdd">Tên cảnh báo <span style="color: red;">*</span></label>
-                                                    <input type="text" class="form-control" id="nameWarningAdd" name="nameWarningAdd" placeholder="">
+                                                    <input type="text" class="form-control" id="nameWarningAdd" name="nameWarning" placeholder="">
                                                 </div>
                                                 <label></label>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label for="iconWarningAdd">Icon</label>
                                                 <div class="select2-purple">
-                                                    <select id="iconWarningAdd" data-placeholder="Select a State" name="iconWarningAdd"
+                                                    <select id="iconWarningAdd" data-placeholder="Select a State" name="iconWarning"
                                                             data-dropdown-css-class="select2-purple" style="width: 100%;">
                                                         <!--                                                            -->
                                                     </select>
@@ -176,15 +179,15 @@
                                         <div class="form-row">
                                             <div class="col-md-6 errorTxt">
                                                 <div class="insertError">
-                                                    <label for="colorWarningAdd">Màu sắc <span style="color: red;">*</span></label>
-                                                    <input type="color" class="form-control" id="colorWarningAdd" name="colorWarningAdd" placeholder="">
+                                                    <label for="colorWarningAdd">Màu sắc </label>
+                                                    <input type="color" class="form-control" id="colorWarningAdd" name="colorWarning" placeholder="">
                                                 </div>
                                                 <label></label>
                                             </div>
                                             <div class="form-group col-md-6 errorTxt">
                                                 <div class="insertError">
-                                                    <label>Textarea</label>
-                                                    <textarea class="form-control col-md-12" rows="3" placeholder="Enter ..."></textarea>
+                                                    <label for="descriptionWarningAdd">Mô tả</label>
+                                                    <textarea class="form-control col-md-12" rows="3" id="descriptionWarningAdd" name="descriptionWarning" placeholder="Enter ..."></textarea>
                                                 </div>
                                                 <label></label>
                                             </div>
@@ -192,7 +195,7 @@
                                         <div class="form-row">
                                             <div class="insertError" style="margin: 0 auto;">
                                                 <label>Nội dung</label>
-                                                <textarea class="form-control col-md-12" id="contentWarningAdd" name="contentWarningAdd" rows="5" placeholder="Enter ..."></textarea>
+                                                <textarea class="form-control col-md-12" id="contentWarningAdd" name="contentWarning" rows="5" placeholder="Enter ..."></textarea>
                                             </div>
                                         </div>
                                         <input type="number" class="form-control" id="id" name="id" hidden>
@@ -225,13 +228,13 @@
                                                 </div>
                                                 <div class="col-md-6 errorTxt">
                                                     <div class="insertError">
-                                                        <label for="levelWarning">Mức cảnh báo <span style="color: red;">*</span></label>
+                                                        <label for="levelWarning">Mức cảnh báo </label>
                                                         <input type="text" class="form-control" id="levelWarning" name="levelWarning" placeholder="" disabled="true">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 errorTxt">
                                                     <div class="insertError">
-                                                        <label for="levelClear">Mức hủy cảnh báo <span style="color: red;">*</span></label>
+                                                        <label for="levelClear">Mức hủy cảnh báo </label>
                                                         <input type="text" class="form-control" id="levelClear" name="levelClear" placeholder="" disabled="true">
                                                     </div>
                                                 </div>
@@ -249,6 +252,7 @@
                                         <tr>
                                             <th>Id</th>
                                             <th>Id yếu tố</th>
+                                            <th>Id Warning threshold</th>
                                             <th>Yếu tố</th>
                                             <th>Mã mức cảnh báo theo yếu tố</th>
                                             <th>Ngưỡng cảnh báo</th>
