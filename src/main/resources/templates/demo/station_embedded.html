@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>CSVLayer - 4.4</title>
+
+    <style>
+        html,
+        body,
+        #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+
+    <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
+    <script src="https://js.arcgis.com/4.17/"></script>
+
+    <script>
+        require([
+            "esri/Map",
+            "esri/layers/CSVLayer",
+            "esri/views/MapView",
+            //   "esri/views/SceneView",
+            "esri/renderers/SimpleRenderer",
+            "esri/renderers/UniqueValueRenderer",
+            //   "esri/symbols/PointSymbol3D",
+            //   "esri/symbols/IconSymbol3DLayer",
+            "esri/symbols/SimpleMarkerSymbol",
+            "esri/symbols/PictureMarkerSymbol",
+            "esri/symbols/CIMSymbol",
+            "esri/config",
+            // "esri/core/urlUtils",
+            "esri/layers/FeatureLayer",
+            "esri/symbols/WebStyleSymbol",
+            "esri/PopupTemplate",
+            "esri/geometry/Extent",
+            "dojo/domReady!"
+        ], function (
+            Map,
+            CSVLayer,
+            MapView,
+            //   SceneView,
+            SimpleRenderer,
+            UniqueValueRenderer,
+            SimpleMarkerSymbol,
+            PictureMarkerSymbol,
+            CIMSymbol,
+            //   PointSymbol3D,
+            //   IconSymbol3DLayer,
+            esriConfig,
+            // urlUtils,
+            FeatureLayer,
+            WebStyleSymbol,
+            PopupTemplate,
+            Extent) {
+
+            // If CSV files are not on the same domain as your website, a CORS enabled server
+            // or a proxy is required.
+            var url = "https://raw.githubusercontent.com/vietthang197/todo/master/2.5_week.csv";
+            // esriConfig.request.corsEnabledServers.push(url);
+
+            var template = new PopupTemplate({
+                title: "{stationName}",
+                content: ">{isEnabled}<"
+            });
+
+            var centerPoint = [106.8, 16.7];
+
+            var openSpacesRenderer = new UniqueValueRenderer({
+                field: "isEnabled",
+                defaultSymbol: new WebStyleSymbol({
+                    name: "circle-3",
+                    styleName: "Esri2DPointSymbolsStyle"
+                })
+            });
+
+
+
+            const cimSymbol = new CIMSymbol({
+                "data": {
+                    "type": "CIMSymbolReference",
+                    "symbol": {
+                        "type": "CIMPointSymbol",
+                        "symbolLayers": [
+                            {
+                                "type": "CIMVectorMarker",
+                                "enable": true,
+                                "anchorPoint": {
+                                    "x": 0,
+                                    "y": 0,
+                                    "z": 0
+                                },
+                                "anchorPointUnits": "Relative",
+                                "dominantSizeAxis3D": "Y",
+                                "size": 10,
+                                "billboardMode3D": "FaceNearPlane",
+                                "frame": {
+                                    "xmin": 0,
+                                    "ymin": 0,
+                                    "xmax": 17,
+                                    "ymax": 17
+                                },
+                                "markerGraphics": [
+                                    {
+                                        "type": "CIMMarkerGraphic",
+                                        "geometry": {
+                                            "rings": [
+                                                [
+                                                    [
+                                                        17,
+                                                        8.5
+                                                    ],
+                                                    [
+                                                        16.84,
+                                                        6.84
+                                                    ],
+                                                    [
+                                                        16.36,
+                                                        5.25
+                                                    ],
+                                                    [
+                                                        15.57,
+                                                        3.78
+                                                    ],
+                                                    [
+                                                        14.51,
+                                                        2.49
+                                                    ],
+                                                    [
+                                                        13.22,
+                                                        1.43
+                                                    ],
+                                                    [
+                                                        11.75,
+                                                        0.64
+                                                    ],
+                                                    [
+                                                        10.16,
+                                                        0.16
+                                                    ],
+                                                    [
+                                                        8.5,
+                                                        0
+                                                    ],
+                                                    [
+                                                        6.84,
+                                                        0.16
+                                                    ],
+                                                    [
+                                                        5.25,
+                                                        0.64
+                                                    ],
+                                                    [
+                                                        3.78,
+                                                        1.43
+                                                    ],
+                                                    [
+                                                        2.49,
+                                                        2.49
+                                                    ],
+                                                    [
+                                                        1.43,
+                                                        3.78
+                                                    ],
+                                                    [
+                                                        0.64,
+                                                        5.25
+                                                    ],
+                                                    [
+                                                        0.16,
+                                                        6.84
+                                                    ],
+                                                    [
+                                                        0,
+                                                        8.5
+                                                    ],
+                                                    [
+                                                        0.16,
+                                                        10.16
+                                                    ],
+                                                    [
+                                                        0.64,
+                                                        11.75
+                                                    ],
+                                                    [
+                                                        1.43,
+                                                        13.22
+                                                    ],
+                                                    [
+                                                        2.49,
+                                                        14.51
+                                                    ],
+                                                    [
+                                                        3.78,
+                                                        15.57
+                                                    ],
+                                                    [
+                                                        5.25,
+                                                        16.36
+                                                    ],
+                                                    [
+                                                        6.84,
+                                                        16.84
+                                                    ],
+                                                    [
+                                                        8.5,
+                                                        17
+                                                    ],
+                                                    [
+                                                        10.16,
+                                                        16.84
+                                                    ],
+                                                    [
+                                                        11.75,
+                                                        16.36
+                                                    ],
+                                                    [
+                                                        13.22,
+                                                        15.57
+                                                    ],
+                                                    [
+                                                        14.51,
+                                                        14.51
+                                                    ],
+                                                    [
+                                                        15.57,
+                                                        13.22
+                                                    ],
+                                                    [
+                                                        16.36,
+                                                        11.75
+                                                    ],
+                                                    [
+                                                        16.84,
+                                                        10.16
+                                                    ],
+                                                    [
+                                                        17,
+                                                        8.5
+                                                    ]
+                                                ]
+                                            ]
+                                        },
+                                        "symbol": {
+                                            "type": "CIMPolygonSymbol",
+                                            "symbolLayers": [
+                                                {
+                                                    "type": "CIMSolidStroke",
+                                                    "enable": true,
+                                                    "capStyle": "Round",
+                                                    "joinStyle": "Round",
+                                                    "lineStyle3D": "Strip",
+                                                    "miterLimit": 10,
+                                                    "width": 1,
+                                                    "color": [
+                                                        0,
+                                                        0,
+                                                        0,
+                                                        255
+                                                    ]
+                                                },
+                                                {
+                                                    "type": "CIMSolidFill",
+                                                    "enable": true,
+                                                    "color": [
+                                                        35,
+                                                        203,
+                                                        26,
+                                                        255
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ],
+                                "scaleSymbolsProportionally": true,
+                                "respectFrame": true
+                            }
+                        ],
+                        "haloSize": 1,
+                        "scaleX": 1,
+                        "angleAlignment": "Display",
+                        "version": "2.0.0",
+                        "build": "8933"
+                    }
+                }
+            });
+
+            openSpacesRenderer.addUniqueValueInfo("1", cimSymbol);
+
+            var csvLayer = new CSVLayer({
+                url: url,
+                copyright: "Trung tâm Khí tượng thủy văn Quốc Gia",
+                renderer: openSpacesRenderer,
+                popupTemplate: template,
+                elevationInfo: {
+                    // drapes icons on the surface of the globe
+                    mode: "on-the-ground"
+                }
+            });
+
+            //csvLayer.renderer = openSpacesRenderer;
+            // new SimpleRenderer({
+            //     symbol: new WebStyleSymbol({
+            //             name: "circle-3",
+            //             styleName: "Esri2DPointSymbolsStyle",
+            //             color: "green"
+            //         })
+            //  });
+
+            var initialExtent = new Extent({
+                "xmin": 95, "ymin": 12, "xmax": 115, "ymax": 20,
+                "spatialReference": { "wkid": 4326 }
+            });
+
+            console.log(initialExtent)
+
+            var map = new Map({
+                basemap: "gray",
+                layers: [csvLayer]
+            });
+
+            var view = new MapView({
+                container: "viewDiv",
+                center: centerPoint,
+                zoom: 5,
+                map: map,
+                extent: initialExtent
+            });
+
+            var maxExtent = view.extent;
+
+            view.watch("extent", function (newValue, oldValue) {
+                // xmin:9790772.379932635, xmax:14059016.039375741, ymin:887464.1510032088, ymax:2729290.784562326
+                console.log('xmin:' + newValue.xmin + ", xmax:" + newValue.xmax + ", ymin:" + newValue.ymin + ", ymax:" + newValue.ymax);
+                if ((newValue.xmin < 9790772.379932635) || (newValue.ymin < 887464.1510032088) || (newValue.xmax > 14059016.039375741) || (newValue.ymax > 2729290.784562326)) {
+                    console.log('here')
+                    map.extent = initialExtent;
+                }
+            });
+
+        });
+    </script>
+</head>
+
+<body>
+<div id="viewDiv"></div>
+</body>
+
+</html>
