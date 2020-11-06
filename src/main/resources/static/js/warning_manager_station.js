@@ -244,6 +244,10 @@ $('#btnDonew').click(function () {
     $("#stationWarningAdd").empty();
     $("#btnsaveEdit").hide();
     $("#btnResetUpdate").hide();
+    for ( instance in CKEDITOR.instances ){
+        CKEDITOR.instances[instance].updateElement();
+        CKEDITOR.instances[instance].setData('');
+    }
     warningManagerStationValid.resetForm();
     //validWarningThreshold.resetForm();
     tableConditionWarning
@@ -780,7 +784,17 @@ $("#btnDetail").click(function () {
     $("#colorWarningAdd").val(rowDt.color);
     $("#descriptionWarningAdd").val(rowDt.description);
 
-    CKEDITOR.instances.contentWarningAdd.insertHtml(rowDt.content);
+    // for ( instance in CKEDITOR.instances ){
+    //     CKEDITOR.instances[instance].updateElement();
+    //     CKEDITOR.instances[instance].setData('');
+    // }
+    console.log("aaaaaaaaa");
+    console.log(rowDt.content);
+
+    // CKEDITOR.instances.contentWarningAdd.updateElement();
+    // CKEDITOR.instances.contentWarningAdd.setData('');
+    CKEDITOR.instances.contentWarningAdd.updateElement();
+    CKEDITOR.instances.contentWarningAdd.setData(rowDt.content);
 
     //validatorhorizontal.resetForm();
     showDetailData(rowDt);
