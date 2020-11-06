@@ -459,7 +459,7 @@ $("#btnsaveStationValueType").click(function () {
                 }
             });
             if(insert == false){
-                toastr.warning('Lỗi', "Bản ghi đã tồn tại");
+                toastr.error('Lỗi', "Bản ghi đã tồn tại");
                 return;
             }
             tableStationSpatial.row.add(response).draw( true );
