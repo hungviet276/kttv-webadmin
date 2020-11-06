@@ -449,11 +449,11 @@ const station =
             let address = $("#address").val().trim();
             let riverId = $("#riverId").val();
             let riverName = null;
-            if(riverId !== "-1") {
+            if(riverId !== "-1" && riverId !== null) {
                 riverName = $("#riverId :selected").text().split("-")[1].trim();
             }
             let status = $("#status").val().trim();
-            riverId = riverId === "-1" ? null : riverId;
+            riverId = (riverId === "-1" || riverId === null) ? null : riverId;
             let data = {
                 // "parameter": parameter,
                 // "timeseriesName": timeseriesName,
