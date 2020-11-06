@@ -317,12 +317,12 @@ let uGroup = {
                 "serverSide": true,
                 "columns": [
                     {"data": ""},
-                    {"data": "indexCount"},
-                    {"data": "stationName"},
-                    {"data": "groupName"},
-                    {"data": "groupParentName"},
-                    {"data": "status"},
-                    {"data": "groupId"},
+                    {"data": "indexCount","render": $.fn.dataTable.render.text()},
+                    {"data": "stationName","render": $.fn.dataTable.render.text()},
+                    {"data": "groupName","render": $.fn.dataTable.render.text()},
+                    {"data": "groupParentName","render": $.fn.dataTable.render.text()},
+                    {"data": "status","render": $.fn.dataTable.render.text()},
+                    {"data": "groupId","render": $.fn.dataTable.render.text()},
                 ],
                 initComplete: function () {
                     // Apply the search
@@ -475,12 +475,14 @@ let uGroup = {
             method: "POST",
             contentType: "application/json",
             success: function (response) {
-                let html = "";
-                for (let i = 0; i < response.length; i++) {
-                    html += '<option value="' + response[i].stationId + '">' + response[i].stationCode + ' - ' + response[i].stationName + '</option>';
-                }
-                $("#tram").append(html);
-                $("#tram").select2();
+                console.log(response);
+                $("#tram").select2({data: response});
+                // let html = "";
+                // for (let i = 0; i < response.length; i++) {
+                //     html += '<option value="' + response[i].stationId + '">' + response[i].stationCode + ' - ' + response[i].stationName + '</option>';
+                // }
+                // $("#tram").append(html);
+                // $("#tram").select2();
             },
             error: function (error) {
                 toastr.error('Lỗi', data.message);
@@ -495,12 +497,14 @@ let uGroup = {
             method: "GET",
             contentType: "application/json",
             success: function (response) {
-                let html = "";
-                for (let i = 0; i < response.length; i++) {
-                    html += '<option value="' + response[i].id + '">' + response[i].id + ' - ' + response[i].name + '</option>';
-                }
-                $("#nguoi_dung").append(html);
-                $("#nguoi_dung").select2();
+                // let html = "";
+                // for (let i = 0; i < response.length; i++) {
+                //     html += '<option value="' + response[i].id + '">' + response[i].id + ' - ' + response[i].name + '</option>';
+                // }
+                // $("#nguoi_dung").append(html);
+                // $("#nguoi_dung").select2();
+                console.log(response);
+                $("#nguoi_dung").select2({data: response});
             },
             error: function (error) {
                 toastr.error('Lỗi', data.message);

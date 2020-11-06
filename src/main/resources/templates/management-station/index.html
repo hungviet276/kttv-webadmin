@@ -59,7 +59,7 @@
                                     <!--                                    <button class="btn btn-primary" id="btnSearch" style="width:100px;">-->
                                     <!--                                        <i class="fas fa-search"></i> Tìm kiếm-->
                                     <!--                                    </button>-->
-                                    <button class="btn btn-primary" id="btnDonew" style="width:100px;">
+                                    <button class="btn btn-primary" id="btnDoNew" style="width:100px;">
                                         <i class="fas fa-plus"></i> Thêm
                                     </button>
                                     <button class="btn btn-primary" id="btnExport" style="width:100px;" onclick="station.btnExport()">
@@ -67,13 +67,13 @@
                                     </button>
                                 </div>
 
-                                <div class="card-body" style="width: 100%;overflow: auto">
+                                <div class="card-body" style="width: 100%;">
                                     <table id="tableDataView" class="table table-bordered table-hover">
                                         <thead>
                                         <tr>
                                             <th></th>
                                             <th>#</th>
-                                            <th></th>
+                                            <th>Thao tác</th>
                                             <th data-id="s_objectType">Loại trạm</th>
                                             <th data-id="s_objectTypeName">Tên loại trạm</th>
                                             <th data-id="s_stationCode">Mã trạm</th>
@@ -302,7 +302,7 @@
                                                 onclick="station.btnRefresh()">
                                             <i class="fas fa-redo-alt"></i> Làm mới
                                         </button>
-                                        <button class="btn btn-primary" id="btncancer"
+                                        <button class="btn btn-primary" id="btnCancel"
                                                 style="display:none;width: 100px;">
                                             <i class="fas fa-times"></i> Hủy
                                         </button>

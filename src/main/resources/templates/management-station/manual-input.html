@@ -29,22 +29,22 @@
                                     <h3 style="text-align: center"><b>Tìm kiếm trạm</b></h3>
                                 </div>
                                 <div class="form-horizontal" id="form_data">
-                                    <input th:type="hidden" value = "1" placeholder="dat gia tri ap dung cho do man">
-                                    <input th:type="hidden" value = "2" placeholder="dat gia tri ap dung cho nhiet do nuoc">
-                                    <input th:type="hidden" value = "3" placeholder="dat gia tri ap dung cho do man">
                                     <div class="form-row">
-                                        <div class="form-group col-md-4 col-sm-4 col-lg-4">
+                                        <div class="form-group col-md-6 col-sm-6 col-lg-6">
                                             <label for="stationCode">Mã trạm</label>
                                             <select id="stationCode" class="form-control" style="width: 100%;">
                                                 <option value="-1">Lựa chọn</option>
                                             </select>
                                         </div>
-                                        <div class="form-group col-md-4 col-sm-4 col-lg-4">
+                                        <div class="form-group col-md-6 col-sm-6 col-lg-6">
                                             <label for="timestamp">Ngày giờ</label>
                                             <input type="text" class="form-control" id="timestamp"
                                                    placeholder="Ngày giờ">
                                         </div>
-                                        <div class="form-group col-md-4 col-sm-4 col-lg-4">
+
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6 col-sm-6 col-lg-6">
                                             <label for="status">Tình trạng</label>
                                             <select id="status" class="form-control" style="width: 100%;">
                                                 <option value="-1">Lựa chọn</option>
@@ -53,34 +53,22 @@
                                                 <option value="3">Sai định dạng</option>
                                             </select>
                                         </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="form-group col-md-4 col-sm-4 col-lg-4">
-                                            <label for="salinity">Độ mặn</label>
-                                            <input id="salinity" th:type="number" class="form-control" style="width: 100%;"/>
-                                        </div>
-                                        <div class="form-group col-md-4 col-sm-4 col-lg-4">
-                                            <label for="water_temperature">Nhiệt độ nước</label>
-                                            <input id="water_temperature" th:type="number" class="form-control" style="width: 100%;"/>
-                                        </div>
-                                        <div class="form-group col-md-4 col-sm-4 col-lg-4">
-                                            <label for="conductivity">Độ dẫn điện</label>
-                                            <input id="conductivity" th:type="number" class="form-control" style="width: 100%;"/>
-                                        </div>
+
+
                                     </div>
                                 </div>
                                 <div class="mt-1" th:class="wrap-button-control">
                                     <button class="btn btn-primary" id="btnSearch" style="width:100px;">
                                         <i class="fas fa-search"></i> Tìm kiếm
                                     </button>
-                                    <button class="btn btn-primary" id="btnDonew" style="width:100px;">
+                                    <button class="btn btn-primary" id="btnDoNew" style="width:100px;">
                                         <i class="fas fa-plus"></i> Thêm
                                     </button>
                                     <button class="btn btn-primary" id="btnDoDelete" style="width:100px;">
                                         <i class="fas fa-trash"></i> Xóa
                                     </button>
                                     <button class="btn btn-primary" id="btnDoUpdate" style="width:100px;">
-                                        <i class="fas fa-plus"></i> Cập nhật
+                                        <i class="fas fa-edit"></i> Cập nhật
                                     </button>
                                 </div>
 
@@ -94,6 +82,7 @@
                                             <th data-id="s_parameterDesc">Mô tả</th>
                                             <th data-id="s_unit">Đơn vị</th>
                                             <th data-id="s_timeseries">Time series</th>
+                                            <th></th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -102,6 +91,87 @@
                                 </div>
                             </div>
                             <!-- /.card-footer -->
+                            <div class="col-sm-7" id="box_info">
+                                <div style="width: 95%;float: right">
+                                    <div class="card-header">
+                                        <h3 style="text-align: center"><b>Thông tin </b></h3>
+                                    </div>
+                                    <div class="form-horizontal" id="form_input">
+                                        <input th:type="hidden" id="pSalinity" value = "81" placeholder="dat gia tri ap dung cho do man">
+                                        <input th:type="hidden" id="pWT" value = "82" placeholder="dat gia tri ap dung cho nhiet do nuoc">
+                                        <input th:type="hidden" id="pConductivity" value = "83" placeholder="dat gia tri ap dung cho do dan dien">
+
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="stationCodeN">Mã trạm <span
+                                                        style="color: red;">*</span></label>
+                                                <select id="stationCodeN" class="form-control" style="width: 100%;">
+                                                    <option value="-1">Lựa chọn</option>
+                                                </select>
+                                                <span id="stationCodeN_error" class="help-block" style="color: red"></span>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="timestampN">Ngày giờ <span style="color: red;">*</span></label>
+                                                <input type="text" class="form-control" id="timestampN"  placeholder="Ngày giờ" autocomplete="off">
+                                                <span id="timestampN_error" class="help-block" style="color: red"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6 col-sm-6 col-lg-6">
+                                                <label for="statusN">Tình trạng <span style="color: red;">*</span></label>
+                                                <select id="statusN" class="form-control" style="width: 100%;">
+                                                    <option value="-1">Lựa chọn</option>
+                                                    <option value="1">Quan trắc</option>
+                                                    <option value="2">Không có dữ liệu</option>
+                                                    <option value="3">Sai định dạng</option>
+                                                </select>
+                                                <span id="statusN_error" class="help-block" style="color: red"></span>
+                                            </div>
+                                            <div class="form-group col-md-6 col-sm-6 col-lg-6">
+                                                <label for="salinity">Độ mặn(‰) <span style="color: red;">*</span></label>
+                                                <input id="salinity" th:type="number" class="form-control" style="width: 100%;"/>
+                                                <span id="salinity_error" class="help-block" style="color: red"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6 col-sm-6 col-lg-6">
+                                                <label for="water_temperature">Nhiệt độ nước(°C) <span style="color: red;">*</span></label>
+                                                <input id="water_temperature" th:type="number" class="form-control" style="width: 100%;"/>
+                                                <span id="water_temperature_error" class="help-block" style="color: red"></span>
+                                            </div>
+                                            <div class="form-group col-md-6 col-sm-6 col-lg-6">
+                                                <label for="conductivity">Độ dẫn điện(mS/cm2) <span style="color: red;">*</span></label>
+                                                <input id="conductivity" th:type="number" class="form-control" style="width: 100%;"/>
+                                                <span id="conductivity_error" class="help-block" style="color: red"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- end tab phan quyen-->
+                                    <div class="wrap-button-control">
+                                        <button class="btn btn-primary" id="btnSave" style="display:none;width: 100px;"
+                                                onclick="station.btnSave()">
+                                            <i class="fas fa-plus"></i> Lưu
+                                        </button>
+                                        <button class="btn btn-primary" id="btnUpdate"
+                                                style="display:none;width: 100px;" onclick="station.btnUpdate()">
+                                            <i class="fas fa-edit"></i> Cập nhật
+                                        </button>
+                                        <button class="btn btn-primary" id="btnDelete"
+                                                style="display:none;width: 100px;" onclick="station.btnDelete()">
+                                            <i class="far fa-trash-alt"></i> Xoá
+                                        </button>
+                                        <button class="btn btn-primary" id="btnReset" style="display:none;width: 100px;"
+                                                onclick="station.btnRefresh()">
+                                            <i class="fas fa-redo-alt"></i> Làm mới
+                                        </button>
+                                        <button class="btn btn-primary" id="btnCancer"
+                                                style="display:none;width: 100px;">
+                                            <i class="fas fa-times"></i> Hủy
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
                             <br>
                             <br>
                         </div>

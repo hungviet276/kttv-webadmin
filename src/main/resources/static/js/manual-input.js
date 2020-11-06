@@ -31,11 +31,13 @@ var station =
         },
         objStation: {},
         init: function () {
-            station.getStationType();
-            station.getArea();
+            station.getStationCode();
+            // station.getArea();
             // station.getProvince();
             // station.getDistrict();
-            station.getRiver();
+            // station.getRiver();
+            station.disabled_right();
+            station.show_search();
         },
         //lay loai tram
         getStationType: function () {
@@ -56,135 +58,26 @@ var station =
                 }
             });
         },
-        getArea: function () {
-            let countryId = 281;
+        getStationCode: function () {
             global.showLoading();
             $.ajax({
                 headers: {
                     'Authorization': token
                 },
-                url: apiUrl + "common/get-select-list-areas",
-                data: "countryId=" + countryId,
+                url: apiUrl + "station-type/get-list-select-station",
                 method: "GET",
                 contentType: "application/json",
                 success: function (data) {
                     console.log(data);
-                    $("#areaIdP").empty();
-                    $("#areaIdP").select2({data: data});
-
-                    $("#areaIdC").empty();
-                    $("#areaIdC").select2({data: data});
+                    $("#stationCode").select2({data: data});
+                    $("#stationCodeN").select2({data: data});
                     global.disableLoading();
-                }
-            });
-        },
-        getProvince: function (obj) {
-            let areaId = $(obj).val();
-            global.showLoading();
-            $.ajax({
-                headers: {
-                    'Authorization': token
                 },
-                url: apiUrl + "common/get-select-list-provinces",
-                data: "areaId=" + areaId,
-                method: "GET",
-                contentType: "application/json",
-                success: function (data) {
-                    console.log(data);
-                    $("#provinceIdP").empty();
-                    $("#provinceIdP").select2({data: data});
-
-                    $("#provinceIdC").empty();
-                    $("#provinceIdC").select2({data: data});
-
-                    if (station.clientAction === 'update') {
-                        $('#provinceIdP').val(station.parameter.provinceId).trigger('change');
-                        $('#provinceIdC').val(station.objStation.provinceId).trigger('change');
+                error: function (data){
+                    if(data.status === 401){
+                        window.location.href = "/logout";
                     }
-                    global.disableLoading();
-                }
-            });
-        },
-        getDistrict: function (obj) {
-            let provinceId = $(obj).val();
-            if (provinceId == -1) {
-                return;
-            }
-            global.showLoading();
-            $.ajax({
-                headers: {
-                    'Authorization': token
-                },
-                url: apiUrl + "common/get-select-list-district",
-                data: "provinceId=" + provinceId,
-                method: "GET",
-                contentType: "application/json",
-                success: function (data) {
-                    console.log(data);
-                    $("#districtIdP").empty();
-                    $("#districtIdP").select2({data: data});
-                    $("#districtIdC").empty();
-                    $("#districtIdC").select2({data: data});
-                    if (station.clientAction === 'update') {
-                        $('#districtIdP').val(station.parameter.districtId).trigger('change');
-                        $('#districtIdC').val(station.objStation.districtId).trigger('change');
-                    }
-                    global.disableLoading();
-                }
-            });
-        },
-        getWard: function (obj) {
-            let provinceId = $("#provinceIdP").val();
-            let districtId = $(obj).val();
-            if (provinceId == -1) {
-                return;
-            }
-            if (districtId == -1) {
-                return;
-            }
-            global.showLoading();
-            $.ajax({
-                headers: {
-                    'Authorization': token
-                },
-                url: apiUrl + "common/get-select-list-ward",
-                data: "provinceId=" + provinceId + "&districtId=" + districtId,
-                method: "GET",
-                contentType: "application/json",
-                success: function (data) {
-                    console.log(data);
-                    $("#wardIdP").empty();
-                    $("#wardIdP").select2({data: data});
-                    $("#wardIdC").empty();
-                    $("#wardIdC").select2({data: data});
-                    if (station.clientAction === 'update') {
-                        $('#wardIdP').val(station.parameter.wardId).trigger('change');
-                        $('#wardIdC').val(station.objStation.wardId).trigger('change');
-                    }
-                    global.disableLoading();
-                }
-            });
-        },
-        getRiver: function () {
-            global.showLoading();
-            $.ajax({
-                headers: {
-                    'Authorization': token
-                },
-                url: apiUrl + "common/get-select-list-rivers",
-                method: "GET",
-                contentType: "application/json",
-                success: function (data) {
-                    console.log(data);
-                    $("#riverIdP").empty();
-                    $("#riverIdP").select2({data: data});
-                    $("#riverIdC").empty();
-                    $("#riverIdC").select2({data: data});
-                    if (station.clientAction === 'update') {
-                        $('#riverIdP').val(station.parameter.riverId).trigger('change');
-                        $('#riverIdC').val(station.objStation.riverId).trigger('change');
-                    }
-                    global.disableLoading();
+                    //console.log(data);
                 }
             });
         },
@@ -320,24 +213,190 @@ var station =
                     // window.URL.revokeObjectURL(url);
                 }
             });
+        },
+        disabled_right: function () {
+            $("#form_input input:text").each(function () {
+                $(this).prop("readonly", true);
+            });
+            $("#form_input input:password").each(function () {
+                $(this).prop("readonly", true);
+            });
+            $("#form_input select").each(function () {
+                $(this).attr("disabled", true);
+            });
+            $("#input_group_id").attr("disabled", true);
+        },
+        enabled_right: function () {
+            $("#form_input input:text").each(function () {
+                $(this).prop("readonly", false);
+            });
+            $("#form_input input:password").each(function () {
+                $(this).prop("readonly", false);
+            });
+            $("#form_input select").each(function () {
+                $(this).attr("disabled", false);
+            });
+            $("#input_group_id").attr("disabled", false);
+            $(".checkedGender").attr("disabled", false);
+            $(".checkedQuyen").attr("disabled", false);
+        },
+        show_search: function () {
+            $("#box_info").hide(0);
+            $("#box_search").show(500);
+            $("#box_search").attr('class', 'col-sm-12');
+        },
+        togle_search: function () {
+            $("#box_info").show(500);
+            $("#box_info").attr('class', 'col-sm-12');
+            $("#box_search").hide(0);
+            // $("#box_search").attr('class', 'col-sm-5');
+        },
+        btnRefresh: function () {
+            $("#stationCodeN").val('-1').trigger('change');
+            $("#statusN").val('-1');
+            $("#timestampN").val('');
+            $("#salinity").val('');
+            $("#water_temperature").val('');
+            $("#conductivity").val('');
+        },
+        validate: function () {
+            $('.help-block').html('');
+
+            if ($('#stationCodeN').val().trim() === "-1") {
+                $('#stationCodeN_error').html('Mã trạm không được để trống');
+                $('#stationCodeN').focus();
+                return false;
+            }
+            if ($('#timestampN').val().trim() === "-1") {
+                $('#timestampN_error').html('Ngày giờ không được để trống');
+                $('#timestampN').focus();
+                return false;
+            }
+            if ($('#statusN').val().trim().length < 1) {
+                $('#statusN_error').html('Trạng thái không được để trống');
+                $('#statusN').focus();
+                return false;
+            }
+            if ($('#salinity').val().trim().length < 1) {
+                $('#salinity_error').html('Tên trạm không được để trống');
+                $('#salinity').focus();
+                return false;
+            }
+            if ($('#water_temperature').val().trim().length < 1) {
+                $('#water_temperature_error').html('Nhiệt độ nước không được để trống');
+                $('#water_temperature').focus();
+                return false;
+            }
+            if ($('#conductivity').val().trim().length < 1) {
+                $('#conductivity_error').html('Vĩ độ không được để trống');
+                $('#conductivity').focus();
+                return false;
+            }
+            return true;
+        },
+        closePopup: function () {
+            station.disabled_right();
+            $('.help-block').html('');
+            $("#btnSave").css("display", "none");
+            $("#btnDelete").css("display", "none");
+            $("#btnReset").css("display", "none");
+            $("#btnCancer").css("display", "none");
+            $("#btnDoNew").attr("disabled", false);
+            if (station.indexOfRow > -1) {
+                station.table.row(station.indexOfRow).deselect();
+            }
+            station.show_search();
+        },
+        btnSave: function (){
+            if(station.validate()){
+                global.showLoading();
+                let stationCodeN = $("#stationCodeN").val().trim();
+                let timestampN = $("#timestampN").val().trim();
+                let statusN = $("#statusN").val().trim();
+                let salinity = $("#salinity").val().trim();
+                let water_temperature = $("#water_temperature").val().trim();
+                let conductivity = $("#conductivity").val().trim();
+                let pSalinity = $("#pSalinity").val().trim();
+                let pWT = $("#pWT").val().trim();
+                let pConductivity = $("#pConductivity").val().trim();
+
+                let data = {
+                    "stationCodeN": stationCodeN,
+                    "timestampN": timestampN,
+                    "statusN": statusN,
+                    "salinity": salinity,
+                    "waterTemperature": water_temperature,
+                    "conductivity": conductivity,
+                    "pSalinity": pSalinity,
+                    "pWT": pWT,
+                    "pConductivity": pConductivity,
+                    "username": global.username
+                }
+                $.ajax({
+                    headers: {
+                        'Authorization': token
+                    },
+                    url: apiUrl + "station-type/create-manual-parameter",
+                    method: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(data),
+                    success: function (data) {
+                        if (data.status == 1) {
+                            toastr.success('Thành công', data.message);
+                            //reset cac thong tin them moi
+                            station.btnRefresh();
+                            station.table.ajax.reload();
+                            station.closePopup();
+                        } else {
+                            toastr.error('', data.message);
+                        }
+                        global.disableLoading();
+                    },
+                    error: function (err) {
+                        global.disableLoading();
+                        toastr.error("", "Lỗi thực hiện");
+                    }
+                });
+            }
         }
     }
 
 $(document).ready(function () {
     $('#timestamp').daterangepicker({
+        timePicker: false,
+        singleDatePicker: true,
+        showDropdowns: true,
+        minYear: 2020,
+        format:'DD/MM/YYYY',
+        autoUpdateInput: false,
+        autoApply: true,
+        autoClose: true,
+        showOtherMonths: true,
+        alwaysShowCalendars: false,
+        useCurrent: false,
+        // minDate: new Date().setHours(0,0,0,0),
+    });
+    $('#timestamp').on('apply.daterangepicker', function(ev, picker) {
+        $(this).val(picker.startDate.format('DD/MM/YYYY'));
+    });
+
+    $('#timestampN').daterangepicker({
         timePicker: true,
         singleDatePicker: true,
-        autoUpdateInput: false
-    }, function (choosen_date) {
-        $('#inputFromDate').val(choosen_date.format('DD/MM/YYYY hh:mm'));
+        showDropdowns: true,
+        minYear: 2020,
+        format:'DD/MM/YYYY HH:mm',
+        autoUpdateInput: false,
+        autoApply: true,
+        autoClose: true,
+        showOtherMonths: true,
+        alwaysShowCalendars: false,
+        useCurrent: false,
+        // minDate: new Date().setHours(0,0,0,0),
     });
-    // $('#inputToDate').daterangepicker({
-    //     timePicker: false,
-    //     singleDatePicker: true,
-    //     autoUpdateInput: false
-    // }, function (choosen_date) {
-    //     $('#inputToDate').val(choosen_date.format('DD/MM/YYYY'));
-    // });
+    $('#timestampN').on('apply.daterangepicker', function(ev, picker) {
+        $(this).val(picker.startDate.format('DD/MM/YYYY HH:mm'));
+    });
 
     $('#tableDataView thead th').each(function () {
         var title = $(this).text();
@@ -498,6 +557,39 @@ $(document).ready(function () {
                 return JSON.stringify(dataRes);
             }
         }
+    });
+
+    $('#btnDoNew').click(function () {
+        clientAction = 'insert';
+        station.enabled_right();
+        $("#btnSave").css("display", "inline");
+        $("#btnDelete").css("display", "none");
+        $("#btnUpdate").css("display", "none");
+        $("#btnReset").css("display", "inline");
+        $("#btnCancer").css("display", "inline");
+        $("#btnDoNew").attr("disabled", true);
+        station.parameter.stationId = null;
+        if (station.tableParameter !== undefined) {
+            station.uuid = global.uuidv4();
+            station.objParameterSearch['s_uuid'] = station.uuid;
+            station.objParameterSearch['s_stationId'] = station.parameter.stationId;
+            station.tableParameter.clear().draw();
+        }
+        // station.table.row(':eq('+station.indexOfRow+')', { page: 'current' }).deselect();
+        station.togle_search();
+        station.btnRefresh();
+    });
+    $('#btnCancer').click(function () {
+        station.disabled_right();
+        $("#btnSave").css("display", "none");
+        $("#btnDelete").css("display", "none");
+        $("#btnReset").css("display", "none");
+        $("#btnCancer").css("display", "none");
+        $("#btnDoNew").attr("disabled", false);
+        if (station.indexOfRow > -1) {
+            station.table.row(station.indexOfRow).deselect();
+        }
+        station.show_search();
     });
     station.init();
     global.disableLoading();
