@@ -44,23 +44,11 @@
 		</div>
 	</footer>
 	<script>
-		/* function connect() {
-			var socket = new SockJS('/ws');
-			var stompClient = Stomp.over(socket);
-			stompClient.debug = null
-			stompClient.connect({}, function(frame) {
-				stompClient.subscribe('/user/queue/notify', function(notification) {
-					notify(JSON.parse(notification.body));
-				});
-			});
-		} */
-
 		function notify(message) {
 			try {
-				//console.log(message)
 				toastr.error(message.errorCode, message.message);
 			} catch (e) {
-				//console.log(e)
+
 			}
 
 		}
