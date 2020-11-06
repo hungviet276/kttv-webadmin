@@ -33,18 +33,20 @@ $('#thresholdWarning').select2({
 $('#cancelWarning').select2({
 
 });
-(function(){
+function addSelect2ThresholdWarning(){
    for(let i =0 ; i < constantThreshold.length ; i++){
        var newOption = new Option(constantThreshold[i].text, constantThreshold[i].id, false, false);
        $('#thresholdWarning').append(newOption).trigger('change');
    }
-})();
-(function(){
+};
+function addSelect2CancelWarning(){
     for(let i =0 ; i < constantThreshold.length ; i++){
         var newOption = new Option(constantThreshold[i].text, constantThreshold[i].id, false, false);
         $('#cancelWarning').append(newOption).trigger('change');
     }
-})();
+};
+addSelect2CancelWarning();
+addSelect2ThresholdWarning();
 $(document).ready(function () {
     show_search();
 });
@@ -62,8 +64,14 @@ $('#btncancer').click(function () {
     $("#btnResetUpdate").css("display", "none");
     $("#btncancer").css("display", "none");
     $("#btnDonew").attr("disabled", false);
-    // validator.resetForm();
-    // validatorhorizontal.resetForm();
+    validWarningThreshold.resetForm();
+    validator.resetForm();
+    $("#formWarningThreshold").get(0).reset();
+    $("#thresholdWarning").empty();
+    $("#cancelWarning").empty();
+    addSelect2CancelWarning();
+    addSelect2ThresholdWarning();
+
     var rowDt = tableConfigValueType.rows('.selected').data()[0];
     show_search();
     if(rowDt!=undefined){
