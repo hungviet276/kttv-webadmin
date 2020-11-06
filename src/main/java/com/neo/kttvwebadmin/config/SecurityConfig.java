@@ -43,6 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		// Cấu hình Remember Me.
 		http.rememberMe().key("uniqueAndSecret").tokenValiditySeconds(tokenValiditySecond);
+		http.headers().frameOptions().disable();
 		http.cors().disable();
 		http.csrf().disable().authorizeRequests()
 				// .antMatchers("/admin/manage-account").hasAuthority("MANAGER")

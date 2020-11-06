@@ -33,6 +33,14 @@ $('#inputToDate').daterangepicker({
     $('#inputToDate').val(choosen_date.format('DD/MM/YYYY'));
 });
 
+$('#inputFromDate').on('apply.daterangepicker', function(ev, picker) {
+    $(this).val(picker.startDate.format('DD/MM/YYYY'));
+});
+
+$('#inputToDate').on('apply.daterangepicker', function(ev, picker) {
+    $(this).val(picker.startDate.format('DD/MM/YYYY'));
+});
+
 // init
 initValueSelectMenu();
 function  initValueSelectMenu() {
@@ -81,8 +89,8 @@ var table = $('#tableDataView').DataTable({
     // },
     "pagingType": "full_numbers",
     "lengthMenu": [
-        [10, 25, 50, -1],
-        [10, 25, 50, "Tất cả"]
+        [10, 40, 80, 100, 140, ,200],
+        [10, 40, 80, 200]
     ],
     "lengthChange": true,
     "searchDelay": 1500,
@@ -162,6 +170,9 @@ $('#btnSearch').on('click', function (e) {
     e.preventDefault();
     e.stopPropagation();
 
+    if(!$('#form_data').valid())
+        return;
+
     objSearch.s_menu_id = $('#inputMenuId').val();
     objSearch.s_act = $('#inputAct').val();
     objSearch.s_username = $('#inputUsername').val();
@@ -216,7 +227,41 @@ $('#btnExportLogAct').on('click', function (e) {
     });
 });
 
+jQuery.validator.addMethod("validDate", function(value, element) {
+    console.log(this.optional(element) || !moment(value, 'DD/MM/YYYY', true).isValid())
+    return this.optional(element) || !moment(value, 'DD/MM/YYYY', true).isValid();
+}, "Please specify the correct date");
 
+// validate form jquery
+var validator = $('#form_data').validate({
+    rules: {
+        inputFromDate: {
+            validDate: true
+        },
+        inputToDate: {
+            validDate: true
+        }
+    },
+    messages: {
+        inputFromDate: {
+            validDate: "Ngày bắt đầu không đúng định dạng"
+        },
+        inputToDate: {
+            validDate: "Ngày kết thúc không đúng định dạng"
+        }
+    },
+    errorElement: 'span',
+    errorPlacement: function (error, element) {
+        error.addClass('invalid-feedback');
+        element.closest('.form-group').append(error);
+    },
+    highlight: function (element, errorClass, validClass) {
+        $(element).addClass('is-invalid');
+    },
+    unhighlight: function (element, errorClass, validClass) {
+        $(element).removeClass('is-invalid');
+    }
+});
 
 
 $('input').bind('keypress', function(e) {
