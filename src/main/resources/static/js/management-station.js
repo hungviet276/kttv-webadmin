@@ -1,5 +1,5 @@
-var uuid = global.uuidv4();
-var station =
+const uuid = global.uuidv4();
+const station =
     {
         clientAction: '',
         indexOfRow: -1,
@@ -114,7 +114,7 @@ var station =
                     $("#wardId").empty();
                     $("#wardId").append(emptyOptions2).trigger('change');
                     $("#provinceId").select2({data: data});
-                    if (clientAction === 'update') {
+                    if (station.clientAction === 'update') {
                         $('#provinceId').val(station.parameter.provinceId).trigger('change');
                     }
                     global.disableLoading();
@@ -142,7 +142,7 @@ var station =
                     $("#wardId").append(emptyOptions).trigger('change');
                     $("#districtId").empty();
                     $("#districtId").select2({data: data});
-                    if (clientAction === 'update') {
+                    if (station.clientAction === 'update') {
                         $('#districtId').val(station.parameter.districtId).trigger('change');
                     }
                     global.disableLoading();
@@ -171,7 +171,7 @@ var station =
                     console.log(data);
                     $("#wardId").empty();
                     $("#wardId").select2({data: data});
-                    if (clientAction === 'update') {
+                    if (station.clientAction === 'update') {
                         $('#wardId').val(station.parameter.wardId).trigger('change');
                     }
                     global.disableLoading();
@@ -191,7 +191,7 @@ var station =
                     console.log(data);
                     $("#riverId").empty();
                     $("#riverId").select2({data: data});
-                    if (clientAction === 'update') {
+                    if (station.clientAction === 'update') {
                         $('#riverId').val(station.parameter.riverId).trigger('change');
                     }
                     global.disableLoading();
@@ -355,34 +355,6 @@ var station =
             let latitude = $("#latitude").val().trim();
 
             let areaId = $("#areaId").val().trim();
-            let areaName = null;
-            if(areaId !== "-1") {
-                areaName = $("#areaId :selected").text().trim();
-            }
-
-            let provinceId = $("#provinceId").val().trim();
-            let provinceName = null;
-            if(provinceId !== "-1") {
-                provinceName = $("#provinceId :selected").text().split("-")[1].trim();
-            }
-            let districtId = $("#districtId").val().trim();
-            let districtName = null;
-            if(districtId !== "-1") {
-                districtName = $("#districtId :selected").text().split("-")[1].trim();
-            }
-            let wardId = $("#wardId").val().trim();
-            let wardName = null;
-            if(wardId !== "-1") {
-                wardName = $("#wardId :selected").text().split("-")[1].trim();
-            }
-            let address = $("#address").val().trim();
-            let riverId = $("#riverId").val();
-            let riverName = null;
-            if(riverId !== "-1") {
-                riverName = $("#riverId :selected").text().split("-")[1].trim();
-            }
-            let status = $("#status").val().trim();
-            riverId = riverId === "-1" ? null : riverId;
             let data = {
                 // "parameter": parameter,
                 // "timeseriesName": timeseriesName,
@@ -477,11 +449,11 @@ var station =
             let address = $("#address").val().trim();
             let riverId = $("#riverId").val();
             let riverName = null;
-            if(riverId !== "-1") {
+            if(riverId !== "-1" && riverId !== null) {
                 riverName = $("#riverId :selected").text().split("-")[1].trim();
             }
             let status = $("#status").val().trim();
-            riverId = riverId === "-1" ? null : riverId;
+            riverId = (riverId === "-1" || riverId === null) ? null : riverId;
             let data = {
                 // "parameter": parameter,
                 // "timeseriesName": timeseriesName,
@@ -527,8 +499,8 @@ var station =
                         $("#btnsave").css("display", "none");
                         $("#btnDelete").css("display", "none");
                         $("#btnReset").css("display", "none");
-                        $("#btncancer").css("display", "none");
-                        $("#btnDonew").attr("disabled", false);
+                        $("#btnCancel").css("display", "none");
+                        $("#btnDoNew").attr("disabled", false);
                         if (station.indexOfRow > -1) {
                             station.table.row(station.indexOfRow).deselect();
                         }
@@ -585,8 +557,8 @@ var station =
                         $("#btnsave").css("display", "none");
                         $("#btnDelete").css("display", "none");
                         $("#btnReset").css("display", "none");
-                        $("#btncancer").css("display", "none");
-                        $("#btnDonew").attr("disabled", false);
+                        $("#btnCancel").css("display", "none");
+                        $("#btnDoNew").attr("disabled", false);
                         if (station.indexOfRow > -1) {
                             station.table.row(station.indexOfRow).deselect();
                         }
@@ -700,7 +672,10 @@ var station =
         rowSelect: function (e, dt, type, indexes) {
             // $('#btnCopy').removeAttr('disabled');
             // $('#btnDelete').removeAttr('disabled');
-            clientAction = 'update';
+
+        },
+        preEdit: function (indexes){
+            station.clientAction = 'update';
             station.indexOfRow = indexes;
             let rowData = station.table.rows(indexes).data().toArray();
             station.fillDataToForm(rowData);
@@ -713,12 +688,13 @@ var station =
                 $("#btnsave").css("display", "none");
                 $("#btnDelete").css("display", "inline");
                 $("#btnReset").css("display", "none");
-                $("#btncancer").css("display", "inline");
+                $("#btnCancel").css("display", "inline");
                 $("#btnupdate").css("display", "inline");
-                // $("#btnDonew").attr("disabled", true);
+                // $("#btnDoNew").attr("disabled", true);
                 station.togle_search();
 
                 $('#stationTypeId').val(rowData[0].stationTypeId).trigger('change');
+                $("#stationTypeId").prop("disabled",true);
                 $('#modeStationType').val(rowData[0].modeStationType);
                 $('#stationCode').val(rowData[0].stationCode);
                 $('#stationName').val(rowData[0].stationName);
@@ -755,13 +731,13 @@ var station =
             // $('#btnDelete').attr('disabled', 'true');
             // $('#btnEdit').attr('disabled', 'true');
             // $('#form_data')[0].reset();
-            station.disabled_right();
-            $("#btnsave").css("display", "none");
-            $("#btnDelete").css("display", "none");
-            $("#btnReset").css("display", "none");
-            $("#btncancer").css("display", "none");
-            $("#btnDonew").attr("disabled", false);
-            station.show_search();
+            // station.disabled_right();
+            // $("#btnsave").css("display", "none");
+            // $("#btnDelete").css("display", "none");
+            // $("#btnReset").css("display", "none");
+            // $("#btnCancel").css("display", "none");
+            // $("#btnDoNew").attr("disabled", false);
+            // station.show_search();
         },
         disabled_right: function () {
             $("#form_input input:text").each(function () {
@@ -795,6 +771,7 @@ var station =
             $("#box_info").hide(0);
             $("#box_search").show(500);
             $("#box_search").attr('class', 'col-sm-12');
+            station.table.rows().deselect()
         },
         togle_search: function () {
             $("#box_info").show(500);
@@ -964,8 +941,8 @@ var station =
             $("#btnsave").css("display", "none");
             $("#btnDelete").css("display", "none");
             $("#btnReset").css("display", "none");
-            $("#btncancer").css("display", "none");
-            $("#btnDonew").attr("disabled", false);
+            $("#btnCancel").css("display", "none");
+            $("#btnDoNew").attr("disabled", false);
             if (station.indexOfRow > -1) {
                 station.table.row(station.indexOfRow).deselect();
             }
@@ -1026,25 +1003,28 @@ $(document).ready(function () {
     var draw = 0;
     station.table = $('#tableDataView').DataTable({
         columnDefs: [{
-            orderable: false,
-            className: 'select-checkbox',
-            targets: 0
-        }, {
-            targets: 14,
-            render: function (data, type, row) {
-                if (data === 1) {
-                    return '<div class="status_green">Hoạt động</div>';
-                } else {
-                    return '<div class="status_red">Không hoạt động</div>';
+                // orderable: false,
+                // className: 'select-checkbox',
+                targets: 0,
+                checkboxes: {
+                    selectRow: true
                 }
-            }
-        },
-            {"width": "25px", "targets": 0}
+            }, {
+                targets: 14,
+                render: function (data, type, row) {
+                    if (data === 1) {
+                        return '<div class="status_green">Hoạt động</div>';
+                    } else {
+                        return '<div class="status_red">Không hoạt động</div>';
+                    }
+                }
+            },
+            // {"width": "25px", "targets": 0}
         ],
         select: {
-            style: 'os',
-            selector: 'td:first-child',
-            type: 'single'
+            style: 'multi',
+            // selector: 'td:first-child',
+            type: 'checkbox'
         },
         "pagingType": "full_numbers",
         "lengthMenu": [
@@ -1056,7 +1036,7 @@ $(document).ready(function () {
         "searching": false,
         "ordering": false,
         "info": true,
-        "autoWidth": false,
+        "autoWidth": true,
         "scrollX": true,
         "responsive": false,
         language: {
@@ -1159,7 +1139,7 @@ $(document).ready(function () {
                     dataRes.data.push({
                         "": "",
                         "indexCount": i + 1,
-                        "control": "<span class='fa fa-wrench' title='Điều khiển'  onclick='station.preControl(" + i + ")' style='cursor: pointer'></span>",
+                        "control": "<span class='fa fa-edit' title='Cập nhật'  onclick='station.preEdit(" + i + ")' style='cursor: pointer'></span> &nbsp;<span class='fa fa-wrench' title='Điều khiển'  onclick='station.preControl(" + i + ")' style='cursor: pointer'></span>",
                         "stationLongName": responseJson.content[i].stationLongName,
                         "objectType": responseJson.content[i].objectType,
                         "objectTypeName": responseJson.content[i].objectTypeName,
@@ -1219,15 +1199,16 @@ $(document).ready(function () {
         station.formReset();
     });
 
-    $('#btnDonew').click(function () {
-        clientAction = 'insert';
+    $('#btnDoNew').click(function () {
+        station.clientAction = 'insert';
         station.enabled_right();
         $("#btnsave").css("display", "inline");
         $("#btnDelete").css("display", "none");
         $("#btnupdate").css("display", "none");
         $("#btnReset").css("display", "inline");
-        $("#btncancer").css("display", "inline");
-        $("#btnDonew").attr("disabled", true);
+        $("#btnCancel").css("display", "inline");
+        $("#btnDoNew").attr("disabled", true);
+        $("#stationTypeId").prop("disabled",false);
         station.parameter.stationId = null;
         if (station.tableParameter !== undefined) {
             station.uuid = global.uuidv4();
@@ -1240,13 +1221,13 @@ $(document).ready(function () {
         station.btnRefresh();
     });
 
-    $('#btncancer').click(function () {
+    $('#btnCancel').click(function () {
         station.disabled_right();
         $("#btnsave").css("display", "none");
         $("#btnDelete").css("display", "none");
         $("#btnReset").css("display", "none");
-        $("#btncancer").css("display", "none");
-        $("#btnDonew").attr("disabled", false);
+        $("#btnCancel").css("display", "none");
+        $("#btnDoNew").attr("disabled", false);
         if (station.indexOfRow > -1) {
             station.table.row(station.indexOfRow).deselect();
         }
