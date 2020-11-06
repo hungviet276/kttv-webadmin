@@ -82,11 +82,18 @@ function validateForm() {
         return;
     }
 
+    if ($.trim($('#pass_new').val()) == $.trim($('#pass_old').val())) {
+        $('#pass_new_msg').html('Mật khẩu mới không được giống mật khẩu cũ!');
+        $('#pass_new').focus();
+        return;
+    }
+
     if ($.trim($('#re_pass_new').val()) == '' ||   ($.trim($('#re_pass_new').val()) != $.trim($('#pass_new').val())) ) {
         $('#re_pass_new_msg').html('Mật khẩu nhập lại phải giống mật khẩu mới!');
         $('#re_pass_new').focus();
         return;
     }
+
 
     return true;
 }
