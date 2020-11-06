@@ -301,18 +301,18 @@ var tableWarningMangerStation = $('#tableWarningManagerStation').DataTable({
     "processing": true,
     "serverSide": true,
     "columns": [
-        { "data":""},
+        {"data":""},
         {"data": "indexCount", "render": $.fn.dataTable.render.text()},
-        {"data": "id", "render": $.fn.dataTable.render.text()},
-        {"data": "stationId", "render": $.fn.dataTable.render.text()},
+        {"data": "id", "render": $.fn.dataTable.render.text(),"visible": false},
+        {"data": "stationId", "render": $.fn.dataTable.render.text(),"visible": false},
         {"data": "stationName", "render": $.fn.dataTable.render.text()},
         {"data": "warningCode", "render": $.fn.dataTable.render.text()},
         {"data": "warningName", "render": $.fn.dataTable.render.text()},
-        {"data": "icon", "render": $.fn.dataTable.render.text()},
+        {"data": "icon", "render": $.fn.dataTable.render.text(),"visible": false},
         {"data": "createDate", "render": $.fn.dataTable.render.text()},
-        {"data": "description", "render": $.fn.dataTable.render.text()},
-        {"data": "content", "render": $.fn.dataTable.render.text()},
-        {"data": "color", "render": $.fn.dataTable.render.text()}
+        {"data": "description", "render": $.fn.dataTable.render.text(),"visible": false},
+        {"data": "content", "render": $.fn.dataTable.render.text(),"visible": false},
+        {"data": "color", "render": $.fn.dataTable.render.text(),"visible": false}
     ],
     initComplete: function () {
         // Apply the search
@@ -585,16 +585,26 @@ var tableConditionWarning = $('#tableConditionWarning').DataTable({
     columns: [
         {
             "data": "id",
-            // "visible": false
+             "visible": false,
         },
         {
             "data": "idParameter",
-            // "visible": false
+             "visible": false
         },
-        {"data": "idWarningThreshold"},
-        {"data": "nameParameter"},
-        {"data": "warningThresholdCode"},
-        {"data": "warningThreshold"},
+        {
+            "data": "idWarningThreshold",
+            "visible": false
+        },
+        {
+            "data": "nameParameter"
+        },
+        {
+            "data": "warningThresholdCode"
+        },
+        {
+            "data": "warningThreshold",
+            "visible": false
+        },
         {"data": "warningThresholdCancel"},
         {"data": "createBy"},
         {"data": "createAt"},
