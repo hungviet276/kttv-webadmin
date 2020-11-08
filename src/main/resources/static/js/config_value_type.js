@@ -328,7 +328,6 @@ var tableConfigValueType = $('#tableValueTypeConfig').DataTable({
                     "endDate": responseJson.content[i].endDate
                 })
             }
-
             return JSON.stringify(dataRes);
         }
     }
@@ -460,7 +459,7 @@ $("#btnsaveStationValueType").click(function () {
                 }
             });
             if(insert == false){
-                toastr.warning('Lỗi', "Bản ghi đã tồn tại");
+                toastr.error('Lỗi', "Bản ghi đã tồn tại");
                 return;
             }
             tableStationSpatial.row.add(response).draw( true );

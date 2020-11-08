@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:replace="layout_header.html :: head_tag" />
+    <link rel="stylesheet" href="/css/demo_arcgis_station.css" type="text/css">
+    <title>Demo bản đồ các trạm đo</title>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed text-sm">
+<div class="wrapper">
+
+    <th:block th:replace="layout_menu.html :: menu_tag" />
+    <div class="content-wrapper" style="position: relative;">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                </div>
+            </div>
+        </div>
+        <section class="content">
+            <div id="arcgisEmbeddedFrame" class="arcgis-embedded-frame" style="padding: 1em;">
+                <iframe sandbox="allow-same-origin allow-scripts allow-popups allow-forms" src="/demo-arcgis/station-embedded"
+                        style="overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px" height="100%" width="100%" frameborder="0"
+                        allowfullscreen>
+                </iframe>
+            </div>
+        </section>
+        <div class="popup-loading">
+            <div class="wrapper-loading">
+                <div class="sub-wrapper-loading">
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only" th:text="#{action.loading}">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <th:block th:replace="layout_footer.html :: footer_tag" />
+    <script type="text/javascript">
+        var apiUrl = "[[${session.apiUrl}]]";
+        var userBO = "[[${session.userBO}]]";
+        var token = "[[${session.token}]]";
+    </script>
+    <script src="/js/demo_arcgis_station.js"></script>
+</div>
+</body>
+</html>
