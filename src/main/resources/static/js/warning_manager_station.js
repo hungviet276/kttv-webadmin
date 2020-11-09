@@ -661,14 +661,14 @@ var warningManagerStationValid = $("#form_input").validate({
     rules : {
         codeWarning : {
             required : true,
-            maxlength : 50
+            maxByteCode : true
         },
         nameWarning : {
             required : true,
             maxlength : 100
         },
         descriptionWarning : {
-            maxByte : true
+            maxlength : 500
         },
         stationWarning : {
             required : true,
@@ -694,7 +694,7 @@ var warningManagerStationValid = $("#form_input").validate({
         error.insertAfter(element.parents("div.insertError"));
     }
 });
-jQuery.validator.addMethod("maxByte", function(value, element){
+jQuery.validator.addMethod("maxByteCode", function(value, element){
     var utf8 = [];
     for (var i=0; i < value.length; i++) {
         var charcode = value.charCodeAt(i);
@@ -718,11 +718,11 @@ jQuery.validator.addMethod("maxByte", function(value, element){
                 0x80 | (charcode & 0x3f));
         }
     }
-    if(utf8.length > 500){
+    if(utf8.length > 50){
         return false;
     }
     return true;
-}, "Độ dài mô tả vượi quá giới hạn");
+}, "Độ dài mã cảnh báo vượt quá giới hạn");
 
 $("#btnsave").click(function () {
     //warningManagerStationValid
@@ -746,7 +746,6 @@ $("#btnsave").click(function () {
     }
     dataParrent.dataWarning = tableDatas;
     dataParrent.createBy = username;
-
     $.ajax({
         headers: {
             'Authorization': token
