@@ -1,3 +1,22 @@
+.legend-normal {
+    margin-left: 1em;
+    padding: 5px;
+    width: auto;
+    font-size: inherit;
+    font-weight: bold;
+}
+
+.fieldset-normal {
+    border: 1px gray solid;
+    padding: 10px;
+}
+
+.btn-100 {
+    width: 100px;
+}
+.hide-col {
+    display: none;
+}
 .wrap-button-control {
     display: flex;
     flex-direction: row;

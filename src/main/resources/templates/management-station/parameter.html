@@ -24,7 +24,7 @@
                     </div>
                     <div class="container-fluid">
                         <div class="row content" style="width: 100%">
-                            <div class="col-sm-5" id="box_search">
+                            <div class="col-sm-12 col-md-12 col-lg-12" id="box_search">
                                 <!--                                <div class="card-header">-->
                                 <!--                                    <h3 style="text-align: center"><b>Tìm kiếm trạm</b></h3>-->
                                 <!--                                </div>-->
@@ -70,7 +70,7 @@
                                         <tr>
                                             <th></th>
                                             <th>#</th>
-                                            <!--                                            <th></th>-->
+                                            <th>Thao tác</th>
                                             <th data-id="s_parameter">Tên yếu tố</th>
                                             <th data-id="s_parameterDesc">Mô tả</th>
                                             <th data-id="s_unit">Đơn vị</th>
@@ -97,11 +97,9 @@
                                 </div>
                             </div>
                             <!-- /.card-footer -->
-                            <div class="col-sm-7" id="box_info">
-                                <div style="width: 95%;float: right">
-                                    <div class="card-header">
-                                        <h3 style="text-align: center"><b>Thông tin yếu tố</b></h3>
-                                    </div>
+                            <div class="col-sm-12" id="box_info">
+                                <div style="width: 100%;float: right">
+
                                     <div class="form-horizontal" id="form_input">
                                         <!--                                        <div class="form-row">-->
                                         <!--                                            <div class="form-group col-md-6">-->
@@ -117,164 +115,108 @@
                                         <!--                                                </select>-->
                                         <!--                                            </div>-->
                                         <!--                                        </div>-->
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6">
-                                                <label for="parameter">Tên yếu tố <span
-                                                        style="color: red;">*</span></label>
-                                                <input type="text" class="form-control" id="parameter" placeholder="">
-                                                <span id="parameter_error" class="help-block" style="color: red"></span>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <label for="parameterDesc">Mô tả </label>
-                                                <input type="text" class="form-control" id="parameterDesc"
-                                                       placeholder="">
-                                            </div>
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6">
-                                                <label for="unitId">Đơn vị tính <span
-                                                        style="color: red;">*</span></label>
-                                                <select id="unitId" class="form-control" style="width: 100%;">
-                                                    <option value="-1">Lựa chọn</option>
-                                                </select>
-                                                <span id="unitId_error" class="help-block" style="color: red"></span>
-                                            </div>
-                                            <!--                                            </div>
-                                                                                        <div class="form-group col-md-6">
-                                                                                            <label for="latitude">Vĩ độ <span style="color: red;">*</span></label>
-                                                                                            <input type="number" class="form-control" id="latitude" placeholder="">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="form-row">
-                                                                                        <div class="form-group col-md-6">
-                                                                                            <label for="areaId">Khu vực</label>
-                                                                                            <select id="areaId" class="form-control" style="width: 100%;" onchange="station.getProvince(this)">
-                                                                                            </select>
-                                                                                        </div>
-
-                                                                                    </div>
-                                                                                    <div class="form-row">
-                                                                                        <div class="form-group col-md-6">
-                                                                                            <label for="provinceId">Tỉnh</label>
-                                                                                            <select id="provinceId" class="form-control" style="width: 100%;" onchange="station.getDistrict(this)">
-                                                                                                <option value="-1">Lựa chọn</option>
-                                                                                            </select>
-                                                                                        </div>
-                                                                                        <div class="form-group col-md-6">
-                                                                                            <label for="districtId">Quận/huyện</label>
-                                                                                            <select id="districtId" class="form-control" style="width: 100%;" onchange="station.getWard(this)">
-                                                                                                <option value="-1">Lựa chọn</option>
-                                                                                            </select>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="form-row">
-                                                                                        <div class="form-group col-md-6">
-                                                                                            <label for="wardId">Xã</label>
-                                                                                            <select id="wardId" class="form-control" style="width: 100%;">
-                                                                                                <option value="-1">Lựa chọn</option>
-                                                                                            </select>
-                                                                                        </div>
-                                                                                        <div class="form-group col-md-6">
-                                                                                            <label for="address">Địa chỉ cụ thể</label>
-                                                                                            <input type="text" class="form-control" id="address" placeholder="">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="form-row">
-                                                                                        <div class="form-group col-md-6">
-                                                                                            <label for="riverId">Thuộc sông</label>
-                                                                                            <select id="riverId" class="form-control" style="width: 100%;">
-                                                                                                <option value="-1">Lựa chọn</option>
-                                                                                            </select>
-                                                                                        </div>
-                                                                                        <!--                                            <div class="form-group col-md-6">-->
-                                            <!--                                                <label for="input_phone">Độ cao của trạm(*)</label>-->
-                                            <!--                                                <input type="text" class="form-control" id="input_phone" placeholder="">-->
-                                            <!--                                            </div>-->
-                                        </div>
-                                        <!--                                        <div class="form-row">-->
-                                        <!--                                            <div class="form-group col-md-6">-->
-                                        <!--                                                <label for="status">Trạng thái</label>-->
-                                        <!--                                                <select id="status" class="form-control" style="width: 100%;">-->
-                                        <!--                                                    <option value="1">Hoạt động</option>-->
-                                        <!--                                                    <option value="0">Không hoạt động</option>-->
-                                        <!--                                                </select>-->
-                                        <!--                                            </div>-->
-                                        <!--                                        </div>-->
-                                        <!--  tab phan quyen-->
-                                        <h3>Danh sách time series cấu hình</h3>
-                                        <div class="tab-content">
+                                        <fieldset class="fieldset-normal" style="margin-top: 15px;">
+                                            <legend class="legend-normal">Thông tin yếu tố</legend>
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
-                                                    <label for="timeSeries">Time series <span
+                                                    <label for="parameter">Tên yếu tố <span
                                                             style="color: red;">*</span></label>
-                                                    <select id="timeSeries" class="form-control" style="width: 100%;">
+                                                    <input type="text" class="form-control" id="parameter"
+                                                           placeholder="">
+                                                    <span id="parameter_error" class="help-block"
+                                                          style="color: red"></span>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="parameterDesc">Mô tả </label>
+                                                    <input type="text" class="form-control" id="parameterDesc"
+                                                           placeholder="">
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="unitId">Đơn vị tính <span
+                                                            style="color: red;">*</span></label>
+                                                    <select id="unitId" class="form-control" style="width: 100%;">
                                                         <option value="-1">Lựa chọn</option>
                                                     </select>
-                                                    <span id="timeSeries_error" class="help-block" style="color: red"></span>
+                                                    <span id="unitId_error" class="help-block"
+                                                          style="color: red"></span>
                                                 </div>
-                                                <div class="form-group col-md-6">
-                                                    <label for="tsConfigName">Time series config name <span style="color: red;">*</span></label>
-                                                    <input type="text" class="form-control" id="tsConfigName" placeholder="">
-                                                    <span id="tsConfigName_error" class="help-block" style="color: red"></span>
+                                            </div>
+                                        </fieldset>
+                                        <!--  tab phan quyen-->
+                                        <fieldset class="fieldset-normal" style="margin-top: 15px;">
+                                            <legend class="legend-normal">Danh sách time series cấu hình</legend>
+                                            <div class="tab-content">
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-4">
+                                                        <label for="timeSeries">Time series <span
+                                                                style="color: red;">*</span></label>
+                                                        <select id="timeSeries" class="form-control"
+                                                                style="width: 100%;">
+                                                            <option value="-1">Lựa chọn</option>
+                                                        </select>
+                                                        <span id="timeSeries_error" class="help-block"
+                                                              style="color: red"></span>
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label for="tsConfigName">Time series config name <span
+                                                                style="color: red;">*</span></label>
+                                                        <input type="text" class="form-control" id="tsConfigName"
+                                                               placeholder="">
+                                                        <span id="tsConfigName_error" class="help-block"
+                                                              style="color: red"></span>
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label for="storage">Storage <span
+                                                                style="color: red;">*</span></label>
+                                                        <input type="text" class="form-control" id="storage"
+                                                               placeholder="Bảng lưu trữ giá trị product">
+                                                        <span id="storage_error" class="help-block"
+                                                              style="color: red"></span>
+                                                    </div>
                                                 </div>
-                                                <!--                                                    <div class="form-group col-md-6">-->
-                                                <!--                                                        <label for="unit">Đơn vị tính <span style="color: red;">*</span></label>-->
-                                                <!--                                                        <select id="unit" class="form-control" style="width: 100%;">-->
-                                                <!--                                                            <option value="-1">Lựa chọn</option>-->
-                                                <!--                                                        </select>-->
-                                                <!--                                                    </div>-->
-                                            </div>
-                                            <!--                                                <div class="form-row">-->
-                                            <!--                                                    <div class="form-group col-md-6">-->
-                                            <!--                                                        <label for="input_group_id">Thiết bị đo</label>-->
-                                            <!--                                                        <input type="email" class="form-control" id="input_group_id" placeholder="">-->
-                                            <!--                                                    </div>-->
 
-                                            <!--                                                    <div class="form-group col-md-6">-->
-                                            <!--                                                        <label for="note">Ghi chú</label>-->
-                                            <!--                                                        <input type="text" class="form-control" id="note" placeholder="">-->
-                                            <!--                                                    </div>-->
-                                            <!--                                                </div>-->
-                                            <!--                                                <div class="form-row">-->
-                                            <!--                                                    <div class="form-group col-md-6">-->
-                                            <!--                                                        <label for="input_group_id">Ghi chú</label>-->
-                                            <!--                                                        <input type="email" class="form-control" id="input_group_id" placeholder="">-->
-                                            <!--                                                    </div>-->
-                                            <!--                                                </div>-->
-                                            <div class="wrap-button-control">
-                                                <button class="btn btn-primary" id="btnAddSeries" style="width: 100px;"
-                                                        onclick="station.btnAddSeries()">
-                                                    <i class="fas fa-plus"></i> Thêm
-                                                </button>
-                                                <button class="btn btn-primary" id="btnRefreshSeries"
-                                                        style="width: 100px;" onclick="station.btnRefreshSeries()">
-                                                    <i class="fas fa-redo-alt"></i> Làm mới
-                                                </button>
+                                                <div class="wrap-button-control">
+                                                    <button class="btn btn-primary" id="btnAddSeries"
+                                                            style="width: 100px;"
+                                                            onclick="station.btnAddSeries()">
+                                                        <i class="fas fa-plus"></i> Thêm
+                                                    </button>
+                                                    <button class="btn btn-primary" id="btnRefreshSeries"
+                                                            style="width: 100px;" onclick="station.btnRefreshSeries()">
+                                                        <i class="fas fa-redo-alt"></i> Làm mới
+                                                    </button>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-12 col-lg-12 col-sm-12">
+                                                        <table id="tableDataParameter"
+                                                               class="table table-bordered table-hover"
+                                                               style="width: 100%">
+                                                            <thead style="width: 100%">
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <!--                                                    <th data-id="s_stationParamterId">Time series Id</th>-->
+                                                                <th data-id="s_parameterName">Time series Name</th>
+                                                                <th data-id="s_unitName">Mô tả</th>
+                                                                <th data-id="">Tác động</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody style="width: 100%">
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
                                             </div>
-
-                                            <table id="tableDataParameter" class="table table-bordered table-hover"
-                                                   style="width: 100%">
-                                                <thead style="width: 100%">
-                                                <tr>
-                                                    <th>#</th>
-                                                    <!--                                                    <th data-id="s_stationParamterId">Time series Id</th>-->
-                                                    <th data-id="s_parameterName">Time series Name</th>
-                                                    <th data-id="s_unitName">Mô tả</th>
-                                                    <th data-id="">Tác động</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody style="width: 100%">
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                        </fieldset>
                                     </div>
                                     <!-- end tab phan quyen-->
                                     <div class="wrap-button-control">
-                                        <button class="btn btn-primary" id="btnsave" style="display:none;width: 100px;"
+                                        <button class="btn btn-primary" id="btnSave" style="display:none;width: 100px;"
                                                 onclick="station.btnSave()">
                                             <i class="fas fa-plus"></i> Lưu
                                         </button>
-                                        <button class="btn btn-primary" id="btnupdate"
+                                        <button class="btn btn-primary" id="btnUpdate"
                                                 style="display:none;width: 100px;" onclick="station.btnUpdate()">
                                             <i class="fas fa-edit"></i> Cập nhật
                                         </button>
@@ -286,7 +228,7 @@
                                                 onclick="station.btnRefresh()">
                                             <i class="fas fa-redo-alt"></i> Làm mới
                                         </button>
-                                        <button class="btn btn-primary" id="btncancer"
+                                        <button class="btn btn-primary" id="btnCancel"
                                                 style="display:none;width: 100px;">
                                             <i class="fas fa-times"></i> Hủy
                                         </button>

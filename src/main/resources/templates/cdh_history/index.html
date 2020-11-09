@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Thông tin trạm quan trắc</title>
+    <th:block th:replace="layout_header.html :: head_tag"/>
+    <link rel="stylesheet" href="/css/management-station.css" type="text/css">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed text-sm">
+<div class="wrapper">
+
+    <th:block th:replace="layout_menu.html :: menu_tag"/>
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="container-fluid">
+                <div class="card card-default">
+                    <div class="card-header">
+                        <h4>Quản lý lịch sử cập nhật dữ liệu CDH</h4>
+                    </div>
+                    <div class="container-fluid">
+                        <div class="row content" style="width: 100%">
+                            <div class="col-sm-12" id="box_search">
+                                <div class="card-header">
+                                    <h3 style="text-align: center"><b>Tìm kiếm</b></h3>
+                                </div>
+                                <div class="form-horizontal" id="form_data">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="stations_search">Trạm</label>
+                                            <div class="input-group">
+                                                <select class="form-control" id="stations_search" style="width: 100%" onchange="onchage_stations_select();"></select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="parameter_search">Yếu tố</label>
+                                            <div class="input-group">
+                                                <select class="form-control" id="parameter_search" style="width: 100%"></select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="start_date">Từ ngày<span
+                                                    style="color: red;">*</span></label>
+                                            <input type="text" class="form-control" id="start_date" placeholder="" autocomplete="off">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="end_date">Đến ngày <span
+                                                    style="color: red;">*</span></label>
+                                            <input type="text" class="form-control" id="end_date" placeholder="" autocomplete="off">
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="wrap-button-control">
+                                    <button class="btn btn-primary" id="btnDoSearch" style="width:100px;">
+                                        <i class="fas fa-search"></i> Tìm kiếm
+                                    </button>
+                                    <button class="btn btn-primary" id="btnExport" style="width:100px;">
+                                        <i class="fas fa-download"></i> Export
+                                    </button>
+                                </div>
+
+                                <div class="card-body" style="width: 100%;overflow: auto">
+                                    <table id="tableDataView" class="table table-bordered table-hover">
+                                        <thead>
+                                        <tr>
+                                            <!--                                            <th></th>-->
+                                            <th>#</th>
+                                            <th data-id="s_stationNo">Mã Tram</th>
+                                            <th data-id="s_stationName">Tên Trạm</th>
+                                            <th data-id="s_parameterName">Yếu tố</th>
+                                            <th data-id="s_userCreate">Người cập nhật</th>
+                                            <th data-id="s_status" is_select="1">Trạng thái cập nhật</th>
+                                            <th data-id="s_note">Ghi chú</th>
+                                            <th data-id="s_createModify" is_select="2">Thời gian cập nhật</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- /.card-footer -->
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="popup-loading">
+                    <div class="wrapper-loading">
+                        <div class="sub-wrapper-loading">
+                            <div class="d-flex justify-content-center">
+                                <div class="spinner-border" role="statusLoading">
+                                    <span class="sr-only" th:text="#{action.loading}">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark" style="top: 0px; height: 306px; display: none; bottom: 28.6px;">
+        <!-- Control sidebar content goes here -->
+    </aside>
+</div>
+<th:block th:replace="layout_footer.html :: footer_tag"/>
+<script type="text/javascript">
+    var apiUrl = "[[${session.apiUrl}]]";
+    var userBO = "[[${session.userBO}]]";
+    var username = "[[${session.userBO.Username}]]";
+    var token = "[[${session.token}]]";
+</script>
+<script src="/js/cdh_history.js"></script>
+</body>
+</html>

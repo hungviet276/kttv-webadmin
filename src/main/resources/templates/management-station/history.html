@@ -25,39 +25,41 @@
                     <div class="container-fluid">
                         <div class="row content" style="width: 100%">
                             <div class="col-sm-12" id="box_search">
-                                <div class="card-header">
-                                    <h3 style="text-align: center"><b>Tìm kiếm</b></h3>
-                                </div>
-                                <div class="form-horizontal" id="form_data">
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label for="stationTypeId">Loại trạm <span
-                                                    style="color: red;">*</span></label>
-                                            <select id="stationTypeId" class="form-control" style="width: 100%;">
-                                            </select>
-                                            <span id="stationTypeId_error" class="help-block" style="color: red"></span>
+                                <fieldset class="fieldset-normal">
+                                    <legend class="legend-normal">Tìm kiếm</legend>
+                                    <div class="form-horizontal" id="form_data">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="stationTypeId">Loại trạm <span
+                                                        style="color: red;">*</span></label>
+                                                <select id="stationTypeId" class="form-control" style="width: 100%;">
+                                                </select>
+                                                <span id="stationTypeId_error" class="help-block"
+                                                      style="color: red"></span>
+                                            </div>
+                                            <!--                                        <div class="form-group col-md-6 col-sm-6 col-lg-6">-->
+                                            <!--                                            <label for="stationNameSearch">Tên trạm</label>-->
+                                            <!--                                            <input type="text" class="form-control" id="stationNameSearch"-->
+                                            <!--                                                   placeholder="Tên trạm">-->
+                                            <!--                                        </div>-->
                                         </div>
-                                        <!--                                        <div class="form-group col-md-6 col-sm-6 col-lg-6">-->
-                                        <!--                                            <label for="stationNameSearch">Tên trạm</label>-->
-                                        <!--                                            <input type="text" class="form-control" id="stationNameSearch"-->
-                                        <!--                                                   placeholder="Tên trạm">-->
-                                        <!--                                        </div>-->
-                                    </div>
 
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label for="inputFromDate">Từ ngày<span
-                                                    style="color: red;">*</span></label>
-                                            <input type="text" class="form-control" id="inputFromDate" placeholder="">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label for="inputToDate">Đến ngày <span
-                                                    style="color: red;">*</span></label>
-                                            <input type="text" class="form-control" id="inputToDate" placeholder="">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="inputFromDate">Từ ngày<span
+                                                        style="color: red;">*</span></label>
+                                                <input type="text" class="form-control" id="inputFromDate"
+                                                       placeholder="" autocomplete="off">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="inputToDate">Đến ngày <span
+                                                        style="color: red;">*</span></label>
+                                                <input type="text" class="form-control" id="inputToDate" placeholder=""
+                                                       autocomplete="off">
+                                            </div>
                                         </div>
                                     </div>
-
-                                </div>
+                                </fieldset>
                                 <div class="mt-1">
                                     <!--                                    <button class="btn btn-primary" id="btnSearch" style="width:100px;">-->
                                     <!--                                        <i class="fas fa-search"></i> Tìm kiếm-->
@@ -138,26 +140,22 @@
                                 <div class="col-sm-12">
                                     <div style="width: 95%;">
                                         <div class="form-row">
-                                        <div class="card-header  col-md-6">
-                                            <h3 style="text-align: center"><b>Nội dung cũ</b></h3>
-                                        </div>
-                                        <div class="card-header  col-md-6">
-                                            <h3 style="text-align: center"><b>Nội dung thay đổi</b></h3>
-                                        </div>
+                                            <div class="card-header  col-md-6">
+                                                <h3 style="text-align: center"><b>Nội dung cũ</b></h3>
+                                            </div>
+                                            <div class="card-header  col-md-6">
+                                                <h3 style="text-align: center"><b>Nội dung thay đổi</b></h3>
+                                            </div>
                                         </div>
                                         <div class="form-horizontal" id="form_input">
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                     <label for="stationTypeIdP">Loại trạm</label>
-                                                    <select id="stationTypeIdP" class="form-control" disabled
-                                                            style="width: 100%;">
-                                                    </select>
+                                                    <input id="stationTypeIdP" class="form-control" readonly>
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label for="stationTypeIdC">Loại trạm</label>
-                                                    <select id="stationTypeIdC" class="form-control" disabled
-                                                            style="width: 100%;">
-                                                    </select>
+                                                    <input id="stationTypeIdC" class="form-control" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-row">
@@ -229,98 +227,84 @@
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                     <label for="areaIdP">Khu vực</label>
-                                                    <select id="areaIdP" class="form-control" style="width: 100%;" disabled onchange="station.getProvince(this)">
-                                                    </select>
+                                                    <input id="areaIdP" class="form-control" style="width: 100%;"
+                                                           readonly>
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label for="areaIdC">Khu vực</label>
-                                                    <select id="areaIdC" class="form-control" style="width: 100%;" disabled>
-                                                    </select>
+                                                    <input id="areaIdC" class="form-control" style="width: 100%;"
+                                                           readonly>
                                                 </div>
                                             </div>
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                     <label for="provinceIdP">Tỉnh</label>
-                                                    <select id="provinceIdP" class="form-control" disabled onchange="station.getDistrict(this)"
-                                                            style="width: 100%;">
-                                                        <option value="-1">Lựa chọn</option>
-                                                    </select>
+                                                    <input id="provinceIdP" class="form-control" readonly>
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label for="provinceIdC">Tỉnh</label>
-                                                    <select id="provinceIdC" class="form-control" disabled
-                                                            style="width: 100%;">
-                                                        <option value="-1">Lựa chọn</option>
-                                                    </select>
+                                                    <input id="provinceIdC" class="form-control" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                     <label for="districtIdP">Quận/huyện</label>
-                                                    <select id="districtIdP" class="form-control" disabled onchange="station.getWard(this)"
-                                                            style="width: 100%;">
-                                                        <option value="-1">Lựa chọn</option>
-                                                    </select>
+                                                    <input id="districtIdP" class="form-control" readonly>
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label for="districtIdC">Quận/huyện</label>
-                                                    <select id="districtIdC" class="form-control" disabled
-                                                            style="width: 100%;">
-                                                        <option value="-1">Lựa chọn</option>
-                                                    </select>
+                                                    <input id="districtIdC" class="form-control" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                     <label for="wardIdP">Xã</label>
-                                                    <select id="wardIdP" class="form-control" style="width: 100%;"  disabled>
-                                                        <option value="-1">Lựa chọn</option>
-                                                    </select>
+                                                    <input id="wardIdP" class="form-control" style="width: 100%;"
+                                                           readonly>
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label for="wardIdC">Xã</label>
-                                                    <select id="wardIdC" class="form-control" style="width: 100%;" disabled>
-                                                        <option value="-1">Lựa chọn</option>
-                                                    </select>
+                                                    <input id="wardIdC" class="form-control" style="width: 100%;"
+                                                           readonly>
                                                 </div>
                                             </div>
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                     <label for="addressP">Địa chỉ cụ thể</label>
-                                                    <input type="text" class="form-control" id="addressP" disabled
+                                                    <input type="text" class="form-control" id="addressP" readonly
                                                            placeholder="">
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label for="addressC">Địa chỉ cụ thể</label>
-                                                    <input type="text" class="form-control" id="addressC" disabled
+                                                    <input type="text" class="form-control" id="addressC" readonly
                                                            placeholder="">
                                                 </div>
                                             </div>
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                     <label for="riverIdP">Thuộc sông</label>
-                                                    <select id="riverIdP" class="form-control" style="width: 100%;" disabled>
-                                                        <option value="-1">Lựa chọn</option>
-                                                    </select>
+                                                    <input id="riverIdP" class="form-control" style="width: 100%;"
+                                                           readonly>
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label for="riverIdC">Thuộc sông</label>
-                                                    <select id="riverIdC" class="form-control" style="width: 100%;" disabled>
-                                                        <option value="-1">Lựa chọn</option>
-                                                    </select>
+                                                    <input id="riverIdC" class="form-control" style="width: 100%;"
+                                                           readonly>
                                                 </div>
                                             </div>
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                     <label for="statusP">Trạng thái</label>
-                                                    <select id="statusP" class="form-control" style="width: 100%;" disabled>
+                                                    <select id="statusP" class="form-control" style="width: 100%;"
+                                                            disabled>
                                                         <option value="1">Hoạt động</option>
                                                         <option value="0">Không hoạt động</option>
                                                     </select>
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label for="statusC">Trạng thái</label>
-                                                    <select id="statusC" class="form-control" style="width: 100%;" disabled>
+                                                    <select id="statusC" class="form-control" style="width: 100%;"
+                                                            disabled>
                                                         <option value="1">Hoạt động</option>
                                                         <option value="0">Không hoạt động</option>
                                                     </select>
@@ -334,7 +318,7 @@
                         </div>
                         <div class="modal-footer justify-content-between">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
-<!--                            <button type="button" class="btn btn-primary" onclick="station.control()">Thực hiện</button>-->
+                            <!--                            <button type="button" class="btn btn-primary" onclick="station.control()">Thực hiện</button>-->
                         </div>
                     </div>
                     <!-- /.modal-content -->

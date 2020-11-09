@@ -5,6 +5,7 @@ var station =
         indexOfRow: -1,
         table: undefined,
         tableParamter: undefined,
+        listSeriesType:undefined,
         numOfInputSearch: 0,
         uuid: uuid,
         objSearch: {
@@ -55,17 +56,19 @@ var station =
                 }
             });
         },
-        getSeries: function () {
+        getSeries: function (data) {
             global.showLoading();
             $.ajax({
                 headers: {
                     'Authorization': token
                 },
-                url: apiUrl + "common/get-select-list-timeseries",
+                url: apiUrl + "common/get-select-list-timeseries?" + data,
                 method: "GET",
-                contentType: "application/json",
+                // contentType: "application/json",
+                // data : data,
                 success: function (data) {
                     console.log(data);
+                    $("#timeSeries").empty();
                     $("#timeSeries").select2({data: data});
                     global.disableLoading();
                 },
@@ -99,12 +102,14 @@ var station =
             if(!station.validateSeries()){
                 return ;
             }
-            let timeTypeId = $("#timeSeries").val();
-            let tsConfigName = $("#tsConfigName").val();
+            let timeTypeId = $("#timeSeries").val().trim();
+            let tsConfigName = $("#tsConfigName").val().trim();
+            let storage = $("#storage").val();
             let data = {
                 "timeTypeId": timeTypeId,
                 "tsConfigName": tsConfigName,
                 "uuid": station.uuid,
+                "storage":storage
             }
             global.showLoading();
             $.ajax({
@@ -122,6 +127,8 @@ var station =
                         toastr.error('', data.message);
                     }
                     //station.table.ajax.reload();
+                    station.objParameterSearch['s_stationId'] = '';
+                    station.objParameterSearch['s_uuid'] = station.uuid;
                     station.searchSeries();
                     global.disableLoading();
                 },
@@ -135,6 +142,7 @@ var station =
             $('.help-block').html('');
             $("#timeSeries").val('-1').trigger('change');
             $("#tsConfigName").val('');
+            $("#storage").val('');
         },
         deleteSeries: function (id) {
             if (!confirm('Bạn thực sự muốn xóa ?')) {
@@ -297,6 +305,7 @@ var station =
             });
         },
         searchSeries: function () {
+            station.listSeriesType = [];
             if (station.tableParameter === undefined) {
                 station.tableParameter = $('#tableDataParameter').DataTable({
                     columnDefs: [{
@@ -319,7 +328,7 @@ var station =
                     "searching": false,
                     "ordering": false,
                     "info": true,
-                    "autoWidth": true,
+                    "autoWidth": false,
                     "scrollX": true,
                     "responsive": false,
                     language: {
@@ -383,7 +392,8 @@ var station =
                                 "recordsTotal": responseJson.recordsTotal,
                                 "data": []
                             };
-
+                            //reset lai lan nua list tim kiem time series
+                            station.listSeriesType = [];
                             for (let i = 0; i < responseJson.content.length; i++) {
                                 dataRes.data.push({
                                     // "": "",
@@ -394,12 +404,17 @@ var station =
                                     "parameterName": responseJson.content[i].parameterName,
                                     "unitName": responseJson.content[i].unitName,
                                     "": "<span class='fa fa-trash' onclick='station.deleteSeries(" + responseJson.content[i].stationParamterId + ")'></span>"
-                                })
+                                });
+                                station.listSeriesType.push(responseJson.content[i].paramterTypeId);
                             }
                             if (dataRes.data[0] !== undefined) {
                                 station.uuid = dataRes.data[0].uuid;
-                                station.objParameterSearch['s_uuid'] = station.uuid;
+                                // station.objParameterSearch['s_uuid'] = station.uuid;
                             }
+                            //lay lai du lieu cua cac time series da config
+                            let data = "tsTypeId="+ station.listSeriesType.toString();
+                            station.getSeries(data);
+
                             return JSON.stringify(dataRes);
                         }
                     }
@@ -409,7 +424,13 @@ var station =
             }
         },
         rowSelect: function (e, dt, type, indexes) {
-            clientAction = 'update';
+            // station.clientAction = 'update';
+            // station.indexOfRow = indexes;
+            // let rowData = station.table.rows(indexes).data().toArray();
+            // station.fillDataToForm(rowData);
+        },
+        preEdit: function (indexes) {
+            station.clientAction = 'update';
             station.indexOfRow = indexes;
             let rowData = station.table.rows(indexes).data().toArray();
             station.fillDataToForm(rowData);
@@ -419,11 +440,11 @@ var station =
             if (rowData != null && rowData != undefined && rowData.length > 0) {
                 console.log(rowData);
                 station.enabled_right();
-                $("#btnsave").css("display", "none");
+                $("#btnSave").css("display", "none");
                 $("#btnDelete").css("display", "inline");
                 $("#btnReset").css("display", "none");
-                $("#btncancer").css("display", "inline");
-                $("#btnupdate").css("display", "inline");
+                $("#btnCancel").css("display", "inline");
+                $("#btnUpdate").css("display", "inline");
                 // $("#btnDonew").attr("disabled", true);
                 station.togle_search();
 
@@ -444,13 +465,13 @@ var station =
             }
         },
         rowDeselect: function (e, dt, type, indexes) {
-            station.disabled_right();
-            $("#btnsave").css("display", "none");
-            $("#btnDelete").css("display", "none");
-            $("#btnReset").css("display", "none");
-            $("#btncancer").css("display", "none");
-            $("#btnDonew").attr("disabled", false);
-            station.show_search();
+            // station.disabled_right();
+            // $("#btnSave").css("display", "none");
+            // $("#btnDelete").css("display", "none");
+            // $("#btnReset").css("display", "none");
+            // $("#btnCancel").css("display", "none");
+            // $("#btnDonew").attr("disabled", false);
+            // station.show_search();
         },
         disabled_right: function () {
             $("#form_input input:text").each(function () {
@@ -465,6 +486,8 @@ var station =
             $("#input_group_id").attr("disabled", true);
             $(".checkedGender").attr("disabled", true);
             $(".checkedQuyen").attr("disabled", true);
+            station.btnRefreshSeries();
+            station.btnRefresh();
         },
         enabled_right: function () {
             $("#form_input input:text").each(function () {
@@ -481,14 +504,15 @@ var station =
             $(".checkedQuyen").attr("disabled", false);
         },
         show_search: function () {
-            $("#box_info").hide(0);
-            $("#box_search").show(500);
-            $("#box_search").attr('class', 'col-sm-12');
+            $("#box_info").hide(300);
+            $("#box_search").show(300);
+            // $("#box_search").attr('class', 'col-sm-12');
         },
         togle_search: function () {
-            $("#box_info").show(500);
-            $("#box_info").attr('class', 'col-sm-12');
-            $("#box_search").hide(0);
+            $("#box_search").hide(300);
+            $("#box_info").show(300);
+            // $("#box_info").attr('class', 'col-sm-12');
+
             // $("#box_search").attr('class', 'col-sm-5');
         },
         formReset: function () {
@@ -501,11 +525,6 @@ var station =
                 $('#parameter').focus();
                 return false;
             }
-            // if($('#parameterDesc').val().trim() === "-1"){
-            //     toastr.error('', 'Chế độ điều khiển không được để trống');
-            //     $('#modeStationType').focus();
-            //     return false;
-            // }
             if ($('#unitId').val().trim() === "-1") {
                 $('#unitId_error').html('Đơn vị tính không được để trống');
                 $('#unitId').focus();
@@ -520,11 +539,11 @@ var station =
                 $('#timeSeries').focus();
                 return false;
             }
-            // if($('#parameterDesc').val().trim() === "-1"){
-            //     toastr.error('', 'Chế độ điều khiển không được để trống');
-            //     $('#modeStationType').focus();
-            //     return false;
-            // }
+            if($('#storage').val().trim().length < 1){
+                $('#storage_error').html('Storage không được để trống');
+                $('#storage').focus();
+                return false;
+            }
             if ($('#tsConfigName').val().trim().length < 1) {
                 $('#tsConfigName_error').html('Time series config name tính không được để trống');
                 $('#tsConfigName').focus();
@@ -632,10 +651,10 @@ var station =
         },
         closePopup: function () {
             station.disabled_right();
-            $("#btnsave").css("display", "none");
+            $("#btnSave").css("display", "none");
             $("#btnDelete").css("display", "none");
             $("#btnReset").css("display", "none");
-            $("#btncancer").css("display", "none");
+            $("#btnCancel").css("display", "none");
             $("#btnDonew").attr("disabled", false);
             if (station.indexOfRow > -1) {
                 station.table.row(station.indexOfRow).deselect();
@@ -650,7 +669,7 @@ $(document).ready(function () {
         var dataId = $(this).attr("data-id");
 
         if (dataId != null && dataId != undefined) {
-            $(this).html('<input id="' + dataId + '" class="table-data-input-search form-control" type="text" placeholder="Search ' + title + '" />');
+            $(this).html('<input id="' + dataId + '" class="table-data-input-search" type="text" placeholder="Search ' + title + '" />');
             //     if (is_select == null || is_select == undefined) {
             //         $(this).html('<input id="' + dataId + '" class="table-data-input-search" type="text" placeholder="Search ' + title + '" />');
             //     } else {
@@ -671,15 +690,18 @@ $(document).ready(function () {
     station.table = $('#tableDataView').DataTable({
         columnDefs: [{
             orderable: false,
-            className: 'select-checkbox',
+            checkboxes: {
+                selectRow: true
+            },
+            // className: 'select-checkbox',
             targets: 0
         },
             {"width": "25px", "targets": 0}
         ],
         select: {
-            style: 'os',
-            selector: 'td:first-child',
-            type: 'single'
+            style: 'multi',
+            // selector: 'td:first-child',
+            type: 'checkbox'
         },
         "pagingType": "full_numbers",
         "lengthMenu": [
@@ -706,7 +728,7 @@ $(document).ready(function () {
         "columns": [
             {"data": ""},
             {"data": "indexCount","render": $.fn.dataTable.render.text()},
-            // {"data": "control"},
+            {"data": "control"},
             // {"data": "parameterTypeId"},
             {"data": "parameterTypeName","render": $.fn.dataTable.render.text()},
             {"data": "parameterTypeDescription","render": $.fn.dataTable.render.text()},
@@ -762,7 +784,7 @@ $(document).ready(function () {
                     dataRes.data.push({
                         "": "",
                         "indexCount": i + 1,
-                        // "control":"<span class='fa fa-wrench' title='Điều khiển'  onclick='station.preControl("+i+")' style='cursor: pointer'></span>",
+                        "control":"<span class='fa fa-edit' title='Cập nhật'  onclick='station.preEdit(" + i + ")' style='cursor: pointer'></span>",
                         "parameterTypeId": responseJson.content[i].parameterTypeId,
                         "parameterTypeName": responseJson.content[i].parameterTypeName,
                         "parameterTypeDescription": responseJson.content[i].parameterTypeDescription,
@@ -804,13 +826,13 @@ $(document).ready(function () {
     });
 
     $('#btnDonew').click(function () {
-        clientAction = 'insert';
+        station.clientAction = 'insert';
         station.enabled_right();
-        $("#btnsave").css("display", "inline");
+        $("#btnSave").css("display", "inline");
         $("#btnDelete").css("display", "none");
-        $("#btnupdate").css("display", "none");
+        $("#btnUpdate").css("display", "none");
         $("#btnReset").css("display", "inline");
-        $("#btncancer").css("display", "inline");
+        $("#btnCancel").css("display", "inline");
         $("#btnDonew").attr("disabled", true);
         station.parameter.stationId = null;
         if (station.tableParameter !== undefined) {
@@ -824,17 +846,18 @@ $(document).ready(function () {
         station.btnRefresh();
     });
 
-    $('#btncancer').click(function () {
+    $('#btnCancel').click(function () {
         station.disabled_right();
         $('.help-block').html('');
-        $("#btnsave").css("display", "none");
+        $("#btnSave").css("display", "none");
         $("#btnDelete").css("display", "none");
         $("#btnReset").css("display", "none");
-        $("#btncancer").css("display", "none");
+        $("#btnCancel").css("display", "none");
         $("#btnDonew").attr("disabled", false);
         if (station.indexOfRow > -1) {
             station.table.row(station.indexOfRow).deselect();
         }
+        station.table.search(station.objSearch).draw();
         station.show_search();
     });
 

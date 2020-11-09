@@ -1,6 +1,7 @@
 package com.neo.kttvwebadmin.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.*;
@@ -15,7 +16,7 @@ public class ManagementStationController {
         return "management-station/index";
     }
 
-    @GetMapping("parameter/index.html")
+    @GetMapping("parameter.html")
     public String parameterIndex() {
         return "management-station/parameter";
     }
@@ -46,5 +47,11 @@ public class ManagementStationController {
     @GetMapping("history.html")
     public String onSearchHistory() {
         return "management-station/history";
+    }
+
+    @GetMapping("manual-input.html")
+    public String getIndex(Model model) {
+//        model.addAttribute("a", 1);
+        return "management-station/manual-input";
     }
 }
