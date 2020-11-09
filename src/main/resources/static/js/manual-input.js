@@ -74,9 +74,9 @@ var station =
                     global.disableLoading();
                 },
                 error: function (data){
-                    // if(data.status === 401){
-                    //     window.location.href = "/logout";
-                    // }
+                    if(data.status === 401){
+                        window.location.href = "/logout";
+                    }
                     //console.log(data);
                 }
             });
@@ -458,6 +458,9 @@ $(document).ready(function () {
             search: "_INPUT_",
             searchPlaceholder: "Nhập thông tin tìm kiếm",
         },
+        // "select": {
+        //     "style": "single"
+        // },
         "processing": true,
         "serverSide": true,
         "columns": [
