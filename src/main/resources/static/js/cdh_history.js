@@ -281,3 +281,47 @@ function validateSearch(){
         }
 
     });
+
+$('#btnExport').on('click', function (e) {
+
+    let dataReq = {
+        s_stationNo: '',
+        s_stationName: '',
+        s_parameterName: '',
+        s_createModify: '',
+        s_status: '',
+        s_note: '',
+        s_userCreate:'',
+        // s_station_id:$('#input-group').val();
+    };
+    console.log(JSON.stringify(dataReq));
+    // $.ajax({
+    //     headers: {
+    //         'Authorization': token
+    //     },
+    //     url: apiUrl + 'log-act/export',
+    //     method: 'POST',
+    //     data: JSON.stringify(dataReq),
+    //     contentType: "application/json",
+    //     xhrFields: {
+    //         responseType: 'blob'
+    //     },
+    //     success: function (data, textStatus, xhr) {
+    //         var a = document.createElement('a');
+    //         var url = window.URL.createObjectURL(data);
+    //         a.href = url;
+    //         a.download = xhr.getResponseHeader("content-disposition").replace("attachment; filename=","");
+    //         document.body.append(a);
+    //         a.click();
+    //         a.remove();
+    //         window.URL.revokeObjectURL(url);
+    //         // disableLoading();
+    //     },
+    //     complete: function(){
+    //         disableLoading();
+    //     },
+    //     always: function (dataOrjqXHR, textStatus, jqXHRorErrorThrown) {
+    //         disableLoading();
+    //     }
+    // });
+});
