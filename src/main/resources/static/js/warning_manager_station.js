@@ -661,11 +661,11 @@ var warningManagerStationValid = $("#form_input").validate({
     rules : {
         codeWarning : {
             required : true,
-            maxlength : 15
+            maxByteCode : true
         },
         nameWarning : {
             required : true,
-            maxlength : 150
+            maxlength : 100
         },
         descriptionWarning : {
             maxlength : 500
@@ -694,6 +694,35 @@ var warningManagerStationValid = $("#form_input").validate({
         error.insertAfter(element.parents("div.insertError"));
     }
 });
+jQuery.validator.addMethod("maxByteCode", function(value, element){
+    var utf8 = [];
+    for (var i=0; i < value.length; i++) {
+        var charcode = value.charCodeAt(i);
+        if (charcode < 0x80) utf8.push(charcode);
+        else if (charcode < 0x800) {
+            utf8.push(0xc0 | (charcode >> 6),
+                0x80 | (charcode & 0x3f));
+        }
+        else if (charcode < 0xd800 || charcode >= 0xe000) {
+            utf8.push(0xe0 | (charcode >> 12),
+                0x80 | ((charcode>>6) & 0x3f),
+                0x80 | (charcode & 0x3f));
+        }
+        else {
+            i++;
+            charcode = 0x10000 + (((charcode & 0x3ff)<<10)
+                | (str.charCodeAt(i) & 0x3ff));
+            utf8.push(0xf0 | (charcode >>18),
+                0x80 | ((charcode>>12) & 0x3f),
+                0x80 | ((charcode>>6) & 0x3f),
+                0x80 | (charcode & 0x3f));
+        }
+    }
+    if(utf8.length > 50){
+        return false;
+    }
+    return true;
+}, "Độ dài mã cảnh báo vượt quá giới hạn");
 
 $("#btnsave").click(function () {
     //warningManagerStationValid
@@ -717,7 +746,6 @@ $("#btnsave").click(function () {
     }
     dataParrent.dataWarning = tableDatas;
     dataParrent.createBy = username;
-
     $.ajax({
         headers: {
             'Authorization': token

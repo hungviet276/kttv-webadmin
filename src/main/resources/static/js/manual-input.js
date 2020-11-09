@@ -6,17 +6,17 @@ var station =
         oldValue: undefined,
         keyUpTime: undefined,
         objSearch: {
-            // s_objectType: '',
-            // s_objectTypeName: '',
-            // s_stationCode: '',
-            // s_stationName: '',
-            // s_longtitude: '',
-            // s_latitude: '',
-            // s_provinceName: '',
-            // s_districtName: '',
-            // s_wardName: '',
-            // s_address: '',
-            // s_riverName: '',
+            s_createModify: '',
+            s_stationName: '',
+            s_fromdate: '',
+            s_todate: '',
+            s_stationNo: '',
+            s_valueType_id: '',
+            s_status: '',
+            s_station_id: '',
+            s_note: '',
+            s_userCreate: '',
+            s_tableproductName: '',
             // s_status: '',
         },
         parameter: {
@@ -74,9 +74,9 @@ var station =
                     global.disableLoading();
                 },
                 error: function (data){
-                    // if(data.status === 401){
-                    //     window.location.href = "/logout";
-                    // }
+                    if(data.status === 401){
+                        window.location.href = "/logout";
+                    }
                     //console.log(data);
                 }
             });
@@ -563,6 +563,9 @@ $(document).ready(function () {
             search: "_INPUT_",
             searchPlaceholder: "Nhập thông tin tìm kiếm",
         },
+        // "select": {
+        //     "style": "single"
+        // },
         "processing": true,
         "serverSide": true,
         "columns": [
