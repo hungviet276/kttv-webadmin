@@ -43,7 +43,7 @@ const station =
             districtId: null,
             wardId: null,
             siteId: null,
-            riverId:null
+            riverId: null
         },
         init: function () {
             station.getStationType();
@@ -242,7 +242,7 @@ const station =
             }
         },
         btnAddParameter: function () {
-            if(!station.validateParameter()){
+            if (!station.validateParameter()) {
                 return false;
             }
             let tsConfigId = $("#tsConfigId").val();
@@ -287,7 +287,7 @@ const station =
         },
         deleteParameter: function (id) {
             if (!confirm('Bạn thực sự muốn xóa ?')) {
-                return ;
+                return;
             }
             global.showLoading();
             $.ajax({
@@ -355,6 +355,34 @@ const station =
             let latitude = $("#latitude").val().trim();
 
             let areaId = $("#areaId").val().trim();
+            let areaName = null;
+            if (areaId !== "-1") {
+                areaName = $("#areaId :selected").text().trim();
+            }
+
+            let provinceId = $("#provinceId").val().trim();
+            let provinceName = null;
+            if (provinceId !== "-1") {
+                provinceName = $("#provinceId :selected").text().split("-")[1].trim();
+            }
+            let districtId = $("#districtId").val().trim();
+            let districtName = null;
+            if (districtId !== "-1") {
+                districtName = $("#districtId :selected").text().split("-")[1].trim();
+            }
+            let wardId = $("#wardId").val().trim();
+            let wardName = null;
+            if (wardId !== "-1") {
+                wardName = $("#wardId :selected").text().split("-")[1].trim();
+            }
+            let address = $("#address").val().trim();
+            let riverId = $("#riverId").val();
+            let riverName = null;
+            if (riverId !== "-1") {
+                riverName = $("#riverId :selected").text().split("-")[1].trim();
+            }
+            let status = $("#status").val().trim();
+            riverId = riverId === "-1" ? null : riverId;
             let data = {
                 // "parameter": parameter,
                 // "timeseriesName": timeseriesName,
@@ -368,16 +396,16 @@ const station =
                 "latitude": latitude,
                 "countryId": 281,
                 "areaId": areaId,
-                "areaName":areaName,
+                "areaName": areaName,
                 "provinceId": provinceId,
-                "provinceName":provinceName,
+                "provinceName": provinceName,
                 "districtId": districtId,
-                "districtName":districtName,
+                "districtName": districtName,
                 "wardId": wardId,
-                "wardName":wardName,
+                "wardName": wardName,
                 "address": address,
                 "riverId": riverId,
-                "riverName":riverName,
+                "riverName": riverName,
                 "status": status,
                 "username": global.username
             }
@@ -399,7 +427,12 @@ const station =
                         station.table.ajax.reload();
                         station.closePopup();
                     } else {
-                        toastr.error('', data.message);
+                        if (data.message === 'NOK1') {
+                            toastr.error('', 'Mã trạm đã tồn tại');
+                            $("#stationCode").focus();
+                        } else {
+                            toastr.error('', data.message);
+                        }
                     }
                     global.disableLoading();
                 },
@@ -427,29 +460,29 @@ const station =
 
             let areaId = $("#areaId").val().trim();
             let areaName = null;
-            if(areaId !== "-1") {
+            if (areaId !== "-1") {
                 areaName = $("#areaId :selected").text().trim();
             }
 
             let provinceId = $("#provinceId").val().trim();
             let provinceName = null;
-            if(provinceId !== "-1") {
+            if (provinceId !== "-1") {
                 provinceName = $("#provinceId :selected").text().split("-")[1].trim();
             }
             let districtId = $("#districtId").val().trim();
             let districtName = null;
-            if(districtId !== "-1") {
+            if (districtId !== "-1") {
                 districtName = $("#districtId :selected").text().split("-")[1].trim();
             }
             let wardId = $("#wardId").val().trim();
             let wardName = null;
-            if(wardId !== "-1") {
+            if (wardId !== "-1") {
                 wardName = $("#wardId :selected").text().split("-")[1].trim();
             }
             let address = $("#address").val().trim();
             let riverId = $("#riverId").val();
             let riverName = null;
-            if(riverId !== "-1" && riverId !== null) {
+            if (riverId !== "-1" && riverId !== null) {
                 riverName = $("#riverId :selected").text().split("-")[1].trim();
             }
             let status = $("#status").val().trim();
@@ -467,16 +500,16 @@ const station =
                 "latitude": latitude,
                 "countryId": 281,
                 "areaId": areaId,
-                "areaName":areaName,
+                "areaName": areaName,
                 "provinceId": provinceId,
-                "provinceName":provinceName,
+                "provinceName": provinceName,
                 "districtId": districtId,
-                "districtName":districtName,
+                "districtName": districtName,
                 "wardId": wardId,
-                "wardName":wardName,
+                "wardName": wardName,
                 "address": address,
                 "riverId": riverId,
-                "riverName":riverName,
+                "riverName": riverName,
                 "status": status,
                 "username": global.username
             }
@@ -506,7 +539,12 @@ const station =
                         }
                         station.show_search();
                     } else {
-                        toastr.error('', data.message);
+                        if (data.message === 'NOK1') {
+                            toastr.error('', 'Mã trạm đã tồn tại');
+                            $("#stationCode").focus();
+                        } else {
+                            toastr.error('', data.message);
+                        }
                     }
                     global.disableLoading();
                 },
@@ -534,7 +572,7 @@ const station =
         },
         btnDelete: function () {
             if (!confirm('Bạn thực sự muốn xóa ?')) {
-                return ;
+                return;
             }
             global.showLoading();
             $.ajax({
@@ -610,11 +648,10 @@ const station =
                     "processing": true,
                     "serverSide": true,
                     "columns": [
-
-                        {"data": "indexCount","render": $.fn.dataTable.render.text()},
-                        {"data": "parameterName","render": $.fn.dataTable.render.text()},
-                        // {"data": "unitName"},
-                        // {"data": "note"},
+                        {"data": "indexCount", "render": $.fn.dataTable.render.text()},
+                        {"data": "parameterName", "render": $.fn.dataTable.render.text()},
+                        {"data": "tsConfigName", "render": $.fn.dataTable.render.text()},
+                        {"data": "tsName", "render": $.fn.dataTable.render.text()},
                         {"data": ""}
                     ],
                     initComplete: function () {
@@ -650,11 +687,15 @@ const station =
                                     // "": "",
                                     "indexCount": i + 1,
                                     "uuid": responseJson.content[i].uuid,
-                                    "stationParamterId": responseJson.content[i].stationParamterId,
+                                    // "stationParamterId": responseJson.content[i].stationParamterId,
                                     "paramterTypeId": responseJson.content[i].paramterTypeId,
                                     "parameterName": responseJson.content[i].parameterName,
                                     "stationId": responseJson.content[i].stationId,
-                                    "": "<span class='fa fa-trash' onclick='station.deleteParameter(" + responseJson.content[i].stationParamterId + ")'></span>"
+                                    "tsConfigName": responseJson.content[i].tsConfigName,
+                                    "tsId": responseJson.content[i].tsId,
+                                    "tsConfigId": responseJson.content[i].tsConfigId,
+                                    "tsName": responseJson.content[i].tsConfigId,
+                                    "": "<span class='fa fa-trash' onclick='station.deleteParameter(" + responseJson.content[i].tsId + ")'></span>"
                                 })
                             }
                             if (dataRes.data[0] !== undefined) {
@@ -674,7 +715,7 @@ const station =
             // $('#btnDelete').removeAttr('disabled');
 
         },
-        preEdit: function (indexes){
+        preEdit: function (indexes) {
             station.clientAction = 'update';
             station.indexOfRow = indexes;
             let rowData = station.table.rows(indexes).data().toArray();
@@ -694,7 +735,7 @@ const station =
                 station.togle_search();
 
                 $('#stationTypeId').val(rowData[0].stationTypeId).trigger('change');
-                $("#stationTypeId").prop("disabled",true);
+                $("#stationTypeId").prop("disabled", true);
                 $('#modeStationType').val(rowData[0].modeStationType);
                 $('#stationCode').val(rowData[0].stationCode);
                 $('#stationName').val(rowData[0].stationName);
@@ -817,7 +858,7 @@ const station =
             }
             return true;
         },
-        validateParameter:function (){
+        validateParameter: function () {
             $('.help-block').html('');
 
             if ($('#parameter').val().trim() === "-1") {
@@ -948,7 +989,7 @@ const station =
             }
             station.show_search();
         },
-        btnExport:function (){
+        btnExport: function () {
             global.showLoading();
             $.ajax({
                 headers: {
@@ -966,7 +1007,7 @@ const station =
                     console.log(textStatus + "| " + xhr.getAllResponseHeaders());
                     var a = document.createElement('a');
                     var url = window.URL.createObjectURL(data);
-                    console.log("url: "+ url);
+                    console.log("url: " + url);
                     a.href = url;
                     a.download = xhr.getResponseHeader("content-disposition");
                     document.body.append(a);
@@ -987,7 +1028,7 @@ $(document).ready(function () {
             if (is_select == null || is_select == undefined) {
                 $(this).html('<input id="' + dataId + '" class="table-data-input-search" type="text" autocomplete="off" placeholder="Search ' + title + '" />');
             } else {
-                $(this).html('<select class="select_table" id='+ dataId +'> <option value="">Hãy chọn</option><option value="1">Hoạt động</option> <option value="0">Không hoạt động</option> </select>');
+                $(this).html('<select class="select_table" id=' + dataId + '> <option value="">Hãy chọn</option><option value="1">Hoạt động</option> <option value="0">Không hoạt động</option> </select>');
             }
         }
     });
@@ -1003,22 +1044,22 @@ $(document).ready(function () {
     var draw = 0;
     station.table = $('#tableDataView').DataTable({
         columnDefs: [{
-                // orderable: false,
-                // className: 'select-checkbox',
-                targets: 0,
-                checkboxes: {
-                    selectRow: true
+            // orderable: false,
+            // className: 'select-checkbox',
+            targets: 0,
+            checkboxes: {
+                selectRow: true
+            }
+        }, {
+            targets: 14,
+            render: function (data, type, row) {
+                if (data === 1) {
+                    return '<div class="status_green">Hoạt động</div>';
+                } else {
+                    return '<div class="status_red">Không hoạt động</div>';
                 }
-            }, {
-                targets: 14,
-                render: function (data, type, row) {
-                    if (data === 1) {
-                        return '<div class="status_green">Hoạt động</div>';
-                    } else {
-                        return '<div class="status_red">Không hoạt động</div>';
-                    }
-                }
-            },
+            }
+        },
             // {"width": "25px", "targets": 0}
         ],
         select: {
@@ -1050,19 +1091,19 @@ $(document).ready(function () {
         "serverSide": true,
         "columns": [
             {"data": ""},
-            {"data": "indexCount","render": $.fn.dataTable.render.text()},
+            {"data": "indexCount", "render": $.fn.dataTable.render.text()},
             {"data": "control"},
-            {"data": "objectType","render": $.fn.dataTable.render.text()},
-            {"data": "objectTypeName","render": $.fn.dataTable.render.text()},
-            {"data": "stationCode","render": $.fn.dataTable.render.text()},
-            {"data": "stationName","render": $.fn.dataTable.render.text()},
-            {"data": "longtitude","render": $.fn.dataTable.render.text()},
-            {"data": "latitude","render": $.fn.dataTable.render.text()},
-            {"data": "provinceName","render": $.fn.dataTable.render.text()},
-            {"data": "districtName","render": $.fn.dataTable.render.text()},
-            {"data": "wardName","render": $.fn.dataTable.render.text()},
-            {"data": "address","render": $.fn.dataTable.render.text()},
-            {"data": "riverName","render": $.fn.dataTable.render.text()},
+            {"data": "objectType", "render": $.fn.dataTable.render.text()},
+            {"data": "objectTypeName", "render": $.fn.dataTable.render.text()},
+            {"data": "stationCode", "render": $.fn.dataTable.render.text()},
+            {"data": "stationName", "render": $.fn.dataTable.render.text()},
+            {"data": "longtitude", "render": $.fn.dataTable.render.text()},
+            {"data": "latitude", "render": $.fn.dataTable.render.text()},
+            {"data": "provinceName", "render": $.fn.dataTable.render.text()},
+            {"data": "districtName", "render": $.fn.dataTable.render.text()},
+            {"data": "wardName", "render": $.fn.dataTable.render.text()},
+            {"data": "address", "render": $.fn.dataTable.render.text()},
+            {"data": "riverName", "render": $.fn.dataTable.render.text()},
             // {"data": "stationHeight"},
             {"data": "status"},
             // {"data": "parameterTypeName"},
@@ -1208,7 +1249,7 @@ $(document).ready(function () {
         $("#btnReset").css("display", "inline");
         $("#btnCancel").css("display", "inline");
         $("#btnDoNew").attr("disabled", true);
-        $("#stationTypeId").prop("disabled",false);
+        $("#stationTypeId").prop("disabled", false);
         station.parameter.stationId = null;
         if (station.tableParameter !== undefined) {
             station.uuid = global.uuidv4();
@@ -1231,6 +1272,7 @@ $(document).ready(function () {
         if (station.indexOfRow > -1) {
             station.table.row(station.indexOfRow).deselect();
         }
+        station.table.search(station.objSearch).draw();
         station.show_search();
     });
 

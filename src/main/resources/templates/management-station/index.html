@@ -24,7 +24,7 @@
                     </div>
                     <div class="container-fluid">
                         <div class="row content" style="width: 100%">
-                            <div class="col-sm-5" id="box_search">
+                            <div class="col-sm-12 col-md-12 col-lg-12" id="box_search">
                                 <!--                                <div class="card-header">-->
                                 <!--                                    <h3 style="text-align: center"><b>Tìm kiếm trạm</b></h3>-->
                                 <!--                                </div>-->
@@ -62,7 +62,8 @@
                                     <button class="btn btn-primary" id="btnDoNew" style="width:100px;">
                                         <i class="fas fa-plus"></i> Thêm
                                     </button>
-                                    <button class="btn btn-primary" id="btnExport" style="width:100px;" onclick="station.btnExport()">
+                                    <button class="btn btn-primary" id="btnExport" style="width:100px;"
+                                            onclick="station.btnExport()">
                                         <i class="fas fa-download"></i> Export
                                     </button>
                                 </div>
@@ -73,7 +74,7 @@
                                         <tr>
                                             <th></th>
                                             <th>#</th>
-                                            <th>Thao tác</th>
+                                            <th style="width: 4em">Thao tác</th>
                                             <th data-id="s_objectType">Loại trạm</th>
                                             <th data-id="s_objectTypeName">Tên loại trạm</th>
                                             <th data-id="s_stationCode">Mã trạm</th>
@@ -100,189 +101,215 @@
                                 </div>
                             </div>
                             <!-- /.card-footer -->
-                            <div class="col-sm-7" id="box_info">
-                                <div style="width: 95%;float: right">
-                                    <div class="card-header">
-                                        <h3 style="text-align: center"><b>Thông tin trạm</b></h3>
-                                    </div>
+                            <div class="col-sm-12 col-md-12 col-lg-12" id="box_info">
+                                <div style="width: 100%;float: right">
+
                                     <div class="form-horizontal" id="form_input">
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6">
-                                                <label for="stationTypeId">Loại trạm <span style="color: red;">*</span></label>
-                                                <select id="stationTypeId" class="form-control" style="width: 100%;"
-                                                        onchange="station.checkStationType(this)">
-                                                </select>
-                                                <span id="stationTypeId_error" class="help-block" style="color: red"></span>
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <label for="modeStationType">Chế độ điều khiển <span
-                                                        style="color: red;">*</span></label>
-                                                <select id="modeStationType" class="form-control" style="width: 100%;">
-                                                    <option value="1">Qua API</option>
-                                                    <option value="2">Lệnh điều khiển hỗ trợ</option>
-                                                </select>
-                                                <span id="modeStationType_error" class="help-block" style="color: red"></span>
-                                            </div>
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6">
-                                                <label for="stationCode">Mã trạm <span
-                                                        style="color: red;">*</span></label>
-                                                <input type="text" class="form-control" id="stationCode" placeholder=""
-                                                       onkeypress="return station.stationCodeKeyPress(event)"
-                                                       onkeyup="station.stationCodeKeyUp(event)">
-                                                <span id="stationCode_error" class="help-block" style="color: red"></span>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <label for="stationName">Tên trạm <span
-                                                        style="color: red;">*</span></label>
-                                                <input type="text" class="form-control" id="stationName" placeholder="">
-                                                <span id="stationName_error" class="help-block" style="color: red"></span>
-                                            </div>
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6">
-                                                <label for="longtitude">Kinh độ <span
-                                                        style="color: red;">*</span></label>
-                                                <input type="number" class="form-control" id="longtitude"
-                                                       placeholder="">
-                                                <span id="longtitude_error" class="help-block" style="color: red"></span>
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <label for="latitude">Vĩ độ <span style="color: red;">*</span></label>
-                                                <input type="number" class="form-control" id="latitude" placeholder="">
-                                                <span id="latitude_error" class="help-block" style="color: red"></span>
-                                            </div>
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6">
-                                                <label for="areaId">Khu vực</label>
-                                                <select id="areaId" class="form-control" style="width: 100%;"
-                                                        onchange="station.getProvince(this)">
-                                                </select>
-                                            </div>
-
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6">
-                                                <label for="provinceId">Tỉnh</label>
-                                                <select id="provinceId" class="form-control" style="width: 100%;"
-                                                        onchange="station.getDistrict(this)">
-                                                    <option value="-1">Lựa chọn</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <label for="districtId">Quận/huyện</label>
-                                                <select id="districtId" class="form-control" style="width: 100%;"
-                                                        onchange="station.getWard(this)">
-                                                    <option value="-1">Lựa chọn</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6">
-                                                <label for="wardId">Xã</label>
-                                                <select id="wardId" class="form-control" style="width: 100%;">
-                                                    <option value="-1">Lựa chọn</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <label for="address">Địa chỉ cụ thể</label>
-                                                <input type="text" class="form-control" id="address" placeholder="">
-                                            </div>
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6">
-                                                <label for="riverId">Thuộc sông</label>
-                                                <select id="riverId" class="form-control" style="width: 100%;">
-                                                    <option value="-1">Lựa chọn</option>
-                                                </select>
-                                            </div>
-                                            <!--                                            <div class="form-group col-md-6">-->
-                                            <!--                                                <label for="input_phone">Độ cao của trạm(*)</label>-->
-                                            <!--                                                <input type="text" class="form-control" id="input_phone" placeholder="">-->
-                                            <!--                                            </div>-->
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6">
-                                                <label for="status">Trạng thái</label>
-                                                <select id="status" class="form-control" style="width: 100%;">
-                                                    <option value="1">Hoạt động</option>
-                                                    <option value="0">Không hoạt động</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <!--  tab phan quyen-->
-                                        <h3>Danh sách tần suất yếu tố đo của trạm</h3>
-                                        <div class="tab-content">
+                                        <fieldset class="fieldset-normal">
+                                            <legend class="legend-normal">Thông tin trạm</legend>
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
-                                                    <label for="parameter">Yếu tố <span
+                                                    <label for="stationTypeId">Loại trạm <span
                                                             style="color: red;">*</span></label>
-                                                    <select id="parameter" class="form-control" style="width: 100%;"
-                                                            onchange="station.onChangeParameter(this)">
-                                                        <option value="-1">Lựa chọn</option>
+                                                    <select id="stationTypeId" class="form-control" style="width: 100%;"
+                                                            onchange="station.checkStationType(this)">
                                                     </select>
-                                                    <span id="parameter_error" class="help-block" style="color: red"></span>
+                                                    <span id="stationTypeId_error" class="help-block"
+                                                          style="color: red"></span>
                                                 </div>
                                                 <div class="form-group col-md-6">
-                                                    <label for="tsName">Time series name</label>
-                                                    <input type="text" class="form-control" id="tsName" placeholder="">
-                                                    <span id="tsName_error" class="help-block" style="color: red"></span>
+                                                    <label for="modeStationType">Chế độ điều khiển <span
+                                                            style="color: red;">*</span></label>
+                                                    <select id="modeStationType" class="form-control"
+                                                            style="width: 100%;">
+                                                        <option value="1">Qua API</option>
+                                                        <option value="2">Lệnh điều khiển hỗ trợ</option>
+                                                    </select>
+                                                    <span id="modeStationType_error" class="help-block"
+                                                          style="color: red"></span>
                                                 </div>
-                                                <!--                                                    <div class="form-group col-md-6">-->
-                                                <!--                                                        <label for="unit">Đơn vị tính <span style="color: red;">*</span></label>-->
-                                                <!--                                                        <select id="unit" class="form-control" style="width: 100%;">-->
-                                                <!--                                                            <option value="-1">Lựa chọn</option>-->
-                                                <!--                                                        </select>-->
-                                                <!--                                                    </div>-->
                                             </div>
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
-                                                    <label for="tsConfigId">Time series config</label>
-                                                    <select id="tsConfigId" class="form-control" style="width: 100%;">
-                                                        <option value="-1">Lựa chọn</option>
+                                                    <label for="stationCode">Mã trạm <span
+                                                            style="color: red;">*</span></label>
+                                                    <input type="text" class="form-control" id="stationCode"
+                                                           placeholder=""
+                                                           onkeypress="return station.stationCodeKeyPress(event)"
+                                                           onkeyup="station.stationCodeKeyUp(event)">
+                                                    <span id="stationCode_error" class="help-block"
+                                                          style="color: red"></span>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="stationName">Tên trạm <span
+                                                            style="color: red;">*</span></label>
+                                                    <input type="text" class="form-control" id="stationName"
+                                                           placeholder="">
+                                                    <span id="stationName_error" class="help-block"
+                                                          style="color: red"></span>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="longtitude">Kinh độ <span
+                                                            style="color: red;">*</span></label>
+                                                    <input type="number" class="form-control" id="longtitude"
+                                                           placeholder="">
+                                                    <span id="longtitude_error" class="help-block"
+                                                          style="color: red"></span>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="latitude">Vĩ độ <span
+                                                            style="color: red;">*</span></label>
+                                                    <input type="number" class="form-control" id="latitude"
+                                                           placeholder="">
+                                                    <span id="latitude_error" class="help-block"
+                                                          style="color: red"></span>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="areaId">Khu vực</label>
+                                                    <select id="areaId" class="form-control" style="width: 100%;"
+                                                            onchange="station.getProvince(this)">
                                                     </select>
-                                                    <span id="tsConfigId_error" class="help-block" style="color: red"></span>
                                                 </div>
 
-                                                <!--                                                    <div class="form-group col-md-6">-->
-                                                <!--                                                        <label for="note">Ghi chú</label>-->
-                                                <!--                                                        <input type="text" class="form-control" id="note" placeholder="">-->
-                                                <!--                                                    </div>-->
-                                                <!--                                                </div>-->
-                                                <!--                                                <div class="form-row">-->
-                                                <!--                                                    <div class="form-group col-md-6">-->
-                                                <!--                                                        <label for="input_group_id">Ghi chú</label>-->
-                                                <!--                                                        <input type="email" class="form-control" id="input_group_id" placeholder="">-->
-                                                <!--                                                    </div>-->
                                             </div>
-                                            <div class="wrap-button-control">
-                                                <button class="btn btn-primary" id="btnAddParameter"
-                                                        style="width: 100px;" onclick="station.btnAddParameter()">
-                                                    <i class="fas fa-plus"></i> Thêm
-                                                </button>
-                                                <button class="btn btn-primary" id="btnRefreshParameter"
-                                                        style="width: 100px;" onclick="station.btnRefreshParameter()">
-                                                    <i class="fas fa-redo-alt"></i> Làm mới
-                                                </button>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="provinceId">Tỉnh</label>
+                                                    <select id="provinceId" class="form-control" style="width: 100%;"
+                                                            onchange="station.getDistrict(this)">
+                                                        <option value="-1">Lựa chọn</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="districtId">Quận/huyện</label>
+                                                    <select id="districtId" class="form-control" style="width: 100%;"
+                                                            onchange="station.getWard(this)">
+                                                        <option value="-1">Lựa chọn</option>
+                                                    </select>
+                                                </div>
                                             </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="wardId">Xã</label>
+                                                    <select id="wardId" class="form-control" style="width: 100%;">
+                                                        <option value="-1">Lựa chọn</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="address">Địa chỉ cụ thể</label>
+                                                    <input type="text" class="form-control" id="address" placeholder="">
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="riverId">Thuộc sông</label>
+                                                    <select id="riverId" class="form-control" style="width: 100%;">
+                                                        <option value="-1">Lựa chọn</option>
+                                                    </select>
+                                                </div>
+                                                <!--                                            <div class="form-group col-md-6">-->
+                                                <!--                                                <label for="input_phone">Độ cao của trạm(*)</label>-->
+                                                <!--                                                <input type="text" class="form-control" id="input_phone" placeholder="">-->
+                                                <!--                                            </div>-->
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="status">Trạng thái</label>
+                                                    <select id="status" class="form-control" style="width: 100%;">
+                                                        <option value="1">Hoạt động</option>
+                                                        <option value="0">Không hoạt động</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                        <!--  tab phan quyen-->
+                                        <fieldset class="fieldset-normal">
+                                            <legend class="legend-normal">Danh sách tần suất yếu tố đo của trạm</legend>
+                                            <div class="tab-content">
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="parameter">Yếu tố <span
+                                                                style="color: red;">*</span></label>
+                                                        <select id="parameter" class="form-control" style="width: 100%;"
+                                                                onchange="station.onChangeParameter(this)">
+                                                            <option value="-1">Lựa chọn</option>
+                                                        </select>
+                                                        <span id="parameter_error" class="help-block"
+                                                              style="color: red"></span>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="tsName">Time series name</label>
+                                                        <input type="text" class="form-control" id="tsName"
+                                                               placeholder="">
+                                                        <span id="tsName_error" class="help-block"
+                                                              style="color: red"></span>
+                                                    </div>
+                                                    <!--                                                    <div class="form-group col-md-6">-->
+                                                    <!--                                                        <label for="unit">Đơn vị tính <span style="color: red;">*</span></label>-->
+                                                    <!--                                                        <select id="unit" class="form-control" style="width: 100%;">-->
+                                                    <!--                                                            <option value="-1">Lựa chọn</option>-->
+                                                    <!--                                                        </select>-->
+                                                    <!--                                                    </div>-->
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="tsConfigId">Time series config</label>
+                                                        <select id="tsConfigId" class="form-control"
+                                                                style="width: 100%;">
+                                                            <option value="-1">Lựa chọn</option>
+                                                        </select>
+                                                        <span id="tsConfigId_error" class="help-block"
+                                                              style="color: red"></span>
+                                                    </div>
 
-                                            <table id="tableDataParameter" class="table table-bordered table-hover"
-                                                   style="width: 98%">
-                                                <thead style="width: 98%">
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th data-id="s_tsName">Time series name</th>
-                                                    <!--                                                    <th data-id="s_unitName">Đơn vị tính</th>-->
-                                                    <!--                                                    <th data-id="s_note">Ghi chú</th>-->
-                                                    <th data-id="">Tác động</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody style="width: 98%">
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                                    <!--                                                    <div class="form-group col-md-6">-->
+                                                    <!--                                                        <label for="note">Ghi chú</label>-->
+                                                    <!--                                                        <input type="text" class="form-control" id="note" placeholder="">-->
+                                                    <!--                                                    </div>-->
+                                                    <!--                                                </div>-->
+                                                    <!--                                                <div class="form-row">-->
+                                                    <!--                                                    <div class="form-group col-md-6">-->
+                                                    <!--                                                        <label for="input_group_id">Ghi chú</label>-->
+                                                    <!--                                                        <input type="email" class="form-control" id="input_group_id" placeholder="">-->
+                                                    <!--                                                    </div>-->
+                                                </div>
+                                                <div class="wrap-button-control">
+                                                    <button class="btn btn-primary" id="btnAddParameter"
+                                                            style="width: 100px;" onclick="station.btnAddParameter()">
+                                                        <i class="fas fa-plus"></i> Thêm
+                                                    </button>
+                                                    <button class="btn btn-primary" id="btnRefreshParameter"
+                                                            style="width: 100px;"
+                                                            onclick="station.btnRefreshParameter()">
+                                                        <i class="fas fa-redo-alt"></i> Làm mới
+                                                    </button>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-12 col-lg-12 col-sm-12">
+                                                        <table id="tableDataParameter"
+                                                               class="table table-bordered table-hover dataTable dtr-inline"
+                                                               style="width: 100%">
+                                                            <thead style="width: 100%">
+                                                            <tr>
+                                                                <th style="width: 10%">#</th>
+                                                                <th data-id="yeuto" style="width: 30%">Yếu tố</th>
+                                                                <th data-id="tansuat" style="width: 30%">Tần suất đo
+                                                                </th>
+                                                                <th data-id="donvi" style="width: 20%">Đơn vị đo</th>
+                                                                <th style="width: 10%">Tác động</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody style="width: 100%">
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
                                     </div>
                                     <!-- end tab phan quyen-->
                                     <div class="wrap-button-control">

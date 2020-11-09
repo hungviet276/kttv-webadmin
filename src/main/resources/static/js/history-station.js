@@ -335,11 +335,11 @@ $(document).ready(function () {
         format:'DD/MM/YYYY',
         autoUpdateInput: false,
         autoApply: true,
-        autoClose: true,
-        showOtherMonths: true,
-        alwaysShowCalendars: false,
+        // autoClose: true,
+        // showOtherMonths: true,
+        // alwaysShowCalendars: false,
         useCurrent: false,
-        // minDate: new Date().setHours(0,0,0,0),
+        allowInputToggle: true
     });
     $('#inputFromDate').on('apply.daterangepicker', function(ev, picker) {
         $(this).val(picker.startDate.format('DD/MM/YYYY'));

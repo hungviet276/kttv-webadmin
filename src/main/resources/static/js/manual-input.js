@@ -6,18 +6,18 @@ var station =
         oldValue: undefined,
         keyUpTime: undefined,
         objSearch: {
-            s_objectType: '',
-            s_objectTypeName: '',
-            s_stationCode: '',
-            s_stationName: '',
-            s_longtitude: '',
-            s_latitude: '',
-            s_provinceName: '',
-            s_districtName: '',
-            s_wardName: '',
-            s_address: '',
-            s_riverName: '',
-            s_status: '',
+            // s_objectType: '',
+            // s_objectTypeName: '',
+            // s_stationCode: '',
+            // s_stationName: '',
+            // s_longtitude: '',
+            // s_latitude: '',
+            // s_provinceName: '',
+            // s_districtName: '',
+            // s_wardName: '',
+            // s_address: '',
+            // s_riverName: '',
+            // s_status: '',
         },
         parameter: {
             stationId: null,
@@ -74,9 +74,9 @@ var station =
                     global.disableLoading();
                 },
                 error: function (data){
-                    if(data.status === 401){
-                        window.location.href = "/logout";
-                    }
+                    // if(data.status === 401){
+                    //     window.location.href = "/logout";
+                    // }
                     //console.log(data);
                 }
             });
@@ -177,13 +177,20 @@ var station =
             let stationTypeId = $("#stationTypeId").val();
             let inputFromDate = $("#inputFromDate").val();
             let inputToDate = $("#inputToDate").val();
-            // station.objSearch['stationTypeId']
+            let parameter =  $("#parameter").val();
+
+            if(parameter === null || parameter === undefined){
+                alert('Bạn chọn yếu tố trước');
+                $("#parameter").focus();
+                return ;
+            }
             for (let key in station.objSearch) {
                 station.objSearch[key] = '';
             }
             station.objSearch['stationTypeId'] = stationTypeId;
             station.objSearch['inputFromDate'] = inputFromDate;
             station.objSearch['inputToDate'] = inputToDate;
+            station.objSearch['s_tableproductName'] = parameter;
             station.table.search(station.objSearch).draw();
         },
         btnExport: function () {
@@ -422,14 +429,16 @@ $(document).ready(function () {
     var draw = 0;
     station.table = $('#tableDataView').DataTable({
         columnDefs: [{
-            // orderable: false,
+            orderable: false,
             // className: 'select-checkbox',
-            // targets: 0
-        }
-        ],
+            targets: 0,
+            checkboxes: {
+                selectRow: true
+            }
+        }],
         select: {
-            style: 'os',
-            selector: 'td:first-child',
+            style: 'multi',
+            // selector: 'td:first-child',
             type: 'single'
         },
         "pagingType": "full_numbers",
@@ -438,7 +447,7 @@ $(document).ready(function () {
             [10, 25, 50]
         ],
         "lengthChange": true,
-        "searchDelay": 1500,
+        "searchDelay": 500,
         "searching": false,
         "ordering": false,
         "info": true,
@@ -449,53 +458,71 @@ $(document).ready(function () {
             search: "_INPUT_",
             searchPlaceholder: "Nhập thông tin tìm kiếm",
         },
-        // "select": {
-        //     "style": "single"
-        // },
         "processing": true,
         "serverSide": true,
         "columns": [
+            {"data": ""},
+            {"data": "control"},
             {"data": "indexCount", "render": $.fn.dataTable.render.text()},
-            {"data": "objectType", "render": $.fn.dataTable.render.text()},
-            {"data": "stationCode", "render": $.fn.dataTable.render.text()},
+            {"data": "objectTypeShortName", "render": $.fn.dataTable.render.text()},
+            {"data": "stationNo","render": $.fn.dataTable.render.text()},
             {"data": "stationName", "render": $.fn.dataTable.render.text()},
-            {"data": "createdAt", "render": $.fn.dataTable.render.text()},
-            {"data": "createById", "render": $.fn.dataTable.render.text()},
-            {"data": "detail"},
+            {"data": "parameterTypeName", "render": $.fn.dataTable.render.text()},
+            {"data": "prValue", "render": $.fn.dataTable.render.text()},
+            {"data": "siteName", "render": $.fn.dataTable.render.text()},
+            {
+                "data": "prWarning", "render": function (data, type, row) {
+                    if(data ==1)
+                        return '<div style="width: 100%;text-align: center"><i class="fas fa-exclamation-triangle" style="color:red;" size="7px" title="Cảnh báo dữ liệu sai!"></i></div>';
+                    else
+                        return '<div style="width: 100%;text-align: center"><i class="fas fa-exclamation-circle" style="color:forestgreen;" size="7px" title="Dữ liệu bình thường!"></i></div>';
+                },
+            },
+            // {"data": "prWarning", "render": $.fn.dataTable.render.text()},
+            {"data": "prCreatedUser", "render": $.fn.dataTable.render.text()},
+            {"data": "prTimestamp", "render": $.fn.dataTable.render.text()},
+            {
+                data: null,
+                className: "center",
+                defaultContent: '<i class="fas fa-edit"></i>   <i class="fas fa-trash-alt"></i>'
+            }
+
         ],
         initComplete: function () {
             // Apply the search
             this.api().columns().every(function () {
                 var that = this;
-                $('.table-data-input-search').on('keyup onchange', function () {
-                    station.oldValue = this.___value___;
-                    this.___value___ = this.value;
-                    if (station.oldValue == this.___value___) return;
-                    station.keyUpTime = new Date().getTime();
-                    let id = $(this).attr('id');
-                    station.objSearch[id] = this.value;
-                    setTimeout(function () {
-                        if (new Date().getTime() - station.keyUpTime > 1000) {
-                            station.table.search(station.objSearch).draw();
-                            station.keyUpTime = new Date().getTime();
-                        }
-                        return;
-                    }, 1100);
+                $('.table-data-input-search').on('keyup change clear', function () {
+                    var that = this;
+                    $('.table-data-input-search').on('keyup', function () {
+                        oldValue = this.___value___;
+                        this.___value___ = this.value;
+                        if (oldValue == this.___value___) return;
+                        keyUpTime = new Date().getTime();
+                        let id = $(this).attr('id');
+                        station.objSearch[id] = this.value;
+                        setTimeout(function () {
+                            if (new Date().getTime() - keyUpTime > 300) {
+                                table.search(station.objSearch).draw();
+                                keyUpTime = new Date().getTime();
+                            }
+                            return;
+                        }, 300);
+
+                    });
                 });
-
-
-            });
-            $('.select_table').on('change', function () {
-                let id = $(this).attr("id");
-                station.objSearch[id] = this.value;
-                station.table.search(JSON.stringify(station.objSearch)).draw();
-            });
+            })
+            // $('.select_table').on('change', function () {
+            //     let id = $(this).attr("id");
+            //     objSearch[id] = this.value;
+            //     table.search(JSON.stringify(objSearch)).draw();
+            // });
         },
         "ajax": {
             headers: {
                 'Authorization': token
             },
-            "url": apiUrl + "station-type/get-list-station-his-pagination",
+            "url": apiUrl + "management-of-outputs/get_list_outputs",
             "method": "POST",
             "contentType": "application/json",
             "data": function (d) {
@@ -520,43 +547,24 @@ $(document).ready(function () {
                 for (let i = 0; i < responseJson.content.length; i++) {
                     dataRes.data.push({
                         "": "",
+                        "control": "<span class='fa fa-edit' title='Cập nhật'  onclick='station.preEdit(" + i + ")' style='cursor: pointer'></span>",
                         "indexCount": i + 1,
-                        "control": "<span class='fa fa-wrench' title='Điều khiển'  onclick='station.preControl(" + i + ")' style='cursor: pointer'></span>",
-                        "id": responseJson.content[i].id,
-                        "stationLongName": responseJson.content[i].stationLongName,
-                        "objectType": responseJson.content[i].objectType,
-                        "objectTypeName": responseJson.content[i].objectTypeName,
-                        "stationId": responseJson.content[i].stationId,
-                        "elevation": responseJson.content[i].elevation,
-                        "trans_miss": responseJson.content[i].trans_miss,
-                        "areaId": responseJson.content[i].areaId,
-                        "provinceId": responseJson.content[i].provinceId,
-                        "stationCode": responseJson.content[i].stationCode,
+                        "objectTypeShortName": responseJson.content[i].objectTypeShortName,
+                        "stationNo": responseJson.content[i].stationNo,
                         "stationName": responseJson.content[i].stationName,
-                        "longtitude": responseJson.content[i].longtitude,
-                        "latitude": responseJson.content[i].latitude,
-                        "provinceName": responseJson.content[i].provinceName,
-                        "districtName": responseJson.content[i].districtName,
-                        "wardName": responseJson.content[i].wardName,
-                        "address": responseJson.content[i].address,
-                        "riverName": responseJson.content[i].riverName,
-                        "stationHeight": responseJson.content[i].stationHeight,
-                        "status": responseJson.content[i].status,
-                        "riverId": (responseJson.content[i].riverId === null || responseJson.content[i].riverId === 0) ? -1 : responseJson.content[i].riverId,
-                        "stationTypeId": responseJson.content[i].objectTypeId,
-                        "districtId": responseJson.content[i].districtId,
-                        "wardId": responseJson.content[i].wardId,
-                        "siteId": responseJson.content[i].siteId,
-                        "modeStationType": responseJson.content[i].modeStationType,
-                        "createdAt": responseJson.content[i].createdAt,
-                        "createById": responseJson.content[i].createById,
-                        "detail": "<i class='fas fa-eye' onclick='station.preViewDatail(" + i + ")'></i>",
+                        "parameterTypeName": responseJson.content[i].parameterTypeName,
+                        "prValue": responseJson.content[i].prValue,
+                        "prTimestamp": responseJson.content[i].prTimestamp,
+                        "siteName": responseJson.content[i].siteName,
+                        "prWarning": responseJson.content[i].prWarning,
+                        "prCreatedUser": responseJson.content[i].prCreatedUser,
                     })
                 }
-
+                tablePrName = '';
                 return JSON.stringify(dataRes);
             }
         }
+
     });
 
     $('#btnDoNew').click(function () {

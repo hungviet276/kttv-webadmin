@@ -25,9 +25,8 @@
                     <div class="container-fluid">
                         <div class="row content" style="width: 100%">
                             <div class="col-sm-12" id="box_search">
-                                <div class="card-header">
-                                    <h3 style="text-align: center"><b>Tìm kiếm trạm</b></h3>
-                                </div>
+                                <fieldset class="fieldset-normal">
+                                    <legend class="legend-normal">Tìm kiếm</legend>
                                 <div class="form-horizontal" id="form_data">
                                     <div class="form-row">
                                         <div class="form-group col-md-6 col-sm-6 col-lg-6">
@@ -53,12 +52,21 @@
                                                 <option value="3">Sai định dạng</option>
                                             </select>
                                         </div>
-
-
+                                        <div class="form-group col-md-6 col-sm-6 col-lg-6">
+                                            <label for="parameter">Yếu tố</label>
+                                            <select id="parameter" class="form-control" style="width: 100%;">
+<!--                                                <option value="-1">Lựa chọn</option>-->
+                                                <option value="SALINITY">Độ mặn</option>
+                                                <option value="WATER_TEMPERATURE">Nhiệt độ nước</option>
+                                                <option value="conductivity">Độ dẫn điện</option>
+                                            </select>
+                                        </div>
                                     </div>
+
                                 </div>
+                                </fieldset>
                                 <div class="mt-1" th:class="wrap-button-control">
-                                    <button class="btn btn-primary" id="btnSearch" style="width:100px;">
+                                    <button class="btn btn-primary" id="btnSearch" style="width:100px;" onclick="station.onSearch()">
                                         <i class="fas fa-search"></i> Tìm kiếm
                                     </button>
                                     <button class="btn btn-primary" id="btnDoNew" style="width:100px;">
@@ -78,11 +86,17 @@
                                         <tr>
                                             <th></th>
                                             <th>#</th>
-                                            <th data-id="s_parameter">Tên yếu tố</th>
-                                            <th data-id="s_parameterDesc">Mô tả</th>
-                                            <th data-id="s_unit">Đơn vị</th>
-                                            <th data-id="s_timeseries">Time series</th>
-                                            <th></th>
+                                            <th style="width: 4em">Thao tác</th>
+                                            <th data-id="s_station_type">Loại trạm</th>
+                                            <th data-id="s_stations_no">Mã trạm</th>
+                                            <th data-id="s_stations" >Trạm</th>
+                                            <th data-id="s_valuetype_id">Yếu tố</th>
+                                            <th data-id="s_reponse">Kết quả đo</th>
+                                            <th data-id="s_area">Khu vực</th>
+                                            <th data-id="s_warning">Cảnh báo</th>
+                                            <th data-id="s_user_create">Người cập nhật</th>
+                                            <th data-id="s_timereponse" is_select ="1">Thời gian đo</th>
+                                            <th data-id="s_action" is_select ="1">Hành động</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -190,7 +204,7 @@
                     </div>
                 </div>
             </div>
-            <th:block th:replace="management-station/control.html :: management-station-control"/>
+<!--            <th:block th:replace="management-station/control.html :: management-station-control"/>-->
         </div>
     </div>
 
