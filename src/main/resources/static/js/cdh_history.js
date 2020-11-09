@@ -292,8 +292,12 @@ $('#btnExport').on('click', function (e) {
         s_status: '',
         s_note: '',
         s_userCreate:'',
-        // s_station_id:$('#input-group').val();
+        s_station_id:$('#input-group').val(),
+        s_parameter: $('#parameter_search').val(),
+        s_fromdate: $('#start_date').val(),
+        s_todate: $('#end_date').val(),
     };
+
     console.log(JSON.stringify(dataReq));
     // $.ajax({
     //     headers: {
