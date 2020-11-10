@@ -46,15 +46,13 @@
             <div class="container-fluid">
                 <div class="card card-default">
                     <div class="card-header">
-                        <h3><b>Quản lý cảnh báo</b></h3>
+                        <h4><b>Quản lý cảnh báo</b></h4>
                     </div>
                     <div class="container-fluid">
                         <div class="row content" style="width: 100%">
                             <div class="col-sm-5" id="box_search">
-                                <div class="card-header">
-                                    <h3 style="text-align: center"><b>Tìm kiếm thông tin cấu hình cảnh báo</b></h3>
-                                </div>
-                                <br/>
+                                <fieldset class="fieldset-normal">
+                                    <legend class="legend-normal">Tìm kiếm</legend>
                                 <form class="form-horizontal" id="form_data">
                                     <div class="form-row" id ="search_users">
                                         <div class="form-group col-md-6">
@@ -96,6 +94,7 @@
                                         </div>
                                     </div>
                                 </form>
+                                </fieldset>
                                 <div class="wrap-button-control">
                                     <button class="btn btn-primary" id="btnSearch" style="width:100px;">
                                         <i class="fas fa-search"></i> Tìm kiếm
@@ -110,8 +109,8 @@
                                 <!--                            <p th:text="${a}"></p>-->
                                 <div><input style="display:none" type="text" class="form-control" name="action_info" id="action_info" value="0"></div>
                                 <div class="card-body" style="width: 100%;overflow: auto">
-                                    <table id="tableWarningManagerStation" class="table table-bordered table-hover">
-                                        <thead>
+                                    <table id="tableWarningManagerStation" class="table table-bordered table-hover" style="width: 100%">
+                                        <thead style="width: 100%;">
                                         <tr>
                                             <th></th>
                                             <th>#</th>
@@ -127,7 +126,7 @@
                                             <th >Màu sắc</th>
                                         </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody style="width: 100%">
                                         </tbody>
                                     </table>
                                 </div>
@@ -152,7 +151,7 @@
                                             <div class="col-md-6 errorTxt">
                                                 <div class="insertError">
                                                     <label for="codeWarningAdd">Mã cảnh báo <span style="color: red;">*</span></label>
-                                                    <input type="text" class="form-control" id="codeWarningAdd" name="codeWarning" placeholder="">
+                                                    <input type="text" class="form-control" id="codeWarningAdd" name="codeWarning" placeholder="" maxlength="50">
                                                 </div>
                                                 <label></label>
                                             </div>
@@ -162,7 +161,7 @@
                                             <div class="col-md-6 errorTxt">
                                                 <div class="insertError">
                                                     <label for="nameWarningAdd">Tên cảnh báo <span style="color: red;">*</span></label>
-                                                    <input type="text" class="form-control" id="nameWarningAdd" name="nameWarning" placeholder="">
+                                                    <input type="text" class="form-control" id="nameWarningAdd" name="nameWarning" placeholder="" maxlength="100">
                                                 </div>
                                                 <label></label>
                                             </div>
@@ -187,7 +186,7 @@
                                             <div class="form-group col-md-6 errorTxt">
                                                 <div class="insertError">
                                                     <label for="descriptionWarningAdd">Mô tả</label>
-                                                    <textarea class="form-control col-md-12" rows="3" id="descriptionWarningAdd" name="descriptionWarning" placeholder="Enter ..."></textarea>
+                                                    <textarea class="form-control col-md-12" rows="3" id="descriptionWarningAdd" name="descriptionWarning" placeholder="Enter ..." maxlength="500"></textarea>
                                                 </div>
                                                 <label></label>
                                             </div>
@@ -210,12 +209,10 @@
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                     <label for="station">Yếu tố</label>
-                                                    <div class="select2-purple">
-                                                        <select id="parameterWarningAdd" data-placeholder="Select a State"
-                                                                data-dropdown-css-class="select2-purple" style="width: 100%;">
-                                                            <!--                                                            -->
-                                                        </select>
-                                                    </div>
+                                                    <select id="parameterWarningAdd" data-placeholder="Select a State"
+                                                             style="width: 100%;">
+                                                        <!--                                                            -->
+                                                    </select>
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label for="WarningThresholdCode">Mức cảnh báo của yếu tố theo trạm </label>

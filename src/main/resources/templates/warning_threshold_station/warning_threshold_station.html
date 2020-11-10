@@ -6,6 +6,18 @@
         border-radius: 5px;
         width: 100%;
     }
+    .legend-normal {
+        margin-left: 1em;
+        padding: 5px;
+        width: auto;
+        font-size: inherit;
+        font-weight: bold;
+    }
+
+    .fieldset-normal {
+        border: 1px gray solid;
+        padding: 10px;
+    }
 </style>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
@@ -27,15 +39,13 @@
             <div class="container-fluid">
                 <div class="card card-default">
                     <div class="card-header">
-                        <h3><b>Quản lý cảnh báo của từng yếu tố theo trạm</b></h3>
+                        <h4><b>Quản lý cảnh báo của từng yếu tố theo trạm</b></h4>
                     </div>
                     <div class="container-fluid">
                         <div class="row content" style="width: 100%">
                             <div class="col-sm-5" id="box_search">
-                                <div class="card-header">
-                                    <h3 style="text-align: center"><b>Tìm kiếm thông tin cấu hình cảnh báo của yếu tố</b></h3>
-                                </div>
-                                <br/>
+                                <fieldset class="fieldset-normal">
+                                    <legend class="legend-normal">Tìm kiếm</legend>
                                 <form class="form-horizontal" id="form_data">
                                     <div class="form-row" id ="search_users">
                                         <div class="form-group col-md-6">
@@ -49,15 +59,13 @@
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="value-type">Yếu tố</label>
-                                            <div class="select2-purple">
-                                                <select id="value-type" data-placeholder="Select a State"
-                                                        data-dropdown-css-class="select2-purple" style="width: 100%;">
-                                                    <!--                                                            -->
-                                                </select>
-                                            </div>
+                                            <select id="value-type" data-placeholder="Select a State" style="width: 100%;">
+                                                <!--                                                            -->
+                                            </select>
                                         </div>
                                     </div>
                                 </form>
+                                </fieldset>
                                 <div class="wrap-button-control">
                                     <button class="btn btn-primary" id="btnSearch" style="width:100px;">
                                         <i class="fas fa-search"></i> Tìm kiếm

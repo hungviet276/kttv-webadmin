@@ -477,6 +477,10 @@ $('#stationWarningAdd').select2({
     }
 });
 
+$("#parameterWarningAdd").change(function () {
+    $('#WarningThresholdCode').val(null).trigger('change');
+});
+
 $('#parameterWarningAdd').select2({
     minimumInputLength: 0,
     delay: 350,
@@ -559,12 +563,23 @@ $('#WarningThresholdCode').select2({
     }
 });
 
+$("#stationWarningAdd").change(function () {
+    $('#parameterWarningAdd').val(null).trigger('change');
+    $('#WarningThresholdCode').val(null).trigger('change');
+    $("#levelWarning").val("");
+    $("#levelClear").val("");
+    tableConditionWarning.clear().draw();
+});
+
 var contentWarningAdd = '';
 $(document).ready(function() {
     contentWarningAdd = CKEDITOR.replace('contentWarningAdd');
 });
 
 $("#WarningThresholdCode").change(function(){
+    if($("#WarningThresholdCode").val()==null || $("#WarningThresholdCode").val() == undefined || $("#WarningThresholdCode").val()==""){
+        return;
+    }
     $.ajax({
         headers: {
             'Authorization': token
@@ -623,6 +638,20 @@ var tableConditionWarning = $('#tableConditionWarning').DataTable({
 $("#btnsaveStationValueType").click(function(){
     var dataParameter = $('#parameterWarningAdd').select2('data');
     var dataWarningcode = $("#WarningThresholdCode").select2('data');
+
+
+    var data2 = $("#parameterWarningAdd").select2('data');
+    if(data2.length == 0|| data2[0].id == "-1" || dataParameter == undefined){
+        $('#parameterWarningAdd').select2('open');
+        return;
+    }
+
+    var data = $("#WarningThresholdCode").select2('data');
+    if(data.length == 0|| data[0].id == "-1" || dataWarningcode == undefined){
+        $('#WarningThresholdCode').select2('open');
+        return;
+    }
+
     let dataInsertTable = {};
     var formData  = tableConditionWarning.rows().data();
     let insert = true;
@@ -661,11 +690,12 @@ var warningManagerStationValid = $("#form_input").validate({
     rules : {
         codeWarning : {
             required : true,
-            maxlength : 15
+            maxByteCode : true,
+            validUtf8 : true
         },
         nameWarning : {
             required : true,
-            maxlength : 150
+            maxlength : 100
         },
         descriptionWarning : {
             maxlength : 500
@@ -694,11 +724,52 @@ var warningManagerStationValid = $("#form_input").validate({
         error.insertAfter(element.parents("div.insertError"));
     }
 });
+// làm ra để đây để sau này dùng  chứ giờ chưa sử dụng
+jQuery.validator.addMethod("validUtf8", function(value, element){
+    var myRe = /[A-Z,1-9]+$/;
+    var myArray = myRe.test(value);
+    return myArray;
+}, "Mã cảnh báo không được chứa ký tự đặc biệt hoặc số hoặc các chữ cái có dấu");
+
+jQuery.validator.addMethod("maxByteCode", function(value, element){
+    var utf8 = [];
+    for (var i=0; i < value.length; i++) {
+        var charcode = value.charCodeAt(i);
+        if (charcode < 0x80) utf8.push(charcode);
+        else if (charcode < 0x800) {
+            utf8.push(0xc0 | (charcode >> 6),
+                0x80 | (charcode & 0x3f));
+        }
+        else if (charcode < 0xd800 || charcode >= 0xe000) {
+            utf8.push(0xe0 | (charcode >> 12),
+                0x80 | ((charcode>>6) & 0x3f),
+                0x80 | (charcode & 0x3f));
+        }
+        else {
+            i++;
+            charcode = 0x10000 + (((charcode & 0x3ff)<<10)
+                | (str.charCodeAt(i) & 0x3ff));
+            utf8.push(0xf0 | (charcode >>18),
+                0x80 | ((charcode>>12) & 0x3f),
+                0x80 | ((charcode>>6) & 0x3f),
+                0x80 | (charcode & 0x3f));
+        }
+    }
+    if(utf8.length > 50){
+        return false;
+    }
+    return true;
+}, "Độ dài mã cảnh báo vượt quá giới hạn");
 
 $("#btnsave").click(function () {
     //warningManagerStationValid
     var submit = $("#form_input").valid();
     if(submit==false){
+        return;
+    }
+    var data = $("#stationWarningAdd").select2('val');
+    if(data == "-1"){
+        $('#stationWarningAdd').select2('open');
         return;
     }
 
@@ -717,7 +788,6 @@ $("#btnsave").click(function () {
     }
     dataParrent.dataWarning = tableDatas;
     dataParrent.createBy = username;
-
     $.ajax({
         headers: {
             'Authorization': token
@@ -788,8 +858,6 @@ $("#btnDetail").click(function () {
     //     CKEDITOR.instances[instance].updateElement();
     //     CKEDITOR.instances[instance].setData('');
     // }
-    console.log("aaaaaaaaa");
-    console.log(rowDt.content);
 
     // CKEDITOR.instances.contentWarningAdd.updateElement();
     // CKEDITOR.instances.contentWarningAdd.setData('');
