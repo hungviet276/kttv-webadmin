@@ -563,6 +563,14 @@ $('#WarningThresholdCode').select2({
     }
 });
 
+$("#stationWarningAdd").change(function () {
+    $('#parameterWarningAdd').val(null).trigger('change');
+    $('#WarningThresholdCode').val(null).trigger('change');
+    $("#levelWarning").val("");
+    $("#levelClear").val("");
+    tableConditionWarning.clear().draw();
+});
+
 var contentWarningAdd = '';
 $(document).ready(function() {
     contentWarningAdd = CKEDITOR.replace('contentWarningAdd');
