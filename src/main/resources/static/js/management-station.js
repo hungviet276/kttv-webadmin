@@ -529,7 +529,7 @@ const station =
                         // station.btnRefresh();
                         // station.uuid = global.uuidv4();
                         station.disabled_right();
-                        $("#btnsave").css("display", "none");
+                        $("#btnSave").css("display", "none");
                         $("#btnDelete").css("display", "none");
                         $("#btnReset").css("display", "none");
                         $("#btnCancel").css("display", "none");
@@ -592,7 +592,7 @@ const station =
                         station.uuid = global.uuidv4();
                         station.table.ajax.reload();
                         station.disabled_right();
-                        $("#btnsave").css("display", "none");
+                        $("#btnSave").css("display", "none");
                         $("#btnDelete").css("display", "none");
                         $("#btnReset").css("display", "none");
                         $("#btnCancel").css("display", "none");
@@ -651,7 +651,7 @@ const station =
                         {"data": "indexCount", "render": $.fn.dataTable.render.text()},
                         {"data": "parameterName", "render": $.fn.dataTable.render.text()},
                         {"data": "tsConfigName", "render": $.fn.dataTable.render.text()},
-                        {"data": "tsName", "render": $.fn.dataTable.render.text()},
+                        {"data": "unitName", "render": $.fn.dataTable.render.text()},
                         {"data": ""}
                     ],
                     initComplete: function () {
@@ -687,14 +687,14 @@ const station =
                                     // "": "",
                                     "indexCount": i + 1,
                                     "uuid": responseJson.content[i].uuid,
-                                    // "stationParamterId": responseJson.content[i].stationParamterId,
+                                    "unitName": responseJson.content[i].unitName,
                                     "paramterTypeId": responseJson.content[i].paramterTypeId,
                                     "parameterName": responseJson.content[i].parameterName,
                                     "stationId": responseJson.content[i].stationId,
                                     "tsConfigName": responseJson.content[i].tsConfigName,
                                     "tsId": responseJson.content[i].tsId,
                                     "tsConfigId": responseJson.content[i].tsConfigId,
-                                    "tsName": responseJson.content[i].tsConfigId,
+                                    "tsName": responseJson.content[i].tsName,
                                     "": "<span class='fa fa-trash' onclick='station.deleteParameter(" + responseJson.content[i].tsId + ")'></span>"
                                 })
                             }
@@ -726,11 +726,11 @@ const station =
             if (rowData != null && rowData != undefined && rowData.length > 0) {
                 console.log(rowData);
                 station.enabled_right();
-                $("#btnsave").css("display", "none");
+                $("#btnSave").css("display", "none");
                 $("#btnDelete").css("display", "inline");
                 $("#btnReset").css("display", "none");
                 $("#btnCancel").css("display", "inline");
-                $("#btnupdate").css("display", "inline");
+                $("#btnUpdate").css("display", "inline");
                 // $("#btnDoNew").attr("disabled", true);
                 station.togle_search();
 
@@ -773,7 +773,7 @@ const station =
             // $('#btnEdit').attr('disabled', 'true');
             // $('#form_data')[0].reset();
             // station.disabled_right();
-            // $("#btnsave").css("display", "none");
+            // $("#btnSave").css("display", "none");
             // $("#btnDelete").css("display", "none");
             // $("#btnReset").css("display", "none");
             // $("#btnCancel").css("display", "none");
@@ -979,7 +979,7 @@ const station =
         closePopup: function () {
             station.disabled_right();
             $('.help-block').html('');
-            $("#btnsave").css("display", "none");
+            $("#btnSave").css("display", "none");
             $("#btnDelete").css("display", "none");
             $("#btnReset").css("display", "none");
             $("#btnCancel").css("display", "none");
@@ -1243,9 +1243,9 @@ $(document).ready(function () {
     $('#btnDoNew').click(function () {
         station.clientAction = 'insert';
         station.enabled_right();
-        $("#btnsave").css("display", "inline");
+        $("#btnSave").css("display", "inline");
         $("#btnDelete").css("display", "none");
-        $("#btnupdate").css("display", "none");
+        $("#btnUpdate").css("display", "none");
         $("#btnReset").css("display", "inline");
         $("#btnCancel").css("display", "inline");
         $("#btnDoNew").attr("disabled", true);
@@ -1264,7 +1264,7 @@ $(document).ready(function () {
 
     $('#btnCancel').click(function () {
         station.disabled_right();
-        $("#btnsave").css("display", "none");
+        $("#btnSave").css("display", "none");
         $("#btnDelete").css("display", "none");
         $("#btnReset").css("display", "none");
         $("#btnCancel").css("display", "none");

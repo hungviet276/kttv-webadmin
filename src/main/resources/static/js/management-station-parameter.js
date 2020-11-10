@@ -142,7 +142,7 @@ var station =
             $('.help-block').html('');
             $("#timeSeries").val('-1').trigger('change');
             $("#tsConfigName").val('');
-            $("#storage").val('');
+            $("#storage").val('-1');
         },
         deleteSeries: function (id) {
             if (!confirm('Bạn thực sự muốn xóa ?')) {
@@ -539,7 +539,7 @@ var station =
                 $('#timeSeries').focus();
                 return false;
             }
-            if($('#storage').val().trim().length < 1){
+            if($('#storage').val().trim() === "-1"){
                 $('#storage_error').html('Storage không được để trống');
                 $('#storage').focus();
                 return false;
@@ -789,6 +789,7 @@ $(document).ready(function () {
                         "parameterTypeName": responseJson.content[i].parameterTypeName,
                         "parameterTypeDescription": responseJson.content[i].parameterTypeDescription,
                         "unitName": responseJson.content[i].unitName,
+                        // "tsConfigName": responseJson.content[i].tsConfigName,
                         "timeSeries": responseJson.content[i].timeSeries,
                         "unitId": responseJson.content[i].unitId,
                     })

@@ -27,7 +27,7 @@ var station =
             districtId: null,
             wardId: null,
             siteId: null,
-            riverId: null
+            productId: null
         },
         objStation: {},
         init: function () {
@@ -262,9 +262,9 @@ var station =
             $("#stationCodeN").val('-1').trigger('change');
             $("#statusN").val('-1');
             $("#timestampN").val('');
-            $("#salinity").val('');
-            $("#water_temperature").val('');
-            $("#conductivity").val('');
+            // $("#salinity").val('');
+            $("#type_parameter").val('-1');
+            // $("#conductivity").val('');
         },
         validate: function () {
             $('.help-block').html('');
@@ -284,21 +284,21 @@ var station =
                 $('#statusN').focus();
                 return false;
             }
-            if ($('#salinity').val().trim().length < 1) {
-                $('#salinity_error').html('Tên trạm không được để trống');
-                $('#salinity').focus();
+            if ($('#type_parameter').val().trim() === "-1") {
+                $('#type_parameter_error').html('Loại yếu tố không được để trống');
+                $('#type_parameter').focus();
                 return false;
             }
-            if ($('#water_temperature').val().trim().length < 1) {
-                $('#water_temperature_error').html('Nhiệt độ nước không được để trống');
-                $('#water_temperature').focus();
-                return false;
-            }
-            if ($('#conductivity').val().trim().length < 1) {
-                $('#conductivity_error').html('Vĩ độ không được để trống');
-                $('#conductivity').focus();
-                return false;
-            }
+            // if ($('#water_temperature').val().trim().length < 1) {
+            //     $('#water_temperature_error').html('Nhiệt độ nước không được để trống');
+            //     $('#water_temperature').focus();
+            //     return false;
+            // }
+            // if ($('#conductivity').val().trim().length < 1) {
+            //     $('#conductivity_error').html('Vĩ độ không được để trống');
+            //     $('#conductivity').focus();
+            //     return false;
+            // }
             return true;
         },
         closePopup: function () {
@@ -307,12 +307,64 @@ var station =
             $("#btnSave").css("display", "none");
             $("#btnDelete").css("display", "none");
             $("#btnReset").css("display", "none");
-            $("#btnCancer").css("display", "none");
+            $("#btnCancel").css("display", "none");
             $("#btnDoNew").attr("disabled", false);
             if (station.indexOfRow > -1) {
                 station.table.row(station.indexOfRow).deselect();
             }
             station.show_search();
+        },
+        preEdit: function (indexes) {
+            station.clientAction = 'update';
+            station.indexOfRow = indexes;
+            let rowData = station.table.rows(indexes).data().toArray();
+            station.fillDataToForm(rowData);
+        },
+        fillDataToForm: function (rowData) {
+            $('.help-block').html('');
+            if (rowData != null && rowData != undefined && rowData.length > 0) {
+                console.log(rowData);
+                station.enabled_right();
+                $("#btnSave").css("display", "none");
+                $("#btnDelete").css("display", "inline");
+                $("#btnReset").css("display", "none");
+                $("#btnCancel").css("display", "inline");
+                $("#btnUpdate").css("display", "inline");
+                // $("#btnDoNew").attr("disabled", true);
+                station.togle_search();
+
+                $('#stationCodeN').val(rowData[0].stationId).trigger('change');
+                // $("#stationTypeId").prop("disabled", true);
+                $('#timestampN').val(rowData[0].prTimestamp).trigger('change');
+                $('#statusN').val(rowData[0].status);
+                $('#value').val(rowData[0].prValue);
+                $('#type_parameter').val(rowData[0].parameterTypeId);
+                // $('#latitude').val(rowData[0].latitude);
+                // $('#areaId').val(rowData[0].areaId).trigger('change');
+
+                station.parameter.productId = rowData[0].productId;
+                // station.parameter.provinceId = rowData[0].provinceId;
+                // station.parameter.districtId = rowData[0].districtId;
+                // station.parameter.wardId = rowData[0].wardId;
+                // station.parameter.siteId = rowData[0].siteId;
+                // station.parameter.riverId = rowData[0].riverId;
+
+                // $('#districtId').val(rowData[0].districtId).trigger('change');
+                // $('#wardId').val(rowData[0].wardId).trigger('change');
+                // $('#address').val(rowData[0].address);
+                // $('#riverId').val(rowData[0].riverId).trigger('change');
+                // $('#status').val(rowData[0].status).trigger('change');
+
+                //lay thong tin list parameter
+                // station.parameter.stationId = rowData[0].stationId;
+                // station.objParameterSearch['s_stationId'] = rowData[0].stationId;
+                // station.objParameterSearch['s_uuid'] = null;
+                // if (station.tableParameter === undefined) {
+                //     station.searchParameter();
+                // } else {
+                //     station.tableParameter.search(station.objParameterSearch).draw();
+                // }
+            }
         },
         btnSave: function (){
             if(station.validate()){
@@ -320,23 +372,23 @@ var station =
                 let stationCodeN = $("#stationCodeN").val().trim();
                 let timestampN = $("#timestampN").val().trim();
                 let statusN = $("#statusN").val().trim();
-                let salinity = $("#salinity").val().trim();
-                let water_temperature = $("#water_temperature").val().trim();
-                let conductivity = $("#conductivity").val().trim();
-                let pSalinity = $("#pSalinity").val().trim();
-                let pWT = $("#pWT").val().trim();
-                let pConductivity = $("#pConductivity").val().trim();
+                let value = $("#value").val().trim();
+                // let water_temperature = $("#water_temperature").val().trim();
+                // let conductivity = $("#conductivity").val().trim();
+                let type_parameter = $("#type_parameter").val().trim();
+                // let pWT = $("#pWT").val().trim();
+                // let pConductivity = $("#pConductivity").val().trim();
 
                 let data = {
                     "stationCodeN": stationCodeN,
                     "timestampN": timestampN,
                     "statusN": statusN,
-                    "salinity": salinity,
-                    "waterTemperature": water_temperature,
-                    "conductivity": conductivity,
-                    "pSalinity": pSalinity,
-                    "pWT": pWT,
-                    "pConductivity": pConductivity,
+                    "value": value,
+                    // "waterTemperature": water_temperature,
+                    // "conductivity": conductivity,
+                    // "pSalinity": pSalinity,
+                    // "pWT": pWT,
+                    "type_parameter": type_parameter,
                     "username": global.username
                 }
                 $.ajax({
@@ -365,7 +417,60 @@ var station =
                     }
                 });
             }
-        }
+        },
+        btnUpdate: function () {
+            if(!station.validate()) {
+                return ;
+            }
+            global.showLoading();
+            let stationCodeN = $("#stationCodeN").val().trim();
+            let timestampN = $("#timestampN").val().trim();
+            let statusN = $("#statusN").val().trim();
+            let value = $("#value").val().trim();
+            // let water_temperature = $("#water_temperature").val().trim();
+            // let conductivity = $("#conductivity").val().trim();
+            let type_parameter = $("#type_parameter").val().trim();
+            // let pWT = $("#pWT").val().trim();
+            // let pConductivity = $("#pConductivity").val().trim();
+
+            let data = {
+                "stationCodeN": stationCodeN,
+                "timestampN": timestampN,
+                "statusN": statusN,
+                "value": value,
+                "productId": station.parameter.productId,
+                // "conductivity": conductivity,
+                // "pSalinity": pSalinity,
+                // "pWT": pWT,
+                "type_parameter": type_parameter,
+                "username": global.username
+            }
+            $.ajax({
+                headers: {
+                    'Authorization': token
+                },
+                url: apiUrl + "station-type/update-manual-parameter",
+                method: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                success: function (data) {
+                    if (data.status == 1) {
+                        toastr.success('Thành công', data.message);
+                        //reset cac thong tin them moi
+                        station.btnRefresh();
+                        station.table.ajax.reload();
+                        station.closePopup();
+                    } else {
+                        toastr.error('', data.message);
+                    }
+                    global.disableLoading();
+                },
+                error: function (err) {
+                    global.disableLoading();
+                    toastr.error("", "Lỗi thực hiện");
+                }
+            });
+        },
     }
 
 $(document).ready(function () {
@@ -465,8 +570,8 @@ $(document).ready(function () {
         "serverSide": true,
         "columns": [
             {"data": ""},
-            {"data": "control"},
             {"data": "indexCount", "render": $.fn.dataTable.render.text()},
+            {"data": "control"},
             {"data": "objectTypeShortName", "render": $.fn.dataTable.render.text()},
             {"data": "stationNo","render": $.fn.dataTable.render.text()},
             {"data": "stationName", "render": $.fn.dataTable.render.text()},
@@ -483,13 +588,7 @@ $(document).ready(function () {
             },
             // {"data": "prWarning", "render": $.fn.dataTable.render.text()},
             {"data": "prCreatedUser", "render": $.fn.dataTable.render.text()},
-            {"data": "prTimestamp", "render": $.fn.dataTable.render.text()},
-            {
-                data: null,
-                className: "center",
-                defaultContent: '<i class="fas fa-edit"></i>   <i class="fas fa-trash-alt"></i>'
-            }
-
+            {"data": "prTimestamp", "render": $.fn.dataTable.render.text()}
         ],
         initComplete: function () {
             // Apply the search
@@ -550,17 +649,21 @@ $(document).ready(function () {
                 for (let i = 0; i < responseJson.content.length; i++) {
                     dataRes.data.push({
                         "": "",
-                        "control": "<span class='fa fa-edit' title='Cập nhật'  onclick='station.preEdit(" + i + ")' style='cursor: pointer'></span>",
                         "indexCount": i + 1,
+                        "control": "<span class='fa fa-edit' title='Cập nhật'  onclick='station.preEdit(" + i + ")' style='cursor: pointer'></span>",
                         "objectTypeShortName": responseJson.content[i].objectTypeShortName,
+                        "stationId": responseJson.content[i].stationId,
                         "stationNo": responseJson.content[i].stationNo,
                         "stationName": responseJson.content[i].stationName,
+                        "parameterTypeId": responseJson.content[i].parameterTypeId,
+                        "status": responseJson.content[i].status,
                         "parameterTypeName": responseJson.content[i].parameterTypeName,
                         "prValue": responseJson.content[i].prValue,
                         "prTimestamp": responseJson.content[i].prTimestamp,
                         "siteName": responseJson.content[i].siteName,
                         "prWarning": responseJson.content[i].prWarning,
                         "prCreatedUser": responseJson.content[i].prCreatedUser,
+                        "productId": responseJson.content[i].productId,
                     })
                 }
                 tablePrName = '';
@@ -577,7 +680,7 @@ $(document).ready(function () {
         $("#btnDelete").css("display", "none");
         $("#btnUpdate").css("display", "none");
         $("#btnReset").css("display", "inline");
-        $("#btnCancer").css("display", "inline");
+        $("#btnCancel").css("display", "inline");
         $("#btnDoNew").attr("disabled", true);
         station.parameter.stationId = null;
         if (station.tableParameter !== undefined) {
@@ -590,12 +693,12 @@ $(document).ready(function () {
         station.togle_search();
         station.btnRefresh();
     });
-    $('#btnCancer').click(function () {
+    $('#btnCancel').click(function () {
         station.disabled_right();
         $("#btnSave").css("display", "none");
         $("#btnDelete").css("display", "none");
         $("#btnReset").css("display", "none");
-        $("#btnCancer").css("display", "none");
+        $("#btnCancel").css("display", "none");
         $("#btnDoNew").attr("disabled", false);
         if (station.indexOfRow > -1) {
             station.table.row(station.indexOfRow).deselect();
