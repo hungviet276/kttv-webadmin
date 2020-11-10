@@ -283,49 +283,63 @@ function validateSearch(){
     });
 
 $('#btnExport').on('click', function (e) {
+    if(validateSearch()) {
+        let dataReq = {
+            s_stationNo: $('#s_stationNo').val(),
+            s_stationName: $('#s_stationName').val(),
+            s_parameterName: $('#s_parameterName').val(),
+            s_createModify: $('#s_createModify').val(),
+            s_status: $('#s_status').val(),
+            s_note: $('#s_note').val(),
+            s_userCreate: $('#s_userCreate').val(),
+            s_station_id: $('#stations_search').val(),
+            s_valueType_id: $('#parameter_search').val(),
+            s_fromdate: $('#start_date').val(),
+            s_todate: $('#end_date').val(),
+        };
 
-    let dataReq = {
-        s_stationNo: '',
-        s_stationName: '',
-        s_parameterName: '',
-        s_createModify: '',
-        s_status: '',
-        s_note: '',
-        s_userCreate:'',
-        s_station_id:$('#input-group').val(),
-        s_parameter: $('#parameter_search').val(),
-        s_fromdate: $('#start_date').val(),
-        s_todate: $('#end_date').val(),
-    };
-
-    console.log(JSON.stringify(dataReq));
-    // $.ajax({
-    //     headers: {
-    //         'Authorization': token
-    //     },
-    //     url: apiUrl + 'log-act/export',
-    //     method: 'POST',
-    //     data: JSON.stringify(dataReq),
-    //     contentType: "application/json",
-    //     xhrFields: {
-    //         responseType: 'blob'
-    //     },
-    //     success: function (data, textStatus, xhr) {
-    //         var a = document.createElement('a');
-    //         var url = window.URL.createObjectURL(data);
-    //         a.href = url;
-    //         a.download = xhr.getResponseHeader("content-disposition").replace("attachment; filename=","");
-    //         document.body.append(a);
-    //         a.click();
-    //         a.remove();
-    //         window.URL.revokeObjectURL(url);
-    //         // disableLoading();
-    //     },
-    //     complete: function(){
-    //         disableLoading();
-    //     },
-    //     always: function (dataOrjqXHR, textStatus, jqXHRorErrorThrown) {
-    //         disableLoading();
-    //     }
-    // });
+        console.log(JSON.stringify(dataReq));
+        showLoading();
+        $.ajax({
+            headers: {
+                'Authorization': token
+            },
+            url: apiUrl + 'cdh-history/export',
+            method: 'POST',
+            data: JSON.stringify(dataReq),
+            contentType: "application/json",
+            xhrFields: {
+                responseType: 'blob'
+            },
+            success: function (data, textStatus, xhr) {
+                var a = document.createElement('a');
+                var url = window.URL.createObjectURL(data);
+                a.href = url;
+                a.download = xhr.getResponseHeader("content-disposition").replace("attachment; filename=", "");
+                document.body.append(a);
+                a.click();
+                a.remove();
+                window.URL.revokeObjectURL(url);
+                // disableLoading();
+            },
+            complete: function () {
+                disableLoading();
+            },
+            always: function (dataOrjqXHR, textStatus, jqXHRorErrorThrown) {
+                disableLoading();
+            }
+        });
+    }
 });
+
+function showLoading() {
+    $('.popup-loading').css('opacity', '1');
+    $('.popup-loading').css('display', 'block');
+    $('body').css('overflow', 'hidden');
+}
+
+function disableLoading() {
+    $('.popup-loading').css('opacity', '0');
+    $('.popup-loading').css('display', 'none');
+    $('body').css('overflow', 'scroll');
+}
