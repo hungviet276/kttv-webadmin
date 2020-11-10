@@ -637,7 +637,7 @@ $("#btnsaveStationValueType").click(function(){
         $('#parameterWarningAdd').select2('open');
         return;
     }
-    
+
     var data = $("#WarningThresholdCode").select2('data');
     if(data.length == 0|| data[0].id == "-1" || dataWarningcode == undefined){
         $('#WarningThresholdCode').select2('open');
