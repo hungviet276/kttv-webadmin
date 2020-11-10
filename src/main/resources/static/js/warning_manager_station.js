@@ -477,6 +477,10 @@ $('#stationWarningAdd').select2({
     }
 });
 
+$("#parameterWarningAdd").change(function () {
+    $('#WarningThresholdCode').val(null).trigger('change');
+});
+
 $('#parameterWarningAdd').select2({
     minimumInputLength: 0,
     delay: 350,
@@ -565,6 +569,9 @@ $(document).ready(function() {
 });
 
 $("#WarningThresholdCode").change(function(){
+    if($("#WarningThresholdCode").val()==null || $("#WarningThresholdCode").val() == undefined || $("#WarningThresholdCode").val()==""){
+        return;
+    }
     $.ajax({
         headers: {
             'Authorization': token
@@ -623,6 +630,20 @@ var tableConditionWarning = $('#tableConditionWarning').DataTable({
 $("#btnsaveStationValueType").click(function(){
     var dataParameter = $('#parameterWarningAdd').select2('data');
     var dataWarningcode = $("#WarningThresholdCode").select2('data');
+
+
+    var data2 = $("#parameterWarningAdd").select2('data');
+    if(data2.length == 0|| data2[0].id == "-1" || dataParameter == undefined){
+        $('#parameterWarningAdd').select2('open');
+        return;
+    }
+    
+    var data = $("#WarningThresholdCode").select2('data');
+    if(data.length == 0|| data[0].id == "-1" || dataWarningcode == undefined){
+        $('#WarningThresholdCode').select2('open');
+        return;
+    }
+
     let dataInsertTable = {};
     var formData  = tableConditionWarning.rows().data();
     let insert = true;
@@ -697,7 +718,7 @@ var warningManagerStationValid = $("#form_input").validate({
 });
 // làm ra để đây để sau này dùng  chứ giờ chưa sử dụng
 jQuery.validator.addMethod("validUtf8", function(value, element){
-    var myRe = /[a-z,A-Z]+$/;
+    var myRe = /[A-Z,1-9]+$/;
     var myArray = myRe.test(value);
     return myArray;
 }, "Mã cảnh báo không được chứa ký tự đặc biệt hoặc số hoặc các chữ cái có dấu");
