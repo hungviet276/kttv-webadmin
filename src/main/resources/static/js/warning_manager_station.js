@@ -675,6 +675,11 @@ $("#btnsaveStationValueType").click(function(){
     dataInsertTable.createAt = dateToString(new Date());
     dataInsertTable.idWarningThreshold = dataWarningcode[0].id;
     tableConditionWarning.row.add(dataInsertTable).draw(true);
+
+    $('#parameterWarningAdd').val(null).trigger('change');
+    $('#WarningThresholdCode').val(null).trigger('change');
+    $("#levelWarning").val("");
+    $("#levelClear").val("");
 });
 
 // Delete a record
@@ -908,6 +913,7 @@ $("#btnsaveEdit").click(function(){
     }
     dataParrent.dataWarning = tableDatas;
     dataParrent.createBy = username;
+    dataParrent.stationWarning = $("#stationWarningAdd").val();
 
     $.ajax({
         headers: {
