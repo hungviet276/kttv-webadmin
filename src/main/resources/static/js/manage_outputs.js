@@ -21,26 +21,6 @@ $( function() {
         $(this).val('');
     });
 
-
-
-    $('#btnfromdate').daterangepicker({
-        singleDatePicker: true,
-        autoUpdateInput: false,
-        timePicker: true,
-        timePicker24Hour: true,
-        maxDate:d,
-        locale: {
-            format: 'Clear'
-        }
-    });
-
-    $('#btnfromdate').on('apply.daterangepicker', function(ev, picker) {
-        $('#start_date').val(picker.startDate.format('DD/MM/YYYY HH:MM:SS'));
-    });
-
-    $('#btnfromdate').on('cancel.daterangepicker', function(ev, picker) {
-        $('#start_date').val('');
-    });
 //------
     $('#end_date').daterangepicker({
         singleDatePicker: true,
@@ -59,24 +39,6 @@ $( function() {
 
     $('#end_date').on('cancel.daterangepicker', function(ev, picker) {
         $(this).val('');
-    });
-    $('#btntoDate').daterangepicker({
-        singleDatePicker: true,
-        autoUpdateInput: false,
-        timePicker: true,
-        timePicker24Hour: true,
-        maxDate:d,
-        locale: {
-            format: 'Clear'
-        }
-    });
-
-    $('#btntoDate').on('apply.daterangepicker', function(ev, picker) {
-        $('#end_date').val(picker.startDate.format('DD/MM/YYYY HH:MM:SS'));
-    });
-
-    $('#btntoDate').on('cancel.daterangepicker', function(ev, picker) {
-        $('#end_date').val('');
     });
 });
 
