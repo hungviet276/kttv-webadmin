@@ -661,7 +661,8 @@ var warningManagerStationValid = $("#form_input").validate({
     rules : {
         codeWarning : {
             required : true,
-            maxByteCode : true
+            maxByteCode : true,
+            validUtf8 : true
         },
         nameWarning : {
             required : true,
@@ -694,6 +695,13 @@ var warningManagerStationValid = $("#form_input").validate({
         error.insertAfter(element.parents("div.insertError"));
     }
 });
+// làm ra để đây để sau này dùng  chứ giờ chưa sử dụng
+jQuery.validator.addMethod("validUtf8", function(value, element){
+    var myRe = /[a-z,A-Z]+$/;
+    var myArray = myRe.test(value);
+    return myArray;
+}, "Mã cảnh báo không được chứa ký tự đặc biệt hoặc số hoặc các chữ cái có dấu");
+
 jQuery.validator.addMethod("maxByteCode", function(value, element){
     var utf8 = [];
     for (var i=0; i < value.length; i++) {
@@ -728,6 +736,11 @@ $("#btnsave").click(function () {
     //warningManagerStationValid
     var submit = $("#form_input").valid();
     if(submit==false){
+        return;
+    }
+    var data = $("#stationWarningAdd").select2('val');
+    if(data == "-1"){
+        $('#stationWarningAdd').select2('open');
         return;
     }
 
@@ -816,8 +829,6 @@ $("#btnDetail").click(function () {
     //     CKEDITOR.instances[instance].updateElement();
     //     CKEDITOR.instances[instance].setData('');
     // }
-    console.log("aaaaaaaaa");
-    console.log(rowDt.content);
 
     // CKEDITOR.instances.contentWarningAdd.updateElement();
     // CKEDITOR.instances.contentWarningAdd.setData('');
