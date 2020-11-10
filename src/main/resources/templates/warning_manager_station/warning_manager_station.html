@@ -25,6 +25,12 @@
     .hide-col {
         display: none;
     }
+    .table-bordered{
+        width: 100% !important;
+    }
+    div.dataTables_scrollHeadInner{
+        width: 100% !important;
+    }
 </style>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
@@ -108,7 +114,7 @@
                                 </div>
                                 <div><input style="display:none" type="text" class="form-control" name="action_info" id="action_info" value="0"></div>
                                 <div class="card-body">
-                                    <table id="tableWarningManagerStation" class="table table-bordered table-hover">
+                                    <table id="tableWarningManagerStation" class="table table-bordered table-hover display" style="width:100% !important;">
                                         <thead>
                                         <tr>
                                             <th></th>
@@ -125,7 +131,7 @@
                                             <th >Màu sắc</th>
                                         </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody style="width: 100%">
                                         </tbody>
                                     </table>
                                 </div>

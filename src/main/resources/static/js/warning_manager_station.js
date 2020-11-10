@@ -296,7 +296,7 @@ var tableWarningMangerStation = $('#tableWarningManagerStation').DataTable({
     "ordering": false,
     "info": true,
     "autoWidth": false,
-    "scrollX": true,
+    "scrollX": false,
     "responsive": false,
     language: {
         search: "_INPUT_",
@@ -397,6 +397,8 @@ var tableWarningMangerStation = $('#tableWarningManagerStation').DataTable({
         }
     }
 });
+
+
 tableWarningMangerStation
     .on('select', rowSelect)
     .on('deselect', rowDeselect);
@@ -630,7 +632,7 @@ var tableConditionWarning = $('#tableConditionWarning').DataTable({
         {
             data: null,
             className: "center",
-            defaultContent: '<a href="" class="editor_remove">Delete</a>'
+            defaultContent: '<a href="" class="editor_remove"><i class="fa fa-trash" aria-hidden="true"></i></a>'
         }
     ]
 });
