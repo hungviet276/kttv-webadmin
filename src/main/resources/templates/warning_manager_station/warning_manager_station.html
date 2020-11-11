@@ -28,6 +28,9 @@
     .table-bordered{
         width: 100% !important;
     }
+    table.dataTable thead .dt-checkboxes-select-all {
+        text-align: left !important;
+    }
     div.dataTables_scrollHeadInner{
         width: 100% !important;
     }
@@ -113,6 +116,9 @@
                                     </button>
                                     <button class="btn btn-primary" id="btnDetail" style="width:100px;" disabled="disabled">
                                         <i class="fa fa-eye" aria-hidden="true"></i> Chi tiết
+                                    </button>
+                                    <button class="btn btn-primary" id="btnDeleteAll" style="width:100px;" disabled="disabled">
+                                        <i class="fa fa-trash" aria-hidden="true"></i> Xóa
                                     </button>
                                 </div>
                                 <div><input style="display:none" type="text" class="form-control" name="action_info" id="action_info" value="0"></div>

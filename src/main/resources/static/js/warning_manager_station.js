@@ -277,13 +277,16 @@ $('#tableWarningManagerStation thead th').each(function () {
 var tableWarningMangerStation = $('#tableWarningManagerStation').DataTable({
     columnDefs: [ {
         orderable: false,
-        className: 'select-checkbox',
-        targets:   0
+        //className: 'select-checkbox',
+        targets:   0,
+        checkboxes: {
+            selectRow: true
+        }
     } ],
     select: {
-        style:    'os',
+        style: 'multi',
         selector: 'td:first-child',
-        type: 'single'
+        type: 'checkbox'
     },
     "pagingType": "full_numbers",
     "lengthMenu": [
@@ -403,9 +406,84 @@ tableWarningMangerStation
     .on('select', rowSelect)
     .on('deselect', rowDeselect);
 function rowSelect(e, dt, type, indexes) { // load các thông tin của những cái bên trái ra
-    $("#btnDetail").prop( "disabled", false );
-    $("#btnDonew").attr("disabled", true);
+    var rowDt = tableWarningMangerStation.rows('.selected').data()
+    if(rowDt.length == 0){
+        $("#btnDetail").prop( "disabled", true );
+        $("#btnDeleteAll").prop( "disabled", true );
+        $("#btnDonew").attr("disabled", false);
+    } else if(rowDt.length == 1){
+        $("#btnDetail").prop( "disabled", false );
+        $("#btnDeleteAll").prop( "disabled", false );
+        $("#btnDonew").attr("disabled", true);
+    } else {
+        $("#btnDetail").prop( "disabled", true );
+        $("#btnDeleteAll").prop( "disabled", false );
+        $("#btnDonew").attr("disabled", true);
+    }
 }
+function rowDeselect(e, dt, type, indexes) { // khóa các form bên trái
+    var rowDt = tableWarningMangerStation.rows('.selected').data()
+   if(rowDt.length == 0){
+       $("#btnDetail").prop( "disabled", true );
+       $("#btnDeleteAll").prop( "disabled", true );
+       $("#btnDonew").attr("disabled", false);
+   } else if(rowDt.length == 1){
+       $("#btnDetail").prop( "disabled", false );
+       $("#btnDeleteAll").prop( "disabled", false );
+       $("#btnDonew").attr("disabled", true);
+   } else {
+       $("#btnDetail").prop( "disabled", true );
+       $("#btnDeleteAll").prop( "disabled", false );
+       $("#btnDonew").attr("disabled", true);
+   }
+}
+$("#btnDeleteAll").click(
+    function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        if(confirm("Bạn có muốn xóa bản ghi")){
+
+        } else {
+            return;
+        }
+        var rowDt = tableWarningMangerStation.rows('.selected').data();
+        var data = [];
+
+        for(let i =0 ; i < rowDt.length ; i++){
+            data.push(rowDt[i].id);
+        }
+        $.ajax({
+            headers: {
+                'Authorization': token
+            },
+            "url": apiUrl + "warning-manager-station",
+            "method": "DELETE",
+            "data" : JSON.stringify(data),
+            "contentType": "application/json",
+            "success": function (response) {
+                toastr.success('Thành công', response.message);
+                $("#btnsave").css("display", "none");
+                $("#btnDelete").css("display", "none");
+                $("#btnReset").css("display", "none");
+                $("#btncancer").css("display", "none");
+                $("#btnDonew").attr("disabled", false);
+                $("#btnDetail").prop("disabled",true);
+                $("#btnDeleteAll").prop("disabled",true);
+                tableWarningMangerStation.ajax.reload();
+                tableWarningMangerStation.rows().deselect();
+                for ( instance in CKEDITOR.instances ){
+                    CKEDITOR.instances[instance].updateElement();
+                    CKEDITOR.instances[instance].setData('');
+                }
+            },
+            "error": function (error) {
+                toastr.error('Lỗi', error.responseJSON.message);
+
+            }
+        });
+    }
+);
 $("#btnSearch").click(function (event){
     event.preventDefault();
     event.stopPropagation();
@@ -433,10 +511,6 @@ $("#btnSearch").click(function (event){
     tableWarningMangerStation.search(objSearch).draw();
 
 });
-function rowDeselect(e, dt, type, indexes) { // khóa các form bên trái
-    $("#btnDetail").prop( "disabled", true );
-    $("#btnDonew").attr("disabled", false);
-}
 // end table search
 //start form add
 $('#stationWarningAdd').select2({
@@ -822,6 +896,7 @@ $("#btnsave").click(function () {
                 CKEDITOR.instances[instance].setData('');
             }
             tableWarningMangerStation.ajax.reload();
+            tableWarningMangerStation.rows().deselect();
         },
         "error": function (error) {
             console.log(error);
@@ -940,6 +1015,7 @@ $("#btnsaveEdit").click(function(){
              $("#btnDonew").attr("disabled", false);
              $("#btnDetail").attr("disabled", true);
              tableWarningMangerStation.ajax.reload();
+            tableWarningMangerStation.rows().deselect();
             for ( instance in CKEDITOR.instances ){
                 CKEDITOR.instances[instance].updateElement();
                 CKEDITOR.instances[instance].setData('');
@@ -956,11 +1032,18 @@ $("#btnDelete").click(function () {
     } else {
         return;
     }
+    var rowDt = tableWarningMangerStation.rows('.selected').data();
+    var data = [];
+
+    for(let i =0 ; i < rowDt.length ; i++){
+        data.push(rowDt[i].id);
+    }
     $.ajax({
         headers: {
             'Authorization': token
         },
-        "url": apiUrl + "warning-manager-station?id="+$("#id").val(),
+        "url": apiUrl + "warning-manager-station",
+        "data" : JSON.stringify(data),
         "method": "DELETE",
         "contentType": "application/json",
         "success": function (response) {
@@ -973,6 +1056,7 @@ $("#btnDelete").click(function () {
             $("#btnDetail").prop("disabled",true);
             show_search();
             tableWarningMangerStation.ajax.reload();
+            tableWarningMangerStation.rows().deselect();
             for ( instance in CKEDITOR.instances ){
                 CKEDITOR.instances[instance].updateElement();
                 CKEDITOR.instances[instance].setData('');
