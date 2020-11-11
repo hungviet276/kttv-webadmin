@@ -137,6 +137,8 @@ function dateToString(date) {
     let day ="";
     if(dayTmp< 10){
         day = "0"+ dayTmp;
+    } else{
+        day = dayTmp;
     }
     let year = date.getFullYear();
     return strDate + day+"/"+month+"/"+year;
@@ -883,20 +885,24 @@ $("#btnsave").click(function () {
         "contentType": "application/json",
         "data" : JSON.stringify(dataParrent),
         "success": function (response) {
-             toastr.success('Thêm mới', response.message);
-             show_search();
-             $("#btnsave").css("display", "none");
-             $("#btnDelete").css("display", "none");
-             $("#btnReset").css("display", "none");
-             $("#btncancer").css("display", "none");
-             $("#btnDonew").attr("disabled", false);
-             $("#btnDetail").attr("disabled", true);
-            for ( instance in CKEDITOR.instances ){
-                CKEDITOR.instances[instance].updateElement();
-                CKEDITOR.instances[instance].setData('');
-            }
-            tableWarningMangerStation.ajax.reload();
-            tableWarningMangerStation.rows().deselect();
+             if(response.status==0){
+                 toastr.error('Thêm mới', response.message);
+             } else{
+                 toastr.success('Thêm mới', response.message);
+                 show_search();
+                 $("#btnsave").css("display", "none");
+                 $("#btnDelete").css("display", "none");
+                 $("#btnReset").css("display", "none");
+                 $("#btncancer").css("display", "none");
+                 $("#btnDonew").attr("disabled", false);
+                 $("#btnDetail").attr("disabled", true);
+                 for ( instance in CKEDITOR.instances ){
+                     CKEDITOR.instances[instance].updateElement();
+                     CKEDITOR.instances[instance].setData('');
+                 }
+                 tableWarningMangerStation.ajax.reload();
+                 tableWarningMangerStation.rows().deselect();
+             }
         },
         "error": function (error) {
             console.log(error);
@@ -941,13 +947,6 @@ $("#btnDetail").click(function () {
     $("#colorWarningAdd").val(rowDt.color);
     $("#descriptionWarningAdd").val(rowDt.description);
 
-    // for ( instance in CKEDITOR.instances ){
-    //     CKEDITOR.instances[instance].updateElement();
-    //     CKEDITOR.instances[instance].setData('');
-    // }
-
-    // CKEDITOR.instances.contentWarningAdd.updateElement();
-    // CKEDITOR.instances.contentWarningAdd.setData('');
     CKEDITOR.instances.contentWarningAdd.updateElement();
     CKEDITOR.instances.contentWarningAdd.setData(rowDt.content);
 
@@ -965,7 +964,15 @@ function showDetailData(rowDt){
         "method": "GET",
         "contentType": "application/json",
         "success": function (response) {
-            console.log(response);
+            if(response.length > 0){
+                console.log(response);
+
+                for(let i =0; i < response.length ; i++){
+                    let start = stringToDate(response[i].createAt.split(" ")[0],"yyyy-MM-dd","-");
+                    let strDate = dateToString(start);
+                    response[i].createAt = strDate;
+                }
+            }
             for(let i = 0 ; i <response.length ; i++){
                 tableConditionWarning.row.add(response[i]).draw(true);
             }
@@ -1006,19 +1013,23 @@ $("#btnsaveEdit").click(function(){
         "contentType": "application/json",
         "data" : JSON.stringify(dataParrent),
         "success": function (response) {
+            if(response.status==0){
+                toastr.error('Sửa', response.message);
+            } else{
              toastr.success('Sửa', response.message);
-             show_search();
-             $("#btnsave").css("display", "none");
-             $("#btnDelete").css("display", "none");
-             $("#btnReset").css("display", "none");
-             $("#btncancer").css("display", "none");
-             $("#btnDonew").attr("disabled", false);
-             $("#btnDetail").attr("disabled", true);
-             tableWarningMangerStation.ajax.reload();
-            tableWarningMangerStation.rows().deselect();
-            for ( instance in CKEDITOR.instances ){
-                CKEDITOR.instances[instance].updateElement();
-                CKEDITOR.instances[instance].setData('');
+                 show_search();
+                 $("#btnsave").css("display", "none");
+                 $("#btnDelete").css("display", "none");
+                 $("#btnReset").css("display", "none");
+                 $("#btncancer").css("display", "none");
+                 $("#btnDonew").attr("disabled", false);
+                 $("#btnDetail").attr("disabled", true);
+                 tableWarningMangerStation.ajax.reload();
+                tableWarningMangerStation.rows().deselect();
+                for ( instance in CKEDITOR.instances ){
+                    CKEDITOR.instances[instance].updateElement();
+                    CKEDITOR.instances[instance].setData('');
+                }
             }
         },
         "error": function (error) {
