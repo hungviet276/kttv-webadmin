@@ -18,6 +18,24 @@
         border: 1px gray solid;
         padding: 10px;
     }
+    .btn-100 {
+        width: 100px;
+    }
+    .hide-col {
+        display: none;
+    }
+    .table-bordered{
+        width: 100% !important;
+    }
+    table.dataTable thead .dt-checkboxes-select-all {
+        text-align: left !important;
+    }
+    div.dataTables_scrollHeadInner{
+        width: 100% !important;
+    }
+    .tab-scroll{
+        overflow: scroll;
+    }
 </style>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
@@ -80,7 +98,9 @@
                                 <!--                            <p th:text="${a}"></p>-->
                                 <div><input style="display:none" type="text" class="form-control" name="action_info" id="action_info" value="0"></div>
                                 <div class="card-body" style="width: 100%;overflow: auto">
-                                    <table id="tableValueTypeConfig" class="table table-bordered table-hover">
+                                    <div class="row">
+                                        <div class="col-md-12 tab-scroll">
+                                            <table id="tableValueTypeConfig" class="table table-bordered table-hover">
                                         <thead>
                                         <tr>
                                             <th></th>
@@ -100,15 +120,17 @@
                                         <tbody>
                                         </tbody>
                                     </table>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <!-- /.card-footer -->
                             <div class="col-sm-7"  id ="box_info">
-                                <div style="width: 95%;float: right">
-                                    <div class="card-header">
-                                        <h3 style="text-align: center"><b>Thông tin cảnh báo và mức độ cảnh báo của từng yếu tố</b></h3>
-                                    </div>
-                                    <form class="form-horizontal" id="form_input">
+                                <div style="width: 100%;float: right">
+
+                                    <fieldset class="fieldset-normal">
+                                        <legend class="legend-normal">Thông tin cảnh báo và mức độ cảnh báo của từng yếu tố</legend>
+                                        <form class="form-horizontal" id="form_input">
                                         <div class="form-row">
                                             <div class="form-group col-md-6 errorTxt">
                                                 <label for="station_add">Trạm <span style="color: red;">*</span></label>
@@ -174,10 +196,10 @@
                                         </div>
                                         <input type="number" class="form-control" id="id" name="id" hidden>
                                     </form>
-                                    <div>
-                                        <h3 style="text-align: center"><b>Danh sách mức cảnh báo của yếu tố</b></h3>
-                                    </div>
-                                    <form class="form-horizontal" id="formWarningThreshold">
+                                    </fieldset>
+                                    <fieldset class="fieldset-normal">
+                                        <legend class="legend-normal">Danh sách mức cảnh báo của yếu tố</legend>
+                                        <form class="form-horizontal" id="formWarningThreshold">
                                         <div class="form-row">
                                             <div class="form-group col-md-6 errorTxt">
                                                 <div class="insertError">
@@ -219,6 +241,7 @@
                                             </div>
                                         </div>
                                     </form>
+                                    </fieldset>
                                     <div class="wrap-button-control">
                                         <button class="btn btn-primary" id="btnsaveStationValueType" style="width: 100px;">
                                             <i class="fas fa-plus"></i> Lưu

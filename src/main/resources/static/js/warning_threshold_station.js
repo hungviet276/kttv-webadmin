@@ -273,7 +273,7 @@ var tableConfigValueType = $('#tableValueTypeConfig').DataTable({
     "ordering": false,
     "info": true,
     "autoWidth": false,
-    "scrollX": true,
+    "scrollX": false,
     "responsive": false,
     language: {
         search: "_INPUT_",
@@ -284,9 +284,9 @@ var tableConfigValueType = $('#tableValueTypeConfig').DataTable({
     "columns": [
         { "data":""},
         {"data": "indexCount", "render": $.fn.dataTable.render.text()},
-        {"data": "id", "render": $.fn.dataTable.render.text()},
-        {"data": "stationId", "render": $.fn.dataTable.render.text()},
-        {"data": "parameterId", "render": $.fn.dataTable.render.text()},
+        {"data": "id", "render": $.fn.dataTable.render.text(),"visible": false},
+        {"data": "stationId", "render": $.fn.dataTable.render.text(),"visible": false},
+        {"data": "parameterId", "render": $.fn.dataTable.render.text(),"visible": false},
         {"data": "stationName", "render": $.fn.dataTable.render.text()},
         {"data": "parameterName", "render": $.fn.dataTable.render.text()},
         {"data": "valueLevel1", "render": $.fn.dataTable.render.text()},
