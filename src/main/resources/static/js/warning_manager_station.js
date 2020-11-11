@@ -93,7 +93,7 @@ function getFormData($form){
     var indexed_array = {};
 
     $.map(unindexed_array, function(n, i){
-        indexed_array[n['name']] = n['value'];
+        indexed_array[n['name']] = n['value'].trim();
     });
 
     return indexed_array;
@@ -687,6 +687,11 @@ $("#btnsaveStationValueType").click(function(){
 // Delete a record
 tableConditionWarning.on('click', 'a.editor_remove', function (e) {
     e.preventDefault();
+    if(confirm("Bạn có muốn xóa bản ghi")){
+
+    } else {
+        return;
+    }
     var table = $('#tableConditionWarning').DataTable();
     table
         .row( $(this).parents('tr') )
@@ -782,7 +787,7 @@ $("#btnsave").click(function () {
 
     var $form = $("#form_input");
     var dataParrent = getFormData($form);
-    dataParrent.contentWarning = contentWarningAdd.getData();
+    dataParrent.contentWarning = contentWarningAdd.getData().trim();
     var formData  = tableConditionWarning.rows().data();
     var tableDatas = [];
 

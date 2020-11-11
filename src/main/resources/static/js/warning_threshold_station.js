@@ -542,11 +542,23 @@ $("#btnsaveStationValueType").click(function () {
         "method": "GET",
         "contentType": "application/json",
         "success": function (response) {
+            let paramName = $("#value-type-station").select2('data')[0].text;
+
+            // let nameExe = paramName.split("-");
+            // let str = "";
+            // for(let i =0 ; i< nameExe.length ; i++){
+            //     if(str==""){
+            //         str+=nameExe[i];
+            //     } else{
+            //         str+="-";
+            //         str+=nameExe[i];
+            //     }
+            // }
             if(response.status == 0){
                 // kiểm tra xem nếu đã tồn tại trong bảng rồi thì thông báo ra không thêm nữa
                 var dataTableWarningThreshold = {};
                 dataTableWarningThreshold.idParameter=$("#value-type-station").val();
-                dataTableWarningThreshold.nameParameter=$("#value-type-station").select2('val');
+                dataTableWarningThreshold.nameParameter=paramName;
                 dataTableWarningThreshold.warningThresholdCode=$("#thresholdCode").val();
                 dataTableWarningThreshold.thresholdId = $("#thresholdWarning").val();
                 dataTableWarningThreshold.thresholdCancelID = $("#cancelWarning").val();
