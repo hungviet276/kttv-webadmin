@@ -54,6 +54,7 @@ const station =
             // station.searchParameter();
             station.disabled_right();
             station.show_search();
+            station.getStaffStation();
         },
         //lay loai tram
         getStationType: function () {
@@ -230,11 +231,27 @@ const station =
                 }
             });
         },
+        getStaffStation: function () {
+            global.showLoading();
+            $.ajax({
+                headers: {
+                    'Authorization': token
+                },
+                url: apiUrl + "common/get-select-list-staff",
+                method: "GET",
+                contentType: "application/json",
+                success: function (data) {
+                    console.log(data);
+                    $("#staffStation").select2({data: data});
+                    global.disableLoading();
+                }
+            });
+        },
         checkStationType: function (obj) {
             let stationTypeText = obj.options[obj.selectedIndex].text;
             let stationTypeId = obj.options[obj.selectedIndex].value;
             console.log(stationTypeText);
-            if (stationTypeText.startsWith("HV") || stationTypeId == -1) {
+            if (stationTypeText.startsWith("HV") || stationTypeText.startsWith("TV") || stationTypeId == -1) {
                 $("#riverId").prop("disabled", false);
                 station.getRiver();
             } else {
@@ -343,7 +360,7 @@ const station =
                 return;
             }
             global.showLoading();
-            // let parameter = $("#parameter").val();
+            let staffStation = $("#staffStation").val();
             // let timeseriesName = $("#timeseriesName").val();
             // let measure = $("#measure").val();
             let uuid = station.uuid;
@@ -357,7 +374,7 @@ const station =
             let areaId = $("#areaId").val().trim();
             let areaName = null;
             if (areaId !== "-1") {
-                areaName = $("#areaId :selected").text().trim();
+                areaName = $("#areaId :selected").text().split("-")[1].trim();
             }
 
             let provinceId = $("#provinceId").val().trim();
@@ -386,7 +403,7 @@ const station =
             let data = {
                 // "parameter": parameter,
                 // "timeseriesName": timeseriesName,
-                // "measure":measure,
+                "staffStation":staffStation,
                 "uuid": uuid,
                 "stationTypeId": stationTypeId,
                 "modeStationType": modeStationType,
@@ -636,7 +653,7 @@ const station =
                     "ordering": false,
                     "info": true,
                     "autoWidth": true,
-                    "scrollX": true,
+                    "scrollX": false,
                     "responsive": false,
                     language: {
                         search: "_INPUT_",
