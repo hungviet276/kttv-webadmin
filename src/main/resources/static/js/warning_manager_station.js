@@ -93,7 +93,7 @@ function getFormData($form){
     var indexed_array = {};
 
     $.map(unindexed_array, function(n, i){
-        indexed_array[n['name']] = n['value'];
+        indexed_array[n['name']] = n['value'].trim();
     });
 
     return indexed_array;
@@ -137,6 +137,8 @@ function dateToString(date) {
     let day ="";
     if(dayTmp< 10){
         day = "0"+ dayTmp;
+    } else{
+        day = dayTmp;
     }
     let year = date.getFullYear();
     return strDate + day+"/"+month+"/"+year;
@@ -277,13 +279,16 @@ $('#tableWarningManagerStation thead th').each(function () {
 var tableWarningMangerStation = $('#tableWarningManagerStation').DataTable({
     columnDefs: [ {
         orderable: false,
-        className: 'select-checkbox',
-        targets:   0
+        //className: 'select-checkbox',
+        targets:   0,
+        checkboxes: {
+            selectRow: true
+        }
     } ],
     select: {
-        style:    'os',
+        style: 'multi',
         selector: 'td:first-child',
-        type: 'single'
+        type: 'checkbox'
     },
     "pagingType": "full_numbers",
     "lengthMenu": [
@@ -296,7 +301,7 @@ var tableWarningMangerStation = $('#tableWarningManagerStation').DataTable({
     "ordering": false,
     "info": true,
     "autoWidth": false,
-    "scrollX": true,
+    "scrollX": false,
     "responsive": false,
     language: {
         search: "_INPUT_",
@@ -397,13 +402,90 @@ var tableWarningMangerStation = $('#tableWarningManagerStation').DataTable({
         }
     }
 });
+
+
 tableWarningMangerStation
     .on('select', rowSelect)
     .on('deselect', rowDeselect);
 function rowSelect(e, dt, type, indexes) { // load các thông tin của những cái bên trái ra
-    $("#btnDetail").prop( "disabled", false );
-    $("#btnDonew").attr("disabled", true);
+    var rowDt = tableWarningMangerStation.rows('.selected').data()
+    if(rowDt.length == 0){
+        $("#btnDetail").prop( "disabled", true );
+        $("#btnDeleteAll").prop( "disabled", true );
+        $("#btnDonew").attr("disabled", false);
+    } else if(rowDt.length == 1){
+        $("#btnDetail").prop( "disabled", false );
+        $("#btnDeleteAll").prop( "disabled", false );
+        $("#btnDonew").attr("disabled", true);
+    } else {
+        $("#btnDetail").prop( "disabled", true );
+        $("#btnDeleteAll").prop( "disabled", false );
+        $("#btnDonew").attr("disabled", true);
+    }
 }
+function rowDeselect(e, dt, type, indexes) { // khóa các form bên trái
+    var rowDt = tableWarningMangerStation.rows('.selected').data()
+   if(rowDt.length == 0){
+       $("#btnDetail").prop( "disabled", true );
+       $("#btnDeleteAll").prop( "disabled", true );
+       $("#btnDonew").attr("disabled", false);
+   } else if(rowDt.length == 1){
+       $("#btnDetail").prop( "disabled", false );
+       $("#btnDeleteAll").prop( "disabled", false );
+       $("#btnDonew").attr("disabled", true);
+   } else {
+       $("#btnDetail").prop( "disabled", true );
+       $("#btnDeleteAll").prop( "disabled", false );
+       $("#btnDonew").attr("disabled", true);
+   }
+}
+$("#btnDeleteAll").click(
+    function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        if(confirm("Bạn có muốn xóa bản ghi")){
+
+        } else {
+            return;
+        }
+        var rowDt = tableWarningMangerStation.rows('.selected').data();
+        var data = [];
+
+        for(let i =0 ; i < rowDt.length ; i++){
+            data.push(rowDt[i].id);
+        }
+        $.ajax({
+            headers: {
+                'Authorization': token
+            },
+            "url": apiUrl + "warning-manager-station",
+            "method": "DELETE",
+            "data" : JSON.stringify(data),
+            "contentType": "application/json",
+            "success": function (response) {
+                toastr.success('Thành công', response.message);
+                $("#btnsave").css("display", "none");
+                $("#btnDelete").css("display", "none");
+                $("#btnReset").css("display", "none");
+                $("#btncancer").css("display", "none");
+                $("#btnDonew").attr("disabled", false);
+                $("#btnDetail").prop("disabled",true);
+                $("#btnDeleteAll").prop("disabled",true);
+                tableWarningMangerStation.ajax.reload();
+                tableWarningMangerStation.rows().deselect();
+                for ( instance in CKEDITOR.instances ){
+                    CKEDITOR.instances[instance].updateElement();
+                    CKEDITOR.instances[instance].setData('');
+                }
+            },
+            "error": function (error) {
+                toastr.error('Lỗi', error.responseJSON.message);
+
+            }
+        });
+    }
+);
 $("#btnSearch").click(function (event){
     event.preventDefault();
     event.stopPropagation();
@@ -431,10 +513,6 @@ $("#btnSearch").click(function (event){
     tableWarningMangerStation.search(objSearch).draw();
 
 });
-function rowDeselect(e, dt, type, indexes) { // khóa các form bên trái
-    $("#btnDetail").prop( "disabled", true );
-    $("#btnDonew").attr("disabled", false);
-}
 // end table search
 //start form add
 $('#stationWarningAdd').select2({
@@ -630,7 +708,7 @@ var tableConditionWarning = $('#tableConditionWarning').DataTable({
         {
             data: null,
             className: "center",
-            defaultContent: '<a href="" class="editor_remove">Delete</a>'
+            defaultContent: '<a href="" class="editor_remove"><i class="fa fa-trash" aria-hidden="true"></i></a>'
         }
     ]
 });
@@ -675,11 +753,21 @@ $("#btnsaveStationValueType").click(function(){
     dataInsertTable.createAt = dateToString(new Date());
     dataInsertTable.idWarningThreshold = dataWarningcode[0].id;
     tableConditionWarning.row.add(dataInsertTable).draw(true);
+
+    $('#parameterWarningAdd').val(null).trigger('change');
+    $('#WarningThresholdCode').val(null).trigger('change');
+    $("#levelWarning").val("");
+    $("#levelClear").val("");
 });
 
 // Delete a record
 tableConditionWarning.on('click', 'a.editor_remove', function (e) {
     e.preventDefault();
+    if(confirm("Bạn có muốn xóa bản ghi")){
+
+    } else {
+        return;
+    }
     var table = $('#tableConditionWarning').DataTable();
     table
         .row( $(this).parents('tr') )
@@ -775,7 +863,7 @@ $("#btnsave").click(function () {
 
     var $form = $("#form_input");
     var dataParrent = getFormData($form);
-    dataParrent.contentWarning = contentWarningAdd.getData();
+    dataParrent.contentWarning = contentWarningAdd.getData().trim();
     var formData  = tableConditionWarning.rows().data();
     var tableDatas = [];
 
@@ -797,19 +885,24 @@ $("#btnsave").click(function () {
         "contentType": "application/json",
         "data" : JSON.stringify(dataParrent),
         "success": function (response) {
-             toastr.success('Thêm mới', response.message);
-             show_search();
-             $("#btnsave").css("display", "none");
-             $("#btnDelete").css("display", "none");
-             $("#btnReset").css("display", "none");
-             $("#btncancer").css("display", "none");
-             $("#btnDonew").attr("disabled", false);
-             $("#btnDetail").attr("disabled", true);
-            for ( instance in CKEDITOR.instances ){
-                CKEDITOR.instances[instance].updateElement();
-                CKEDITOR.instances[instance].setData('');
-            }
-            tableWarningMangerStation.ajax.reload();
+             if(response.status==0){
+                 toastr.error('Thêm mới', response.message);
+             } else{
+                 toastr.success('Thêm mới', response.message);
+                 show_search();
+                 $("#btnsave").css("display", "none");
+                 $("#btnDelete").css("display", "none");
+                 $("#btnReset").css("display", "none");
+                 $("#btncancer").css("display", "none");
+                 $("#btnDonew").attr("disabled", false);
+                 $("#btnDetail").attr("disabled", true);
+                 for ( instance in CKEDITOR.instances ){
+                     CKEDITOR.instances[instance].updateElement();
+                     CKEDITOR.instances[instance].setData('');
+                 }
+                 tableWarningMangerStation.ajax.reload();
+                 tableWarningMangerStation.rows().deselect();
+             }
         },
         "error": function (error) {
             console.log(error);
@@ -854,13 +947,6 @@ $("#btnDetail").click(function () {
     $("#colorWarningAdd").val(rowDt.color);
     $("#descriptionWarningAdd").val(rowDt.description);
 
-    // for ( instance in CKEDITOR.instances ){
-    //     CKEDITOR.instances[instance].updateElement();
-    //     CKEDITOR.instances[instance].setData('');
-    // }
-
-    // CKEDITOR.instances.contentWarningAdd.updateElement();
-    // CKEDITOR.instances.contentWarningAdd.setData('');
     CKEDITOR.instances.contentWarningAdd.updateElement();
     CKEDITOR.instances.contentWarningAdd.setData(rowDt.content);
 
@@ -878,7 +964,15 @@ function showDetailData(rowDt){
         "method": "GET",
         "contentType": "application/json",
         "success": function (response) {
-            console.log(response);
+            if(response.length > 0){
+                console.log(response);
+
+                for(let i =0; i < response.length ; i++){
+                    let start = stringToDate(response[i].createAt.split(" ")[0],"yyyy-MM-dd","-");
+                    let strDate = dateToString(start);
+                    response[i].createAt = strDate;
+                }
+            }
             for(let i = 0 ; i <response.length ; i++){
                 tableConditionWarning.row.add(response[i]).draw(true);
             }
@@ -908,6 +1002,7 @@ $("#btnsaveEdit").click(function(){
     }
     dataParrent.dataWarning = tableDatas;
     dataParrent.createBy = username;
+    dataParrent.stationWarning = $("#stationWarningAdd").val();
 
     $.ajax({
         headers: {
@@ -918,18 +1013,23 @@ $("#btnsaveEdit").click(function(){
         "contentType": "application/json",
         "data" : JSON.stringify(dataParrent),
         "success": function (response) {
+            if(response.status==0){
+                toastr.error('Sửa', response.message);
+            } else{
              toastr.success('Sửa', response.message);
-             show_search();
-             $("#btnsave").css("display", "none");
-             $("#btnDelete").css("display", "none");
-             $("#btnReset").css("display", "none");
-             $("#btncancer").css("display", "none");
-             $("#btnDonew").attr("disabled", false);
-             $("#btnDetail").attr("disabled", true);
-             tableWarningMangerStation.ajax.reload();
-            for ( instance in CKEDITOR.instances ){
-                CKEDITOR.instances[instance].updateElement();
-                CKEDITOR.instances[instance].setData('');
+                 show_search();
+                 $("#btnsave").css("display", "none");
+                 $("#btnDelete").css("display", "none");
+                 $("#btnReset").css("display", "none");
+                 $("#btncancer").css("display", "none");
+                 $("#btnDonew").attr("disabled", false);
+                 $("#btnDetail").attr("disabled", true);
+                 tableWarningMangerStation.ajax.reload();
+                tableWarningMangerStation.rows().deselect();
+                for ( instance in CKEDITOR.instances ){
+                    CKEDITOR.instances[instance].updateElement();
+                    CKEDITOR.instances[instance].setData('');
+                }
             }
         },
         "error": function (error) {
@@ -943,11 +1043,18 @@ $("#btnDelete").click(function () {
     } else {
         return;
     }
+    var rowDt = tableWarningMangerStation.rows('.selected').data();
+    var data = [];
+
+    for(let i =0 ; i < rowDt.length ; i++){
+        data.push(rowDt[i].id);
+    }
     $.ajax({
         headers: {
             'Authorization': token
         },
-        "url": apiUrl + "warning-manager-station?id="+$("#id").val(),
+        "url": apiUrl + "warning-manager-station",
+        "data" : JSON.stringify(data),
         "method": "DELETE",
         "contentType": "application/json",
         "success": function (response) {
@@ -960,6 +1067,7 @@ $("#btnDelete").click(function () {
             $("#btnDetail").prop("disabled",true);
             show_search();
             tableWarningMangerStation.ajax.reload();
+            tableWarningMangerStation.rows().deselect();
             for ( instance in CKEDITOR.instances ){
                 CKEDITOR.instances[instance].updateElement();
                 CKEDITOR.instances[instance].setData('');
