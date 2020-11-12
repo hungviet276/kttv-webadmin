@@ -404,6 +404,112 @@ $("#btnsave").click(function () {
     object.userInsite  = userInsite;
     console.log(object.userInsite);
 });
+
+$('#stationWarning').select2({
+    minimumInputLength: 0,
+    delay: 350,
+    templateSelection: function (data) {
+        if (data.id === '' || data.id == null || data.id == undefined) {
+            return '---- hãy chọn ----';
+        }
+
+        return data.text;
+    },
+    ajax: {
+        headers: {
+            'Authorization': token
+        },
+        url: apiUrl + "station/station-select",
+        contentType: 'application/json',
+        method: "POST",
+        quietMillis: 50,
+        data: function (term) {
+            if(term.term==null || term.term== undefined){
+                term.term = null;
+            }
+            return JSON.stringify(term);
+
+        },
+        processResults: function (data) {
+            data = [{id: -1,text : '----hãy chọn----'}].concat(data);
+            return {
+                results: $.map(data, function (item) {
+                    return {
+                        text: item.text,
+                        id: item.id,
+                        data: item
+                    }
+                })
+            };
+        }
+    }
+});
+$('#warningCode').select2({
+    minimumInputLength: 0,
+    delay: 350,
+    templateSelection: function (data) {
+        if (data.id === '' || data.id == null || data.id == undefined) {
+            return '---- hãy chọn ----';
+        }
+
+        return data.text;
+    },
+    ajax: {
+        headers: {
+            'Authorization': token
+        },
+        url: apiUrl + "warning-manager-station/warning-manager-select",
+        contentType: 'application/json',
+        method: "POST",
+        quietMillis: 50,
+        data: function (term) {
+            if(term.term==null || term.term== undefined){
+                term.term = null;
+            }
+            return JSON.stringify(term);
+
+        },
+        processResults: function (data) {
+            data = [{id: -1,text : '----hãy chọn----'}].concat(data);
+            return {
+                results: $.map(data, function (item) {
+                    return {
+                        text: item.text,
+                        id: item.id,
+                        data: item
+                    }
+                })
+            };
+        }
+    }
+});
+//config table mới
+var tableWarningConfig = $('#tableWarningConfig').DataTable({
+    columns: [
+        {"data": "id"},
+        {"data": "stationId"},
+        {"data": "stationName"},
+        {"data": "warningManagerId"},
+        {"data": "warningManagerCode"},
+        {
+            data: null,
+            className: "center",
+            defaultContent: '<a href="" class="editor_remove"><i class="fa fa-trash" aria-hidden="true"></a>'
+        }
+    ]
+});
+// end config table mới
+$("#btnSaveWarning").click(function(){
+    console.log($("#stationWarning").select2('data'))
+    let data = {};
+    data.id = "";
+    data.stationId = $("#stationWarning").select2('data')[0].id;
+    data.stationName = $("#stationWarning").select2('data')[0].text;
+    data.warningManagerId = $("#warningCode").select2('data')[0].id;
+    data.warningManagerCode = $("#warningCode").select2('data')[0].text;
+    console.log(data)
+    tableWarningConfig.row.add(data).draw(true);
+});
 //
 // $('#valueTypeSpatial').select2({
 //

@@ -218,6 +218,47 @@
                                                         <tbody>
                                                         </tbody>
                                                     </table>
+
+                                                    <fieldset class="fieldset-normal">
+                                                        <legend class="legend-normal">Danh sách các cảnh báo của nhóm</legend>
+                                                        <form class="form-horizontal" id="formWarningThreshold">
+                                                            <div class="form-row">
+                                                                <div class="form-group col-md-6">
+                                                                    <label for="stationWarning">Trạm</label>
+                                                                    <select id="stationWarning" data-placeholder="Select a State"
+                                                                            style="width: 100%;">
+                                                                        <!--                                                            -->
+                                                                    </select>
+                                                                </div>
+                                                                <div class="form-group col-md-6">
+                                                                    <label for="warningCode">Mã cảnh báo </label>
+                                                                    <select id="warningCode" data-placeholder="Select a State" style="width: 100%;">
+                                                                        <!--                                                            -->
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                        <div class="wrap-button-control">
+                                                            <button class="btn btn-primary" id="btnSaveWarning" style="width: 100px;">
+                                                                <i class="fas fa-plus"></i> Lưu
+                                                            </button>
+                                                        </div>
+                                                    </fieldset>
+                                                    <hr>
+                                                    <table id="tableWarningConfig" class="table table-bordered table-hover" style="margin: 0 auto; width: 100%">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>Id</th>
+                                                            <th>Id trạm</th>
+                                                            <th>Tên trạm</th>
+                                                            <th>Id cảnh báo</th>
+                                                            <th>Mã cảnh báo</th>
+                                                            <th>Xóa</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        </tbody>
+                                                    </table>
                                                 </div>
                                             </div>
                                             <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel"
