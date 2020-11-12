@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <title>Thông tin trạm quan trắc</title>
+    <title>Quản lý nhóm người dùng</title>
     <th:block th:replace="layout_header.html :: head_tag"/>
     <link rel="stylesheet" href="/css/management-station.css" type="text/css">
 
@@ -61,8 +61,9 @@
                                             <th>#</th>
                                             <th data-id="s_Tram">Trạm</th>
                                             <th data-id="s_TenNhom">Tên nhóm</th>
-                                            <th data-id="s_QuanLy">Quản lý</th>
-                                            <th data-id="s_Trangthai" is-select>Trạng thái</th>
+                                            <th data-id="s_level">Cấp</th>
+                                            <th data-id="s_QuanLy">Nhóm cha</th>
+                                            <th data-id="s_Trangthai"  is_select="1">Trạng thái</th>
                                             <th style="display: none"></th>
                                         </tr>
                                         </thead>

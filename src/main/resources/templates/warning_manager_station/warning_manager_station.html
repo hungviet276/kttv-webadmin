@@ -25,6 +25,18 @@
     .hide-col {
         display: none;
     }
+    .table-bordered{
+        width: 100% !important;
+    }
+    table.dataTable thead .dt-checkboxes-select-all {
+        text-align: left !important;
+    }
+    div.dataTables_scrollHeadInner{
+        width: 100% !important;
+    }
+    .tab-scroll{
+        overflow: scroll;
+    }
 </style>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
@@ -46,15 +58,13 @@
             <div class="container-fluid">
                 <div class="card card-default">
                     <div class="card-header">
-                        <h3><b>Quản lý cảnh báo</b></h3>
+                        <h4>Quản lý cảnh báo</h4>
                     </div>
                     <div class="container-fluid">
                         <div class="row content" style="width: 100%">
                             <div class="col-sm-5" id="box_search">
-                                <div class="card-header">
-                                    <h3 style="text-align: center"><b>Tìm kiếm thông tin cấu hình cảnh báo</b></h3>
-                                </div>
-                                <br/>
+                                <fieldset class="fieldset-normal">
+                                    <legend class="legend-normal">Tìm kiếm</legend>
                                 <form class="form-horizontal" id="form_data">
                                     <div class="form-row" id ="search_users">
                                         <div class="form-group col-md-6">
@@ -96,6 +106,7 @@
                                         </div>
                                     </div>
                                 </form>
+                                </fieldset>
                                 <div class="wrap-button-control">
                                     <button class="btn btn-primary" id="btnSearch" style="width:100px;">
                                         <i class="fas fa-search"></i> Tìm kiếm
@@ -106,30 +117,36 @@
                                     <button class="btn btn-primary" id="btnDetail" style="width:100px;" disabled="disabled">
                                         <i class="fa fa-eye" aria-hidden="true"></i> Chi tiết
                                     </button>
+                                    <button class="btn btn-primary" id="btnDeleteAll" style="width:100px;" disabled="disabled">
+                                        <i class="fa fa-trash" aria-hidden="true"></i> Xóa
+                                    </button>
                                 </div>
-                                <!--                            <p th:text="${a}"></p>-->
                                 <div><input style="display:none" type="text" class="form-control" name="action_info" id="action_info" value="0"></div>
-                                <div class="card-body" style="width: 100%;overflow: auto">
-                                    <table id="tableWarningManagerStation" class="table table-bordered table-hover">
-                                        <thead>
-                                        <tr>
-                                            <th></th>
-                                            <th>#</th>
-                                            <th data-id="s_id">ID</th>
-                                            <th data-id="s_id_station">ID trạm</th>
-                                            <th data-id="s_name_station">Tên trạm</th>
-                                            <th data-id="s_code_warning">Mã cảnh báo</th>
-                                            <th data-id="s_name_warning">Tên cảnh báo</th>
-                                            <th data-id="s_icon">iCon</th>
-                                            <th >Ngày tạo</th>
-                                            <th >Mô tả</th>
-                                            <th >Nội dung</th>
-                                            <th >Màu sắc</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-12 tab-scroll">
+                                            <table id="tableWarningManagerStation" class="table table-bordered table-hover display" style="width:100% !important;">
+                                                <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>#</th>
+                                                    <th data-id="s_id">ID</th>
+                                                    <th data-id="s_id_station">ID trạm</th>
+                                                    <th data-id="s_name_station">Tên trạm</th>
+                                                    <th data-id="s_code_warning">Mã cảnh báo</th>
+                                                    <th data-id="s_name_warning">Tên cảnh báo</th>
+                                                    <th data-id="s_icon">iCon</th>
+                                                    <th >Ngày tạo</th>
+                                                    <th >Mô tả</th>
+                                                    <th >Nội dung</th>
+                                                    <th >Màu sắc</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody style="width: 100%">
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <!-- /.card-footer -->
@@ -152,7 +169,7 @@
                                             <div class="col-md-6 errorTxt">
                                                 <div class="insertError">
                                                     <label for="codeWarningAdd">Mã cảnh báo <span style="color: red;">*</span></label>
-                                                    <input type="text" class="form-control" id="codeWarningAdd" name="codeWarning" placeholder="">
+                                                    <input type="text" class="form-control" id="codeWarningAdd" name="codeWarning" placeholder="" maxlength="50">
                                                 </div>
                                                 <label></label>
                                             </div>
@@ -162,7 +179,7 @@
                                             <div class="col-md-6 errorTxt">
                                                 <div class="insertError">
                                                     <label for="nameWarningAdd">Tên cảnh báo <span style="color: red;">*</span></label>
-                                                    <input type="text" class="form-control" id="nameWarningAdd" name="nameWarning" placeholder="">
+                                                    <input type="text" class="form-control" id="nameWarningAdd" name="nameWarning" placeholder="" maxlength="100">
                                                 </div>
                                                 <label></label>
                                             </div>
@@ -187,7 +204,7 @@
                                             <div class="form-group col-md-6 errorTxt">
                                                 <div class="insertError">
                                                     <label for="descriptionWarningAdd">Mô tả</label>
-                                                    <textarea class="form-control col-md-12" rows="3" id="descriptionWarningAdd" name="descriptionWarning" placeholder="Enter ..."></textarea>
+                                                    <textarea class="form-control col-md-12" rows="3" id="descriptionWarningAdd" name="descriptionWarning" placeholder="Enter ..." maxlength="500"></textarea>
                                                 </div>
                                                 <label></label>
                                             </div>
@@ -210,12 +227,10 @@
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                     <label for="station">Yếu tố</label>
-                                                    <div class="select2-purple">
-                                                        <select id="parameterWarningAdd" data-placeholder="Select a State"
-                                                                data-dropdown-css-class="select2-purple" style="width: 100%;">
-                                                            <!--                                                            -->
-                                                        </select>
-                                                    </div>
+                                                    <select id="parameterWarningAdd" data-placeholder="Select a State"
+                                                             style="width: 100%;">
+                                                        <!--                                                            -->
+                                                    </select>
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label for="WarningThresholdCode">Mức cảnh báo của yếu tố theo trạm </label>

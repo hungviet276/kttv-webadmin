@@ -107,11 +107,11 @@ $('#btnDonew').click(function () {
     $("#btnDelete").prop( "disabled", true );
     $("#btnsaveEdit").hide();
     $("#btnResetUpdate").hide();
-    validator.resetForm();
-    validWarningThreshold.resetForm();
-    tableWarningThreshold
-         .clear()
-         .draw();
+    // validator.resetForm();
+    // validWarningThreshold.resetForm();
+    // tableWarningThreshold
+    //      .clear()
+    //      .draw();
 });
 
 $('#station').select2({
@@ -314,6 +314,95 @@ var table = $('#tableGroupMailReceive').DataTable({
             return JSON.stringify(dataRes);
         }
     }
+});
+$("#userReceiveInsite").select2({
+    minimumInputLength: 0,
+    delay: 350,
+    templateSelection: function (data) {
+        if (data.id === '' || data.id == null || data.id == undefined) {
+            return '---- hãy chọn ----';
+        }
+
+        return data.text;
+    },
+    minimumInputLength: 0,
+    delay: 350,
+    ajax: {
+        headers: {
+            'Authorization': token
+        },
+        "url":apiUrl + "user-info/get-name-user",
+        dataType: 'json',
+        type: "GET",
+        quietMillis: 50,
+        data: function (term) {
+            let rowDt = table.rows('.selected').data()[0];
+            if(rowDt == undefined)
+            term.idGroup = "";
+            return term;
+
+        },
+        processResults: function (data) {
+            var datas =  $('#detail-receive-mail').val();
+            return {
+                results: $.map(data, function (item) {
+                    return {
+                        text:item.id + "---"+ item.name +"---"+ item.email,
+                        id: item.id,
+                        data: item
+                    }
+                })
+            };
+        }
+    }
+});
+var tableUserReceveiMailInSite = $('#tableUserReceveiMailInSite').DataTable({
+    columns: [
+        {"data": "id"},
+        {"data": "name"},
+        {"data": "email"},
+        {
+            data: null,
+            className: "center",
+            defaultContent: '<a href="" class="editor_remove">Delete</a>'
+        }
+    ]
+});
+$("#btnSaveUserInsite").click(function () {
+    var formData  = tableUserReceveiMailInSite.rows().data();
+    let insert = true;
+    $.each( formData, function( key, value ) {
+        if($('#userReceiveInsite').select2('data')[0].id == value.id){
+            insert = false;
+        }
+    });
+    if(insert==false){
+        toastr.error('Lỗi', "Bản ghi đã tồn tại");
+        return;
+    }
+    tableUserReceveiMailInSite.row.add($('#userReceiveInsite').select2('data')[0].data).draw(true);
+
+});
+tableUserReceveiMailInSite.on('click', 'a.editor_remove', function (e) {
+    e.preventDefault();
+    var table = $('#tableUserReceveiMailInSite').DataTable();
+    table
+        .row( $(this).parents('tr') )
+        .remove().draw();
+});
+$("#btnsave").click(function () {
+    var object = {};
+    object.code = $("#code").val().trim();
+    object.name = $("#name").val().trim();
+    object.description = $("#description").val().trim();
+    object.status = $("#status").val();
+    var formData  = tableUserReceveiMailInSite.rows().data();
+    var userInsite = [];
+    $.each( formData, function( key, value ) {
+        userInsite.push(value);
+    });
+    object.userInsite  = userInsite;
+    console.log(object.userInsite);
 });
 //
 // $('#valueTypeSpatial').select2({
