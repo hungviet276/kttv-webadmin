@@ -329,7 +329,7 @@ var station =
                     "ordering": false,
                     "info": true,
                     "autoWidth": false,
-                    "scrollX": true,
+                    "scrollX": false,
                     "responsive": false,
                     language: {
                         search: "_INPUT_",
@@ -669,7 +669,7 @@ $(document).ready(function () {
         var dataId = $(this).attr("data-id");
 
         if (dataId != null && dataId != undefined) {
-            $(this).html('<input id="' + dataId + '" class="table-data-input-search" type="text" placeholder="Search ' + title + '" />');
+            $(this).html('<input id="' + dataId + '" class="table-data-input-search" autocomplete="off" type="text" placeholder="Search ' + title + '" />');
             //     if (is_select == null || is_select == undefined) {
             //         $(this).html('<input id="' + dataId + '" class="table-data-input-search" type="text" placeholder="Search ' + title + '" />');
             //     } else {
@@ -714,7 +714,7 @@ $(document).ready(function () {
         "ordering": false,
         "info": true,
         "autoWidth": false,
-        "scrollX": true,
+        "scrollX": false,
         "responsive": false,
         language: {
             search: "_INPUT_",

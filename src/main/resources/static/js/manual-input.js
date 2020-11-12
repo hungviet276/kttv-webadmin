@@ -600,13 +600,13 @@ $(document).ready(function () {
                         oldValue = this.___value___;
                         this.___value___ = this.value;
                         if (oldValue == this.___value___) return;
-                        keyUpTime = new Date().getTime();
+                        station.keyUpTime = new Date().getTime();
                         let id = $(this).attr('id');
                         station.objSearch[id] = this.value;
                         setTimeout(function () {
-                            if (new Date().getTime() - keyUpTime > 300) {
-                                table.search(station.objSearch).draw();
-                                keyUpTime = new Date().getTime();
+                            if (new Date().getTime() - station.keyUpTime > 300) {
+                                station.table.search(station.objSearch).draw();
+                                station.keyUpTime = new Date().getTime();
                             }
                             return;
                         }, 300);

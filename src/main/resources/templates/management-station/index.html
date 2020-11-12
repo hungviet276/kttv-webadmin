@@ -224,6 +224,17 @@
                                                         <option value="0">Không hoạt động</option>
                                                     </select>
                                                 </div>
+<!--                                                anahd<div th:text="${session.userInfo.position}">-->
+                                                <div th:if="${session.userInfo.position == '1'}" th:remove="tag">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="staffStation">Nhân viên gán trạm</label>
+                                                        <select id="staffStation" class="form-control" style="width: 100%;">
+                                                            <option value="-1">Lựa chọn</option>
+                                                        </select>
+                                                        <span id="staffStation_error" class="help-block"
+                                                              style="color: red"></span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </fieldset>
                                         <!--  tab phan quyen-->
