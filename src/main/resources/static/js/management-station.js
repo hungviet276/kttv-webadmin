@@ -54,6 +54,7 @@ const station =
             // station.searchParameter();
             station.disabled_right();
             station.show_search();
+            station.getStaffStation();
         },
         //lay loai tram
         getStationType: function () {
@@ -230,11 +231,27 @@ const station =
                 }
             });
         },
+        getStaffStation: function () {
+            global.showLoading();
+            $.ajax({
+                headers: {
+                    'Authorization': token
+                },
+                url: apiUrl + "common/get-select-list-staff",
+                method: "GET",
+                contentType: "application/json",
+                success: function (data) {
+                    console.log(data);
+                    $("#staffStation").select2({data: data});
+                    global.disableLoading();
+                }
+            });
+        },
         checkStationType: function (obj) {
             let stationTypeText = obj.options[obj.selectedIndex].text;
             let stationTypeId = obj.options[obj.selectedIndex].value;
             console.log(stationTypeText);
-            if (stationTypeText.startsWith("HV") || stationTypeId == -1) {
+            if (stationTypeText.startsWith("HV") || stationTypeText.startsWith("TV") || stationTypeId == -1) {
                 $("#riverId").prop("disabled", false);
                 station.getRiver();
             } else {
@@ -343,7 +360,7 @@ const station =
                 return;
             }
             global.showLoading();
-            // let parameter = $("#parameter").val();
+            let staffStation = $("#staffStation").val();
             // let timeseriesName = $("#timeseriesName").val();
             // let measure = $("#measure").val();
             let uuid = station.uuid;
@@ -357,7 +374,7 @@ const station =
             let areaId = $("#areaId").val().trim();
             let areaName = null;
             if (areaId !== "-1") {
-                areaName = $("#areaId :selected").text().trim();
+                areaName = $("#areaId :selected").text().split("-")[1].trim();
             }
 
             let provinceId = $("#provinceId").val().trim();
@@ -386,7 +403,7 @@ const station =
             let data = {
                 // "parameter": parameter,
                 // "timeseriesName": timeseriesName,
-                // "measure":measure,
+                "staffStation":staffStation,
                 "uuid": uuid,
                 "stationTypeId": stationTypeId,
                 "modeStationType": modeStationType,
@@ -529,7 +546,7 @@ const station =
                         // station.btnRefresh();
                         // station.uuid = global.uuidv4();
                         station.disabled_right();
-                        $("#btnsave").css("display", "none");
+                        $("#btnSave").css("display", "none");
                         $("#btnDelete").css("display", "none");
                         $("#btnReset").css("display", "none");
                         $("#btnCancel").css("display", "none");
@@ -592,7 +609,7 @@ const station =
                         station.uuid = global.uuidv4();
                         station.table.ajax.reload();
                         station.disabled_right();
-                        $("#btnsave").css("display", "none");
+                        $("#btnSave").css("display", "none");
                         $("#btnDelete").css("display", "none");
                         $("#btnReset").css("display", "none");
                         $("#btnCancel").css("display", "none");
@@ -636,7 +653,7 @@ const station =
                     "ordering": false,
                     "info": true,
                     "autoWidth": true,
-                    "scrollX": true,
+                    "scrollX": false,
                     "responsive": false,
                     language: {
                         search: "_INPUT_",
@@ -651,7 +668,7 @@ const station =
                         {"data": "indexCount", "render": $.fn.dataTable.render.text()},
                         {"data": "parameterName", "render": $.fn.dataTable.render.text()},
                         {"data": "tsConfigName", "render": $.fn.dataTable.render.text()},
-                        {"data": "tsName", "render": $.fn.dataTable.render.text()},
+                        {"data": "unitName", "render": $.fn.dataTable.render.text()},
                         {"data": ""}
                     ],
                     initComplete: function () {
@@ -687,14 +704,14 @@ const station =
                                     // "": "",
                                     "indexCount": i + 1,
                                     "uuid": responseJson.content[i].uuid,
-                                    // "stationParamterId": responseJson.content[i].stationParamterId,
+                                    "unitName": responseJson.content[i].unitName,
                                     "paramterTypeId": responseJson.content[i].paramterTypeId,
                                     "parameterName": responseJson.content[i].parameterName,
                                     "stationId": responseJson.content[i].stationId,
                                     "tsConfigName": responseJson.content[i].tsConfigName,
                                     "tsId": responseJson.content[i].tsId,
                                     "tsConfigId": responseJson.content[i].tsConfigId,
-                                    "tsName": responseJson.content[i].tsConfigId,
+                                    "tsName": responseJson.content[i].tsName,
                                     "": "<span class='fa fa-trash' onclick='station.deleteParameter(" + responseJson.content[i].tsId + ")'></span>"
                                 })
                             }
@@ -726,11 +743,11 @@ const station =
             if (rowData != null && rowData != undefined && rowData.length > 0) {
                 console.log(rowData);
                 station.enabled_right();
-                $("#btnsave").css("display", "none");
+                $("#btnSave").css("display", "none");
                 $("#btnDelete").css("display", "inline");
                 $("#btnReset").css("display", "none");
                 $("#btnCancel").css("display", "inline");
-                $("#btnupdate").css("display", "inline");
+                $("#btnUpdate").css("display", "inline");
                 // $("#btnDoNew").attr("disabled", true);
                 station.togle_search();
 
@@ -773,7 +790,7 @@ const station =
             // $('#btnEdit').attr('disabled', 'true');
             // $('#form_data')[0].reset();
             // station.disabled_right();
-            // $("#btnsave").css("display", "none");
+            // $("#btnSave").css("display", "none");
             // $("#btnDelete").css("display", "none");
             // $("#btnReset").css("display", "none");
             // $("#btnCancel").css("display", "none");
@@ -979,7 +996,7 @@ const station =
         closePopup: function () {
             station.disabled_right();
             $('.help-block').html('');
-            $("#btnsave").css("display", "none");
+            $("#btnSave").css("display", "none");
             $("#btnDelete").css("display", "none");
             $("#btnReset").css("display", "none");
             $("#btnCancel").css("display", "none");
@@ -1138,7 +1155,7 @@ $(document).ready(function () {
                             station.table.search(station.objSearch).draw();
                             station.keyUpTime = new Date().getTime();
                         }
-                        return;
+
                     }, 1100);
                 });
 
@@ -1243,9 +1260,9 @@ $(document).ready(function () {
     $('#btnDoNew').click(function () {
         station.clientAction = 'insert';
         station.enabled_right();
-        $("#btnsave").css("display", "inline");
+        $("#btnSave").css("display", "inline");
         $("#btnDelete").css("display", "none");
-        $("#btnupdate").css("display", "none");
+        $("#btnUpdate").css("display", "none");
         $("#btnReset").css("display", "inline");
         $("#btnCancel").css("display", "inline");
         $("#btnDoNew").attr("disabled", true);
@@ -1264,7 +1281,7 @@ $(document).ready(function () {
 
     $('#btnCancel').click(function () {
         station.disabled_right();
-        $("#btnsave").css("display", "none");
+        $("#btnSave").css("display", "none");
         $("#btnDelete").css("display", "none");
         $("#btnReset").css("display", "none");
         $("#btnCancel").css("display", "none");

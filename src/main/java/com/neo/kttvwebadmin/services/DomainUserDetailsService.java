@@ -1,13 +1,20 @@
 package com.neo.kttvwebadmin.services;
 
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
 import java.util.*;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.neo.kttvwebadmin.dto.Menu;
 import com.neo.kttvwebadmin.dto.TreeMenu;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -35,6 +42,13 @@ import retrofit2.Call;
 @Service("userDetailsService")
 @Slf4j
 public class DomainUserDetailsService implements UserDetailsService {
+    private static final String BEARER = "Bearer";
+
+    private Key key;
+
+    private long tokenValidityInMilliseconds;
+
+    private String secret = "124f093edb90d9bd3c3bdf846a9069d654073b44473bae0794465923e593d9d8bb39278fa487681404e71e7cf45c45cd398d9f351055c22a95448b8d13706ce7";
 
     @Autowired
     private HttpServletRequest request;
@@ -44,10 +58,15 @@ public class DomainUserDetailsService implements UserDetailsService {
 
     private UserService userSerice;
 
+    @Autowired
+    ObjectMapper objectMapper;
 
     @PostConstruct
     public void initUserService() {
         userSerice  = retrofitManager.createService(UserService.class);
+        byte[] keyBytes = secret.getBytes(StandardCharsets.UTF_8);
+        this.key = Keys.hmacShaKeyFor(keyBytes);
+        this.tokenValidityInMilliseconds = 8640000;
     }
 
     /**
@@ -61,6 +80,7 @@ public class DomainUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(final String username) {
         String token = "";
         Login login = null;
+        com.neo.kttvwebadmin.dto.UserInfo userBO = null;
         String password = request.getParameter("password");
         UserInfo userInfo = UserInfo.builder().build();
         userInfo.setUsername(username);
@@ -73,7 +93,13 @@ public class DomainUserDetailsService implements UserDetailsService {
             token = headers.get("authorization");
 
             login = response.body();
-
+            Claims claims = getClaims(token);
+            if(claims != null){
+//                Map<String,Object> map = (Map)claims.get("userBO");
+//                userBO = (UserInfo)map.get("userBO");
+                String s = (String)claims.get("userBO");
+                userBO = objectMapper.readValue(s, com.neo.kttvwebadmin.dto.UserInfo.class);
+            }
         } catch (Exception ex) {
             log.error(ex.getMessage());
         }
@@ -107,7 +133,7 @@ public class DomainUserDetailsService implements UserDetailsService {
         session.setAttribute("urlApi", login.getUrlApi());
         session.setAttribute("token", token);
         session.setAttribute("htmlMenu", htmlMenu);
-
+        session.setAttribute("userInfo",userBO);
         Set<SimpleGrantedAuthority> simpleGrantedAuthorities = new HashSet<>();
         return new User(login.getUserId(), login.getPassword(), simpleGrantedAuthorities);
     }
@@ -140,5 +166,18 @@ public class DomainUserDetailsService implements UserDetailsService {
             }
         }
         return menuMap;
+    }
+
+    public Claims getClaims(String authToken) {
+        Claims claims = null;
+        try {
+            authToken = authToken.replace(BEARER,"").trim();
+            claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(authToken).getBody();
+            return claims;
+        } catch (JwtException | IllegalArgumentException e) {
+            log.info("Invalid JWT token.");
+            log.trace("Invalid JWT token trace.", e);
+        }
+        return claims;
     }
 }

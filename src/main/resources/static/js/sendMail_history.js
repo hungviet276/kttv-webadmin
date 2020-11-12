@@ -71,13 +71,13 @@ function getParameter_by_stationId(station_id) {
         headers: {
             'Authorization': token
         },
-        url: apiUrl + "cdh-history/getList_parameter_byStationId",
+        url: apiUrl + "send-mail-history/getList_parameter_byStationId",
         data: "stationId=" + station_id,
         method: "GET",
         contentType: "application/json",
         success: function (data) {
             console.log("parameter_search data ===" + data);
-            $("#parameter_search").select2({data: data});
+            $("#warningType_Search").select2({data: data});
         },error: function (error) {
             console.log(error);
         }
@@ -88,16 +88,16 @@ $('#btnDoSearch').on('click', function (e) {
     if(validateSearch()) {
         objSearch.s_fromdate = $("#start_date").val();
         objSearch.s_todate = $("#end_date").val();
-        objSearch.s_station_id = $("#stations_search").val();
-        objSearch.s_valueType_id = $("#parameter_search").val();
+        objSearch.s_stationId = $("#stations_search").val();
+        objSearch.s_warningId = $("#warningType_Search").val();
         table.search(objSearch).draw();
     }
 });
 
 function validateSearch(){
-    if($('#parameter_search').val() == -1){
-        toastr.error('Phải chọn yếu tố!');
-        $('#parameter_search').focus();
+    if($('#warningType_Search').val() == -1){
+        toastr.error('Phải chọn loại cảnh báo!');
+        $('#warningType_Search').focus();
         return;
     }
     if($('#stations_search').val() == -1){
@@ -138,11 +138,9 @@ function validateSearch(){
     let objSearch = {
         s_stationNo: '',
         s_stationName: '',
-        s_parameterName: '',
-        s_createModify: '',
-        s_status: '',
+        s_warning_code: '',
+        s_warning_name: '',
         s_note: '',
-        s_userCreate:'',
     };
 
     $('#tableDataView thead th').each(function () {
@@ -152,16 +150,9 @@ function validateSearch(){
         if (dataId != null && dataId != undefined) {
             if (is_select == null || is_select == undefined) {
                 $(this).html('<p style="text-align: center">' + title + '</p><input  id="' + dataId + '" class="table-data-input-search" type="text"  placeholder="Tìm kiếm ' + title + '" autocomplete="off" />');
-            }else if (is_select == 2) {
+            }else if (is_select == 1) {
                 $(this).html('<p style="text-align: center">' + title + '</p>');
-            }else if(is_select==1){
-                $(this).html('<p style="text-align: center">' + title + '</p><select class="select_table"  id="' + dataId + '"><option value="">Không chọn</option><option  value="1">Hoạt động</option><option value="0">Không hoạt động</option></select>');
             }
-            // else if (is_select == 2) {
-            //     $(this).html('<select class="select_table"  id="' + dataId + '"><option value="">Không chọn</option><option  value="1">Hoạt động</option><option value="0">Không hoạt động</option></select>');
-            // }else{
-            //     $(this).html('<select  class="select_table" id="' + dataId + '"><option value="">Không chọn</option><option value="1">Nam</option><option value="0">Nữ</option></select>');
-            // }
         }
     });
     var indexRowDt = 0;
@@ -199,13 +190,12 @@ function validateSearch(){
         "serverSide": true,
         "columns": [
             {"data": ""},
-            {"data": "stationCode", "render": $.fn.dataTable.render.text()},
+            {"data": "stationNo", "render": $.fn.dataTable.render.text()},
             {"data": "stationName", "render": $.fn.dataTable.render.text()},
-            {"data": "valueTypeName","render": $.fn.dataTable.render.text()},
-            {"data": "createdUser", "render": $.fn.dataTable.render.text()},
-            {"data": "statusStr", "render": $.fn.dataTable.render.text()},
+            {"data": "warningNo","render": $.fn.dataTable.render.text()},
+            {"data": "warningName", "render": $.fn.dataTable.render.text()},
             {"data": "description", "render": $.fn.dataTable.render.text()},
-            {"data": "endPustTimeStr", "render": $.fn.dataTable.render.text()},
+            {"data": "pushTimestampStr", "render": $.fn.dataTable.render.text()},
         ],
         initComplete: function () {
             // Apply the search
@@ -231,17 +221,17 @@ function validateSearch(){
                     });
                 });
             })
-            $('.select_table').on('change', function () {
-                let id = $(this).attr("id");
-                objSearch[id] = this.value;
-                table.search(JSON.stringify(objSearch)).draw();
-            });
+            // $('.select_table').on('change', function () {
+            //     let id = $(this).attr("id");
+            //     objSearch[id] = this.value;
+            //     table.search(JSON.stringify(objSearch)).draw();
+            // });
         },
         "ajax": {
             headers: {
                 'Authorization': token
             },
-            "url": apiUrl + "cdh-history/get_list_outputs",
+            "url": apiUrl + "send-mail-history/get_list_outputs",
             "method": "POST",
             "contentType": "application/json",
             "data": function (d) {
@@ -267,13 +257,12 @@ function validateSearch(){
                     dataRes.data.push({
                         "": "",
                         "indexCount": i + 1,
-                        "stationCode": responseJson.content[i].stationCode,
+                        "stationNo": responseJson.content[i].stationNo,
                         "stationName": responseJson.content[i].stationName,
-                        "valueTypeName": responseJson.content[i].valueTypeName,
-                        "createdUser": responseJson.content[i].createdUser,
-                        "statusStr": responseJson.content[i].statusStr,
+                        "warningNo": responseJson.content[i].warningNo,
+                        "warningName": responseJson.content[i].warningName,
                         "description": responseJson.content[i].description,
-                        "endPustTimeStr": responseJson.content[i].endPustTimeStr,
+                        "pushTimestampStr": responseJson.content[i].pushTimestampStr,
                     })
                 }
                 return JSON.stringify(dataRes);
@@ -287,13 +276,11 @@ $('#btnExport').on('click', function (e) {
         let dataReq = {
             s_stationNo: $('#s_stationNo').val(),
             s_stationName: $('#s_stationName').val(),
-            s_parameterName: $('#s_parameterName').val(),
-            s_createModify: $('#s_createModify').val(),
-            s_status: $('#s_status').val(),
+            s_warning_code: $('#s_warning_code').val(),
+            s_warning_name: $('#s_warning_name').val(),
             s_note: $('#s_note').val(),
-            s_userCreate: $('#s_userCreate').val(),
-            s_station_id: $('#stations_search').val(),
-            s_valueType_id: $('#parameter_search').val(),
+            s_stationId: $('#stations_search').val(),
+            s_warningId: $('#warningType_Search').val(),
             s_fromdate: $('#start_date').val(),
             s_todate: $('#end_date').val(),
         };
@@ -304,7 +291,7 @@ $('#btnExport').on('click', function (e) {
             headers: {
                 'Authorization': token
             },
-            url: apiUrl + 'cdh-history/export',
+            url: apiUrl + 'send-mail-history/export',
             method: 'POST',
             data: JSON.stringify(dataReq),
             contentType: "application/json",

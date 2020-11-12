@@ -127,12 +127,17 @@
                                                           style="color: red"></span>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <label for="parameterDesc">Mô tả </label>
-                                                    <input type="text" class="form-control" id="parameterDesc"
+                                                    <label for="parameterCode">Mã yếu tố </label>
+                                                    <input type="text" class="form-control" id="parameterCode"
                                                            placeholder="">
                                                 </div>
                                             </div>
                                             <div class="form-row">
+                                                <div class="col-md-6">
+                                                    <label for="parameterDesc">Mô tả </label>
+                                                    <input type="text" class="form-control" id="parameterDesc"
+                                                           placeholder="">
+                                                </div>
                                                 <div class="form-group col-md-6">
                                                     <label for="unitId">Đơn vị tính <span
                                                             style="color: red;">*</span></label>
@@ -170,8 +175,20 @@
                                                     <div class="form-group col-md-4">
                                                         <label for="storage">Storage <span
                                                                 style="color: red;">*</span></label>
-                                                        <input type="text" class="form-control" id="storage"
-                                                               placeholder="Bảng lưu trữ giá trị product">
+                                                        <select class="form-control" id="storage"
+                                                                placeholder="Bảng lưu trữ giá trị product">
+                                                            <option value="-1">Lựa chọn</option>
+                                                            <option value="RAINFALL">Bảng rainfall</option>
+                                                            <option value="temperature">Bảng temperature</option>
+                                                            <option value="temperature_min">Bảng temperature_min
+                                                            </option>
+                                                            <option value="temperature_max">Bảng temperature_max
+                                                            </option>
+                                                            <option value="water_temperature">Bảng water_temperature
+                                                            </option>
+                                                            <option value="conductivity">Bảng conductivity</option>
+                                                            <option value="salinity">Bảng salinity</option>
+                                                        </select>
                                                         <span id="storage_error" class="help-block"
                                                               style="color: red"></span>
                                                     </div>
@@ -198,7 +215,8 @@
                                                                 <th>#</th>
                                                                 <!--                                                    <th data-id="s_stationParamterId">Time series Id</th>-->
                                                                 <th data-id="s_parameterName">Time series Name</th>
-                                                                <th data-id="s_unitName">Mô tả</th>
+                                                                <th data-id="s_tsConfigName">Time series config name
+                                                                </th>
                                                                 <th data-id="">Tác động</th>
                                                             </tr>
                                                             </thead>

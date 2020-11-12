@@ -142,7 +142,7 @@ var station =
             $('.help-block').html('');
             $("#timeSeries").val('-1').trigger('change');
             $("#tsConfigName").val('');
-            $("#storage").val('');
+            $("#storage").val('-1');
         },
         deleteSeries: function (id) {
             if (!confirm('Bạn thực sự muốn xóa ?')) {
@@ -329,7 +329,7 @@ var station =
                     "ordering": false,
                     "info": true,
                     "autoWidth": false,
-                    "scrollX": true,
+                    "scrollX": false,
                     "responsive": false,
                     language: {
                         search: "_INPUT_",
@@ -539,7 +539,7 @@ var station =
                 $('#timeSeries').focus();
                 return false;
             }
-            if($('#storage').val().trim().length < 1){
+            if($('#storage').val().trim() === "-1"){
                 $('#storage_error').html('Storage không được để trống');
                 $('#storage').focus();
                 return false;
@@ -669,7 +669,7 @@ $(document).ready(function () {
         var dataId = $(this).attr("data-id");
 
         if (dataId != null && dataId != undefined) {
-            $(this).html('<input id="' + dataId + '" class="table-data-input-search" type="text" placeholder="Search ' + title + '" />');
+            $(this).html('<input id="' + dataId + '" class="table-data-input-search" autocomplete="off" type="text" placeholder="Search ' + title + '" />');
             //     if (is_select == null || is_select == undefined) {
             //         $(this).html('<input id="' + dataId + '" class="table-data-input-search" type="text" placeholder="Search ' + title + '" />');
             //     } else {
@@ -714,7 +714,7 @@ $(document).ready(function () {
         "ordering": false,
         "info": true,
         "autoWidth": false,
-        "scrollX": true,
+        "scrollX": false,
         "responsive": false,
         language: {
             search: "_INPUT_",
@@ -789,6 +789,7 @@ $(document).ready(function () {
                         "parameterTypeName": responseJson.content[i].parameterTypeName,
                         "parameterTypeDescription": responseJson.content[i].parameterTypeDescription,
                         "unitName": responseJson.content[i].unitName,
+                        // "tsConfigName": responseJson.content[i].tsConfigName,
                         "timeSeries": responseJson.content[i].timeSeries,
                         "unitId": responseJson.content[i].unitId,
                     })
