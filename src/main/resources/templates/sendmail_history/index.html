@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <title>Tra cứu lịch sử cập nhật dữ liệu CDH</title>
+    <title>Tra cứu lịch sử gửi mail</title>
     <th:block th:replace="layout_header.html :: head_tag"/>
     <link rel="stylesheet" href="/css/management-station.css" type="text/css">
 </head>
@@ -20,7 +20,7 @@
             <div class="container-fluid">
                 <div class="card card-default">
                     <div class="card-header">
-                        <h4  class="card-title">Tra cứu lịch sử cập nhật dữ liệu CDH</h4>
+                        <h4  class="card-title">Tra cứu lịch sử gửi mail</h4>
                     </div>
                     <div class="container-fluid">
                         <div class="row content" style="width: 100%">
@@ -38,9 +38,9 @@
                                             </div>
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for="parameter_search">Yếu tố</label>
+                                            <label for="warningType_Search">Loại cảnh báo</label>
                                             <div class="input-group">
-                                                <select class="form-control" id="parameter_search" style="width: 100%"></select>
+                                                <select class="form-control" id="warningType_Search" style="width: 100%"></select>
                                             </div>
                                         </div>
                                     </div>
@@ -75,11 +75,10 @@
                                             <th>#</th>
                                             <th data-id="s_stationNo" >Mã Tram</th>
                                             <th data-id="s_stationName" >Tên Trạm</th>
-                                            <th data-id="s_parameterName">Yếu tố</th>
-                                            <th data-id="s_userCreate">Người cập nhật</th>
-                                            <th data-id="s_status" is_select="1" >Trạng thái cập nhật</th>
-                                            <th data-id="s_note" >Ghi chú</th>
-                                            <th data-id="s_createModify" is_select="2">Thời gian cập nhật</th>
+                                            <th data-id="s_warning_code">Mã cảnh báo</th>
+                                            <th data-id="s_warning_name">Loại cảnh báo</th>
+                                            <th data-id="s_note" >Tiêu đề mail</th>
+                                            <th data-id="s_timestamp" is_select="1">Thời gian gửi mail</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -122,6 +121,6 @@
     var username = "[[${session.userBO.Username}]]";
     var token = "[[${session.token}]]";
 </script>
-<script src="/js/cdh_history.js"></script>
+<script src="/js/sendMail_history.js"></script>
 </body>
 </html>

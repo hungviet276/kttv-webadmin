@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Báo Cáo Thời Gian Xuất Hiện Triều Cường</title>
+    <th:block th:replace="layout_header.html :: head_tag"/>
+    <link rel="stylesheet" href="/css/report_salinity.css" type="text/css">
+    <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+    <style>
+        .legend-normal {
+            margin-left: 1em;
+            padding: 5px;
+            width: auto;
+            font-size: inherit;
+            font-weight: bold;
+        }
+
+        .fieldset-normal {
+            border: 1px gray solid;
+            padding: 10px;
+        }
+
+        .btn-100 {
+            width: 100px;
+        }
+
+        .hide-col {
+            display: none;
+        }
+    </style>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed text-sm">
+<div class="wrapper">
+
+    <th:block th:replace="layout_menu.html :: menu_tag"/>
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="container-fluid">
+                <div class="card card-default">
+                    <div class="card-header">
+                        <h4>Báo Cáo Xu Thế Biến Đổi Độ Mặn </h4>
+                    </div>
+                    <div class="container-fluid">
+                        <div class="row content" style="width: 100%">
+                            <div class="col-lg-12">
+                                <div style="width: 100%;float: right">
+                                    <fieldset class="fieldset-normal">
+                                        <legend class="legend-normal">Thông tin báo cáo</legend>
+                                        <div class="form-horizontal" id="form_input">
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="tram">Trạm <span style="color: red;">*</span></label>
+                                                    <select id="tram" class="form-control" style="width: 100%;">
+                                                        <option value="">--Chọn Trạm--</option>
+                                                    </select>
+                                                    <span id="tram_error" class="help-block" style="color: red"></span>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="loai_bao_cao"> Loại Báo Cáo <span
+                                                            style="color: red;">*</span></label>
+                                                    <select id="loai_bao_cao" class="form-control" style="width: 100%;">
+                                                        <option value="">--Chọn Báo Cáo--</option>
+
+                                                    </select>
+                                                    <span id="loai_bao_cao_error" class="help-block"
+                                                          style="color: red"></span>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="start_date">Từ ngày</label>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" id="start_date"
+                                                               placeholder="" autocomplete="off">
+                                                        <div class="input-group-prepend">
+                                                            <button type="button" class="btn btn-light"
+                                                                    data-toggle="hidden"
+                                                                    id="btnfromdate">
+                                                                <i class="far fa-calendar-alt"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="end_date">Đến ngày</label>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" id="end_date"
+                                                               autocomplete="off" placeholder="">
+                                                        <div class="input-group-prepend">
+                                                            <button type="button" class="btn btn-light"
+                                                                    data-toggle="hidden"
+                                                                    id="btntoDate">
+                                                                <i class="far fa-calendar-alt"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="khoang_thoi_gian"> Khoảng Thời Gian </label>
+                                                    <select id="khoang_thoi_gian" class="form-control"
+                                                            style="width: 100%;">
+                                                        <option value="">--Chọn Khoảng Thời Gian--</option>
+                                                        <option value="one_week">Một Tuần</option>
+                                                        <option value="one_month">Một Tháng</option>
+                                                        <option value="three_month">Ba Tháng</option>
+                                                        <option value="six_month">Sáu Tháng</option>
+                                                        <option value="one_year">Một Năm</option>
+                                                    </select>
+                                                    <span id="khoang_thoi_gian_error" class="help-block"
+                                                          style="color: red"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="wrap-button-control" id="div-button" style="margin-top: 15px;">
+                                            <button class="btn btn-secondary btn-150" id="button-save">
+                                                Hiển Thị Biểu Đồ
+                                            </button>
+                                            <button class="btn btn-success btn-150" id="button-update">
+                                                Xuất Báo Cáo Excel
+                                            </button>
+                                            <button class="btn btn-primary btn-150" id="button-delete">
+                                                Xuất Báo Cáo PDF
+                                            </button>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+
+                            <!-- /.card-footer -->
+                            <div class="col-lg-12" id="box_info">
+                                <div style="width: 100%;float: right">
+                                    <fieldset class="fieldset-normal" style="margin-top: 15px;">
+                                        <legend class="legend-normal">Biểu Đồ</legend>
+                                        <div class="zc-body">
+                                            <div class="chart--container" id="myChart">
+                                                <a class="zc-ref" href="https://www.zingchart.com/" rel="noopener">Powered by ZingChart</a>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="popup-loading">
+                <div class="wrapper-loading">
+                    <div class="sub-wrapper-loading">
+                        <div class="d-flex justify-content-center">
+                            <div class="spinner-border" role="statusLoading">
+                                <span class="sr-only" th:text="#{action.loading}">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <th:block th:replace="management-station/control.html :: management-station-control"/>
+    </div>
+</div>
+
+<!-- Control Sidebar -->
+<aside class="control-sidebar control-sidebar-dark" style="top: 0px; height: 306px; display: none; bottom: 28.6px;">
+    <!-- Control sidebar content goes here -->
+</aside>
+</div>
+<th:block th:replace="layout_footer.html :: footer_tag"/>
+<th:block th:replace="global_import_js.html :: global_import_js"/>
+<script src="/js/report_salinity.js"></script>
+</body>
+</html>

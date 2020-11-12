@@ -33,6 +33,34 @@ $('#thresholdWarning').select2({
 $('#cancelWarning').select2({
 
 });
+function dateToString(date) {
+    let strDate = "";
+    let month = date.getMonth() + 1;
+    let dayTmp = date.getDate();
+    let day ="";
+    if(dayTmp< 10){
+        day = "0"+ dayTmp;
+    } else{
+        day = dayTmp;
+    }
+    let year = date.getFullYear();
+    return strDate + day+"/"+month+"/"+year;
+}
+function stringToDate(_date,_format,_delimiter) {
+    var formatLowerCase=_format.toLowerCase();
+    var formatItems=formatLowerCase.split(_delimiter);
+    var dateItems=_date.split(_delimiter);
+    var monthIndex=formatItems.indexOf("mm");
+    var dayIndex=formatItems.indexOf("dd");
+    var yearIndex=formatItems.indexOf("yyyy");
+    var year = parseInt(dateItems[yearIndex]);
+    // adjust for 2 digit year
+    if (year < 100) { year += 2000; }
+    var month=parseInt(dateItems[monthIndex]);
+    month-=1;
+    var formatedDate = new Date(year,month,dateItems[dayIndex]);
+    return formatedDate;
+}
 function addSelect2ThresholdWarning(){
    for(let i =0 ; i < constantThreshold.length ; i++){
        var newOption = new Option(constantThreshold[i].text, constantThreshold[i].id, false, false);
@@ -106,6 +134,16 @@ $('#btnDonew').click(function () {
     $("#btnDelete").prop( "disabled", true );
     $("#btnsaveEdit").hide();
     $("#btnResetUpdate").hide();
+
+    $("#thresholdCode").val("");
+    $('#thresholdWarning').val("-1");
+    $('#thresholdWarning').select2().trigger('change');
+    $('#cancelWarning').val("-1");
+    $('#cancelWarning').select2().trigger('change');
+    $('#status').val("");
+    $('#status').trigger('change');
+
+
     validator.resetForm();
     validWarningThreshold.resetForm();
     tableWarningThreshold
@@ -273,7 +311,7 @@ var tableConfigValueType = $('#tableValueTypeConfig').DataTable({
     "ordering": false,
     "info": true,
     "autoWidth": false,
-    "scrollX": true,
+    "scrollX": false,
     "responsive": false,
     language: {
         search: "_INPUT_",
@@ -284,9 +322,9 @@ var tableConfigValueType = $('#tableValueTypeConfig').DataTable({
     "columns": [
         { "data":""},
         {"data": "indexCount", "render": $.fn.dataTable.render.text()},
-        {"data": "id", "render": $.fn.dataTable.render.text()},
-        {"data": "stationId", "render": $.fn.dataTable.render.text()},
-        {"data": "parameterId", "render": $.fn.dataTable.render.text()},
+        {"data": "id", "render": $.fn.dataTable.render.text(),"visible": false,"visible": false},
+        {"data": "stationId", "render": $.fn.dataTable.render.text(),"visible": false,"visible": false},
+        {"data": "parameterId", "render": $.fn.dataTable.render.text(),"visible": false,"visible": false},
         {"data": "stationName", "render": $.fn.dataTable.render.text()},
         {"data": "parameterName", "render": $.fn.dataTable.render.text()},
         {"data": "valueLevel1", "render": $.fn.dataTable.render.text()},
@@ -423,7 +461,7 @@ function genSelectThreshold(data, row, functionCallChange){
 var tableWarningThreshold = $('#tableWarningThreshold').DataTable({
     columns: [
         {"data": "warningThresholdCode"},
-        {"data": "idParameter"},
+        {"data": "idParameter","visible": false},
         {"data": "nameParameter"},
         {
             data: "thresholdId",
@@ -468,7 +506,7 @@ var tableWarningThreshold = $('#tableWarningThreshold').DataTable({
         {
             data: null,
             className: "center",
-            defaultContent: '<a href="" class="editor_remove">Delete</a>'
+            defaultContent: '<a href="" class="editor_remove"><i class="fa fa-trash" aria-hidden="true"></i></a>'
         }
     ]
 });
@@ -520,6 +558,11 @@ function changeThresholdId(obj,data){
 }
 tableWarningThreshold.on('click', 'a.editor_remove', function (e) {
     e.preventDefault();
+    if(confirm("Bạn có muốn xóa bản ghi")){
+
+    } else {
+        return;
+    }
     var table = $('#tableWarningThreshold').DataTable();
     table
         .row( $(this).parents('tr') )
@@ -542,11 +585,13 @@ $("#btnsaveStationValueType").click(function () {
         "method": "GET",
         "contentType": "application/json",
         "success": function (response) {
+            let paramName = $("#value-type-station").select2('data')[0].text;
+
             if(response.status == 0){
                 // kiểm tra xem nếu đã tồn tại trong bảng rồi thì thông báo ra không thêm nữa
                 var dataTableWarningThreshold = {};
                 dataTableWarningThreshold.idParameter=$("#value-type-station").val();
-                dataTableWarningThreshold.nameParameter=$("#value-type-station").select2('val');
+                dataTableWarningThreshold.nameParameter=paramName;
                 dataTableWarningThreshold.warningThresholdCode=$("#thresholdCode").val();
                 dataTableWarningThreshold.thresholdId = $("#thresholdWarning").val();
                 dataTableWarningThreshold.thresholdCancelID = $("#cancelWarning").val();
@@ -574,52 +619,6 @@ $("#btnsaveStationValueType").click(function () {
             toastr.error('Lỗi', error.responseJSON.message);
         }
     });
-    // var dataStation = $('#stationSpatial').select2('data');
-    // var dataValueType = $('#valueTypeSpatial').select2('data');
-    // if(dataStation[0]==null || dataStation[0] == undefined || dataValueType[0]== null || dataValueType[0] == undefined){
-    //     return;
-    // }
-    // var dataValueTypeText = dataValueType[0].text;
-    // var dataValueTypeTexts = dataValueTypeText.split("-");
-    // if(submit == false) {
-    //     if (dataStation.length == 0) {
-    //         $('#stationSpatial').select2('open');
-    //         return;
-    //     }
-    //     if (dataValueType.length == 0) {
-    //         $('#valueTypeSpatial').select2('open');
-    //         return;
-    //     }
-    //     return;
-    // }
-
-    // $.ajax({
-    //     headers: {
-    //         'Authorization': token
-    //     },
-    //     "url": apiUrl + "config-value-type/get-station-value-type-spatial?idStation="+ dataStation[0].id+"&idValueType="+dataValueType[0].id+"&code="+dataValueTypeTexts[2],
-    //     "method": "GET",
-    //     "contentType": "application/json",
-    //     "success": function (response) {
-    //         // kiểm tra xem nếu đã tồn tại trong bảng rồi thì thông báo ra không thêm nữa
-    //         var formData  = tableStationSpatial.rows().data();
-    //         let insert = true;
-    //         $.each( formData, function( key, value ) {
-    //             if(dataStation[0].id == value.stationId && dataValueType[0].id == value.valueTypeId&& dataValueTypeTexts[2]==value.code){
-    //                 insert = false;
-    //             }
-    //         });
-    //         if(insert == false){
-    //             toastr.warning('Lỗi', "Bản ghi đã tồn tại");
-    //             return;
-    //         }
-    //         tableStationSpatial.row.add(response).draw( true );
-    //
-    //     },
-    //     "error": function (error) {
-    //         toastr.error('Lỗi', error.responseJSON.message);
-    //     }
-    // });
 
 });
 // Delete a record
@@ -682,9 +681,6 @@ $("#station_add").change(function () {
     } else {
         return;
     }
-    console.log("sau khi chạy qua");
-    // console.log("aaaaaa");
-    // console.log($("#id").val())
     tableWarningThreshold
         .clear()
         .draw();
@@ -892,13 +888,10 @@ $("#btnsave").click(function () {
      }
      // lấy dữ liệu từ input
 
-    var $form = $("#form_input");
-    var dataParrent = getFormData($form);
-
+    let $form = $("#form_input");
+    let dataParrent = getFormData($form);
     let dataAll  = tableWarningThreshold.rows().data();
-
     let dataThresholdWarning = true;
-    //console.log(dataAll);
     for(let i =0; i< dataAll.length ; i++){
         if(dataAll[i].thresholdId == dataAll[i].thresholdCancelID){
             dataThresholdWarning = false;
@@ -1012,6 +1005,15 @@ $("#btnDetail").click(function () {
     $('#station_add').empty();
     $('#station_add').append(newOption).trigger('change');
     //validatorhorizontal.resetForm();
+
+    $("#thresholdCode").val("");
+    $('#thresholdWarning').val("-1");
+    $('#thresholdWarning').select2().trigger('change');
+    $('#cancelWarning').val("-1");
+    $('#cancelWarning').select2().trigger('change');
+    $('#status').val("");
+    $('#status').trigger('change');
+
     showDetailData(rowDt);
 
 });
@@ -1047,6 +1049,7 @@ function showDetailData(rowDt){
                 "method": "GET",
                 "contentType": "application/json",
                 "success": function (response) {
+
                     for(let i =0; i< response.length; i++){
                         tableWarningThreshold.row.add(response[i]).draw(true);
                     }

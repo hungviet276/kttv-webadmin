@@ -1155,7 +1155,7 @@ $(document).ready(function () {
                             station.table.search(station.objSearch).draw();
                             station.keyUpTime = new Date().getTime();
                         }
-                        return;
+
                     }, 1100);
                 });
 
