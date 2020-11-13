@@ -108,7 +108,7 @@
                                     <button class="btn btn-primary" id="btnExec" style="width:100px;">
                                         <i class="fas fa-plus"></i> Thực thi
                                     </button>
-                                    <button class="btn btn-primary" id="btnEdit" style="width:100px;">
+                                    <button class="btn btn-primary" id="btnEdit" style="width:100px;" data-toggle="modal" data-target="#myModal" disabled="true">
                                           Chỉnh sửa
                                     </button>
                                 </div>
@@ -130,7 +130,6 @@
                                                     <th data-id="s_warning" is_select="1">Cảnh báo</th>
                                                     <th data-id="s_create_user">Người cập nhật</th>
                                                     <th >Thời gian tạo dữ liệu</th>
-                                                    <th >Xóa</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -157,6 +156,41 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Chỉnh sửa giá trị</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" id="formUpdate">
+                        <div class="form-row">
+                            <div class="col-md-12 errorTxt">
+                                <div class="insertError">
+                                    <label for="valueWaterLevel">Giá trị</label>
+                                    <input type="text" class="form-control" id="valueWaterLevel"  name="valueWaterLevel" placeholder="">
+                                </div>
+                                <label></label>
+                            </div>
+                            <div class="col-md-12 errorTxt">
+                                <input type="text" class="form-control"  name="idWaterLevel" placeholder="" hidden>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" style="width: 100px" id="updateWaterLevel"><i class="fas fa-save"></i> Cập nhật</button>
+                    <button class="btn btn-primary" data-dismiss="modal" style="width: 100px"><i class="fas fa-times"></i> Hủy</button>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

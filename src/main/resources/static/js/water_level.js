@@ -204,11 +204,6 @@ var tableWaterLevel = $('#tableWaterLevel').DataTable({
         {"data": "warning", "render": $.fn.dataTable.render.text()},
         {"data": "createUser", "render": $.fn.dataTable.render.text()},
         {"data": "timestamp", "render": $.fn.dataTable.render.text()},
-        {
-            data: null,
-            className: "center",
-            defaultContent: '<a href="" class="editor_remove"><i class="fa fa-trash" aria-hidden="true"></i></a>'
-        }
     ],
     initComplete: function () {
         // Apply the search
@@ -351,37 +346,16 @@ $("#s_warning").select2({});
 tableWaterLevel
     .on('select', rowSelect)
     .on('deselect', rowDeselect);
-function rowSelect(e, dt, type, indexes) { // load các thông tin của những cái bên trái ra
-    var rowDt = tableWaterLevel.rows('.selected').data()
-    if(rowDt.length == 0){
-        $("#btnDetail").prop( "disabled", true );
-        $("#btnDeleteAll").prop( "disabled", true );
-        $("#btnDonew").attr("disabled", false);
-    } else if(rowDt.length == 1){
-        $("#btnDetail").prop( "disabled", false );
-        $("#btnDeleteAll").prop( "disabled", false );
-        $("#btnDonew").attr("disabled", true);
-    } else {
-        $("#btnDetail").prop( "disabled", true );
-        $("#btnDeleteAll").prop( "disabled", false );
-        $("#btnDonew").attr("disabled", true);
-    }
+function rowSelect(e, dt, type, indexes) {
+    $("#btnExec").prop( "disabled", true );
+    $("#btnEdit").prop( "disabled", false );
 }
-function rowDeselect(e, dt, type, indexes) { // khóa các form bên trái
-    var rowDt = tableWarningMangerStation.rows('.selected').data()
-    if(rowDt.length == 0){
-        $("#btnDetail").prop( "disabled", true );
-        $("#btnDeleteAll").prop( "disabled", true );
-        $("#btnDonew").attr("disabled", false);
-    } else if(rowDt.length == 1){
-        $("#btnDetail").prop( "disabled", false );
-        $("#btnDeleteAll").prop( "disabled", false );
-        $("#btnDonew").attr("disabled", true);
-    } else {
-        $("#btnDetail").prop( "disabled", true );
-        $("#btnDeleteAll").prop( "disabled", false );
-        $("#btnDonew").attr("disabled", true);
-    }
+function rowDeselect(e, dt, type, indexes) {
+    // var rowDt = tableWaterLevel.rows('.selected').data()
+    // console.log(rowDt)
+    $("#btnEdit").prop( "disabled", true );
+    $("#btnExec").prop( "disabled", false );
+
 }
 $("#btnSearch").click(function(){
     for (key in objSearch) {
@@ -442,4 +416,12 @@ var waterLevel = $("#form_data").validate({
     errorPlacement : function(error, element) {
         error.insertAfter(element.parents("div.insertError"));
     }
+});
+$("#btnEdit").click(function () {
+    var rowDt = tableWaterLevel.rows('.selected').data()[0];
+    $("#idWaterLevel").val(rowDt.id);
+    $("#valueWaterLevel").val(rowDt.value);
+});
+$("#updateWaterLevel").click(function(){
+    
 });
