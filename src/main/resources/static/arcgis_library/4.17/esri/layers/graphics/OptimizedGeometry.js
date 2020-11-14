@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports"],function(f,g){Object.defineProperty(g,"__esModule",{value:!0});f=function(){function a(d,b,c){void 0===d&&(d=[]);void 0===b&&(b=[]);void 0===c&&(c=!1);this.lengths=d;this.coords=b;this.hasIndeterminateRingOrder=c}Object.defineProperty(a.prototype,"isPoint",{get:function(){return 0===this.lengths.length},enumerable:!1,configurable:!0});a.prototype.forEachVertex=function(d){var b=0;this.lengths.length||d(this.coords[0],this.coords[1]);for(var c=0;c<this.lengths.length;c++){for(var a=
+this.lengths[c],e=0;e<a;e++)d(this.coords[2*(e+b)],this.coords[2*(e+b)+1]);b+=a}};a.prototype.clone=function(){return new a(this.lengths.slice(),this.coords.slice(),this.hasIndeterminateRingOrder)};return a}();g.default=f});

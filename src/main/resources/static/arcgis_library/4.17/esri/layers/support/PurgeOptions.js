@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","tslib","../../core/JSONSupport","../../core/accessorSupport/decorators"],function(g,h,b,f,c){return function(d){function a(){var a=null!==d&&d.apply(this,arguments)||this;a.age=null;a.ageReceived=null;a.displayCount=null;a.maxObservations=1;return a}b.__extends(a,d);e=a;a.prototype.clone=function(){return new e({age:this.age,ageReceived:this.ageReceived,displayCount:this.displayCount,maxObservations:this.maxObservations})};var e;b.__decorate([c.property({type:Number,json:{write:!0}})],
+a.prototype,"age",void 0);b.__decorate([c.property({type:Number,json:{write:!0}})],a.prototype,"ageReceived",void 0);b.__decorate([c.property({type:Number,json:{write:!0}})],a.prototype,"displayCount",void 0);b.__decorate([c.property({type:Number,json:{write:!0}})],a.prototype,"maxObservations",void 0);return a=e=b.__decorate([c.subclass("esri.layers.support.PurgeOptions")],a)}(f.JSONSupport)});

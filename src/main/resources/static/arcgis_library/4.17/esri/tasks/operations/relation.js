@@ -1,0 +1,6 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","../../core/jsonMap","../../geometry/support/jsonUtils"],function(k,c,g,f){Object.defineProperty(c,"__esModule",{value:!0});c.relationToRESTParameters=void 0;var h=new g.default({esriGeometryRelationCross:"cross",esriGeometryRelationDisjoint:"disjoint",esriGeometryRelationIn:"in",esriGeometryRelationInteriorIntersection:"interior-intersection",esriGeometryRelationIntersection:"intersection",esriGeometryRelationLineCoincidence:"line-coincidence",esriGeometryRelationLineTouch:"line-touch",
+esriGeometryRelationOverlap:"overlap",esriGeometryRelationPointTouch:"point-touch",esriGeometryRelationTouch:"touch",esriGeometryRelationWithin:"within",esriGeometryRelationRelation:"relation"});c.relationToRESTParameters=function(d){var b=d.toJSON(),a=b.geometries1;d=b.geometries2;var c=b.relation,b=b.relationParameter,e={};a&&a.length&&(e.geometries1=JSON.stringify({geometryType:f.getJsonType(a[0]),geometries:a}),a=a[0].spatialReference,e.sr=a.wkid?a.wkid:JSON.stringify(a));d&&0<d.length&&(e.geometries2=
+JSON.stringify({geometryType:f.getJsonType(d[0]),geometries:d}));c&&(e.relation=h.toJSON(c));b&&(e.relationParam=b);return e}});

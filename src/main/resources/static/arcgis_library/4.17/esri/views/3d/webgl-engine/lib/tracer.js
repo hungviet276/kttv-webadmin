@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","./webgl-debug","../../../webgl/capabilities/isWebGL2Context"],function(g,a,e,f){Object.defineProperty(a,"__esModule",{value:!0});a.request=a.instrumentContext=a.end=a.trace=a.begin=a.setEnabled=a.enabled=void 0;var c=null,d=[];a.enabled=!1;a.setEnabled=function(b){a.enabled=b};a.begin=function(){a.enabled&&(c=[])};a.trace=function(b){a.enabled&&null!=c&&c.push(b)};a.end=function(){if(a.enabled){var b=c;c=null;b&&(d.forEach(function(a){return a(b)}),d.length=0);return b}return null};
+a.instrumentContext=function(b){return a.enabled?f.default(b)?(console.warn("WebGL tracer is not supported on a WebGL2 Context"),b):e.makeDebugContext(b,void 0,function(b,d){a.enabled&&c&&c.push("gl."+b+"("+e.glFunctionArgsToString(b,d)+")")}):b};a.request=function(a){d.push(a)}});

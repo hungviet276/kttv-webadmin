@@ -1,0 +1,6 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../core/JSONSupport ../core/lang ../core/accessorSupport/decorators ./Lighting ./background/utils".split(" "),function(m,n,b,h,k,d,e,l){var g=function(b,a,c){return{enabled:!c||!c.isPresentation}};return function(f){function a(a){a=f.call(this,a)||this;a.lighting=new e;a.background=null;a.atmosphereEnabled=!0;a.starsEnabled=!0;return a}b.__extends(a,f);c=a;a.prototype.clone=function(){return new c(this.cloneConstructProperties())};a.prototype.cloneConstructProperties=
+function(){return{lighting:e.prototype.clone.call(this.lighting),background:k.clone(this.background),atmosphereEnabled:this.atmosphereEnabled,starsEnabled:this.starsEnabled}};var c;b.__decorate([d.property({type:e,json:{write:!0}})],a.prototype,"lighting",void 0);b.__decorate([d.property(l.backgroundProperty)],a.prototype,"background",void 0);b.__decorate([d.property({type:Boolean,nonNullable:!0,json:{write:{overridePolicy:g}}})],a.prototype,"atmosphereEnabled",void 0);b.__decorate([d.property({type:Boolean,
+nonNullable:!0,json:{write:{overridePolicy:g}}})],a.prototype,"starsEnabled",void 0);return a=c=b.__decorate([d.subclass("esri.webscene.Environment")],a)}(h.JSONSupport)});

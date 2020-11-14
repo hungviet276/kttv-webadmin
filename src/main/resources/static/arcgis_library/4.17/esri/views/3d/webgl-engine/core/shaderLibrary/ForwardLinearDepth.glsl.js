@@ -1,0 +1,6 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","tslib","../shaderModules/interfaces"],function(k,c,d,e){Object.defineProperty(c,"__esModule",{value:!0});c.ForwardLinearDepth=void 0;c.ForwardLinearDepth=function(a,b){0===b.output&&b.receiveShadows?(a.varyings.add("linearDepth","float"),a.vertex.code.add(e.glsl(f||(f=d.__makeTemplateObject(["\n      void forwardLinearDepth() { linearDepth \x3d gl_Position.w; }\n    "],["\n      void forwardLinearDepth() { linearDepth \x3d gl_Position.w; }\n    "]))))):1===b.output||3===
+b.output?(a.varyings.add("linearDepth","float"),a.vertex.uniforms.add("uCameraNearFar","vec2"),a.vertex.code.add(e.glsl(g||(g=d.__makeTemplateObject(["\n      void forwardLinearDepth() {\n        linearDepth \x3d (-position_view().z - uCameraNearFar[0]) / (uCameraNearFar[1] - uCameraNearFar[0]);\n      }\n    "],["\n      void forwardLinearDepth() {\n        linearDepth \x3d (-position_view().z - uCameraNearFar[0]) / (uCameraNearFar[1] - uCameraNearFar[0]);\n      }\n    "]))))):a.vertex.code.add(e.glsl(h||
+(h=d.__makeTemplateObject(["\n      void forwardLinearDepth() {}\n    "],["\n      void forwardLinearDepth() {}\n    "]))))};var f,g,h});

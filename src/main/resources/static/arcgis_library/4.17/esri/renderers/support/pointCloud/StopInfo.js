@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../../../Color ../../../core/JSONSupport ../../../core/lang ../../../core/accessorSupport/decorators ../../../core/accessorSupport/ensureType".split(" "),function(c,b,d,f,g,h,e,k){Object.defineProperty(b,"__esModule",{value:!0});b.StopInfo=void 0;c=function(b){function a(){var a=null!==b&&b.apply(this,arguments)||this;a.label=null;a.value=0;a.color=null;return a}d.__extends(a,b);c=a;a.prototype.clone=function(){return new c({label:this.label,value:this.value,color:h.clone(this.color)})};
+var c;d.__decorate([e.property({type:String,json:{write:!0}})],a.prototype,"label",void 0);d.__decorate([e.property({type:Number,nonNullable:!0,json:{write:!0}})],a.prototype,"value",void 0);d.__decorate([e.property({type:f,json:{type:[k.Integer],write:!0}})],a.prototype,"color",void 0);return a=c=d.__decorate([e.subclass("esri.renderers.support.pointCloud.StopInfo")],a)}(g.JSONSupport);b.StopInfo=c;b.default=c});

@@ -1,0 +1,4 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","tslib","../../core/accessorSupport/decorators","./LayerView"],function(f,g,b,d,e){return function(c){function a(){var a=null!==c&&c.apply(this,arguments)||this;a.layer=null;a.sublayerViews=null;return a}b.__extends(a,c);a.prototype.highlight=function(a){throw Error("Not implemented");};b.__decorate([d.property()],a.prototype,"layer",void 0);b.__decorate([d.property()],a.prototype,"sublayerViews",void 0);return a}(e)});

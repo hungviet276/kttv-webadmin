@@ -19,7 +19,11 @@
 
     <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css">
     <script src="https://js.arcgis.com/4.17/"></script>
-
+    <script type="text/javascript">
+        var apiUrl = "[[${session.apiUrl}]]";
+        var userBO = "[[${session.userBO}]]";
+        var token = "[[${session.token}]]";
+    </script>
     <script>
 
         require([
@@ -64,8 +68,14 @@
 
             // If CSV files are not on the same domain as your website, a CORS enabled server
             // or a proxy is required.
-            var url = "/data_map/2.5_week.csv";
-            esriConfig.request.corsEnabledServers.push(url);
+            var urlStationCsv = apiUrl + "station/get-all-station-csv";
+            esriConfig.request.corsEnabledServers.push(urlStationCsv);
+            esriConfig.request.interceptors.push({
+                urls: urlStationCsv,
+                headers: {
+                    "Authorization": token
+                }
+            });
 
             const urlGeoJson = "/data_map/province_vietnam_final.geojson";
 
@@ -77,7 +87,7 @@
             var centerPoint = [106.8, 16.7]
 
             var openSpacesRenderer = new UniqueValueRenderer({
-                field: "isEnabled",
+                field: "isActive",
                 defaultSymbol: new WebStyleSymbol({
                     name: "circle-3",
                     styleName: "Esri2DPointSymbolsStyle"
@@ -297,7 +307,7 @@
             openSpacesRenderer.addUniqueValueInfo("1", cimSymbol);
 
             var csvLayer = new CSVLayer({
-                url: url,
+                url: urlStationCsv,
                 copyright: "Trung tâm Khí tượng thủy văn Quốc Gia",
                 renderer: openSpacesRenderer,
                 popupTemplate: template,
@@ -324,7 +334,7 @@
                     haloSize: 1,
                     haloColor: "white",
                     font: {  // autocast as new Font()
-                        size: 14,
+                        size: 12,
                         weight: "bold"
                     }
                 }
@@ -338,7 +348,7 @@
                     haloSize: 1,
                     haloColor: "white"
                 }
-            })
+            });
 
             const geojsonLayer2 = new GeoJSONLayer({
                 url: urlGeoJson
@@ -348,13 +358,13 @@
             const geojsonLayer3 = new GeoJSONLayer({
                 url: "/data_map/district_viet_nam_final.geojson"
                 // , popupTemplate: templateGeoJson2
-            })
+            });
 
             geojsonLayer2.labelingInfo = [statesLabelClass];
             geojsonLayer3.labelingInfo = [statesLabelClass2];
 
             var initialExtent = new Extent({
-                "xmin": 95, "ymin": 12, "xmax": 115, "ymax": 20,
+                "xmin": 97, "ymin": 12, "xmax": 117, "ymax": 20,
                 "spatialReference": { "wkid": 4326 }
             });
 
@@ -369,7 +379,7 @@
             var view = new MapView({
                 container: "viewDiv",
                 center: centerPoint,
-                zoom: 5,
+                zoom: 3,
                 map: map,
                 extent: initialExtent
             });

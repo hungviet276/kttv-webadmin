@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","tslib","../../core/JSONSupport","../../core/accessorSupport/decorators"],function(g,h,b,f,c){return function(d){function a(){var a=null!==d&&d.apply(this,arguments)||this;a.statisticType=null;a.onStatisticField=null;a.onStatisticValueExpression=null;return a}b.__extends(a,d);e=a;a.prototype.clone=function(){return new e({statisticType:this.statisticType,onStatisticField:this.onStatisticField,onStatisticValueExpression:this.onStatisticValueExpression})};var e;b.__decorate([c.property({type:String,
+json:{write:!0}})],a.prototype,"statisticType",void 0);b.__decorate([c.property({type:String,json:{write:!0}})],a.prototype,"onStatisticField",void 0);b.__decorate([c.property({type:String,json:{write:!0}})],a.prototype,"onStatisticValueExpression",void 0);return a=e=b.__decorate([c.subclass("esri.layers.support.OutStatistic")],a)}(f.JSONSupport)});

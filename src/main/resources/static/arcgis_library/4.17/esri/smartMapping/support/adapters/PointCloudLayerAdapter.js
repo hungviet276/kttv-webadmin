@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../../../core/promiseUtils ../../../core/accessorSupport/decorators ../../../layers/support/fieldUtils ./SceneLayerAdapter".split(" "),function(k,l,c,e,f,g,h){return function(d){function b(a){return d.call(this,a)||this}c.__extends(b,d);b.prototype.getField=function(a){void 0===a&&(a="");return g.getField(this.layer.fields,a)};b.prototype.getFieldUsageInfo=function(a){a=this.getField(a);if(!a)return null;a=this._hasCachedStatistics(a.name);return{supportsLabelingInfo:a,
+supportsPopupTemplate:a,supportsRenderer:a,supportsLayerQuery:!1,supportsStatistics:a}};b.prototype.getFieldDomain=function(){return null};b.prototype.load=function(a){var b=this;a=this.layer.load(a).then(function(){b.geometryType="point";b.objectIdField=null;b.supportsSQLExpression=!1;b.hasQueryEngine=!1});this.addResolvingPromise(a);return e.resolve(this)};return b=c.__decorate([f.subclass("esri.smartMapping.support.adapters.PointCloudLayerAdapter")],b)}(h)});

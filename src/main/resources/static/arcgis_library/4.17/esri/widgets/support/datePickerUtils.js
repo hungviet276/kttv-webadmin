@@ -1,0 +1,6 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","../../core/Error","../../intl/date"],function(r,c,q,l){function h(a){for(var d=[/\u0660/g,/\u0661/g,/\u0662/g,/\u0663/g,/\u0664/g,/\u0665/g,/\u0666/g,/\u0667/g,/\u0668/g,/\u0669/g],b=0;10>b;b++)a=a.replace(d[b],b.toString());return Number(a)}function m(a){return new q("could not parse date input, expecting the following format: "+l.formatDate(Date.now(),a))}Object.defineProperty(c,"__esModule",{value:!0});c.parseDateIntoParts=void 0;c.parseDateIntoParts=function(a,d){var b=
+l.getDateTimeFormatter(d),e=Date.now(),e=b.formatToParts(e),c=new Set;e.filter(function(a){return"literal"===a.type}).forEach(function(a){return c.add(a.value)});for(var k=0,b={};0<e.length;)for(var f=e.shift(),g=f.type,f=f.value,n=0;n<f.length;n++,k++){var p=a.charAt(k);if(c.has(p)){k++;break}if("literal"===g)break;b[g]||(b[g]=[]);b[g].push(p)}a={};try{a.day=h(b.day.join("")),a.month=h(b.month.join(""))-1,a.year=h((b.year||b.relatedYear).join(""))}catch(t){throw m(d);}if(isNaN(a.day)||isNaN(a.month)||
+isNaN(a.year))throw m(d);return a}});

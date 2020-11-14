@@ -1,0 +1,6 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../../../core/Accessor ../../../core/mathUtils ../../../core/accessorSupport/decorators ../state/Constraints".split(" "),function(e,b,c,k,f,d,g){Object.defineProperty(b,"__esModule",{value:!0});b.TiltConstraint=void 0;var l=f.rad2deg(g.TiltDefault.min),h=f.rad2deg(g.TiltDefault.max);e=function(b){function a(){var a=null!==b&&b.apply(this,arguments)||this;a.mode="auto";return a}c.__extends(a,b);Object.defineProperty(a.prototype,"max",{get:function(){return this._get("max")},
+set:function(a){this._set("max",a);this.mode="manual"},enumerable:!1,configurable:!0});a.prototype.castMax=function(a){return f.clamp(a,l,h)};a.prototype.autoUpdate=function(a){"auto"===this.mode&&this._get("max")!==a&&this._set("max",a)};c.__decorate([d.property({type:["auto","manual"]})],a.prototype,"mode",void 0);c.__decorate([d.property({type:Number,value:h})],a.prototype,"max",null);c.__decorate([d.cast("max")],a.prototype,"castMax",null);return a=c.__decorate([d.subclass("esri.views.3d.constraints.TiltConstraint")],
+a)}(k);b.TiltConstraint=e;b.default=e});

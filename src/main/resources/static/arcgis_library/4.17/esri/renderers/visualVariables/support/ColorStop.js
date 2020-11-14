@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../../../Color ../../../core/JSONSupport ../../../core/accessorSupport/decorators ../../../core/accessorSupport/ensureType".split(" "),function(k,l,b,f,g,c,h){return function(e){function a(a){a=e.call(this,a)||this;a.color=null;a.label=null;a.value=null;return a}b.__extends(a,e);d=a;a.prototype.writeValue=function(a,b,c){b[c]=null==a?0:a};a.prototype.clone=function(){return new d({color:this.color&&this.color.clone(),label:this.label,value:this.value})};var d;b.__decorate([c.property({type:f,
+json:{type:[h.Integer],write:!0}})],a.prototype,"color",void 0);b.__decorate([c.property({type:String,json:{write:!0}})],a.prototype,"label",void 0);b.__decorate([c.property({type:Number,json:{write:{allowNull:!0}}})],a.prototype,"value",void 0);b.__decorate([c.writer("value")],a.prototype,"writeValue",null);return a=d=b.__decorate([c.subclass("esri.renderers.visualVariables.support.ColorStop")],a)}(g.JSONSupport)});

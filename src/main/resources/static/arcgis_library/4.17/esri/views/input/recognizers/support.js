@@ -1,0 +1,6 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","../../../core/screenUtils"],function(w,c,v){Object.defineProperty(c,"__esModule",{value:!0});c.fitCircleLSQ=c.euclideanDistance=c.manhattanDistance=void 0;c.manhattanDistance=function(a,b){return Math.abs(b.x-a.x)+Math.abs(b.y-a.y)};c.euclideanDistance=function(a,b){var g=b.x-a.x;a=b.y-a.y;return Math.sqrt(g*g+a*a)};c.fitCircleLSQ=function(a,b){b?(b.radius=0,b.center.x=0,b.center.y=0):b={radius:0,center:v.createScreenPoint()};if(0===a.length)return b;if(1===a.length)return b.center.x=
+a[0].x,b.center.y=a[0].y,b;if(2===a.length){var g=a[0];a=a[1];var d=[a.x-g.x,a.y-g.y],e=d[0],d=d[1];b.radius=Math.sqrt(e*e+d*d)/2;b.center.x=(g.x+a.x)/2;b.center.y=(g.y+a.y)/2;return b}for(var c=0,k=0,f=0;f<a.length;f++)c+=a[f].x,k+=a[f].y;for(var c=c/a.length,k=k/a.length,l=a.map(function(a){return a.x-c}),q=a.map(function(a){return a.y-k}),r=g=b=0,m=0,h=e=0,f=d=0;f<l.length;f++){var n=l[f],p=q[f],t=n*n,u=p*p;b+=t;g+=u;r+=n*p;m+=t*n;e+=u*p;h+=n*u;d+=p*t}f=b;l=r;q=g;m=.5*(m+h);e=.5*(e+d);d=f*q-r*
+l;h=(m*q-e*l)/d;e=(f*e-r*m)/d;d=v.createScreenPoint(h+c,e+k);return{radius:Math.sqrt(h*h+e*e+(b+g)/a.length),center:d}}});

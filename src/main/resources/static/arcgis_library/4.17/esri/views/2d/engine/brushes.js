@@ -1,0 +1,6 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports ./webgl/brushes/BrushBitmap ./webgl/brushes/BrushClip ./webgl/brushes/WGLBrushInfo ./webgl/brushes/WGLBrushStencil ./webgl/brushes/WGLBrushVTLBackground ./webgl/brushes/WGLBrushVTLCircle ./webgl/brushes/WGLBrushVTLFill ./webgl/brushes/WGLBrushVTLLine ./webgl/brushes/WGLBrushVTLSymbol ./webgl/brushes/WGLGeometryBrushFill ./webgl/brushes/WGLGeometryBrushLabel ./webgl/brushes/WGLGeometryBrushLine ./webgl/brushes/WGLGeometryBrushMarker ./webgl/brushes/WGLGeometryBrushText ./webgl/brushes/raster/BrushRasterBitmap".split(" "),
+function(u,a,g,h,k,l,b,c,d,e,f,m,n,p,q,r,t){Object.defineProperty(a,"__esModule",{value:!0});a.vtlBrushes=a.brushes=void 0;a.brushes={marker:q.default,line:p.default,fill:m.default,text:r.default,label:n.default,clip:h.default,stencil:l.default,bitmap:g.default,raster:t.default,tileInfo:k.default,vtlBackground:b.WGLBrushVTLBackground,vtlFill:d.WGLBrushVTLFill,vtlLine:e.WGLBrushVTLLine,vtlCircle:c.WGLBrushVTLCircle,vtlSymbol:f.WGLBrushVTLSymbol};a.vtlBrushes={vtlBackground:b.WGLBrushVTLBackground,
+vtlFill:d.WGLBrushVTLFill,vtlLine:e.WGLBrushVTLLine,vtlCircle:c.WGLBrushVTLCircle,vtlSymbol:f.WGLBrushVTLSymbol}});

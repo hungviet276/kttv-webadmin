@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","tslib","../../shaderModules/interfaces"],function(f,b,d,e){Object.defineProperty(b,"__esModule",{value:!0});b.BasicGrid=void 0;b.BasicGrid=function(a){a.attributes.add("position","vec2");a.attributes.add("uv0","vec2");a.vertex.uniforms.add("u_scale","float");a.vertex.uniforms.add("u_offset","vec2");a.varyings.add("v_texcoord","vec2");a.vertex.code.add(e.glsl(c||(c=d.__makeTemplateObject(["\n    void main(void) {\n      v_texcoord \x3d uv0 * u_scale + u_offset;\n      gl_Position \x3d vec4(position, 0.0, 1.0);\n    }\n  "],
+["\n    void main(void) {\n      v_texcoord \x3d uv0 * u_scale + u_offset;\n      gl_Position \x3d vec4(position, 0.0, 1.0);\n    }\n  "]))))};var c});

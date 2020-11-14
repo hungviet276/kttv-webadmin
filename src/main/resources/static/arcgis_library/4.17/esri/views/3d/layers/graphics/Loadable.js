@@ -1,0 +1,6 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","../../../../core/promiseUtils"],function(d,b,e){Object.defineProperty(b,"__esModule",{value:!0});b.Loadable=void 0;d=function(){function a(){this._abortController=null;this._loadStatus=0;this.logger=this._loader=this._loadError=null}Object.defineProperty(a.prototype,"loadStatus",{get:function(){return this._loadStatus},enumerable:!1,configurable:!0});a.prototype.load=function(a,b){var c=this;if(1===this._loadStatus)return a&&a(),this._loader;if(2===this._loadStatus)return b&&
+b(this._loadError),this._loader;this._loader||(this._abortController=e.createAbortController(),this._loader=this.doLoad(this._abortController.signal).then(function(){c._abortController=null;c._loadStatus=1},function(a){c._loadError=a;c._abortController=null;c._loadStatus=2;!e.isAbortError(a)&&c.logger&&a.message&&c.logger.warn(a.message);throw a;}));this._loader.then(a,b).catch(function(){});return this._loader};a.prototype.abortLoad=function(){this._abortController?(this._abortController.abort(),
+this._abortController=null):0===this._loadStatus&&(this._loadStatus=2);this._loader=null};return a}();b.Loadable=d});

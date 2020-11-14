@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","../types"],function(q,c,l){function m(d,b,a){var n=d.typedBuffer;d=d.typedBufferStride;var g=b.typedBuffer,e=b.typedBufferStride;b=a?a.count:b.count;var f=(a&&a.dstIndex?a.dstIndex:0)*d;a=(a&&a.srcIndex?a.srcIndex:0)*e;for(var c=0;c<b;++c)n[f]=g[a],n[f+1]=g[a+1],f+=d,a+=e}Object.defineProperty(c,"__esModule",{value:!0});c.normalizeIntegerBuffer=c.copy=void 0;c.copy=m;c.normalizeIntegerBuffer=function(d,b,a){var c=d.typedBuffer,g=d.typedBufferStride,e=b.typedBuffer,f=b.typedBufferStride,
+p=a?a.count:b.count,h=(a&&a.dstIndex?a.dstIndex:0)*g,k=(a&&a.srcIndex?a.srcIndex:0)*f;if(l.isInteger(b.elementType))if(a=l.maximumValue(b.elementType),l.isSigned(b.elementType))for(b=0;b<p;++b)c[h]=Math.max(e[k]/a,-1),c[h+1]=Math.max(e[k+1]/a,-1),h+=g,k+=f;else for(b=0;b<p;++b)c[h]=e[k]/a,c[h+1]=e[k+1]/a,h+=g,k+=f;else m(d,b,a);return d}});

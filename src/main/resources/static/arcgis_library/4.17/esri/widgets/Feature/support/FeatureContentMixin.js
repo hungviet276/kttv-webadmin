@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","tslib","../../../core/accessorSupport/decorators","../../support/widget"],function(h,a,f,g,c){Object.defineProperty(a,"__esModule",{value:!0});a.FeatureContentMixin=void 0;a.FeatureContentMixin=function(a){return function(a){function d(){var e=null!==a&&a.apply(this,arguments)||this;e.renderNodeContent=function(b){return c.isWidget(b)&&!b.destroyed?c.tsx("div",{key:b},b.render()):b instanceof HTMLElement?c.tsx("div",{key:b,bind:b,afterCreate:e._attachToNode}):c.hasDomNode(b)?
+c.tsx("div",{key:b,bind:b.domNode,afterCreate:e._attachToNode}):null};return e}f.__extends(d,a);d.prototype._attachToNode=function(a){a.appendChild(this)};return d=f.__decorate([g.subclass("esri.widgets.Feature.ContentMixin")],d)}(a)}});

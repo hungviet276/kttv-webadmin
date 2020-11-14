@@ -1,0 +1,6 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","tslib","../../engine/Bitmap","../../engine/BitmapContainer"],function(d,c,h,l,m){Object.defineProperty(c,"__esModule",{value:!0});c.Display=void 0;d=function(c){function e(b){var a=c.call(this)||this;a.requestRender=a.requestRender.bind(a);a._layerView=b;a._canvas=document.createElement("canvas");a._context=a._canvas.getContext("2d");a._bitmap=new l.Bitmap(null,!1);a.addChild(a._bitmap);return a}h.__extends(e,c);e.prototype.doRender=function(b){var a=b.state,e=this._createCustomRenderParams(b),
+d=this._canvas,f=this._bitmap,g=window.devicePixelRatio;d.width=a.size[0]*g;d.height=a.size[1]*g;f.resolution=a.resolution;var k=a.clone();k.pixelRatio=g;f.pixelRatio=g;e.state=k;f.x=a.viewpoint.targetGeometry.x-a.extent.width/2;f.y=a.viewpoint.targetGeometry.y+a.extent.height/2;this._layerView.render(e);f.source=d;f.rotation=a.rotation;c.prototype.doRender.call(this,h.__assign(h.__assign({},b),{state:k}))};e.prototype._createCustomRenderParams=function(b){return{globalOpacity:b.globalOpacity,state:b.state,
+stationary:b.stationary,pixelRatio:window.devicePixelRatio,context:this._context}};return e}(m.BitmapContainer);c.Display=d;c.default=d});

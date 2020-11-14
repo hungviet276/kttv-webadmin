@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","tslib","../../../core/Accessor","../../../core/accessorSupport/decorators"],function(b,a,d,f,e){Object.defineProperty(a,"__esModule",{value:!0});a.SceneViewAtmosphere=void 0;b=function(a){function c(){return null!==a&&a.apply(this,arguments)||this}d.__extends(c,a);b=c;Object.defineProperty(c.prototype,"quality",{set:function(a){-1!==["low","high"].indexOf(a)&&this._set("quality",a)},enumerable:!1,configurable:!0});c.prototype.clone=function(){return new b({quality:this.quality})};
+var b;d.__decorate([e.property({type:["low","high"],value:"low"})],c.prototype,"quality",null);return c=b=d.__decorate([e.subclass("esri.views.3d.environment.SceneViewAtmosphere")],c)}(f);a.SceneViewAtmosphere=b;a.default=b});

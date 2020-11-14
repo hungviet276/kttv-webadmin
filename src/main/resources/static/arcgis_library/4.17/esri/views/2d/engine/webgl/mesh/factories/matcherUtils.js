@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../../../../../../core/Error ../../../../../../core/Logger ../../util/Matcher".split(" "),function(l,b,f,g,h,c){Object.defineProperty(b,"__esModule",{value:!0});b.createMatcher=void 0;var k=h.getLogger("esri/views/2d/engine/webgl/mesh/factories/matcherUtils");b.createMatcher=function(a,d,e){return f.__awaiter(this,void 0,void 0,function(){return f.__generator(this,function(b){switch(a.type){case "simple":return[2,c.FeatureMatcher.fromBasicRenderer(a,d,e)];case "map":return[2,
+c.MapMatcher.fromUVRenderer(a,d,e)];case "interval":return[2,c.IntervalMatcher.fromCBRenderer(a,d,e)];case "dictionary":return[2,c.DictionaryMatcher.fromDictionaryRenderer(a,d,e)];default:return k.error(new g("mapview-mesh:invalid-renderer","Unable to handle unknown renderer type")),[2,null]}})})}});

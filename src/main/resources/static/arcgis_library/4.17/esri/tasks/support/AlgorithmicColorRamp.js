@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../../Color ../../core/lang ../../core/accessorSupport/decorators ../../core/accessorSupport/ensureType ./ColorRamp".split(" "),function(l,m,b,e,f,c,g,k){return function(h){function a(a){a=h.call(this,a)||this;a.algorithm=null;a.fromColor=null;a.toColor=null;a.type="algorithmic";return a}b.__extends(a,h);d=a;a.prototype.clone=function(){return new d({fromColor:f.clone(this.fromColor),toColor:f.clone(this.toColor),algorithm:this.algorithm})};var d;b.__decorate([c.enumeration({esriCIELabAlgorithm:"cie-lab",
+esriHSVAlgorithm:"hsv",esriLabLChAlgorithm:"lab-lch"})],a.prototype,"algorithm",void 0);b.__decorate([c.property({type:e,json:{type:[g.Integer],write:!0}})],a.prototype,"fromColor",void 0);b.__decorate([c.property({type:e,json:{type:[g.Integer],write:!0}})],a.prototype,"toColor",void 0);b.__decorate([c.property({type:["algorithmic"]})],a.prototype,"type",void 0);return a=d=b.__decorate([c.subclass("esri.tasks.support.AlgorithmicColorRamp")],a)}(k)});

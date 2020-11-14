@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","tslib","../../../core/shaderModules/interfaces"],function(g,a,c,d){Object.defineProperty(a,"__esModule",{value:!0});a.DiscardByCoverage=void 0;a.DiscardByCoverage=function(b,a){b=b.fragment;b.defines.addFloat("COVERAGE_TEST_THRESHOLD",.01);a.antialiasing?b.code.add(d.glsl(e||(e=c.__makeTemplateObject(["\n      #define discardByCoverage(radius, coverage) { if (coverage \x3c COVERAGE_TEST_THRESHOLD) discard; }\n    "],["\n      #define discardByCoverage(radius, coverage) { if (coverage \x3c COVERAGE_TEST_THRESHOLD) discard; }\n    "])))):
+b.code.add(d.glsl(f||(f=c.__makeTemplateObject(["\n      #define discardByCoverage(radius, coverage) { float coverageLimit \x3d radius \x3c\x3d 0.5 ? COVERAGE_TEST_THRESHOLD : 0.75; if (coverage \x3c coverageLimit) discard; }\n    "],["\n      #define discardByCoverage(radius, coverage) { float coverageLimit \x3d radius \x3c\x3d 0.5 ? COVERAGE_TEST_THRESHOLD : 0.75; if (coverage \x3c coverageLimit) discard; }\n    "]))))};var e,f});

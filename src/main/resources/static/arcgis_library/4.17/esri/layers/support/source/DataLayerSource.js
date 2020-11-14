@@ -1,0 +1,6 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../../../core/JSONSupport ../../../core/accessorSupport/decorators ../../../core/accessorSupport/ensureType ../Field ./JoinTableDataSource ./QueryTableDataSource ./RasterDataSource ./TableDataSource".split(" "),function(b,c,d,f,e,g,h,k,l,m,n){Object.defineProperty(c,"__esModule",{value:!0});c.DataLayerSource=void 0;var p={key:"type",base:null,typeMap:{"join-table":k.JoinTableDataSource,"query-table":l.QueryTableDataSource,raster:m.RasterDataSource,table:n.TableDataSource}};
+b=function(b){function a(a){a=b.call(this,a)||this;a.type="data-layer";return a}d.__extends(a,b);c=a;a.prototype.clone=function(){return new c({fields:this.fields,dataSource:this.dataSource})};var c;d.__decorate([e.enumeration({dataLayer:"data-layer"})],a.prototype,"type",void 0);d.__decorate([e.property({type:[h],json:{write:!0}})],a.prototype,"fields",void 0);d.__decorate([e.property({types:p,json:{write:!0}})],a.prototype,"dataSource",void 0);return a=c=d.__decorate([e.subclass("esri.layers.support.source.DataLayerSource")],
+a)}(f.JSONSupport);c.DataLayerSource=b;b.from=g.default(b)});

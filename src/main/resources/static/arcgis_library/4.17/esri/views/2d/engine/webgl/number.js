@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports"],function(f,a){function c(b,a,c){return Math.round(Math.max(Math.min(b,c),a))}Object.defineProperty(a,"__esModule",{value:!0});a.numTo32=a.i8816to32=a.i8888to32=a.i1616to32=a.u32to4Xu8=a.toFloat32=a.toUint32=a.u32=a.u16=a.u8=a.i32=a.i16=a.i8=void 0;var d=new Float32Array(1),e=new Uint32Array(d.buffer);a.i8=function(b){return c(b,-128,127)};a.i16=function(b){return c(b,-32768,32767)};a.i32=function(b){return c(b,-2147483648,2147483647)};a.u8=function(b){return c(b,0,255)};
+a.u16=function(b){return c(b,0,65535)};a.u32=function(b){return c(b,0,4294967295)};a.toUint32=function(b){d[0]=b;return e[0]};a.toFloat32=function(b){e[0]=b;return d[0]};a.u32to4Xu8=function(b){return[b&255,(b&65280)>>>8,(b&16711680)>>>16,(b&4278190080)>>>24]};a.i1616to32=function(b,a){return 65535&b|a<<16};a.i8888to32=function(a,c,d,e){return a&255|(c&255)<<8|(d&255)<<16|e<<24};a.i8816to32=function(a,c,d){return a&255|(c&255)<<8|d<<16};a.numTo32=function(a){return a|0}});
