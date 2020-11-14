@@ -315,6 +315,48 @@ var table = $('#tableGroupMailReceive').DataTable({
         }
     }
 });
+
+$("#userReceiveOutSite").select2({
+    minimumInputLength: 0,
+    delay: 350,
+    templateSelection: function (data) {
+        if (data.id === '' || data.id == null || data.id == undefined) {
+            return '---- hãy chọn ----';
+        }
+
+        return data.text;
+    },
+    minimumInputLength: 0,
+    delay: 350,
+    ajax: {
+        headers: {
+            'Authorization': token
+        },
+        "url":apiUrl + "user-expand/get-name-user-out-site",
+        dataType: 'json',
+        type: "POST",
+        quietMillis: 50,
+        data: function (term) {
+            let rowDt = table.rows('.selected').data()[0];
+            if(rowDt == undefined)
+                term.idGroup = "";
+            return term;
+
+        },
+        processResults: function (data) {
+            var datas =  $('#detail-receive-mail').val();
+            return {
+                results: $.map(data, function (item) {
+                    return {
+                        text:item.id + "---"+ item.name +"---"+ item.email,
+                        id: item.id,
+                        data: item
+                    }
+                })
+            };
+        }
+    }
+});
 $("#userReceiveInsite").select2({
     minimumInputLength: 0,
     delay: 350,
@@ -333,14 +375,15 @@ $("#userReceiveInsite").select2({
         },
         "url":apiUrl + "user-info/get-name-user",
         dataType: 'json',
-        type: "GET",
+        type: "POST",
         quietMillis: 50,
         data: function (term) {
             let rowDt = table.rows('.selected').data()[0];
             if(rowDt == undefined)
-            term.idGroup = "";
+                term.idGroup = "";
+            else
+                term.idGroup = rowDt.id;
             return term;
-
         },
         processResults: function (data) {
             var datas =  $('#detail-receive-mail').val();
@@ -364,7 +407,20 @@ var tableUserReceveiMailInSite = $('#tableUserReceveiMailInSite').DataTable({
         {
             data: null,
             className: "center",
-            defaultContent: '<a href="" class="editor_remove">Delete</a>'
+            defaultContent: '<a href="" class="editor_remove"><i class="fa fa-trash" aria-hidden="true"></a>'
+        }
+    ]
+});
+
+var tableUserReceiveMailOutSite = $('#tableUserReceiveMailOutSite').DataTable({
+    columns: [
+        {"data": "id"},
+        {"data": "name"},
+        {"data": "email"},
+        {
+            data: null,
+            className: "center",
+            defaultContent: '<a href="" class="editor_remove"><i class="fa fa-trash" aria-hidden="true"></a>'
         }
     ]
 });
@@ -384,6 +440,11 @@ $("#btnSaveUserInsite").click(function () {
 
 });
 tableUserReceveiMailInSite.on('click', 'a.editor_remove', function (e) {
+    if(confirm("Bạn có muốn xóa bản ghi")){
+
+    } else {
+        return;
+    }
     e.preventDefault();
     var table = $('#tableUserReceveiMailInSite').DataTable();
     table
@@ -402,7 +463,6 @@ $("#btnsave").click(function () {
         userInsite.push(value);
     });
     object.userInsite  = userInsite;
-    console.log(object.userInsite);
 });
 
 $('#stationWarning').select2({
@@ -500,16 +560,114 @@ var tableWarningConfig = $('#tableWarningConfig').DataTable({
 });
 // end config table mới
 $("#btnSaveWarning").click(function(){
-    console.log($("#stationWarning").select2('data'))
     let data = {};
     data.id = "";
     data.stationId = $("#stationWarning").select2('data')[0].id;
     data.stationName = $("#stationWarning").select2('data')[0].text;
     data.warningManagerId = $("#warningCode").select2('data')[0].id;
     data.warningManagerCode = $("#warningCode").select2('data')[0].text;
-    console.log(data)
     tableWarningConfig.row.add(data).draw(true);
 });
+//config tbale người dùng ngoài hệ thống
+var tableUserOutSite = $('#tableUserOutSite').DataTable({
+    columns: [
+        {"data": "id"},
+        {"data": "nameOutSite"},
+        {"data": "phoneOutSite"},
+        {"data": "codeUserOutSite"},
+        {"data": "emailOutSite"},
+        {"data": "sexOutSite"},
+        {"data": "statusOutSite"},
+        {"data": "idOutSite"},
+        {"data": "positionOutSite"},
+        {
+            data: null,
+            className: "center",
+            defaultContent: '<a href="" class="editor_remove"><i class="fa fa-trash" aria-hidden="true"></a>'
+        }
+    ]
+});
+$("#btnSaveUserOutSite").click(function(){
+   var object = {};
+    object.id = "";
+    object.nameOutSite = $("#nameOutSite").val();
+    object.phoneOutSite =  $("#phoneOutSite").val();
+    object.codeUserOutSite =  $("#codeUserOutSite").val();
+    object.emailOutSite =  $("#emailOutSite").val();
+    object.sexOutSite =  $("#sexOutSite").val();
+    object.statusOutSite =  $("#statusOutSite").val();
+    object.idOutSite =  $("#idOutSite").val();
+    object.positionOutSite =  $("#positionOutSite").val();
+    tableUserOutSite.row.add(object).draw(true);
+
+});
+tableUserOutSite.on('click', 'a.editor_remove', function (e) {
+    if(confirm("Bạn có muốn xóa bản ghi")){
+
+    } else {
+        return;
+    }
+    e.preventDefault();
+    var table = $('#tableUserOutSite').DataTable();
+    table
+        .row( $(this).parents('tr') )
+        .remove().draw();
+});
+$("#btnsave").click(function(){
+    let object = {};
+    object.id = "";
+    object.code = $("#code").val();
+    object.name = $("#name").val();
+    object.description = $("#description").val();
+    object.status = $("#status").val();
+    let userInSiteTmps  = tableUserReceveiMailInSite.rows().data();
+    let userInSites = [];
+    for(let i = 0; i < userInSiteTmps.length ; i++){
+        userInSites.push(userInSiteTmps[i].id);
+    }
+
+    let warningConfigTmp = tableWarningConfig.rows().data();
+    let warningConfig = [];
+    for(let i =0 ; i<warningConfigTmp.length; i++){
+        warningConfig.push(warningConfigTmp[i].warningManagerId)
+    }
+    let userOutSite = tableUserOutSite.rows().data();
+    object.userInSites = userInSites;
+    object.warningConfig = warningConfig;
+    object.userOutSite = userOutSite;
+
+});
+
+$("#btnSaveUserOutSiteInTbl").click(function(){
+    let data = $('#userReceiveOutSite').select2('data')[0].data;
+    let formData  = tableUserReceiveMailOutSite.rows().data();
+    let insert = true;
+    $.each( formData, function( key, value ) {
+       if(data.id == value.id){
+           insert = false;
+       }
+    });
+     if(insert){
+        tableUserReceiveMailOutSite.row.add(data).draw(true);
+     } else{
+         toastr.error('Lỗi', "Bản ghi đã tồn tại");
+     }
+});
+
+tableUserReceiveMailOutSite.on('click', 'a.editor_remove', function (e) {
+    if(confirm("Bạn có muốn xóa bản ghi")){
+
+    } else {
+        return;
+    }
+    e.preventDefault();
+    var table = $('#tableUserReceiveMailOutSite').DataTable();
+    table
+        .row( $(this).parents('tr') )
+        .remove().draw();
+});
+
+
 //
 // $('#valueTypeSpatial').select2({
 //

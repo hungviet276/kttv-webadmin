@@ -313,16 +313,6 @@ var tableWaterLevel = $('#tableWaterLevel').DataTable({
             };
 
             for (let i = 0; i < responseJson.content.length; i++) {
-                if(responseJson.content[i].timestamp!=null){
-                    let todayTimeEnd =new Date(responseJson.content[i].timestamp)
-                    let monthEnd = todayTimeEnd.getMonth() + 1;
-                    let dayEnd = todayTimeEnd.getDate();
-                    let yearEnd = todayTimeEnd.getFullYear();
-                    let dateEnd =  dayEnd + "/" + monthEnd + "/" + yearEnd;
-                    responseJson.content[i].timestamp = dateEnd;
-                } else{
-                    responseJson.content[i].timestamp = "";
-                }
                 dataRes.data.push({
                     "": "",
                     "indexCount": i + 1,
@@ -341,6 +331,7 @@ var tableWaterLevel = $('#tableWaterLevel').DataTable({
         }
     }
 });
+
 
 $("#s_warning").select2({});
 tableWaterLevel
@@ -423,5 +414,34 @@ $("#btnEdit").click(function () {
     $("#valueWaterLevel").val(rowDt.value);
 });
 $("#updateWaterLevel").click(function(){
-    
+    var rowDt = tableWaterLevel.rows('.selected').data()[0];
+    let dataStation = $('#station').select2('data');
+    let data = {};
+    data.id = rowDt.id ;
+    data.manual = rowDt.manual ;
+    data.status = rowDt.status ;
+    data.timestamp = rowDt.timestamp ;
+    data.tsId = rowDt.tsId ;
+    data.user = username ;
+    data.value = rowDt.value ;
+    data.warning = rowDt.warning ;
+    data.stationId= dataStation[0].id;
+    $.ajax({
+        headers: {
+            'Authorization': token
+        },
+        "url": apiUrl + "water-level/update-water-level",
+        "method": "POST",
+        "contentType": "application/json",
+        "data" : JSON.stringify(data),
+        "success": function (response) {
+           console.log(response)
+        },
+        "error": function (error) {
+            toastr.error('Sửa', error.responseJSON.message);
+        }
+    });
+});
+$("#btnExec").click(function(){
+
 });

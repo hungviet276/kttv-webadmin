@@ -914,16 +914,12 @@ function togle_search() {
     $("#box_info").show(150);
     $("#box_info").attr('class', 'col-sm-12');
     $("#box_search").hide(250);
-    // $("#box_search").attr('class', 'col-sm-5');
 }
 $("#btnDetail").click(function () {
     $("#btnDelete").prop( "disabled", false );
     var rowDt = tableWarningMangerStation.rows('.selected').data()[0];
 
-
-    //console.log(rowDt);
     $("#id").val(rowDt.id);
-    //$('#action_info').val(1);
     togle_search();
     $("#btnsave").css("display", "none");
     $("#btnDelete").css("display", "inline");
