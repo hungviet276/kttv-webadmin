@@ -71,6 +71,9 @@
                                 <button class="btn btn-primary" id="btnSearch" style="width:100px;">
                                     <i class="fas fa-search"></i> Tìm kiếm
                                 </button>
+                                <button   class="btn btn-primary" id="btnDelete" style="display:none;width: 100px;">
+                                    <i class="far fa-trash-alt"></i> Xoá
+                                </button>
                                 <button class="btn btn-primary" id="btnDonew" style="width:100px;">
                                     <i class="fas fa-plus"></i> Thêm
                                 </button>
@@ -83,6 +86,7 @@
                                     <tr>
                                         <th></th>
                                         <th>#</th>
+                                        <th data-id="s_control">Thao tác</th>
                                         <th data-id="s_id">Tên đăng nhập</th>
                                         <th data-id="s_password" style="display: none;">password</th>
                                         <th data-id="s_name">Tên người dùng</th>
@@ -246,9 +250,7 @@ event.keyCode === 46 ? true : !isNaN(Number(event.key))" onKeyPress="if(this.val
                                 <button class="btn btn-primary" id="btnsave" style="display:none;width: 100px;">
                                     <i class="fas fa-plus"></i> Lưu
                                 </button>
-                                <button   class="btn btn-primary" id="btnDelete" style="display:none;width: 100px;">
-                                    <i class="far fa-trash-alt"></i> Xoá
-                                </button>
+
                                 <button class="btn btn-primary" id="btnReset" style="display:none;width: 100px;">
                                     <i class="fas fa-redo-alt"></i> Làm mới
                                 </button>
