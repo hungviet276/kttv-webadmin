@@ -23,6 +23,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		registry.addResourceHandler("/css/**").addResourceLocations("classpath:/static/css/");
 		registry.addResourceHandler("/img/**").addResourceLocations("classpath:/static/img/");
 		registry.addResourceHandler("/admin_lte/**").addResourceLocations("classpath:/static/admin_lte/");
+		registry.addResourceHandler("/data_map/**").addResourceLocations("classpath:/static/data_map/");
 	}
 
 	@Bean

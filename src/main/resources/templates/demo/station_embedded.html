@@ -21,55 +21,60 @@
     <script src="https://js.arcgis.com/4.17/"></script>
 
     <script>
+
         require([
             "esri/Map",
             "esri/layers/CSVLayer",
             "esri/views/MapView",
-            //   "esri/views/SceneView",
             "esri/renderers/SimpleRenderer",
             "esri/renderers/UniqueValueRenderer",
-            //   "esri/symbols/PointSymbol3D",
-            //   "esri/symbols/IconSymbol3DLayer",
             "esri/symbols/SimpleMarkerSymbol",
             "esri/symbols/PictureMarkerSymbol",
             "esri/symbols/CIMSymbol",
             "esri/config",
-            // "esri/core/urlUtils",
             "esri/layers/FeatureLayer",
             "esri/symbols/WebStyleSymbol",
             "esri/PopupTemplate",
             "esri/geometry/Extent",
+            "esri/layers/TileLayer",
+            "esri/widgets/LayerList",
+            "esri/layers/VectorTileLayer",
+            "esri/layers/GeoJSONLayer",
+            "esri/layers/support/LabelClass",
             "dojo/domReady!"
         ], function (
             Map,
             CSVLayer,
             MapView,
-            //   SceneView,
             SimpleRenderer,
             UniqueValueRenderer,
             SimpleMarkerSymbol,
             PictureMarkerSymbol,
             CIMSymbol,
-            //   PointSymbol3D,
-            //   IconSymbol3DLayer,
             esriConfig,
-            // urlUtils,
             FeatureLayer,
             WebStyleSymbol,
             PopupTemplate,
-            Extent) {
+            Extent,
+            TileLayer,
+            LayerList,
+            VectorTileLayer,
+            GeoJSONLayer,
+            LabelClass) {
 
             // If CSV files are not on the same domain as your website, a CORS enabled server
             // or a proxy is required.
-            var url = "https://raw.githubusercontent.com/vietthang197/todo/master/2.5_week.csv";
-            // esriConfig.request.corsEnabledServers.push(url);
+            var url = "/data_map/2.5_week.csv";
+            esriConfig.request.corsEnabledServers.push(url);
+
+            const urlGeoJson = "/data_map/province_vietnam_final.geojson";
 
             var template = new PopupTemplate({
                 title: "{stationName}",
-                content: ">{isEnabled}<"
+                content: "Trạng thái: {statusText}"
             });
 
-            var centerPoint = [106.8, 16.7];
+            var centerPoint = [106.8, 16.7]
 
             var openSpacesRenderer = new UniqueValueRenderer({
                 field: "isEnabled",
@@ -78,8 +83,6 @@
                     styleName: "Esri2DPointSymbolsStyle"
                 })
             });
-
-
 
             const cimSymbol = new CIMSymbol({
                 "data": {
@@ -299,31 +302,69 @@
                 renderer: openSpacesRenderer,
                 popupTemplate: template,
                 elevationInfo: {
-                    // drapes icons on the surface of the globe
                     mode: "on-the-ground"
                 }
             });
 
-            //csvLayer.renderer = openSpacesRenderer;
-            // new SimpleRenderer({
-            //     symbol: new WebStyleSymbol({
-            //             name: "circle-3",
-            //             styleName: "Esri2DPointSymbolsStyle",
-            //             color: "green"
-            //         })
-            //  });
+            const templateGeoJson = {
+                title: "Thông tin vị trí",
+                content: "{name}"
+            };
+
+            const templateGeoJson2 = {
+                title: "Thông tin vị trí",
+                content: "{Ten_Huyen}"
+            }
+
+            const statesLabelClass = new LabelClass({
+                labelExpressionInfo: { expression: "$feature.Name" },
+                symbol: {
+                    type: "text",  // autocasts as new TextSymbol()
+                    color: "black",
+                    haloSize: 1,
+                    haloColor: "white",
+                    font: {  // autocast as new Font()
+                        size: 14,
+                        weight: "bold"
+                    }
+                }
+            });
+
+            const statesLabelClass2 = new LabelClass({
+                labelExpressionInfo: { expression: "$feature.Ten_Huyen" },
+                symbol: {
+                    type: "text",
+                    color: "black",
+                    haloSize: 1,
+                    haloColor: "white"
+                }
+            })
+
+            const geojsonLayer2 = new GeoJSONLayer({
+                url: urlGeoJson
+                // , popupTemplate: templateGeoJson
+            });
+
+            const geojsonLayer3 = new GeoJSONLayer({
+                url: "/data_map/district_viet_nam_final.geojson"
+                // , popupTemplate: templateGeoJson2
+            })
+
+            geojsonLayer2.labelingInfo = [statesLabelClass];
+            geojsonLayer3.labelingInfo = [statesLabelClass2];
 
             var initialExtent = new Extent({
                 "xmin": 95, "ymin": 12, "xmax": 115, "ymax": 20,
                 "spatialReference": { "wkid": 4326 }
             });
 
-            console.log(initialExtent)
-
             var map = new Map({
-                basemap: "gray",
-                layers: [csvLayer]
+                extent: initialExtent
             });
+
+            map.layers.add(geojsonLayer3)
+            map.layers.add(geojsonLayer2)
+            map.layers.add(csvLayer)
 
             var view = new MapView({
                 container: "viewDiv",
@@ -337,9 +378,9 @@
 
             view.watch("extent", function (newValue, oldValue) {
                 // xmin:9790772.379932635, xmax:14059016.039375741, ymin:887464.1510032088, ymax:2729290.784562326
-                console.log('xmin:' + newValue.xmin + ", xmax:" + newValue.xmax + ", ymin:" + newValue.ymin + ", ymax:" + newValue.ymax);
+                //console.log('xmin:' + newValue.xmin + ", xmax:" + newValue.xmax + ", ymin:" + newValue.ymin + ", ymax:" + newValue.ymax);
                 if ((newValue.xmin < 9790772.379932635) || (newValue.ymin < 887464.1510032088) || (newValue.xmax > 14059016.039375741) || (newValue.ymax > 2729290.784562326)) {
-                    console.log('here')
+                    //  console.log('here')
                     map.extent = initialExtent;
                 }
             });
