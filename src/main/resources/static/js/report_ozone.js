@@ -58,8 +58,64 @@ function validateSearch() {
     return true;
 }
 
-// HighChart
-const highChart = {
+// Chart
+// Add event listener to fire on selection
+var select = document.querySelector('select[name="chart-selector"]');
+select.addEventListener('change', function() {
+    if (event.target.value == 'h2o') {
+        zingchart.exec('myChart', 'setseriesdata', {
+            graphid: 0,
+            data: [
+                { values: chart.dataH2O ,lineColor: '#af7e67',text: 'H2O (ppm)' },
+            ]
+
+        });
+    } else if (event.target.value == 'o3') {
+        zingchart.exec('myChart', 'setseriesdata', {
+            graphid: 0,
+            data: [
+                { values: chart.dataO3, lineColor: '#34251b',text: 'O3 (ppm)' },
+            ]
+
+        });
+    } else if (event.target.value == 'co2') {
+        zingchart.exec('myChart', 'setseriesdata', {
+            graphid: 0,
+            data: [
+                { values: chart.dataCO2, lineColor: '#65af66',text: 'CO2 (ppm)' },
+            ]
+
+        });
+    } else if (event.target.value == 'co') {
+        zingchart.exec('myChart', 'setseriesdata', {
+            graphid: 0,
+            data: [
+                { values: chart.dataCO, lineColor: '#1742af',text: 'CO (ppm)' },
+            ]
+
+        });
+    } else if (event.target.value == 'ch4') {
+        zingchart.exec('myChart', 'setseriesdata', {
+            graphid: 0,
+            data: [
+                { values: chart.dataCH4, lineColor: '#af0932',text: 'CH4 (ppb)' },
+            ]
+
+        });
+    } else if(event.target.value == '') {
+        zingchart.exec('myChart', 'setseriesdata', {
+            graphid: 0,
+            data: [
+                { values: [] },
+            ]
+
+        });
+    }
+});
+// Chart
+let today = Date.parse(new Date());
+const chart = {
+    time: [],
     dataH2O: [],
     dataO3: [],
     dataCO2: [],
@@ -107,164 +163,110 @@ const highChart = {
     getDataCH4: function (){
         this.dataCH4 = [12, 10, 9.5, 5.5, 6.2, 10.5, 13.2];
         return this.dataCH4;
+    },
+    getTime: function () {
+        this.time = [today, 1563800400000, 1563804000000, 1563807600000,1563907600000,1564807600000 ];
+        return this.time;
     }
 
 
 };
+//Lấy dữ liệu test
+chart.getTime();
+chart.getDataH2O();
+chart.getDataO3();
+chart.getDataCO2();
+chart.getDataCO();
+chart.getDataCH4();
 
-Highcharts.chart('container', {
-    chart: {
-        type: 'column',
-    },
-    credits: {
-        enabled: false
-    },
-    chart: {
-        zoomType: 'xy'
-    },
+ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9", "b55b025e438fa8a98e32482b5f768ff5"];
+let chartConfig = {
+
     title: {
         text: 'Biểu Đồ Biến Đổi Thành Phần Khí Quyển'
     },
     subtitle: {
         text: ''
     },
-    xAxis: {
-        type: 'datetime',
-        accessibility: {
-            rangeDescription: 'Range: 2004 to 2020'
+    plot: {
+        tooltip: {
+            visible: false
         },
-        tickInterval: 24 * 3600 * 1000
+        cursor: 'hand'
     },
-    yAxis: [{ // Primary yAxis
-        labels: {
-            format: '{value} ppm',
-            style: {
-                color: Highcharts.getOptions().colors[1]
-            }
-        },
-        title: {
-            text: 'O3, CO2, CO, CH4',
-            style: {
-                color: Highcharts.getOptions().colors[1]
-            }
-        }
-    }, { // Secondary yAxis
-        title: {
-            text: 'Hơi Nước(H2O)',
-            style: {
-                color: Highcharts.getOptions().colors[1]
-            }
-        },
-        labels: {
-            format: '{value} %V',
-            style: {
-                color: Highcharts.getOptions().colors[1]
-            }
-        },
-        opposite: true
-    }],
-    // Hien thi tooltip
-    tooltip: {
-        formatter: function () {
-            let min;
-            let max;
-            let avg;
-            switch (this.series.name) {
-                case "Hơi Nước(H2O)":
-                    min = highChart.getMin(highChart.getDataH2O());
-                    max = highChart.getMax(highChart.getDataH2O());
-                    avg = highChart.getAverage(highChart.getDataH2O());
-                    break;
-                case "O3"   :
-                    min = highChart.getMin(highChart.getDataO3());
-                    max = highChart.getMax(highChart.getDataO3());
-                    avg = highChart.getAverage(highChart.getDataO3());
-                    break;
-                case "CO2"   :
-                    min = highChart.getMin(highChart.getDataCO2());
-                    max = highChart.getMax(highChart.getDataCO2());
-                    avg = highChart.getAverage(highChart.getDataCO2());
-                    break;
-                case "CO"   :
-                    min = highChart.getMin(highChart.getDataCO());
-                    max = highChart.getMax(highChart.getDataCO());
-                    avg = highChart.getAverage(highChart.getDataCO());
-                    break;
-                case "CH4"   :
-                    min = highChart.getMin(highChart.getDataCH4());
-                    max = highChart.getMax(highChart.getDataCH4());
-                    avg = highChart.getAverage(highChart.getDataCH4());
-                    break;
 
-            }
-            let string = this.series.name + '<b>:</b>' + this.y + '</b>' + '<br>Min: ' + min + '</b>' + '<br>Max: ' + max
-                + '</b>' + '<br>Avg: ' + avg;
-            return string;
+    crosshairX: {},
+    type: 'line',
+    plot: {
+        animation:{
+            effect: 4,
+            method: 0,
+            speed: 500,
+            sequence: 1
         }
     },
-    // Chu thich
-    legend: {
-        layout: 'vertical',
-        align: 'left',
-        x: 120,
-        verticalAlign: 'top',
-        y: 40,
-        floating: true,
-        backgroundColor:
-            Highcharts.defaultOptions.legend.backgroundColor || // theme
-            'rgba(255,255,223,0)'
+    scaleY: {
+        // values: '0:14:2'
     },
-    plotOptions: {
-        series: {
-            label: {
-                connectorAllowed: false
-            },
-            // Thoi gian bat dau truc X
-            pointStart: Date.UTC(2004, 1, 1)
-        }
-    },
-    series: [{
-        name: 'Hơi Nước(H2O)',
-        type: 'column',
-        yAxis: 1,
-        data: highChart.getDataH2O(),
-        tooltip: {
-            valueSuffix: '%V'
+    scaleX: {
+        markers: [],
+        offsetEnd: '75px',
+        // labels: chart.time,
+        transform: {
+            type: 'date',
+            "all":"%dd/%mm/%Y"+"<br>"+"%h:%i %A"
         },
-        pointInterval: 24 * 3600 * 1000 // interval of 1 day
+    },
+    series: [
+        {
+            // values: chart.dataH2O
+        }
+    ]
+};
 
-    }, {
-        name: 'O3',
-        type: 'spline',
-        data: highChart.getDataO3(),
-        tooltip: {
-            valueSuffix: 'ppm'
-        },
-        pointInterval: 24 * 3600 * 1000 // interval of 1 day
-    }, {
-        name: 'CO2',
-        type: 'spline',
-        data: highChart.getDataCO2(),
-        tooltip: {
-            valueSuffix: 'ppm'
-        },
-        pointInterval: 24 * 3600 * 1000 // interval of 1 day
-    }, {
-        name: 'CO',
-        type: 'spline',
-        data: highChart.getDataCO(),
-        tooltip: {
-            valueSuffix: 'ppm'
-        },
-        pointInterval: 24 * 3600 * 1000 // interval of 1 day
-    }, {
-        name: 'CH4',
-        type: 'spline',
-        data: highChart.getDataCH4(),
-        tooltip: {
-            valueSuffix: 'ppm'
-        },
-        pointInterval: 24 * 3600 * 1000 // interval of 1 day
-    }]
+zingchart.render({
+    id: 'myChart',
+    data: chartConfig,
+    height: '100%',
+    width: '100%',
 });
+
+/*
+ * define Marker class to construct
+ * markers on the fly easier.
+ */
+function Marker(_index) {
+    return {
+        type: 'line',
+        flat: false,
+        lineColor: '#424242',
+        lineWidth: '1px',
+        range: [_index]
+    }
+}
+
+/*
+ * define Label class to construct
+ * labels on the fly easier.
+ */
+function Label(_text, _id, _offsetX, _offsetY) {
+    return {
+        id: _id,
+        text: _text,
+        angle: 0,
+        padding: '5px 10px 5px 10px',
+        backgroundColor: '#eeeeee',
+        cursor: 'pointer',
+        flat: false,
+        fontSize: '13px',
+        fontStyle: 'bold',
+        offsetX: _offsetX,
+        offsetY: _offsetY ? _offsetY : 0,
+        textAlign: 'left',
+        wrapText: true
+    }
+}
+
+
+
 

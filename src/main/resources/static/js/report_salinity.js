@@ -58,7 +58,7 @@ function validateSearch() {
     return true;
 }
 
-//Chart
+// Chart
 const chart = {
     time: [],
     dataSalinity: [],
@@ -78,15 +78,19 @@ const chart = {
         this.avg = Math.round((arr.reduce((sume, el) => sume + el, 0) / arr.length + Number.EPSILON) * 10) / 10;
         return this.avg;
     },
+    // Lấy dữ liệu độ mặn
     getDataSalinity: function () {
-        this.dataSalinity = [10, 26, 44, 63, 74,33, 20, 47];
+        this.dataSalinity = [10, 26, 44, 63, 74, 33, 20, 47];
         return this.dataSalinity;
     },
+    // lấy thời gian
     getTime: function () {
         this.time = [1563778800000, 1563782400000, 1563786000000, 1563789600000, 1563793200000, 1563796800000, 1563800400000, 1563804000000];
         return this.time;
     }
 };
+chart.getTime();
+chart.getDataSalinity();
 
 let chartConfig = {
     type: 'area',
@@ -100,9 +104,9 @@ let chartConfig = {
     labels: [
         // Label 1
         {
-            text: '<br>Giá trị nhỏ nhất: ' + chart.getMin(chart.getDataSalinity()) +'<b>‰'
-                + '</b>' + '<br>Giá trị lớn nhất: ' + chart.getMax(chart.getDataSalinity()) +'<b>‰'
-                + '</b>' + '<br> Giá trị trung bình: ' + chart.getAverage(chart.getDataSalinity()) +'<b>‰</b>',
+            text: '<br>Giá trị nhỏ nhất: ' + chart.getMin(chart.dataSalinity) + '<b>‰'
+                + '</b>' + '<br>Giá trị lớn nhất: ' + chart.getMax(chart.dataSalinity) + '<b>‰'
+                + '</b>' + '<br> Giá trị trung bình: ' + chart.getAverage(chart.dataSalinity) + '<b>‰</b>',
             'font-family': "Helvetica",
             'font-size': "14",
             x: "80%",
@@ -130,16 +134,19 @@ let chartConfig = {
             text: '',
             fontColor: '#616161'
         },
-        labels: chart.getTime(),
+        labels: chart.time,
         lineColor: '#AAA5A5',
+        // format time
         transform: {
-            type: 'date'
+            type: 'date',
+            "all": "%dd/%mm/%Y" + "<br>" + "%h:%i %A"
         },
         tick: {
             lineColor: '#AAA5A5'
         }
     },
     scaleY: {
+        // đơn vị trục Y
         format: "%v‰",
         guide: {
             lineColor: '#AAA5A5',
@@ -181,13 +188,14 @@ let chartConfig = {
     series: [
         {
             text: 'Độ Mặn',
-            values: chart.getDataSalinity(),
-            backgroundColor: '#4CAF50',
+            // Hiển thị dữ liệu độ mặn
+            values: chart.dataSalinity,
+            backgroundColor: 'white',
             lineColor: '#4CAF50',
-            marker: {
-                backgroundColor: '#4CAF50',
-                borderColor: '#4CAF50'
-            }
+            // marker: {
+            //     backgroundColor: '#4CAF50',
+            //     borderColor: '#4CAF50'
+            // }
         }
     ]
 };
