@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:replace="layout_header.html :: head_tag" />
+    <link rel="stylesheet" href="/css/manager_of_outputs.css" type="text/css">
+    <title>Quản lý Các kết quả đầu ra của các yếu tố theo trạm</title>
+</head>
+<body  class="hold-transition sidebar-mini layout-fixed text-sm">
+<div class="wrapper">
+
+    <th:block th:replace="layout_menu.html :: menu_tag" />
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="container-fluid">
+                <div class="card card-default">
+                    <div class="card-header">
+<!--                        <h4>Quản lý Các kết quả đầu ra của các yếu tố theo trạm</h4>-->
+                    </div>
+                    <div class="container-fluid">
+                        <div class="row content" style="width: 100%">
+                            <div class="col-sm-12" id="box_search">
+                                <div class="card-header">
+                                    <h5 style="text-align: center"><b>Quản lý Các kết quả đầu ra của các yếu tố theo trạm</b></h5>
+                                </div>
+                                <br/>
+                                <form class="form-horizontal" id="form_data">
+                                    <div class="form-row" id ="search_users" style="display: none">
+                                        <div class="form-group col-md-6">
+                                            <label for="code_search">Mã người dùng</label>
+                                            <div class="input-group">
+                                            <input type="text" class="form-control" id="code_search"
+                                                   placeholder="">
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="Username_search">Username</label>
+                                            <input type="text" class="form-control" id="Username_search"
+                                                   placeholder="">
+                                        </div>
+                                    </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="stations_search">Trạm</label>
+                                                <div class="input-group">
+                                                    <select class="form-control" id="stations_search" style="width: 100%" onchange="onchage_stations_select();"></select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="parameter_search">Yếu tố</label>
+                                                <div class="input-group">
+                                                    <select class="form-control" id="parameter_search" style="width: 100%"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="start_date">Từ ngày</label>
+                                            <input type="text" class="form-control" id="start_date" placeholder="" autocomplete="off">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="end_date">Đến ngày</label>
+                                            <input type="text" class="form-control" id="end_date" autocomplete="off" placeholder="">
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="wrap-button-control">
+                                    <button class="btn btn-primary" id="btnSearch" style="width:100px;">
+                                        <i class="fas fa-search"></i> Tìm kiếm
+                                    </button>
+                                    <button class="btn btn-primary"  id="btnDelete" style="width:100px;display: none">
+                                        <i class="fas fa-trash-alt"></i> Xóa
+                                    </button>
+                                    <button class="btn btn-primary" id="btnImport" style="width:100px;">
+                                        <i class="fas fa-file-upload"></i> Import
+                                    </button>
+                                    <button class="btn btn-primary" id="btnExport" style="width:100px;">
+                                        <i class="fas fa-file-download"></i> Export
+                                    </button>
+                                </div>
+                                <div class="card-body" style="width: 100%;overflow: auto">
+                                    <table id="tableDataView" class="table table-bordered table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>#</th>
+                                            <th data-id="s_station_type">Loại trạm</th>
+                                            <th data-id="s_stations_no">Mã trạm</th>
+                                            <th data-id="s_stations" >Trạm</th>
+                                            <th data-id="s_valuetype_id">Yếu tố</th>
+                                            <th data-id="s_reponse">Kết quả đo</th>
+                                            <th data-id="s_area">Khu vực</th>
+                                            <th data-id="s_warning">Cảnh báo</th>
+                                            <th data-id="s_user_create">Người cập nhật</th>
+                                            <th data-id="s_timereponse" is_select ="1">Thời gian đo</th>
+                                            <th data-id="s_action" is_select ="1">Hành động</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                    </div>
+                </div>
+
+                <div class="popup-loading">
+                    <div class="wrapper-loading">
+                        <div class="sub-wrapper-loading">
+                            <div class="d-flex justify-content-center">
+                                <div class="spinner-border" role="status">
+                                    <span class="sr-only" th:text="#{action.loading}">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+</body>
+<!-- Control Sidebar -->
+<aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+</aside>
+<th:block th:replace="layout_footer.html :: footer_tag" />
+<script type="text/javascript">
+    var apiUrl = "[[${session.apiUrl}]]";
+    var userBO = "[[${session.userBO}]]";
+    var username = "[[${session.userBO.Username}]]";
+    var token = "[[${session.token}]]";
+</script>
+<script src="/js/manage_outputs.js"></script>
+
+</html>

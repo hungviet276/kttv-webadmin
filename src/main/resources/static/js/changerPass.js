@@ -41,7 +41,7 @@ function changer_password() {
                 if ($.trim(data).indexOf("true") == 0) {
                     toastr.success('Đổi mật khẩu thành công!', data.message);
                     ;
-                    $('#nofication_msg').html('Đổi mật khẩu thành công!');
+                    // $('#nofication_msg').html('Đổi mật khẩu thành công!');
                     $('#pass_old').val('');
                     $('#pass_new').val('');
                     $('#re_pass_new').val('');
@@ -49,17 +49,17 @@ function changer_password() {
                     toastr.success('Mật khẩu cũ không chính xác!', data.message);
                     ;
                     $('#pass_old').focus();
-                    $('#pass_old').val('');
-                    $('#pass_new').val('');
-                    $('#re_pass_new').val('');
-                    $('#nofication_msg').html('Đổi mật khẩu thất bại!');
+                    // $('#pass_old').val('');
+                    // $('#pass_new').val('');
+                    // $('#re_pass_new').val('');
+                    // $('#nofication_msg').html('Đổi mật khẩu thất bại!');
                 }else {
                     toastr.success('Có lỗi xảy ra !', data.message);
                     ;
-                    $('#pass_old').val('');
-                    $('#pass_new').val('');
-                    $('#re_pass_new').val('');
-                    $('#nofication_msg').html('Đổi mật khẩu thất bại!');
+                    // $('#pass_old').val('');
+                    // $('#pass_new').val('');
+                    // $('#re_pass_new').val('');
+                    // $('#nofication_msg').html('Đổi mật khẩu thất bại!');
                 }
             }
         });
@@ -82,11 +82,18 @@ function validateForm() {
         return;
     }
 
+    if ($.trim($('#pass_new').val()) == $.trim($('#pass_old').val())) {
+        $('#pass_new_msg').html('Mật khẩu mới không được giống mật khẩu cũ!');
+        $('#pass_new').focus();
+        return;
+    }
+
     if ($.trim($('#re_pass_new').val()) == '' ||   ($.trim($('#re_pass_new').val()) != $.trim($('#pass_new').val())) ) {
         $('#re_pass_new_msg').html('Mật khẩu nhập lại phải giống mật khẩu mới!');
         $('#re_pass_new').focus();
         return;
     }
+
 
     return true;
 }

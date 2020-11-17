@@ -330,16 +330,37 @@ $(document).ready(function () {
     $('#inputFromDate').daterangepicker({
         timePicker: false,
         singleDatePicker: true,
-        autoUpdateInput: false
-    }, function (choosen_date) {
-        $('#inputFromDate').val(choosen_date.format('DD/MM/YYYY'));
+        showDropdowns: true,
+        minYear: 2020,
+        format:'DD/MM/YYYY',
+        autoUpdateInput: false,
+        autoApply: true,
+        // autoClose: true,
+        // showOtherMonths: true,
+        // alwaysShowCalendars: false,
+        useCurrent: false,
+        allowInputToggle: true
     });
+    $('#inputFromDate').on('apply.daterangepicker', function(ev, picker) {
+        $(this).val(picker.startDate.format('DD/MM/YYYY'));
+    });
+
     $('#inputToDate').daterangepicker({
         timePicker: false,
         singleDatePicker: true,
-        autoUpdateInput: false
-    }, function (choosen_date) {
-        $('#inputToDate').val(choosen_date.format('DD/MM/YYYY'));
+        showDropdowns: true,
+        minYear: 2020,
+        format:'DD/MM/YYYY',
+        autoUpdateInput: false,
+        autoApply: true,
+        autoClose: true,
+        showOtherMonths: true,
+        alwaysShowCalendars: false,
+        useCurrent: false,
+        // minDate: new Date().setHours(0,0,0,0),
+    });
+    $('#inputToDate').on('apply.daterangepicker', function(ev, picker) {
+        $(this).val(picker.startDate.format('DD/MM/YYYY'));
     });
 
     $('#tableDataView thead th').each(function () {

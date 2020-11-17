@@ -11,4 +11,5 @@ public class WarningThresholdStation {
     public String getHomePage() {
         return "warning_threshold_station/warning_threshold_station";
     }
+    
 }

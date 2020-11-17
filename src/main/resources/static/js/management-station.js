@@ -1,5 +1,5 @@
-var uuid = global.uuidv4();
-var station =
+const uuid = global.uuidv4();
+const station =
     {
         clientAction: '',
         indexOfRow: -1,
@@ -43,7 +43,7 @@ var station =
             districtId: null,
             wardId: null,
             siteId: null,
-            riverId:null
+            riverId: null
         },
         init: function () {
             station.getStationType();
@@ -54,6 +54,7 @@ var station =
             // station.searchParameter();
             station.disabled_right();
             station.show_search();
+            station.getStaffStation();
         },
         //lay loai tram
         getStationType: function () {
@@ -114,7 +115,7 @@ var station =
                     $("#wardId").empty();
                     $("#wardId").append(emptyOptions2).trigger('change');
                     $("#provinceId").select2({data: data});
-                    if (clientAction === 'update') {
+                    if (station.clientAction === 'update') {
                         $('#provinceId').val(station.parameter.provinceId).trigger('change');
                     }
                     global.disableLoading();
@@ -142,7 +143,7 @@ var station =
                     $("#wardId").append(emptyOptions).trigger('change');
                     $("#districtId").empty();
                     $("#districtId").select2({data: data});
-                    if (clientAction === 'update') {
+                    if (station.clientAction === 'update') {
                         $('#districtId').val(station.parameter.districtId).trigger('change');
                     }
                     global.disableLoading();
@@ -171,7 +172,7 @@ var station =
                     console.log(data);
                     $("#wardId").empty();
                     $("#wardId").select2({data: data});
-                    if (clientAction === 'update') {
+                    if (station.clientAction === 'update') {
                         $('#wardId').val(station.parameter.wardId).trigger('change');
                     }
                     global.disableLoading();
@@ -191,7 +192,7 @@ var station =
                     console.log(data);
                     $("#riverId").empty();
                     $("#riverId").select2({data: data});
-                    if (clientAction === 'update') {
+                    if (station.clientAction === 'update') {
                         $('#riverId').val(station.parameter.riverId).trigger('change');
                     }
                     global.disableLoading();
@@ -230,11 +231,27 @@ var station =
                 }
             });
         },
+        getStaffStation: function () {
+            global.showLoading();
+            $.ajax({
+                headers: {
+                    'Authorization': token
+                },
+                url: apiUrl + "common/get-select-list-staff",
+                method: "GET",
+                contentType: "application/json",
+                success: function (data) {
+                    console.log(data);
+                    $("#staffStation").select2({data: data});
+                    global.disableLoading();
+                }
+            });
+        },
         checkStationType: function (obj) {
             let stationTypeText = obj.options[obj.selectedIndex].text;
             let stationTypeId = obj.options[obj.selectedIndex].value;
             console.log(stationTypeText);
-            if (stationTypeText.startsWith("HV") || stationTypeId == -1) {
+            if (stationTypeText.startsWith("HV") || stationTypeText.startsWith("TV") || stationTypeId == -1) {
                 $("#riverId").prop("disabled", false);
                 station.getRiver();
             } else {
@@ -242,7 +259,7 @@ var station =
             }
         },
         btnAddParameter: function () {
-            if(!station.validateParameter()){
+            if (!station.validateParameter()) {
                 return false;
             }
             let tsConfigId = $("#tsConfigId").val();
@@ -287,7 +304,7 @@ var station =
         },
         deleteParameter: function (id) {
             if (!confirm('Bạn thực sự muốn xóa ?')) {
-                return ;
+                return;
             }
             global.showLoading();
             $.ajax({
@@ -343,7 +360,7 @@ var station =
                 return;
             }
             global.showLoading();
-            // let parameter = $("#parameter").val();
+            let staffStation = $("#staffStation").val();
             // let timeseriesName = $("#timeseriesName").val();
             // let measure = $("#measure").val();
             let uuid = station.uuid;
@@ -356,29 +373,29 @@ var station =
 
             let areaId = $("#areaId").val().trim();
             let areaName = null;
-            if(areaId !== "-1") {
-                areaName = $("#areaId :selected").text().trim();
+            if (areaId !== "-1") {
+                areaName = $("#areaId :selected").text().split("-")[1].trim();
             }
 
             let provinceId = $("#provinceId").val().trim();
             let provinceName = null;
-            if(provinceId !== "-1") {
+            if (provinceId !== "-1") {
                 provinceName = $("#provinceId :selected").text().split("-")[1].trim();
             }
             let districtId = $("#districtId").val().trim();
             let districtName = null;
-            if(districtId !== "-1") {
+            if (districtId !== "-1") {
                 districtName = $("#districtId :selected").text().split("-")[1].trim();
             }
             let wardId = $("#wardId").val().trim();
             let wardName = null;
-            if(wardId !== "-1") {
+            if (wardId !== "-1") {
                 wardName = $("#wardId :selected").text().split("-")[1].trim();
             }
             let address = $("#address").val().trim();
             let riverId = $("#riverId").val();
             let riverName = null;
-            if(riverId !== "-1") {
+            if (riverId !== "-1") {
                 riverName = $("#riverId :selected").text().split("-")[1].trim();
             }
             let status = $("#status").val().trim();
@@ -386,7 +403,7 @@ var station =
             let data = {
                 // "parameter": parameter,
                 // "timeseriesName": timeseriesName,
-                // "measure":measure,
+                "staffStation":staffStation,
                 "uuid": uuid,
                 "stationTypeId": stationTypeId,
                 "modeStationType": modeStationType,
@@ -396,16 +413,16 @@ var station =
                 "latitude": latitude,
                 "countryId": 281,
                 "areaId": areaId,
-                "areaName":areaName,
+                "areaName": areaName,
                 "provinceId": provinceId,
-                "provinceName":provinceName,
+                "provinceName": provinceName,
                 "districtId": districtId,
-                "districtName":districtName,
+                "districtName": districtName,
                 "wardId": wardId,
-                "wardName":wardName,
+                "wardName": wardName,
                 "address": address,
                 "riverId": riverId,
-                "riverName":riverName,
+                "riverName": riverName,
                 "status": status,
                 "username": global.username
             }
@@ -427,7 +444,12 @@ var station =
                         station.table.ajax.reload();
                         station.closePopup();
                     } else {
-                        toastr.error('', data.message);
+                        if (data.message === 'NOK1') {
+                            toastr.error('', 'Mã trạm đã tồn tại');
+                            $("#stationCode").focus();
+                        } else {
+                            toastr.error('', data.message);
+                        }
                     }
                     global.disableLoading();
                 },
@@ -455,33 +477,33 @@ var station =
 
             let areaId = $("#areaId").val().trim();
             let areaName = null;
-            if(areaId !== "-1") {
+            if (areaId !== "-1") {
                 areaName = $("#areaId :selected").text().trim();
             }
 
             let provinceId = $("#provinceId").val().trim();
             let provinceName = null;
-            if(provinceId !== "-1") {
+            if (provinceId !== "-1") {
                 provinceName = $("#provinceId :selected").text().split("-")[1].trim();
             }
             let districtId = $("#districtId").val().trim();
             let districtName = null;
-            if(districtId !== "-1") {
+            if (districtId !== "-1") {
                 districtName = $("#districtId :selected").text().split("-")[1].trim();
             }
             let wardId = $("#wardId").val().trim();
             let wardName = null;
-            if(wardId !== "-1") {
+            if (wardId !== "-1") {
                 wardName = $("#wardId :selected").text().split("-")[1].trim();
             }
             let address = $("#address").val().trim();
             let riverId = $("#riverId").val();
             let riverName = null;
-            if(riverId !== "-1") {
+            if (riverId !== "-1" && riverId !== null) {
                 riverName = $("#riverId :selected").text().split("-")[1].trim();
             }
             let status = $("#status").val().trim();
-            riverId = riverId === "-1" ? null : riverId;
+            riverId = (riverId === "-1" || riverId === null) ? null : riverId;
             let data = {
                 // "parameter": parameter,
                 // "timeseriesName": timeseriesName,
@@ -495,16 +517,16 @@ var station =
                 "latitude": latitude,
                 "countryId": 281,
                 "areaId": areaId,
-                "areaName":areaName,
+                "areaName": areaName,
                 "provinceId": provinceId,
-                "provinceName":provinceName,
+                "provinceName": provinceName,
                 "districtId": districtId,
-                "districtName":districtName,
+                "districtName": districtName,
                 "wardId": wardId,
-                "wardName":wardName,
+                "wardName": wardName,
                 "address": address,
                 "riverId": riverId,
-                "riverName":riverName,
+                "riverName": riverName,
                 "status": status,
                 "username": global.username
             }
@@ -524,17 +546,22 @@ var station =
                         // station.btnRefresh();
                         // station.uuid = global.uuidv4();
                         station.disabled_right();
-                        $("#btnsave").css("display", "none");
+                        $("#btnSave").css("display", "none");
                         $("#btnDelete").css("display", "none");
                         $("#btnReset").css("display", "none");
-                        $("#btncancer").css("display", "none");
-                        $("#btnDonew").attr("disabled", false);
+                        $("#btnCancel").css("display", "none");
+                        $("#btnDoNew").attr("disabled", false);
                         if (station.indexOfRow > -1) {
                             station.table.row(station.indexOfRow).deselect();
                         }
                         station.show_search();
                     } else {
-                        toastr.error('', data.message);
+                        if (data.message === 'NOK1') {
+                            toastr.error('', 'Mã trạm đã tồn tại');
+                            $("#stationCode").focus();
+                        } else {
+                            toastr.error('', data.message);
+                        }
                     }
                     global.disableLoading();
                 },
@@ -562,7 +589,7 @@ var station =
         },
         btnDelete: function () {
             if (!confirm('Bạn thực sự muốn xóa ?')) {
-                return ;
+                return;
             }
             global.showLoading();
             $.ajax({
@@ -582,11 +609,11 @@ var station =
                         station.uuid = global.uuidv4();
                         station.table.ajax.reload();
                         station.disabled_right();
-                        $("#btnsave").css("display", "none");
+                        $("#btnSave").css("display", "none");
                         $("#btnDelete").css("display", "none");
                         $("#btnReset").css("display", "none");
-                        $("#btncancer").css("display", "none");
-                        $("#btnDonew").attr("disabled", false);
+                        $("#btnCancel").css("display", "none");
+                        $("#btnDoNew").attr("disabled", false);
                         if (station.indexOfRow > -1) {
                             station.table.row(station.indexOfRow).deselect();
                         }
@@ -626,7 +653,7 @@ var station =
                     "ordering": false,
                     "info": true,
                     "autoWidth": true,
-                    "scrollX": true,
+                    "scrollX": false,
                     "responsive": false,
                     language: {
                         search: "_INPUT_",
@@ -638,11 +665,10 @@ var station =
                     "processing": true,
                     "serverSide": true,
                     "columns": [
-
-                        {"data": "indexCount","render": $.fn.dataTable.render.text()},
-                        {"data": "parameterName","render": $.fn.dataTable.render.text()},
-                        // {"data": "unitName"},
-                        // {"data": "note"},
+                        {"data": "indexCount", "render": $.fn.dataTable.render.text()},
+                        {"data": "parameterName", "render": $.fn.dataTable.render.text()},
+                        {"data": "tsConfigName", "render": $.fn.dataTable.render.text()},
+                        {"data": "unitName", "render": $.fn.dataTable.render.text()},
                         {"data": ""}
                     ],
                     initComplete: function () {
@@ -678,11 +704,15 @@ var station =
                                     // "": "",
                                     "indexCount": i + 1,
                                     "uuid": responseJson.content[i].uuid,
-                                    "stationParamterId": responseJson.content[i].stationParamterId,
+                                    "unitName": responseJson.content[i].unitName,
                                     "paramterTypeId": responseJson.content[i].paramterTypeId,
                                     "parameterName": responseJson.content[i].parameterName,
                                     "stationId": responseJson.content[i].stationId,
-                                    "": "<span class='fa fa-trash' onclick='station.deleteParameter(" + responseJson.content[i].stationParamterId + ")'></span>"
+                                    "tsConfigName": responseJson.content[i].tsConfigName,
+                                    "tsId": responseJson.content[i].tsId,
+                                    "tsConfigId": responseJson.content[i].tsConfigId,
+                                    "tsName": responseJson.content[i].tsName,
+                                    "": "<span class='fa fa-trash' onclick='station.deleteParameter(" + responseJson.content[i].tsId + ")'></span>"
                                 })
                             }
                             if (dataRes.data[0] !== undefined) {
@@ -700,7 +730,10 @@ var station =
         rowSelect: function (e, dt, type, indexes) {
             // $('#btnCopy').removeAttr('disabled');
             // $('#btnDelete').removeAttr('disabled');
-            clientAction = 'update';
+
+        },
+        preEdit: function (indexes) {
+            station.clientAction = 'update';
             station.indexOfRow = indexes;
             let rowData = station.table.rows(indexes).data().toArray();
             station.fillDataToForm(rowData);
@@ -710,15 +743,16 @@ var station =
             if (rowData != null && rowData != undefined && rowData.length > 0) {
                 console.log(rowData);
                 station.enabled_right();
-                $("#btnsave").css("display", "none");
+                $("#btnSave").css("display", "none");
                 $("#btnDelete").css("display", "inline");
                 $("#btnReset").css("display", "none");
-                $("#btncancer").css("display", "inline");
-                $("#btnupdate").css("display", "inline");
-                // $("#btnDonew").attr("disabled", true);
+                $("#btnCancel").css("display", "inline");
+                $("#btnUpdate").css("display", "inline");
+                // $("#btnDoNew").attr("disabled", true);
                 station.togle_search();
 
                 $('#stationTypeId').val(rowData[0].stationTypeId).trigger('change');
+                $("#stationTypeId").prop("disabled", true);
                 $('#modeStationType').val(rowData[0].modeStationType);
                 $('#stationCode').val(rowData[0].stationCode);
                 $('#stationName').val(rowData[0].stationName);
@@ -755,13 +789,13 @@ var station =
             // $('#btnDelete').attr('disabled', 'true');
             // $('#btnEdit').attr('disabled', 'true');
             // $('#form_data')[0].reset();
-            station.disabled_right();
-            $("#btnsave").css("display", "none");
-            $("#btnDelete").css("display", "none");
-            $("#btnReset").css("display", "none");
-            $("#btncancer").css("display", "none");
-            $("#btnDonew").attr("disabled", false);
-            station.show_search();
+            // station.disabled_right();
+            // $("#btnSave").css("display", "none");
+            // $("#btnDelete").css("display", "none");
+            // $("#btnReset").css("display", "none");
+            // $("#btnCancel").css("display", "none");
+            // $("#btnDoNew").attr("disabled", false);
+            // station.show_search();
         },
         disabled_right: function () {
             $("#form_input input:text").each(function () {
@@ -795,6 +829,7 @@ var station =
             $("#box_info").hide(0);
             $("#box_search").show(500);
             $("#box_search").attr('class', 'col-sm-12');
+            station.table.rows().deselect()
         },
         togle_search: function () {
             $("#box_info").show(500);
@@ -840,7 +875,7 @@ var station =
             }
             return true;
         },
-        validateParameter:function (){
+        validateParameter: function () {
             $('.help-block').html('');
 
             if ($('#parameter').val().trim() === "-1") {
@@ -961,17 +996,17 @@ var station =
         closePopup: function () {
             station.disabled_right();
             $('.help-block').html('');
-            $("#btnsave").css("display", "none");
+            $("#btnSave").css("display", "none");
             $("#btnDelete").css("display", "none");
             $("#btnReset").css("display", "none");
-            $("#btncancer").css("display", "none");
-            $("#btnDonew").attr("disabled", false);
+            $("#btnCancel").css("display", "none");
+            $("#btnDoNew").attr("disabled", false);
             if (station.indexOfRow > -1) {
                 station.table.row(station.indexOfRow).deselect();
             }
             station.show_search();
         },
-        btnExport:function (){
+        btnExport: function () {
             global.showLoading();
             $.ajax({
                 headers: {
@@ -989,7 +1024,7 @@ var station =
                     console.log(textStatus + "| " + xhr.getAllResponseHeaders());
                     var a = document.createElement('a');
                     var url = window.URL.createObjectURL(data);
-                    console.log("url: "+ url);
+                    console.log("url: " + url);
                     a.href = url;
                     a.download = xhr.getResponseHeader("content-disposition");
                     document.body.append(a);
@@ -1010,7 +1045,7 @@ $(document).ready(function () {
             if (is_select == null || is_select == undefined) {
                 $(this).html('<input id="' + dataId + '" class="table-data-input-search" type="text" autocomplete="off" placeholder="Search ' + title + '" />');
             } else {
-                $(this).html('<select class="select_table" id='+ dataId +'> <option value="">Hãy chọn</option><option value="1">Hoạt động</option> <option value="0">Không hoạt động</option> </select>');
+                $(this).html('<select class="select_table" id=' + dataId + '> <option value="">Hãy chọn</option><option value="1">Hoạt động</option> <option value="0">Không hoạt động</option> </select>');
             }
         }
     });
@@ -1026,9 +1061,12 @@ $(document).ready(function () {
     var draw = 0;
     station.table = $('#tableDataView').DataTable({
         columnDefs: [{
-            orderable: false,
-            className: 'select-checkbox',
-            targets: 0
+            // orderable: false,
+            // className: 'select-checkbox',
+            targets: 0,
+            checkboxes: {
+                selectRow: true
+            }
         }, {
             targets: 14,
             render: function (data, type, row) {
@@ -1039,12 +1077,12 @@ $(document).ready(function () {
                 }
             }
         },
-            {"width": "25px", "targets": 0}
+            // {"width": "25px", "targets": 0}
         ],
         select: {
-            style: 'os',
-            selector: 'td:first-child',
-            type: 'single'
+            style: 'multi',
+            // selector: 'td:first-child',
+            type: 'checkbox'
         },
         "pagingType": "full_numbers",
         "lengthMenu": [
@@ -1056,7 +1094,7 @@ $(document).ready(function () {
         "searching": false,
         "ordering": false,
         "info": true,
-        "autoWidth": false,
+        "autoWidth": true,
         "scrollX": true,
         "responsive": false,
         language: {
@@ -1070,19 +1108,19 @@ $(document).ready(function () {
         "serverSide": true,
         "columns": [
             {"data": ""},
-            {"data": "indexCount","render": $.fn.dataTable.render.text()},
+            {"data": "indexCount", "render": $.fn.dataTable.render.text()},
             {"data": "control"},
-            {"data": "objectType","render": $.fn.dataTable.render.text()},
-            {"data": "objectTypeName","render": $.fn.dataTable.render.text()},
-            {"data": "stationCode","render": $.fn.dataTable.render.text()},
-            {"data": "stationName","render": $.fn.dataTable.render.text()},
-            {"data": "longtitude","render": $.fn.dataTable.render.text()},
-            {"data": "latitude","render": $.fn.dataTable.render.text()},
-            {"data": "provinceName","render": $.fn.dataTable.render.text()},
-            {"data": "districtName","render": $.fn.dataTable.render.text()},
-            {"data": "wardName","render": $.fn.dataTable.render.text()},
-            {"data": "address","render": $.fn.dataTable.render.text()},
-            {"data": "riverName","render": $.fn.dataTable.render.text()},
+            {"data": "objectType", "render": $.fn.dataTable.render.text()},
+            {"data": "objectTypeName", "render": $.fn.dataTable.render.text()},
+            {"data": "stationCode", "render": $.fn.dataTable.render.text()},
+            {"data": "stationName", "render": $.fn.dataTable.render.text()},
+            {"data": "longtitude", "render": $.fn.dataTable.render.text()},
+            {"data": "latitude", "render": $.fn.dataTable.render.text()},
+            {"data": "provinceName", "render": $.fn.dataTable.render.text()},
+            {"data": "districtName", "render": $.fn.dataTable.render.text()},
+            {"data": "wardName", "render": $.fn.dataTable.render.text()},
+            {"data": "address", "render": $.fn.dataTable.render.text()},
+            {"data": "riverName", "render": $.fn.dataTable.render.text()},
             // {"data": "stationHeight"},
             {"data": "status"},
             // {"data": "parameterTypeName"},
@@ -1117,7 +1155,7 @@ $(document).ready(function () {
                             station.table.search(station.objSearch).draw();
                             station.keyUpTime = new Date().getTime();
                         }
-                        return;
+
                     }, 1100);
                 });
 
@@ -1159,7 +1197,7 @@ $(document).ready(function () {
                     dataRes.data.push({
                         "": "",
                         "indexCount": i + 1,
-                        "control": "<span class='fa fa-wrench' title='Điều khiển'  onclick='station.preControl(" + i + ")' style='cursor: pointer'></span>",
+                        "control": "<span class='fa fa-edit' title='Cập nhật'  onclick='station.preEdit(" + i + ")' style='cursor: pointer'></span> &nbsp;<span class='fa fa-wrench' title='Điều khiển'  onclick='station.preControl(" + i + ")' style='cursor: pointer'></span>",
                         "stationLongName": responseJson.content[i].stationLongName,
                         "objectType": responseJson.content[i].objectType,
                         "objectTypeName": responseJson.content[i].objectTypeName,
@@ -1219,15 +1257,16 @@ $(document).ready(function () {
         station.formReset();
     });
 
-    $('#btnDonew').click(function () {
-        clientAction = 'insert';
+    $('#btnDoNew').click(function () {
+        station.clientAction = 'insert';
         station.enabled_right();
-        $("#btnsave").css("display", "inline");
+        $("#btnSave").css("display", "inline");
         $("#btnDelete").css("display", "none");
-        $("#btnupdate").css("display", "none");
+        $("#btnUpdate").css("display", "none");
         $("#btnReset").css("display", "inline");
-        $("#btncancer").css("display", "inline");
-        $("#btnDonew").attr("disabled", true);
+        $("#btnCancel").css("display", "inline");
+        $("#btnDoNew").attr("disabled", true);
+        $("#stationTypeId").prop("disabled", false);
         station.parameter.stationId = null;
         if (station.tableParameter !== undefined) {
             station.uuid = global.uuidv4();
@@ -1240,16 +1279,17 @@ $(document).ready(function () {
         station.btnRefresh();
     });
 
-    $('#btncancer').click(function () {
+    $('#btnCancel').click(function () {
         station.disabled_right();
-        $("#btnsave").css("display", "none");
+        $("#btnSave").css("display", "none");
         $("#btnDelete").css("display", "none");
         $("#btnReset").css("display", "none");
-        $("#btncancer").css("display", "none");
-        $("#btnDonew").attr("disabled", false);
+        $("#btnCancel").css("display", "none");
+        $("#btnDoNew").attr("disabled", false);
         if (station.indexOfRow > -1) {
             station.table.row(station.indexOfRow).deselect();
         }
+        station.table.search(station.objSearch).draw();
         station.show_search();
     });
 

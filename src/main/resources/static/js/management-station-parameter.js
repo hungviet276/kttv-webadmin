@@ -142,7 +142,7 @@ var station =
             $('.help-block').html('');
             $("#timeSeries").val('-1').trigger('change');
             $("#tsConfigName").val('');
-            $("#storage").val('');
+            $("#storage").val('-1');
         },
         deleteSeries: function (id) {
             if (!confirm('Bạn thực sự muốn xóa ?')) {
@@ -328,8 +328,8 @@ var station =
                     "searching": false,
                     "ordering": false,
                     "info": true,
-                    "autoWidth": true,
-                    "scrollX": true,
+                    "autoWidth": false,
+                    "scrollX": false,
                     "responsive": false,
                     language: {
                         search: "_INPUT_",
@@ -392,7 +392,8 @@ var station =
                                 "recordsTotal": responseJson.recordsTotal,
                                 "data": []
                             };
-
+                            //reset lai lan nua list tim kiem time series
+                            station.listSeriesType = [];
                             for (let i = 0; i < responseJson.content.length; i++) {
                                 dataRes.data.push({
                                     // "": "",
@@ -423,7 +424,13 @@ var station =
             }
         },
         rowSelect: function (e, dt, type, indexes) {
-            clientAction = 'update';
+            // station.clientAction = 'update';
+            // station.indexOfRow = indexes;
+            // let rowData = station.table.rows(indexes).data().toArray();
+            // station.fillDataToForm(rowData);
+        },
+        preEdit: function (indexes) {
+            station.clientAction = 'update';
             station.indexOfRow = indexes;
             let rowData = station.table.rows(indexes).data().toArray();
             station.fillDataToForm(rowData);
@@ -433,11 +440,11 @@ var station =
             if (rowData != null && rowData != undefined && rowData.length > 0) {
                 console.log(rowData);
                 station.enabled_right();
-                $("#btnsave").css("display", "none");
+                $("#btnSave").css("display", "none");
                 $("#btnDelete").css("display", "inline");
                 $("#btnReset").css("display", "none");
-                $("#btncancer").css("display", "inline");
-                $("#btnupdate").css("display", "inline");
+                $("#btnCancel").css("display", "inline");
+                $("#btnUpdate").css("display", "inline");
                 // $("#btnDonew").attr("disabled", true);
                 station.togle_search();
 
@@ -458,13 +465,13 @@ var station =
             }
         },
         rowDeselect: function (e, dt, type, indexes) {
-            station.disabled_right();
-            $("#btnsave").css("display", "none");
-            $("#btnDelete").css("display", "none");
-            $("#btnReset").css("display", "none");
-            $("#btncancer").css("display", "none");
-            $("#btnDonew").attr("disabled", false);
-            station.show_search();
+            // station.disabled_right();
+            // $("#btnSave").css("display", "none");
+            // $("#btnDelete").css("display", "none");
+            // $("#btnReset").css("display", "none");
+            // $("#btnCancel").css("display", "none");
+            // $("#btnDonew").attr("disabled", false);
+            // station.show_search();
         },
         disabled_right: function () {
             $("#form_input input:text").each(function () {
@@ -497,14 +504,15 @@ var station =
             $(".checkedQuyen").attr("disabled", false);
         },
         show_search: function () {
-            $("#box_info").hide(0);
-            $("#box_search").show(500);
-            $("#box_search").attr('class', 'col-sm-12');
+            $("#box_info").hide(300);
+            $("#box_search").show(300);
+            // $("#box_search").attr('class', 'col-sm-12');
         },
         togle_search: function () {
-            $("#box_info").show(500);
-            $("#box_info").attr('class', 'col-sm-12');
-            $("#box_search").hide(0);
+            $("#box_search").hide(300);
+            $("#box_info").show(300);
+            // $("#box_info").attr('class', 'col-sm-12');
+
             // $("#box_search").attr('class', 'col-sm-5');
         },
         formReset: function () {
@@ -531,7 +539,7 @@ var station =
                 $('#timeSeries').focus();
                 return false;
             }
-            if($('#storage').val().trim().length < 1){
+            if($('#storage').val().trim() === "-1"){
                 $('#storage_error').html('Storage không được để trống');
                 $('#storage').focus();
                 return false;
@@ -643,10 +651,10 @@ var station =
         },
         closePopup: function () {
             station.disabled_right();
-            $("#btnsave").css("display", "none");
+            $("#btnSave").css("display", "none");
             $("#btnDelete").css("display", "none");
             $("#btnReset").css("display", "none");
-            $("#btncancer").css("display", "none");
+            $("#btnCancel").css("display", "none");
             $("#btnDonew").attr("disabled", false);
             if (station.indexOfRow > -1) {
                 station.table.row(station.indexOfRow).deselect();
@@ -661,7 +669,7 @@ $(document).ready(function () {
         var dataId = $(this).attr("data-id");
 
         if (dataId != null && dataId != undefined) {
-            $(this).html('<input id="' + dataId + '" class="table-data-input-search" type="text" placeholder="Search ' + title + '" />');
+            $(this).html('<input id="' + dataId + '" class="table-data-input-search" autocomplete="off" type="text" placeholder="Search ' + title + '" />');
             //     if (is_select == null || is_select == undefined) {
             //         $(this).html('<input id="' + dataId + '" class="table-data-input-search" type="text" placeholder="Search ' + title + '" />');
             //     } else {
@@ -682,15 +690,18 @@ $(document).ready(function () {
     station.table = $('#tableDataView').DataTable({
         columnDefs: [{
             orderable: false,
-            className: 'select-checkbox',
+            checkboxes: {
+                selectRow: true
+            },
+            // className: 'select-checkbox',
             targets: 0
         },
             {"width": "25px", "targets": 0}
         ],
         select: {
-            style: 'os',
-            selector: 'td:first-child',
-            type: 'single'
+            style: 'multi',
+            // selector: 'td:first-child',
+            type: 'checkbox'
         },
         "pagingType": "full_numbers",
         "lengthMenu": [
@@ -703,7 +714,7 @@ $(document).ready(function () {
         "ordering": false,
         "info": true,
         "autoWidth": false,
-        "scrollX": true,
+        "scrollX": false,
         "responsive": false,
         language: {
             search: "_INPUT_",
@@ -717,7 +728,7 @@ $(document).ready(function () {
         "columns": [
             {"data": ""},
             {"data": "indexCount","render": $.fn.dataTable.render.text()},
-            // {"data": "control"},
+            {"data": "control"},
             // {"data": "parameterTypeId"},
             {"data": "parameterTypeName","render": $.fn.dataTable.render.text()},
             {"data": "parameterTypeDescription","render": $.fn.dataTable.render.text()},
@@ -773,11 +784,12 @@ $(document).ready(function () {
                     dataRes.data.push({
                         "": "",
                         "indexCount": i + 1,
-                        // "control":"<span class='fa fa-wrench' title='Điều khiển'  onclick='station.preControl("+i+")' style='cursor: pointer'></span>",
+                        "control":"<span class='fa fa-edit' title='Cập nhật'  onclick='station.preEdit(" + i + ")' style='cursor: pointer'></span>",
                         "parameterTypeId": responseJson.content[i].parameterTypeId,
                         "parameterTypeName": responseJson.content[i].parameterTypeName,
                         "parameterTypeDescription": responseJson.content[i].parameterTypeDescription,
                         "unitName": responseJson.content[i].unitName,
+                        // "tsConfigName": responseJson.content[i].tsConfigName,
                         "timeSeries": responseJson.content[i].timeSeries,
                         "unitId": responseJson.content[i].unitId,
                     })
@@ -815,13 +827,13 @@ $(document).ready(function () {
     });
 
     $('#btnDonew').click(function () {
-        clientAction = 'insert';
+        station.clientAction = 'insert';
         station.enabled_right();
-        $("#btnsave").css("display", "inline");
+        $("#btnSave").css("display", "inline");
         $("#btnDelete").css("display", "none");
-        $("#btnupdate").css("display", "none");
+        $("#btnUpdate").css("display", "none");
         $("#btnReset").css("display", "inline");
-        $("#btncancer").css("display", "inline");
+        $("#btnCancel").css("display", "inline");
         $("#btnDonew").attr("disabled", true);
         station.parameter.stationId = null;
         if (station.tableParameter !== undefined) {
@@ -835,17 +847,18 @@ $(document).ready(function () {
         station.btnRefresh();
     });
 
-    $('#btncancer').click(function () {
+    $('#btnCancel').click(function () {
         station.disabled_right();
         $('.help-block').html('');
-        $("#btnsave").css("display", "none");
+        $("#btnSave").css("display", "none");
         $("#btnDelete").css("display", "none");
         $("#btnReset").css("display", "none");
-        $("#btncancer").css("display", "none");
+        $("#btnCancel").css("display", "none");
         $("#btnDonew").attr("disabled", false);
         if (station.indexOfRow > -1) {
             station.table.row(station.indexOfRow).deselect();
         }
+        station.table.search(station.objSearch).draw();
         station.show_search();
     });
 

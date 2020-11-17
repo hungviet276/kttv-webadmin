@@ -54,6 +54,7 @@ let uGroup = {
     objSearch: {
         s_Tram: '',
         s_TenNhom: '',
+        s_level: '',
         s_QuanLy: '',
         s_Trangthai: '',
     },
@@ -68,30 +69,33 @@ let uGroup = {
         $("#nguoi_dung").val("");
         $("#nguoi_dung").select2();
         $("#chucvu").val("1");
+        $("#mota").val("");
         uGroup.userTable.data = [];
         uGroup.userTable.render();
     },
     isValid: function (tram, nhom, nhomcha, cap, trangthai, mota) {
+        $(".help-block").html("");
         let valid = true;
-        if (tram == "") {
+        if (tram == null) {
             $("#tram_error").html("Cần chọn trạm");
+            $('#tram').focus();
             valid = false;
         }
 
         if (nhom == "") {
-            $("#tram_error").html("Cần nhập tên nhóm");
+            $("#ten_nhom_nsd_error").html("Cần nhập tên nhóm");
+            $('#ten_nhom_nsd').focus();
             valid = false;
         }
-
         return valid;
     },
     save: function () {
-        let tram = $("#tram").val();
-        let nhom = $("#ten_nhom_nsd").val();
+        let tram = $.trim($("#tram").val());
+        let nhom = $.trim($("#ten_nhom_nsd").val());
         let nhomcha = $("#nhom_nsd_cha").val();
-        let cap = $("#cap").val();
+        let cap = $.trim($("#cap").val().trim());
         let trangthai = $("#trangthai").val();
-        let mota = $("#mota").val();
+        let mota =$.trim($("#mota").val());
 
         if (!uGroup.isValid(tram, nhom, nhomcha, cap, trangthai, mota)) {
             return;
@@ -117,6 +121,8 @@ let uGroup = {
             success: function (response) {
                 if (response.status == "1") {
                     toastr.success('Thành công', response.message);
+                    uGroup.clearForm();
+                    uGroup.closeForm();
                 } else {
                     toastr.error('Lỗi', response.message);
                 }
@@ -131,6 +137,14 @@ let uGroup = {
             alert("Chưa chọn nhóm người sử dụng");
             return;
         }
+         if(uGroup.userTable.data.length > 0){
+             if (uGroup.userTable.data[0].userId !="" ) {
+                 alert("Phải làm trống danh sách thành viên!");
+                 return;
+             }
+         }
+
+
 
         let data = {
             id: uGroup.currGroupId
@@ -146,6 +160,7 @@ let uGroup = {
             success: function (response) {
                 if (response.status == "1") {
                     toastr.success('Thành công', response.message);
+                    uGroup.clearForm();
                     uGroup.closeForm();
                 } else {
                     toastr.error('Lỗi', response.message);
@@ -157,12 +172,12 @@ let uGroup = {
         });
     },
     update: function () {
-        let tram = $("#tram").val();
-        let nhom = $("#ten_nhom_nsd").val();
+        let tram = $.trim($("#tram").val());
+        let nhom = $.trim($("#ten_nhom_nsd").val());
         let nhomcha = $("#nhom_nsd_cha").val();
-        let cap = $("#cap").val();
+        let cap = $.trim($("#cap").val().trim());
         let trangthai = $("#trangthai").val();
-        let mota = $("#mota").val();
+        let mota =$.trim($("#mota").val());
 
         if (!uGroup.isValid(tram, nhom, nhomcha, cap, trangthai, mota)) {
             return;
@@ -189,6 +204,8 @@ let uGroup = {
             success: function (response) {
                 if (response.status == "1") {
                     toastr.success('Thành công', response.message);
+                    uGroup.clearForm();
+                    uGroup.closeForm();
                 } else {
                     toastr.error('Lỗi', response.message);
                 }
@@ -249,21 +266,21 @@ let uGroup = {
     },
     initSearchInput: function () {
         $('#uGroupTable thead th').each(function () {
-            let th = $(this);
-            let title = th.text();
-            let dataId = th.attr("data-id");
-            let isSelect = th.attr("is-select");
-            let html = "";
-            if (dataId == null) return;
+            var title = $(this).text();
+            var dataId = $(this).attr("data-id");
+            var is_select = $(this).attr("is_select");
+            if (dataId != null && dataId != undefined) {
+                if (is_select == null || is_select == undefined) {
+                    $(this).html('<p style="text-align: center">' + title + '</p><input id="' + dataId + '" class="table-data-input-search" type="text" placeholder="Tìm kiếm ' + title + '" />');
+                } else if(is_select==1) {
+                    $(this).html('<p style="text-align: center">' + title + '</p><select class="select_table" id="' + dataId + '"><option value="">Hãy chọn</option><option value=1>hoạt động</option><option value=0>không hoạt động</option></select>');
+                }
 
-            if (isSelect != null) {
-                html = '<select class="select_table" id="' + dataId + '"><option value="">Hãy chọn</option><option value=1>hoạt động</option><option value=0>không hoạt động</option></select>';
-            } else {
-                html = '<input id="' + dataId + '" class="table-data-input-search" type="text" placeholder="Tìm kiếm ' + title + '" />';
+                // th.append("<br />" + html);
+
             }
-
-            th.append("<br />" + html);
         });
+
     },
     initDataTable: function () {
         if (uGroup.groupTable === undefined) {
@@ -285,7 +302,7 @@ let uGroup = {
                     {"width": "25px", "targets": 0},
                     {
                         className: "hide-col",
-                        targets: 6,
+                        targets: 7,
                     }
                 ],
                 select: {
@@ -296,7 +313,7 @@ let uGroup = {
                 "pagingType": "full_numbers",
                 "lengthMenu": [
                     [10, 25, 50, -1],
-                    [10, 25, 50, "Tất cả"]
+                    [10, 25, 50]
                 ],
                 "lengthChange": true,
                 "searchDelay": 1500,
@@ -304,7 +321,7 @@ let uGroup = {
                 "ordering": false,
                 "info": true,
                 "autoWidth": false,
-                "scrollX": true,
+                "scrollX": false,
                 "responsive": false,
                 language: {
                     search: "_INPUT_",
@@ -317,32 +334,53 @@ let uGroup = {
                 "serverSide": true,
                 "columns": [
                     {"data": ""},
-                    {"data": "indexCount"},
-                    {"data": "stationName"},
-                    {"data": "groupName"},
-                    {"data": "groupParentName"},
-                    {"data": "status"},
+                    {"data": "indexCount","render": $.fn.dataTable.render.text()},
+                    {"data": "stationName","render": $.fn.dataTable.render.text()},
+                    {"data": "groupName","render": $.fn.dataTable.render.text()},
+                    {"data": "groupLevel","render": $.fn.dataTable.render.text()},
+                    {"data": "groupParentName","render": $.fn.dataTable.render.text()},
+                    {"data": "statusStr","render": $.fn.dataTable.render.text()},
                     {"data": "groupId"},
                 ],
                 initComplete: function () {
                     // Apply the search
                     this.api().columns().every(function () {
                         var that = this;
-                        $('.table-data-input-search').on('keyup onchange', function () {
-                            let oldValue = this.___value___;
-                            this.___value___ = this.value;
-                            if (oldValue == this.___value___) return;
-                            uGroup.keyUpTime = new Date().getTime();
-                            let id = $(this).attr('id');
-                            setTimeout(function () {
-                                if (new Date().getTime() - uGroup.keyUpTime > uGroup.waitTimeSearch) {
-                                    uGroup.groupTable.search(uGroup.groupTable).draw();
-                                    uGroup.keyUpTime = new Date().getTime();
-                                }
-                                return;
-                            }, uGroup.waitTimeSearch + 100);
-                        });
+                        // $('.table-data-input-search').on('keyup onchange', function () {
+                        //     let oldValue = this.___value___;
+                        //     this.___value___ = this.value;
+                        //     if (oldValue == this.___value___) return;
+                        //     uGroup.keyUpTime = new Date().getTime();
+                        //     let id = $(this).attr('id');
+                        //     setTimeout(function () {
+                        //         if (new Date().getTime() - uGroup.keyUpTime > uGroup.waitTimeSearch) {
+                        //             uGroup.groupTable.search(uGroup.groupTable).draw();
+                        //             uGroup.keyUpTime = new Date().getTime();
+                        //         }
+                        //         return;
+                        //     }, uGroup.waitTimeSearch + 100);
+                        // });
 
+                        var that = this;
+                        $('.table-data-input-search').on('keyup change clear', function () {
+                            var that = this;
+                            $('.table-data-input-search').on('keyup', function () {
+                                oldValue = this.___value___;
+                                this.___value___ = this.value;
+                                if (oldValue == this.___value___) return;
+                                uGroup.keyUpTime = new Date().getTime();
+                                let id = $(this).attr('id');
+                                uGroup.objSearch[id] = this.value;
+                                setTimeout(function () {
+                                    if (new Date().getTime() -  uGroup.keyUpTime > 300) {
+                                        uGroup.groupTable.search(uGroup.objSearch).draw();
+                                        uGroup.keyUpTime = new Date().getTime();
+                                    }
+                                    return;
+                                }, 300);
+
+                            });
+                        });
 
                     });
                     $('.select_table').on('change', function () {
@@ -382,8 +420,9 @@ let uGroup = {
                                 "indexCount": i + 1,
                                 "stationName": responseJson.content[i].stationsName,
                                 "groupName": responseJson.content[i].name,
+                                "groupLevel": responseJson.content[i].groupLevel,
                                 "groupParentName": responseJson.content[i].groupParentName,
-                                "status": responseJson.content[i].status,
+                                "statusStr": responseJson.content[i].statusStr,
                                 "groupId": responseJson.content[i].id,
                             })
                         }
@@ -475,12 +514,14 @@ let uGroup = {
             method: "POST",
             contentType: "application/json",
             success: function (response) {
-                let html = "";
-                for (let i = 0; i < response.length; i++) {
-                    html += '<option value="' + response[i].stationId + '">' + response[i].stationCode + ' - ' + response[i].stationName + '</option>';
-                }
-                $("#tram").append(html);
-                $("#tram").select2();
+                console.log(response);
+                $("#tram").select2({data: response});
+                // let html = "";
+                // for (let i = 0; i < response.length; i++) {
+                //     html += '<option value="' + response[i].stationId + '">' + response[i].stationCode + ' - ' + response[i].stationName + '</option>';
+                // }
+                // $("#tram").append(html);
+                // $("#tram").select2();
             },
             error: function (error) {
                 toastr.error('Lỗi', data.message);
@@ -495,12 +536,14 @@ let uGroup = {
             method: "GET",
             contentType: "application/json",
             success: function (response) {
-                let html = "";
-                for (let i = 0; i < response.length; i++) {
-                    html += '<option value="' + response[i].id + '">' + response[i].id + ' - ' + response[i].name + '</option>';
-                }
-                $("#nguoi_dung").append(html);
-                $("#nguoi_dung").select2();
+                // let html = "";
+                // for (let i = 0; i < response.length; i++) {
+                //     html += '<option value="' + response[i].id + '">' + response[i].id + ' - ' + response[i].name + '</option>';
+                // }
+                // $("#nguoi_dung").append(html);
+                // $("#nguoi_dung").select2();
+                console.log(response);
+                $("#nguoi_dung").select2({data: response});
             },
             error: function (error) {
                 toastr.error('Lỗi', data.message);

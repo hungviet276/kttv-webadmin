@@ -310,6 +310,12 @@ var tableConfigValueType = $('#tableValueTypeConfig').DataTable({
                  } else{
                      responseJson.content[i].endDate = "";
                  }
+                 if(responseJson.content[i].variableTime == 0){
+                     responseJson.content[i].variableTime = "";
+                 }
+                if(responseJson.content[i].variableSpatial == 0){
+                    responseJson.content[i].variableSpatial = "";
+                }
 
                 dataRes.data.push({
                     "": "",
@@ -328,7 +334,6 @@ var tableConfigValueType = $('#tableValueTypeConfig').DataTable({
                     "endDate": responseJson.content[i].endDate
                 })
             }
-
             return JSON.stringify(dataRes);
         }
     }
@@ -418,7 +423,7 @@ var tableStationSpatial = $('#tableStationSpatial').DataTable({
         {
             data: null,
             className: "center",
-            defaultContent: '<a href="" class="editor_remove">Delete</a>'
+            defaultContent: '<a href="" class="editor_remove"><i class="fa fa-trash" aria-hidden="true"></i></a>'
         }
     ]
 });
@@ -460,7 +465,7 @@ $("#btnsaveStationValueType").click(function () {
                 }
             });
             if(insert == false){
-                toastr.warning('Lỗi', "Bản ghi đã tồn tại");
+                toastr.error('Lỗi', "Bản ghi đã tồn tại");
                 return;
             }
             tableStationSpatial.row.add(response).draw( true );
@@ -475,6 +480,11 @@ $("#btnsaveStationValueType").click(function () {
 // Delete a record
 tableStationSpatial.on('click', 'a.editor_remove', function (e) {
     e.preventDefault();
+    if(confirm("Bạn có muốn xóa bản ghi")){
+
+    } else {
+        return;
+    }
     var table = $('#tableStationSpatial').DataTable();
     table
         .row( $(this).parents('tr') )
@@ -689,11 +699,9 @@ var validator = $("#form_input").validate({
             required : true
         },
         variableTime : {
-            required : true,
             min : 0
         },
         variableSpatial : {
-            required : true,
             min : 0
         },
         startDateApply : {
@@ -727,12 +735,10 @@ var validator = $("#form_input").validate({
             required: "Bắt buộc chọn yếu tố",
         },
         variableTime : {
-            required: "Bắt buộc nhập giá trị biến đổi theo thời gian",
             min : "Giá trị không được âm",
             number : "Giá trị phải là số"
         },
         variableSpatial : {
-            required: "Bắt buộc nhập giá trị biến đổi theo không gian",
             min : "Giá trị không được âm",
             number : "Giá trị phải là số"
         },
