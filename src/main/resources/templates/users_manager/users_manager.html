@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <th:block th:replace="layout_header.html :: head_tag"/>
+    <th:block th:replace="layout_header.html :: head_tag" />
     <link rel="stylesheet" href="/css/users_manage.css" type="text/css">
     <title>Quản lý người dùng</title>
 </head>
-<body class="hold-transition sidebar-mini layout-fixed text-sm">
+<body  class="hold-transition sidebar-mini layout-fixed text-sm">
 <div class="wrapper">
 
-    <th:block th:replace="layout_menu.html :: menu_tag"/>
+    <th:block th:replace="layout_menu.html :: menu_tag" />
     <div class="content-wrapper">
         <div class="content-header">
             <div class="container-fluid">
@@ -30,7 +30,7 @@
                                 </div>
                                 <br/>
                                 <form class="form-horizontal" id="form_data">
-                                    <div class="form-row" id="search_users" style="display: none">
+                                    <div class="form-row" id ="search_users" style="display: none">
                                         <div class="form-group col-md-6">
                                             <label for="code_search">Mã người dùng</label>
                                             <input type="text" class="form-control" id="code_search"
@@ -46,11 +46,9 @@
                                         <div class="form-group col-md-6">
                                             <label for="start_date">Từ ngày</label>
                                             <div class="input-group">
-                                                <input type="text" class="form-control" id="start_date" placeholder=""
-                                                       autocomplete="off">
+                                                <input type="text" class="form-control" id="start_date" placeholder="" autocomplete="off">
                                                 <div class="input-group-prepend">
-                                                    <button type="button" class="btn btn-light" data-toggle="hidden"
-                                                            id="btnfromdate">
+                                                    <button type="button" class="btn btn-light" data-toggle="hidden" id="btnfromdate">
                                                         <i class="far fa-calendar-alt"></i>
                                                     </button>
                                                 </div>
@@ -59,11 +57,9 @@
                                         <div class="form-group col-md-6">
                                             <label for="end_date">Đến ngày</label>
                                             <div class="input-group">
-                                                <input type="text" class="form-control" id="end_date" autocomplete="off"
-                                                       placeholder="">
+                                                <input type="text" class="form-control" id="end_date" autocomplete="off" placeholder="">
                                                 <div class="input-group-prepend">
-                                                    <button type="button" class="btn btn-light" data-toggle="hidden"
-                                                            id="btntoDate">
+                                                    <button type="button" class="btn btn-light" data-toggle="hidden" id="btntoDate">
                                                         <i class="far fa-calendar-alt"></i>
                                                     </button>
                                                 </div>
@@ -75,34 +71,37 @@
                                     <button class="btn btn-primary" id="btnSearch" style="width:100px;">
                                         <i class="fas fa-search"></i> Tìm kiếm
                                     </button>
+                                    <button   class="btn btn-primary" id="btnDelete" style="display:none;width: 100px;">
+                                        <i class="far fa-trash-alt"></i> Xoá
+                                    </button>
                                     <button class="btn btn-primary" id="btnDonew" style="width:100px;">
                                         <i class="fas fa-plus"></i> Thêm
                                     </button>
                                 </div>
                                 <!--                            <p th:text="${a}"></p>-->
-                                <div><input autocomplete="off" style="display:none" type="text" class="form-control"
-                                            name="action_info" id="action_info" value="0"></div>
+                                <div><input  autocomplete="off" style="display:none" type="text" class="form-control" name="action_info" id="action_info" value="0"></div>
                                 <div class="card-body" style="width: 100%;overflow: auto">
                                     <table id="tableDataView" class="table table-bordered table-hover">
                                         <thead>
                                         <tr>
                                             <th></th>
                                             <th>#</th>
+                                            <th data-id="s_control">Thao tác</th>
                                             <th data-id="s_id">Tên đăng nhập</th>
                                             <th data-id="s_password" style="display: none;">password</th>
                                             <th data-id="s_name">Tên người dùng</th>
                                             <th data-id="s_mobile">Số điện thoại</th>
                                             <th data-id="s_email">EMAIL</th>
                                             <th data-id="s_gender" is_select="3">Giới tính</th>
-                                            <th data-id="s_checkRole" style="display: none;">Sử dụng quyền</th>
+                                            <th data-id="s_checkRole"  style="display: none;">Sử dụng quyền</th>
                                             <th data-id="s_cardNumber">Số chứng minh thư</th>
                                             <th data-id="s_officeCode">Nhóm người dùng</th>
                                             <th data-id="s_createDate" is_select="1">Ngày tạo</th>
                                             <th data-id="s_createdBy">Người tạo</th>
                                             <th data-id="s_datedwl">thời gian dowload</th>
-                                            <th data-id="s_statusId" is_select="2">Trạng thái</th>
-                                            <th data-id="s_statusId_int" style="display: none;">Trạng thái</th>
-                                            <th data-id="s_group_id" style="display: none;">grid</th>
+                                            <th data-id="s_statusId" is_select="2">Trạng thái </th>
+                                            <th data-id="s_statusId_int"  style="display: none;">Trạng thái </th>
+                                            <th data-id="s_group_id"  style="display: none;">grid</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -111,7 +110,7 @@
                                 </div>
                             </div>
                             <!-- /.card-footer -->
-                            <div class="col-sm-7" id="box_info">
+                            <div class="col-sm-7"  id ="box_info">
                                 <div style="width: 95%;float: right">
                                     <div class="card-header">
                                         <h4 style="text-align: center"><b>Thông tin người dùng</b></h4>
@@ -119,32 +118,24 @@
                                     <form class="form-horizontal" id="form_input">
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
-                                                <label for="input_Username">Tên đăng nhập <span
-                                                        style="color: red;">*</span></label>
-                                                <input autocomplete="off" type="text" class="form-control"
-                                                       id="input_Username" placeholder="" maxlength="29">
-                                                <input autocomplete="off" type="text" style="display: none"
-                                                       class="form-control" id="input_UsernameDub" placeholder="">
+                                                <label for="input_Username">Tên đăng nhập <span style="color: red;">*</span></label>
+                                                <input autocomplete="off" type="text" class="form-control" id="input_Username" placeholder="" maxlength="29">
+                                                <input autocomplete="off" type="text"  style="display: none" class="form-control" id="input_UsernameDub" placeholder="">
                                                 <span id="input_Username_msg" class="err_msg"></span>
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="input_Password">Mật khẩu <span style="color: red;">*</span></label>
-                                                <div class="input-group">
-                                                    <input autocomplete="off" type="password" class="form-control"
-                                                           id="input_Password" placeholder="" maxlength="199">
+                                                <div class="input-group" >
+                                                    <input autocomplete="off" type="password" class="form-control" id="input_Password" placeholder="" maxlength="199">
 
-                                                    <div class="input-group-prepend" id="icon_penc" onclick=""
-                                                         style="display: none">
-                                                        <button type="button" onclick="edit_pass();"
-                                                                class="btn btn-light" data-toggle="hidden">
-                                                            <i class="fas fa-pen"></i>
+                                                    <div class="input-group-prepend" id="icon_penc" onclick="" style="display: none">
+                                                        <button type="button" onclick="edit_pass();" class="btn btn-light" data-toggle="hidden">
+                                                            <i   class="fas fa-pen"></i>
                                                         </button>
                                                     </div>
-                                                    <div class="input-group-prepend" id="icon_dis_penc" onclick=""
-                                                         style="display: none">
-                                                        <button type="button" onclick="dis_penc();"
-                                                                class="btn btn-light" data-toggle="hidden">
-                                                            <i class="fas fa-pen"></i>
+                                                    <div  class="input-group-prepend" id="icon_dis_penc" onclick="" style="display: none">
+                                                        <button type="button" onclick="dis_penc();" class="btn btn-light" data-toggle="hidden">
+                                                            <i   class="fas fa-pen"></i>
                                                         </button>
                                                     </div>
                                                 </div>
@@ -158,17 +149,13 @@
                                             <!--                                    <span id="input_code_msg" class="err_msg"></span>-->
                                             <!--                                </div>-->
                                             <div class="form-group col-md-6">
-                                                <label for="input_name">Họ và tên <span
-                                                        style="color: red;">*</span></label>
-                                                <input autocomplete="off" type="text" class="form-control"
-                                                       id="input_name" placeholder="" maxlength="199">
+                                                <label for="input_name">Họ và tên <span style="color: red;">*</span></label>
+                                                <input  autocomplete="off" type="text" class="form-control" id="input_name" placeholder="" maxlength="199">
                                                 <span id="input_name_msg" class="err_msg"></span>
                                             </div>
                                             <div class="form-group col-md-6">
-                                                <label for="input_email">Email <span
-                                                        style="color: red;">*</span></label>
-                                                <input autocomplete="off" type="text" class="form-control"
-                                                       id="input_email"
+                                                <label for="input_email">Email <span style="color: red;">*</span></label>
+                                                <input autocomplete="off" type="text" class="form-control" id="input_email"
                                                        placeholder="" maxlength="99">
                                                 <span id="input_email_msg" class="err_msg"></span>
                                             </div>
@@ -176,15 +163,12 @@
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
                                                 <label for="input_cardNumber">Số chứng minh thư</label>
-                                                <input autocomplete="off" type="number" min="0" class="form-control"
-                                                       id="input_cardNumber" placeholder="" pattern="/^-?\d+\.?\d*$/"
-                                                       onKeyPress="if(this.value.length==29) return false;" onkeydown="return event.keyCode === 8 ||
+                                                <input autocomplete="off" type="number" min="0" class="form-control" id="input_cardNumber" placeholder="" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==29) return false;" onkeydown="javascript: return event.keyCode === 8 ||
 event.keyCode === 46 ? true : !isNaN(Number(event.key))">
                                                 <span id="input_cardNumber_msg" class="err_msg"></span>
                                             </div>
                                             <div class="form-group col-md-6">
-                                                <label for="input_group_id">Nhóm người dùng <span
-                                                        style="color: red">*</span></label>
+                                                <label for="input_group_id">Nhóm người dùng <span style="color: red">*</span></label>
                                                 <!--                                    <input type="email" class="form-control" id="input_group_id" placeholder="">-->
                                                 <select id="input_group_id" style="width: 100%">
                                                     <!--                                                            -->
@@ -195,15 +179,12 @@ event.keyCode === 46 ? true : !isNaN(Number(event.key))">
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
                                                 <label for="input_phone">Số điện thoại</label>
-                                                <input autocomplete="off" type="number" min="0" class="form-control"
-                                                       id="input_phone" placeholder="" pattern="/^-?\d+\.?\d*$/"
-                                                       onKeyPress="if(this.value.length==19) return false;" onkeydown="return event.keyCode === 8 ||
+                                                <input autocomplete="off" type="number" min="0" class="form-control" id="input_phone" placeholder="" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==19) return false;" onkeydown="javascript: return event.keyCode === 8 ||
 event.keyCode === 46 ? true : !isNaN(Number(event.key))">
                                                 <span id="input_phone_msg" class="err_msg"></span>
                                             </div>
                                             <div class="form-group col-md-6">
-                                                <label for="status_id">Trạng thái <span
-                                                        style="color: red">*</span></label>
+                                                <label for="status_id">Trạng thái <span style="color: red">*</span></label>
                                                 <select class="form-control" name="status_id" id="status_id">
                                                     <option value="1">Hoạt động</option>
                                                     <option value="0">Không hoạt động</option>
@@ -213,39 +194,30 @@ event.keyCode === 46 ? true : !isNaN(Number(event.key))">
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
-                                                <label>Giới tính</label>
+                                                <label >Giới tính</label>
                                                 <div>
-                                                    <input autocomplete="off" id="checkNam" name="checkedGender"
-                                                           class="checkedGender" type="radio" value="0" checked="true">
-                                                    <lable style="font-size: 9pt">Nam</lable>&nbsp;&nbsp;
-                                                    <input autocomplete="off" id="checkNu" name="checkedGender"
-                                                           class="checkedGender" type="radio" value="1">
+                                                    <input autocomplete="off" id="checkNam" name="checkedGender" class="checkedGender" type="radio" value="0" checked="true">
+                                                    <lable style="font-size: 9pt">Nam </lable>&nbsp;&nbsp;
+                                                    <input autocomplete="off" id="checkNu"  name="checkedGender" class="checkedGender" type="radio" value="1">
                                                     <lable style="font-size: 9pt">Nữ</lable>
                                                 </div>
                                                 <span id="gender_msg" class="err_msg"></span>
                                             </div>
                                             <div class="form-group col-md-6">
-                                                <label for="input_time_download">Thời gian download <span
-                                                        style="color: red">*</span></spam> </label>
-                                                <input autocomplete="off" type="number" min="1" class="form-control"
-                                                       id="input_time_download" placeholder="(Ngày)"
-                                                       pattern="/^[0-9 ]+$/" onkeydown="return event.keyCode === 8 ||
+                                                <label for="input_time_download">Thời gian download <span style="color: red">*</span></spam> </label>
+                                                <input autocomplete="off" type="number" min="1" class="form-control" id="input_time_download" placeholder="(Ngày)" pattern="/^[0-9 ]+$/" onkeydown="javascript: return event.keyCode === 8 ||
 event.keyCode === 46 ? true : !isNaN(Number(event.key))" onKeyPress="if(this.value.length==4) return false;">
                                                 <span id="input_time_download_msg" class="err_msg"></span>
                                             </div>
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
-                                                <label>Phân quyền <span style="color: red;"> * </span></label>
+                                                <label >Phân quyền <span style="color: red;"> * </span></label>
                                                 <div>
-                                                    <input autocomplete="off" id="checkNhomquyen" name="checkedQuyen"
-                                                           class="checkedQuyen" type="radio" value="0" checked="true"
-                                                           onclick="ckNhom_quyen()">
-                                                    <lable style="font-size: 9pt">Nhóm quyền</lable>&nbsp;&nbsp;
-                                                    <input autocomplete="off" id="checktacvu" name="checkedQuyen"
-                                                           class="checkedQuyen" type="radio" value="1"
-                                                           onclick="checktac_vu()">
-                                                    <lable style="font-size: 9pt">Nghiệp vụ</lable>
+                                                    <input autocomplete="off" id="checkNhomquyen" name="checkedQuyen" class="checkedQuyen" type="radio" value="0" checked="true" onclick="ckNhom_quyen()">
+                                                    <lable style="font-size: 9pt">Nhóm quyền </lable>&nbsp;&nbsp;
+                                                    <input autocomplete="off" id="checktacvu"  name="checkedQuyen" class="checkedQuyen" type="radio" value="1" onclick="checktac_vu()">
+                                                    <lable style="font-size: 9pt">Nghiệp vụ </lable>
                                                 </div>
                                                 <span id="checkquyen_msg" class="err_msg"></span>
                                             </div>
@@ -260,18 +232,16 @@ event.keyCode === 46 ? true : !isNaN(Number(event.key))" onKeyPress="if(this.val
                                             </li>
                                         </ul>
                                         <div class="tab-content">
-                                            <div id="NV" class="tab-pane fade in active">
+                                            <div id="NV" class="tab-pane fade in active" >
                                                 <h3>Nghiệp vụ</h3>
-                                                <div class="box-body no-padding" id='data-list-table-nv'
-                                                     style="overflow: auto">
+                                                <div class="box-body no-padding" id='data-list-table-nv'  style="overflow: auto">
 
 
                                                 </div>
                                             </div>
                                             <div id="menu2" class="tab-pane fade">
                                                 <h3>Nhóm quyền</h3>
-                                                <div class="box-body no-padding" id='data-list-table-nq'
-                                                     style="width: 100%;overflow: auto"></div>
+                                                <div class="box-body no-padding" id='data-list-table-nq' style="width: 100%;overflow: auto" ></div>
                                             </div>
                                         </div>
                                     </form>
@@ -280,16 +250,11 @@ event.keyCode === 46 ? true : !isNaN(Number(event.key))" onKeyPress="if(this.val
                                         <button class="btn btn-primary" id="btnsave" style="display:none;width: 100px;">
                                             <i class="fas fa-plus"></i> Lưu
                                         </button>
-                                        <button class="btn btn-primary" id="btnDelete"
-                                                style="display:none;width: 100px;">
-                                            <i class="far fa-trash-alt"></i> Xoá
-                                        </button>
-                                        <button class="btn btn-primary" id="btnReset"
-                                                style="display:none;width: 100px;">
+
+                                        <button class="btn btn-primary" id="btnReset" style="display:none;width: 100px;">
                                             <i class="fas fa-redo-alt"></i> Làm mới
                                         </button>
-                                        <button class="btn btn-primary" id="btncancer"
-                                                style="display:none;width: 100px;">
+                                        <button class="btn btn-primary" id="btncancer" style="display:none;width: 100px;">
                                             <i class="fas fa-times"></i> Hủy
                                         </button>
                                     </div>
@@ -320,7 +285,7 @@ event.keyCode === 46 ? true : !isNaN(Number(event.key))" onKeyPress="if(this.val
 <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
 </aside>
-<th:block th:replace="layout_footer.html :: footer_tag"/>
+<th:block th:replace="layout_footer.html :: footer_tag" />
 <script type="text/javascript">
     var apiUrl = "[[${session.apiUrl}]]";
     var userBO = "[[${session.userBO}]]";
