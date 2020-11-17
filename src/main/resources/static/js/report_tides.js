@@ -58,7 +58,7 @@ function validateSearch() {
     return true;
 }
 
-// HighChart
+// Chart
 const chart = {
     dataHmax: [],
     time: [],
@@ -87,12 +87,16 @@ const chart = {
         return this.time;
     }
 };
+// lấy dữ liệu test
+chart.getTime();
+chart.getDataHmax();
+// Chart
 let chartConfig = {
     type: 'area',
     stacked: true,
     title: {
         // Tên biểu đồ
-        text: 'Biểu Đồ Cao Độ Mực Nước Thủy Triều',
+        text: 'Biểu đồ cao độ mực nước',
         adjustLayout: true,
         marginTop: '15px',
         fontColor: '#424242'
@@ -131,10 +135,11 @@ let chartConfig = {
             fontColor: '#616161'
         },
         // Thời gian trục X
-        labels: chart.getTime(),
+        labels: chart.time,
         lineColor: '#AAA5A5',
         transform: {
-            type: 'date'
+            type: 'date',
+            "all": "%dd/%mm/%Y" + "<br>" + "%h:%i %A"
         },
         tick: {
             lineColor: '#AAA5A5'
@@ -185,8 +190,8 @@ let chartConfig = {
     series: [
         {
             text: 'Mực nước',
-            values: chart.getDataHmax(),
-            backgroundColor: '#2478af',
+            values: chart.dataHmax,
+            backgroundColor: '#4490bd',
             lineColor: '#0306af',
             marker: {
                 backgroundColor: '#ff0001',

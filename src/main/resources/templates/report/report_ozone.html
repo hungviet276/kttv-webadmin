@@ -1,14 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <title>Báo Cáo Xu Thế Biến Đổi Của Các Yếu Tố Thành Phần Khí Quyển</title>
+    <title>Báo Cáo Xu Thế Biến Đổi Thành Phần Khí Quyển</title>
     <th:block th:replace="layout_header.html :: head_tag"/>
     <link rel="stylesheet" href="/css/report_ozone.css" type="text/css">
-    <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.highcharts.com/modules/exporting.js"></script>
-    <script src="https://code.highcharts.com/modules/export-data.js"></script>
-    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
-
+    <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
     <style>
         .legend-normal {
             margin-left: 1em;
@@ -47,7 +43,7 @@
             <div class="container-fluid">
                 <div class="card card-default">
                     <div class="card-header">
-                        <h4>Báo Cáo Xu Thế Biến Đổi Của Các Yếu Tố Thành Phần Khí Quyển </h4>
+                        <h4>Báo Cáo Xu Thế Biến Đổi Thành Phần Khí Quyển </h4>
                     </div>
                     <div class="container-fluid">
                         <div class="row content" style="width: 100%">
@@ -61,13 +57,6 @@
                                                     <label for="tram">Trạm <span style="color: red;">*</span></label>
                                                     <select id="tram" class="form-control" style="width: 100%;">
                                                         <option value="">--Chọn Trạm--</option>
-                                                        <option value="son_la">Sơn La</option>
-                                                        <option value="tuyen_quang">Tuyên Quang</option>
-                                                        <option value="lang_son">Lạng Sơn</option>
-                                                        <option value="thai_binh">Thái Bình</option>
-                                                        <option value="ky_anh">Kỳ Anh</option>
-                                                        <option value="hue">Huế</option>
-                                                        <option value="can_tho">Cần Thơ</option>
                                                     </select>
                                                     <span id="tram_error" class="help-block" style="color: red"></span>
                                                 </div>
@@ -127,6 +116,19 @@
                                                     <span id="khoang_thoi_gian_error" class="help-block"
                                                           style="color: red"></span>
                                                 </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="chart-selector"> Chọn Thành Phần Yếu Tố </label>
+                                                    <select  id="chart-selector" name="chart-selector" class="form-control">
+                                                        <option value="">-- Chọn thành phần --</option>
+                                                        <option value="h2o">H2O(ppm)</option>
+                                                        <option value="o3">O3(ppm)</option>
+                                                        <option value="co2">CO2(ppm)</option>
+                                                        <option value="co">CO(ppm)</option>
+                                                        <option value="ch4">CH4(ppb)</option>
+                                                    </select>
+                                                    <span id="chart-selector_error" class="help-block"
+                                                          style="color: red"></span>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="wrap-button-control" id="div-button" style="margin-top: 15px;">
@@ -149,11 +151,12 @@
                                 <div style="width: 100%;float: right">
                                     <fieldset class="fieldset-normal" style="margin-top: 15px;">
                                         <legend class="legend-normal">Biểu Đồ</legend>
-                                        <figure class="highcharts-figure">
-                                            <div id="container"></div>
-                                            <p class="highcharts-description">
-                                            </p>
-                                        </figure>
+                                        <div class="zc-body">
+                                            <div class="chart--container" id="myChart">
+                                                <a class="zc-ref" href="https://www.zingchart.com/" rel="noopener">Powered
+                                                    by ZingChart</a>
+                                            </div>
+                                        </div>
                                     </fieldset>
                                 </div>
                             </div>
