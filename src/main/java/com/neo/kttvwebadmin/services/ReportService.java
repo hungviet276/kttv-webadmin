@@ -8,5 +8,5 @@ import com.neo.kttvwebadmin.exception.KTTVException;
  * @project NBD
  */
 public interface ReportService {
-    ParameterChartMappingAndData getParameterChartMappingAndData(String stationCode, String parameterTypeId, String startDate, String endDate) throws KTTVException;
+    ParameterChartMappingAndData getParameterChartMappingAndData(String stationCode, String parameterTypeId, String startDate, String endDate, String token) throws KTTVException;
 }

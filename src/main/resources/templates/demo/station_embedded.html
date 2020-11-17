@@ -81,10 +81,10 @@
 
             var template = new PopupTemplate({
                 title: "{stationName}",
-                content: "Trạng thái: {statusText}"
+                content: "Trạng thái: {isActive}"
             });
 
-            var centerPoint = [106.8, 16.7]
+            var centerPoint = [106.8, 16.7];
 
             var openSpacesRenderer = new UniqueValueRenderer({
                 field: "isActive",

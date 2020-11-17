@@ -17,13 +17,8 @@ public class DateUtils {
             return false;
         }
         try {
-
-            int day = Integer.parseInt(value.substring(0, 2));
-            int month = Integer.parseInt(value.substring(3, 5));
-            int year = Integer.parseInt(value.substring(6, 10));
-
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormatString);
-            Date date = simpleDateFormat.parse(value);
+            simpleDateFormat.parse(value);
             return true;
         } catch (ParseException e) {
             return false;
