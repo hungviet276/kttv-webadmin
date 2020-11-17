@@ -65,13 +65,11 @@ $('#btncancer').click(function () {
     $("#btnResetUpdate").css("display", "none");
     $("#btncancer").css("display", "none");
     $("#btnDonew").attr("disabled", false);
-    validWarningThreshold.resetForm();
-    validator.resetForm();
+    //validWarningThreshold.resetForm();
+    //validator.resetForm();
     $("#formWarningThreshold").get(0).reset();
     $("#thresholdWarning").empty();
     $("#cancelWarning").empty();
-    addSelect2CancelWarning();
-    addSelect2ThresholdWarning();
 
     //var rowDt = tableConfigValueType.rows('.selected').data()[0];
     show_search();
@@ -118,7 +116,7 @@ $('#station').select2({
     minimumInputLength: 0,
     delay: 350,
     templateSelection: function (data) {
-        if (data.id === '' || data.id == null || data.id == undefined) {
+        if (data.id === ' ' || data.id == null || data.id == undefined) {
             return '---- hãy chọn ----';
         }
 
@@ -140,7 +138,7 @@ $('#station').select2({
 
         },
         processResults: function (data) {
-            data = [{id: -1,text : '----hãy chọn----'}].concat(data);
+            data = [{id: " ",text : '----hãy chọn----'}].concat(data);
             return {
                 results: $.map(data, function (item) {
                     return {
@@ -361,7 +359,7 @@ $("#userReceiveInsite").select2({
     minimumInputLength: 0,
     delay: 350,
     templateSelection: function (data) {
-        if (data.id === '' || data.id == null || data.id == undefined) {
+        if (data.id === ' ' || data.id == null || data.id == undefined) {
             return '---- hãy chọn ----';
         }
 
@@ -469,7 +467,7 @@ $('#stationWarning').select2({
     minimumInputLength: 0,
     delay: 350,
     templateSelection: function (data) {
-        if (data.id === '' || data.id == null || data.id == undefined) {
+        if (data.id === ' ' || data.id == null || data.id == undefined) {
             return '---- hãy chọn ----';
         }
 
@@ -491,7 +489,7 @@ $('#stationWarning').select2({
 
         },
         processResults: function (data) {
-            data = [{id: -1,text : '----hãy chọn----'}].concat(data);
+            data = [{id: " ",text : '----hãy chọn----'}].concat(data);
             return {
                 results: $.map(data, function (item) {
                     return {
@@ -508,7 +506,7 @@ $('#warningCode').select2({
     minimumInputLength: 0,
     delay: 350,
     templateSelection: function (data) {
-        if (data.id === '' || data.id == null || data.id == undefined) {
+        if (data.id === ' ' || data.id == null || data.id == undefined) {
             return '---- hãy chọn ----';
         }
 
@@ -526,11 +524,17 @@ $('#warningCode').select2({
             if(term.term==null || term.term== undefined){
                 term.term = null;
             }
+            let data = $('#stationWarning').select2('data')[0];
+            if(data != undefined){
+                term.id = data.id.trim();
+            } else{
+                term.id = "";
+            }
             return JSON.stringify(term);
 
         },
         processResults: function (data) {
-            data = [{id: -1,text : '----hãy chọn----'}].concat(data);
+            data = [{id: " ",text : '----hãy chọn----'}].concat(data);
             return {
                 results: $.map(data, function (item) {
                     return {
@@ -613,7 +617,54 @@ tableUserOutSite.on('click', 'a.editor_remove', function (e) {
         .row( $(this).parents('tr') )
         .remove().draw();
 });
+var formInSite = $("#formInSite").validate({
+    rules : {
+        code : {
+            required : true,
+            validUtf8 : true,
+            maxlength : 50
+        },
+        name : {
+            required : true,
+            maxlength : 100
+        },
+        description : {
+            maxlength : 500
+        },
+        status : {
+            required : true,
+        }
+    },
+    messages: {
+        code: {
+            required: "Hãy nhập mã nhóm nhận cảnh báo",
+            maxlength  : "Mã nhóm  nhận cảnh báo vượt quá 50 ký tự"
+        },
+        name : {
+            required: "Hãy nhập tên nhóm nhận cảnh báo",
+            maxlength  : "Tên nhóm nhận cảnh báo vượt quá độ dài 150 ký tự"
+        },
+        description : {
+            maxlength : "Độ dài mô tả không được dài quá 500 ký tự"
+        },
+        status : {
+            required :"Trạng thái không được để trống"
+        }
+    },
+    errorPlacement : function(error, element) {
+        error.insertAfter(element.parents("div.insertError"));
+    }
+});
+jQuery.validator.addMethod("validUtf8", function(value, element){
+    var myRe = /[A-Z,0-9]+$/;
+    var myArray = myRe.test(value);
+    return myArray;
+}, "Mã cảnh báo phải viết hoa không được chứa ký tự đặc biệt hoặc số hoặc các chữ cái có dấu");
 $("#btnsave").click(function(){
+    var submit = $("#formInSite").valid();
+    if(submit==false){
+        return;
+    }
     let object = {};
     object.id = "";
     object.code = $("#code").val();
@@ -631,10 +682,31 @@ $("#btnsave").click(function(){
     for(let i =0 ; i<warningConfigTmp.length; i++){
         warningConfig.push(warningConfigTmp[i].warningManagerId)
     }
-    let userOutSite = tableUserOutSite.rows().data();
+    let userOutSiteTmp = tableUserReceiveMailOutSite.rows().data();
+    let userOutSite = [];
+    for(let i =0; i< userOutSiteTmp.length ; i++){
+        userOutSite.push(userOutSiteTmp[i].id);
+    }
     object.userInSites = userInSites;
     object.warningConfig = warningConfig;
     object.userOutSite = userOutSite;
+    object.user = username;
+    console.log(object);
+    $.ajax({
+        headers: {
+            'Authorization': token
+        },
+        "url": apiUrl + "group-mail-config",
+        "method": "POST",
+        "contentType": "application/json",
+        "data" : JSON.stringify(object),
+        "success": function (response) {
+            console.log(response)
+        },
+        "error": function (error) {
+           console.log(error);
+        }
+    });
 
 });
 
@@ -667,7 +739,43 @@ tableUserReceiveMailOutSite.on('click', 'a.editor_remove', function (e) {
         .remove().draw();
 });
 
+table
+    .on('select', rowSelect)
+    .on('deselect', rowDeselect);
+function rowSelect(e, dt, type, indexes) { // load các thông tin của những cái bên trái ra
+    $("#btnDonew").prop( "disabled", true );
+    $("#btnDetail").prop( "disabled", false );
+}
+function rowDeselect(e, dt, type, indexes) { // khóa các form bên trái
+    // var rowDt = table.rows('.selected').data()
+    //console.log(rowDt);
 
+    $("#btnDonew").prop( "disabled", false );
+    $("#btnDetail").prop( "disabled", true );
+}
+$("#btnDetail").click(function(){
+    var rowDt = table.rows('.selected').data()[0];
+    $("#btnDelete").prop( "disabled", false );
+    $("#id").val(rowDt.id);
+    togle_search();
+    $("#btnsave").css("display", "none");
+    $("#btnDelete").css("display", "inline");
+    $("#btnResetUpdate").css("display", "inline");
+    $("#btncancer").css("display", "inline");
+    $("#btnDonew").attr("disabled", true);
+    $('.nav-tabs a[href="#menu2"]').tab('show');
+    $("#btnsaveEdit").css("display", "inline");
+    $("#btnResetNew").css("display", "none");
+
+    console.log(rowDt);
+    $("#code").val(rowDt.code);
+    $("#name").val(rowDt.name);
+    $("#description").val(rowDt.description);
+    $("#status").val(rowDt.status);
+    $('#status').trigger('change');
+    //validatorhorizontal.resetForm();
+    //showDetailData(rowDt);
+});
 //
 // $('#valueTypeSpatial').select2({
 //

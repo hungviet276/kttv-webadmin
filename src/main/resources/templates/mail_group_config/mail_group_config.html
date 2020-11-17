@@ -65,28 +65,31 @@
                                     <div class="form-row" id ="search_users">
                                         <div class="form-group col-md-6 errorTxt">
                                             <div class="insertError">
-                                                <label for="codeMailGroup">Mã nhóm cảnh báo </label>
+                                                <label for="codeMailGroup">Mã nhóm nhận cảnh báo </label>
                                                 <input type="text" class="form-control" id="codeMailGroup" name="codeMailGroup" placeholder="">
                                             </div>
                                             <label></label>
                                         </div>
                                         <div class="form-group col-md-6 errorTxt">
                                             <div class="insertError">
-                                                <label for="nameMailGroup">Tên nhóm cảnh báo </label>
+                                                <label for="nameMailGroup">Tên nhóm nhận cảnh báo </label>
                                                 <input type="text" class="form-control" id="nameMailGroup" name="nameMailGroup" placeholder="">
                                             </div>
                                             <label></label>
                                         </div>
                                     </div>
                                     <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label for="statusMailGroup">Trạng thái</label>
-                                            <select class="form-control" id="statusMailGroup" data-placeholder="Select a State"
-                                                    data-dropdown-css-class="select2-purple" style="width: 100%;">
-                                                <option>--- Hãy chọn ---</option>
-                                                <option value="1">Hoạt động</option>
-                                                <option value="0">Dừng hoạt động</option>
-                                            </select>
+                                        <div class="form-group col-md-6 errorTxt">
+                                            <div class="insertError">
+                                                <label for="statusMailGroup">Trạng thái</label>
+                                                <select class="form-control" id="statusMailGroup" data-placeholder="Select a State"
+                                                        data-dropdown-css-class="select2-purple" style="width: 100%;">
+                                                    <option>--- Hãy chọn ---</option>
+                                                    <option value="1">Hoạt động</option>
+                                                    <option value="0">Dừng hoạt động</option>
+                                                </select>
+                                            </div>
+                                            <label></label>
                                         </div>
                                     </div>
                                 </form>
@@ -149,7 +152,7 @@
                                                         <div class="form-row">
                                                             <div class="form-group col-md-6 errorTxt">
                                                                 <div class="insertError">
-                                                                    <label for="code">Mã nhóm cảnh báo </label>
+                                                                    <label for="code">Mã nhóm cảnh báo <span style="color: red;">*</span></label>
                                                                     <input type="text" class="form-control" id="code" name="code" placeholder="">
                                                                 </div>
                                                                 <label></label>
@@ -157,7 +160,7 @@
 
                                                             <div class="form-group col-md-6 errorTxt">
                                                                 <div class="insertError">
-                                                                    <label for="name">Tên nhóm cảnh báo </label>
+                                                                    <label for="name">Tên nhóm cảnh báo <span style="color: red;">*</span></label>
                                                                     <input type="text" class="form-control" id="name" name="name" placeholder="">
                                                                 </div>
                                                                 <label></label>
@@ -171,14 +174,17 @@
                                                         </div>
 
                                                         <div class="form-row">
-                                                            <div class="form-group col-md-6">
-                                                                <label for="status">Trạng thái</label>
-                                                                <select class="form-control" id="status" name="status" data-placeholder="Select a State"
-                                                                        data-dropdown-css-class="select2-purple" style="width: 100%;">
-                                                                    <option>--- Hãy chọn ---</option>
-                                                                    <option value="1">Hoạt động</option>
-                                                                    <option value="0">Dừng hoạt động</option>
-                                                                </select>
+                                                            <div class="form-group col-md-6 errorTxt">
+                                                                <label for="status">Trạng thái <span style="color: red;">*</span></label>
+                                                                <div class="insertError">
+                                                                    <select class="form-control" id="status" name="status" data-placeholder="Select a State"
+                                                                            data-dropdown-css-class="select2-purple" style="width: 100%;">
+                                                                        <option value="">--- Hãy chọn ---</option>
+                                                                        <option value="1">Hoạt động</option>
+                                                                        <option value="0">Dừng hoạt động</option>
+                                                                    </select>
+                                                                </div>
+                                                                <label></label>
                                                             </div>
                                                         </div>
                                                         <input type="number" class="form-control" id="id" name="id" hidden>
@@ -189,7 +195,7 @@
                                                     <form class="form-horizontal" id="formUserReceiveInsite">
                                                         <div class="form-row">
                                                             <div class="form-group col-md-12 errorTxt">
-                                                                <label for="userReceiveInsite">Tài khoản - Tên - Email <span style="color: red;">*</span></label>
+                                                                <label for="userReceiveInsite">Tài khoản - Tên - Email</label>
                                                                 <div class="select2-purple insertError" style="height: 38px">
                                                                     <select id="userReceiveInsite" data-placeholder="Select a State" name="thresholdWarning"
                                                                             data-dropdown-css-class="select2-purple" style="width: 100%; height: 38px">

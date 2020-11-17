@@ -814,10 +814,10 @@ var warningManagerStationValid = $("#form_input").validate({
 });
 // làm ra để đây để sau này dùng  chứ giờ chưa sử dụng
 jQuery.validator.addMethod("validUtf8", function(value, element){
-    var myRe = /[A-Z,1-9]+$/;
+    var myRe = /[A-Z,0-9]+$/;
     var myArray = myRe.test(value);
     return myArray;
-}, "Mã cảnh báo không được chứa ký tự đặc biệt hoặc số hoặc các chữ cái có dấu");
+}, "Mã cảnh báo phải viết hoa không được chứa ký tự đặc biệt hoặc số hoặc các chữ cái có dấu");
 
 jQuery.validator.addMethod("maxByteCode", function(value, element){
     var utf8 = [];
