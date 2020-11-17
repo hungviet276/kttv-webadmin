@@ -1,0 +1,6 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../../symbols ../../core/JSONSupport ../../core/accessorSupport/decorators ../../symbols/support/jsonUtils".split(" "),function(k,l,b,e,h,c,f){return function(g){function a(a){a=g.call(this,a)||this;a.description=null;a.label=null;a.symbol=null;a.value=null;return a}b.__extends(a,g);d=a;a.prototype.clone=function(){return new d({value:this.value,description:this.description,label:this.label,symbol:this.symbol?this.symbol.clone():null})};a.prototype.getMeshHash=function(){var a=
+JSON.stringify(this.symbol&&this.symbol.toJSON());return this.value+"."+a};var d;b.__decorate([c.property({type:String,json:{write:!0}})],a.prototype,"description",void 0);b.__decorate([c.property({type:String,json:{write:!0}})],a.prototype,"label",void 0);b.__decorate([c.property({types:e.symbolTypesRenderer,json:{origins:{"web-scene":{types:e.symbolTypesRenderer3D,write:f.write}},write:f.write}})],a.prototype,"symbol",void 0);b.__decorate([c.property({type:String,json:{write:!0}})],a.prototype,
+"value",void 0);return a=d=b.__decorate([c.subclass("esri.renderers.support.UniqueValueInfo")],a)}(h.JSONSupport)});

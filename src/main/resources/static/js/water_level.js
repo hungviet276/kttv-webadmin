@@ -139,7 +139,8 @@ let objSearch = {
     s_create_user : '',
     s_station_id : '',
     start_date : '',
-    end_date : ''
+    end_date : '',
+    s_hours : ''
 };
 $('#tableWaterLevel thead th').each(function () {
     var title = $(this).text();
@@ -313,16 +314,6 @@ var tableWaterLevel = $('#tableWaterLevel').DataTable({
             };
 
             for (let i = 0; i < responseJson.content.length; i++) {
-                if(responseJson.content[i].timestamp!=null){
-                    let todayTimeEnd =new Date(responseJson.content[i].timestamp)
-                    let monthEnd = todayTimeEnd.getMonth() + 1;
-                    let dayEnd = todayTimeEnd.getDate();
-                    let yearEnd = todayTimeEnd.getFullYear();
-                    let dateEnd =  dayEnd + "/" + monthEnd + "/" + yearEnd;
-                    responseJson.content[i].timestamp = dateEnd;
-                } else{
-                    responseJson.content[i].timestamp = "";
-                }
                 dataRes.data.push({
                     "": "",
                     "indexCount": i + 1,
@@ -341,6 +332,7 @@ var tableWaterLevel = $('#tableWaterLevel').DataTable({
         }
     }
 });
+
 
 $("#s_warning").select2({});
 tableWaterLevel
@@ -377,6 +369,19 @@ $("#btnSearch").click(function(){
         $("#startDate").focus();
         return;
     }
+
+    var radios = document.getElementsByName('hour');
+    var hours = "";
+    for (var i = 0, length = radios.length; i < length; i++) {
+        if (radios[i].checked) {
+            // do whatever you want with the checked radio
+            // alert(radios[i].value);
+            hours = radios[i].value;
+            // only one radio can be logically checked, don't check the rest
+            break;
+        }
+    }
+
     if(dataStation.length == 0){
         toastr.error('Lỗi', "Hãy chọn trạm");
         $('#station').select2('open');
@@ -385,6 +390,7 @@ $("#btnSearch").click(function(){
     objSearch.s_station_id = dataStation[0].id;
     objSearch.end_date = $("#endDate").val();
     objSearch.start_date = $("#startDate").val();
+    objSearch.s_hours = hours;
     $("#table-data-input-search").val("");
     tableWaterLevel.search(objSearch).draw();
 
@@ -423,5 +429,86 @@ $("#btnEdit").click(function () {
     $("#valueWaterLevel").val(rowDt.value);
 });
 $("#updateWaterLevel").click(function(){
-    
+    var rowDt = tableWaterLevel.rows('.selected').data()[0];
+    let dataStation = $('#station').select2('data');
+    let data = {};
+    data.id = rowDt.id ;
+    data.manual = rowDt.manual ;
+    data.status = rowDt.status ;
+    data.timestamp = rowDt.timestamp ;
+    data.tsId = rowDt.tsId ;
+    data.user = username ;
+    data.value = parseFloat($("#valueWaterLevel").val());
+    data.warning = rowDt.warning ;
+    data.stationId= dataStation[0].id;
+    $.ajax({
+        headers: {
+            'Authorization': token
+        },
+        "url": apiUrl + "water-level/update-water-level",
+        "method": "POST",
+        "contentType": "application/json",
+        "data" : JSON.stringify(data),
+        "success": function (response) {
+           console.log(response)
+        },
+        "error": function (error) {
+            toastr.error('Sửa', error.responseJSON.message);
+        }
+    });
+});
+$("#btnExec").click(function(){
+
+    var submit = $("#form_data").valid();
+    if(submit==false){
+        return;
+    }
+    let dataStation = $('#station').select2('data');
+    let startDateTmp = stringToDate($("#startDate").val(), 'dd/mm/yyyy','/');
+    let endDateTmp = stringToDate($("#endDate").val(), 'dd/mm/yyyy','/');
+    if(startDateTmp >= endDateTmp){
+        toastr.error('Lỗi', "Ngày bắt đầu phải nhỏ hơn ngày kết thúc");
+        $("#startDate").focus();
+        return;
+    }
+    if(dataStation.length == 0){
+        toastr.error('Lỗi', "Hãy chọn trạm");
+        $('#station').select2('open');
+        return;
+    }
+    var radios = document.getElementsByName('hour');
+    var hours = "";
+    for (var i = 0, length = radios.length; i < length; i++) {
+        if (radios[i].checked) {
+            hours = radios[i].value;
+            break;
+        }
+    }
+    if(hours == ""){
+        toastr.error('Lỗi', "Hãy chọn khoảng thời gian thực hiện");
+        return;
+    }
+    var data = {};
+    data.stationId = dataStation[0].id;
+    data.startDate = $("#startDate").val();
+    data.endDate = $("#endDate").val();
+    data.hours = hours;
+    $("#table-data-input-search").val("");
+
+    $.ajax({
+        headers: {
+            'Authorization': token
+        },
+        "url": apiUrl + "water-level/execute-water-level",
+        "method": "POST",
+        "contentType": "application/json",
+        "data" : JSON.stringify(data),
+        "success": function (response) {
+            console.log(response)
+        },
+        "error": function (error) {
+            console.log(error)
+            toastr.error('Sửa', error.responseJSON.message);
+        }
+    });
 });

@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports ../../core/Error ../../core/object ./FeatureReduction ./FeatureReductionCluster ./FeatureReductionSelection".split(" "),function(l,a,e,g,h,k,d){function f(b,a,c){return b?"selection"!==b.type?(c.messages&&c.messages.push(new e("featureReduction:unsupported","FeatureReduction of type '"+b.declaredClass+"' are not supported in scenes.",{featureReduction:b,context:c})),null):b.write(a,c):null}Object.defineProperty(a,"__esModule",{value:!0});a.write=a.writeTarget=a.read=a.webSceneFeatureReductionTypes=
+void 0;a.webSceneFeatureReductionTypes={key:"type",base:h.default,typeMap:{selection:d}};a.read=function(b,a){a=a.layerDefinition||a;if(b=a.featureReduction)switch(b.type){case "selection":return d.fromJSON(b);case "cluster":return k.fromJSON(b)}return null};a.writeTarget=function(a,d,c,e){(a=f(a,{},e))&&g.setDeepValue(c,a,d)};a.write=f});

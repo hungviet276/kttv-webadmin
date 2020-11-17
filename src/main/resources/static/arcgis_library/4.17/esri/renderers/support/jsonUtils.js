@@ -1,0 +1,6 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports ../../core/compilerUtils ../../core/Error ../../core/object ../../core/Warning ../../core/accessorSupport/extensions/serializableProperty/reader ./types".split(" "),function(q,b,f,g,h,k,l,m){function n(a,d){if(!d||"web-scene"!==d.origin)return!0;switch(a.type){case "simple":case "unique-value":case "class-breaks":return!0;case "heatmap":case "dictionary":case "dot-density":return!1;default:return f.neverReached(a),!1}}function e(a,d,b){return a?a&&(a.styleName||a.styleUrl)&&
+"uniqueValue"!==a.type?(b&&b.messages&&b.messages.push(new k("renderer:unsupported","Only UniqueValueRenderer can be referenced from a web style, but found '"+a.type+"'",{definition:a,context:b})),null):p(a,d,b):null}Object.defineProperty(b,"__esModule",{value:!0});b.read=b.fromJSON=b.write=void 0;b.write=function(a,b,e,c){a?n(a,c)?a=a.write({},c):(c.messages&&c.messages.push(new g("renderer:unsupported","Renderer of type '"+a.declaredClass+"' are not supported in scenes.",{renderer:a,context:c})),
+a=null):a=null;a&&h.setDeepValue(e,a,b)};b.fromJSON=function(a,b){return e(a,null,b)};var p=l.createTypeReader({types:m.rendererTypes});b.read=e});

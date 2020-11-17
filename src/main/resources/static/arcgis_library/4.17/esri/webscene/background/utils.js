@@ -1,0 +1,4 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","./Background","./ColorBackground"],function(a,b,f,g){Object.defineProperty(b,"__esModule",{value:!0});b.backgroundProperty=void 0;a={base:f,key:"type",typeMap:{color:g}};b.backgroundProperty={types:a,json:{read:function(a){return function(d,c,b){if(!d)return d;for(var e in a.typeMap)if(d.type===e)return c=new a.typeMap[e],c.read(d,b),c}}(a),write:{overridePolicy:function(a,b,c){return{enabled:!c||!c.isPresentation}}}}}});

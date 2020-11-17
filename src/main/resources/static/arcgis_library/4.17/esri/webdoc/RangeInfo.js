@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../core/JSONSupport ../core/lang ../core/accessorSupport/decorators".split(" "),function(h,k,b,f,g,c){return function(e){function a(a){a=e.call(this,a)||this;a.activeRange=null;a.currentRangeExtent=null;a.fullRangeExtent=null;return a}b.__extends(a,e);d=a;a.prototype.clone=function(){return new d(g.clone({activeRange:this.activeRange,currentRangeExtent:this.currentRangeExtent,fullRangeExtent:this.fullRangeExtent}))};var d;b.__decorate([c.property({type:String,nonNullable:!0,
+json:{read:{source:"activeRangeName"},write:{target:"activeRangeName",isRequired:!0}}})],a.prototype,"activeRange",void 0);b.__decorate([c.property({type:[Number],json:{write:!0}})],a.prototype,"currentRangeExtent",void 0);b.__decorate([c.property({type:[Number],json:{write:!0}})],a.prototype,"fullRangeExtent",void 0);return a=d=b.__decorate([c.subclass("esri.webdoc.RangeInfo")],a)}(f.JSONSupport)});

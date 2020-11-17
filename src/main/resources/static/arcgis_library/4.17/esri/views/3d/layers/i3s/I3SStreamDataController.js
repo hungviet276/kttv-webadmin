@@ -1,0 +1,6 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","tslib","../../../../core/promiseUtils"],function(d,a,h,f){Object.defineProperty(a,"__esModule",{value:!0});a.I3SStreamDataController=void 0;d=function(){function a(b){this.requester=b;this.activeRequests=new Set}Object.defineProperty(a.prototype,"busy",{get:function(){return this.requester.busy},enumerable:!1,configurable:!0});a.prototype.request=function(b,a,c){var d=this,g=f.createAbortController(),k=f.onAbortOrThrow(c,function(){return g.abort()});c=h.__assign(h.__assign({},
+c),{signal:g.signal});b=this.requester.request(b,a,c);var e={response:b,abortController:g,abortHandle:k};this.activeRequests.add(e);f.always(b,function(){var a;e.abortController=null;null===(a=e.abortHandle)||void 0===a?void 0:a.remove();e.abortHandle=null;d.activeRequests.delete(e)});return b};a.prototype.cancelAll=function(){this.activeRequests.forEach(function(a){var b,c;null===(b=a.abortController)||void 0===b?void 0:b.abort();a.abortController=null;null===(c=a.abortHandle)||void 0===c?void 0:
+c.remove()});this.activeRequests.clear()};return a}();a.I3SStreamDataController=d;a.default=d});

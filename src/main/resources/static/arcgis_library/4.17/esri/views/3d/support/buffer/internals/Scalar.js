@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports"],function(d,c){Object.defineProperty(c,"__esModule",{value:!0});c.BufferViewScalarImpl=void 0;d=function(){function a(b,a,e,c,d){void 0===e&&(e=0);this.TypedArrayConstructor=b;this.elementCount=1;b=this.TypedArrayConstructor;void 0===c&&(c=b.BYTES_PER_ELEMENT);var f=0===a.byteLength?0:e;this.typedBuffer=null==d?new b(a,f):new b(a,f,(d-e)/b.BYTES_PER_ELEMENT);this.typedBufferStride=c/b.BYTES_PER_ELEMENT;this.count=Math.ceil(this.typedBuffer.length/this.typedBufferStride);
+this.stride=this.typedBufferStride*this.TypedArrayConstructor.BYTES_PER_ELEMENT}a.prototype.get=function(b){return this.typedBuffer[b*this.typedBufferStride]};a.prototype.set=function(b,a){this.typedBuffer[b*this.typedBufferStride]=a};Object.defineProperty(a.prototype,"buffer",{get:function(){return this.typedBuffer.buffer},enumerable:!1,configurable:!0});a.ElementCount=1;return a}();c.BufferViewScalarImpl=d});

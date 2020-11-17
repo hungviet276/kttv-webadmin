@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","tslib","../../core/accessorSupport/decorators"],function(e,a,c,d){Object.defineProperty(a,"__esModule",{value:!0});a.BlendLayer=void 0;a.BlendLayer=function(a){return function(a){function b(){var b=null!==a&&a.apply(this,arguments)||this;b.blendMode="normal";b.effect=null;return b}c.__extends(b,a);c.__decorate([d.property({type:"average color-burn color-dodge color darken destination-atop destination-in destination-out destination-over difference exclusion hard-light hue invert lighten lighter luminosity minus multiply normal overlay plus reflect saturation screen soft-light source-atop source-in source-out vivid-light xor".split(" "),
+nonNullable:!0,json:{read:!1,write:!1,origins:{"web-map":{default:"normal",read:!0,write:!0}}}})],b.prototype,"blendMode",void 0);c.__decorate([d.property({type:String})],b.prototype,"effect",void 0);return b=c.__decorate([d.subclass("esri.layers.mixins.BlendLayer")],b)}(a)}});

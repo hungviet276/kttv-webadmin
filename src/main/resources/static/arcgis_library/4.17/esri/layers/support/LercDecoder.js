@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../../core/promiseUtils ../../views/3d/support/WorkerHandle @dojo/framework/shim/Promise".split(" "),function(k,c,e,f,g){Object.defineProperty(c,"__esModule",{value:!0});c.releaseInstance=c.acquireInstance=void 0;var h=function(b){function a(a){var c=b.call(this,"LercWorker","_decode",a,{strategy:"dedicated"})||this;c.scheduler=a;return c}e.__extends(a,b);a.prototype.decode=function(a,b,c){return a&&0!==a.byteLength?this.invoke({buffer:a,options:b},c):f.resolve(null)};
+a.prototype.getTransferList=function(a){return[a.buffer]};return a}(g.WorkerHandle),d=new Map;c.acquireInstance=function(b){var a=d.get(b);a||(a={instance:new h(b),ref:0},d.set(b,a));++a.ref;return a.instance};c.releaseInstance=function(b){if(null!=b){b=b.scheduler;var a=d.get(b);a&&0>=--a.ref&&(a.instance.destroy(),d.delete(b))}}});

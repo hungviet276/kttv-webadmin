@@ -1,0 +1,6 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../../core/Error ../../core/maybe ../../core/promiseUtils ./support/utils ../support/adapters/support/layerUtils".split(" "),function(u,v,c,h,p,q,r,k){function t(a){return c.__awaiter(this,void 0,void 0,function(){var d,f,g,b,e,l,m;return c.__generator(this,function(n){switch(n.label){case 0:if(!(a&&a.layer&&a.view&&a.fields))throw new h("predominant-categories:missing-parameters","'layer', 'view' and 'fields' parameters are required");d=[0,2,1,3,4];f=a.layer;g=c.__rest(a,
+["layer"]);b=k.createLayerAdapter(f,d);e=c.__assign({layerAdapter:b},g);if(!b)throw new h("predominant-categories:invalid-parameters","'layer' must be one of these types: "+k.getLayerTypeLabels(d).join(", "));l=p.isSome(e.signal)?{signal:e.signal}:null;return[4,q.all([e.view.when(),b.load(l)])];case 1:n.sent();if(m=r.verifyBasicFieldValidity(b,e.fields,"predominant-categories:invalid-parameters"))throw m;return[2,e]}})})}return function(a){return c.__awaiter(this,void 0,void 0,function(){var d,f,
+g;return c.__generator(this,function(b){switch(b.label){case 0:return[4,t(a)];case 1:return d=b.sent(),f=d.layerAdapter,g=c.__rest(d,["layerAdapter"]),[2,f.predominantCategories(g)]}})})}});

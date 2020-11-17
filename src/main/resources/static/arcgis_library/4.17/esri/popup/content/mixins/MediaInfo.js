@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","tslib","../../../core/JSONSupport","../../../core/accessorSupport/decorators"],function(f,g,b,e,c){return function(d){function a(a){a=d.call(this,a)||this;a.altText=null;a.caption="";a.title="";a.type=null;return a}b.__extends(a,d);b.__decorate([c.property({type:String,json:{write:!0}})],a.prototype,"altText",void 0);b.__decorate([c.property({type:String,json:{write:!0}})],a.prototype,"caption",void 0);b.__decorate([c.property({type:String,json:{write:!0}})],a.prototype,
+"title",void 0);b.__decorate([c.property({type:["image","bar-chart","column-chart","line-chart","pie-chart"],readOnly:!0,json:{read:!1,write:!0}})],a.prototype,"type",void 0);return a=b.__decorate([c.subclass("esri.popup.content.mixins.MediaInfo")],a)}(e.JSONSupport)});

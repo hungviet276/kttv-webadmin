@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","./core/has","./support/revision","@dojo/framework/shim/Promise"],function(d,a,b,c){Object.defineProperty(a,"__esModule",{value:!0});a.setId=a.id=a.revision=a.workerMessages=a.version=void 0;Object.defineProperty(a,"revision",{enumerable:!0,get:function(){return c.commitHash}});a.version="4.17";a.workerMessages={request:function(a,b){return(new Promise(function(a,b){d(["./request"],a,b)})).then(function(e){var c=a.options||{};c.responseType="array-buffer";c.signal=null===
+b||void 0===b?void 0:b.signal;return e(a.url,c)}).then(function(a){return{result:{data:a.data,ssl:a.ssl},transferList:[a.data]}})}};a.setId=function(b){a.id=b};b("host-webworker")||(console.debug("Using ArcGIS API for JavaScript "+a.version+" [Date: "+c.buildDate+", Revision: "+c.commitHash.slice(0,8)+"]"),(b("edge")||b("trident"))&&console.warn("Deprecated browser - see http://esriurl.com/oldbrowser"))});

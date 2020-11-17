@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports"],function(k,b){function l(a){void 0===a&&(a=!0);return{isVisibleBit:!a,data:new Uint32Array(0)}}Object.defineProperty(b,"__esModule",{value:!0});b.defaultVisibilities=b.getVisibility=b.updateVisibilityWithCount=void 0;b.updateVisibilityWithCount=function(a,b,d,e){if(d>=b)return a;null==a&&(a=l());var c=a.data,g=8*c.BYTES_PER_ELEMENT,f=d/g|0,m=d-g*f,h=c;e=e===a.isVisibleBit;d<h.length*g||!e||(d=Math.max(f+1,Math.ceil(1.5*h.length)),d=Math.min(d,((b-1)/g|0)+1),c=new Uint32Array(d),
+c.set(h));f<c.length&&(c[f]=c[f]&~(1<<m)|(e?1:0)<<m);a.data=c;return a};b.getVisibility=function(a,b){if(null==a)return!0;var d=a.isVisibleBit,e=a.data,c=8*e.BYTES_PER_ELEMENT;return b<e.length*c?(a=b/c|0,0!==(e[a]&1<<b-a*c)===d):!a.isVisibleBit};b.defaultVisibilities=l;k=[];for(b=0;65>b;b++)k.push(Math.pow(2,b)-1)});

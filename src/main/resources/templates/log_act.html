@@ -3,7 +3,7 @@
 <head>
     <th:block th:replace="layout_header.html :: head_tag" />
     <link rel="stylesheet" href="/css/log_act.css" type="text/css">
-    <link rel="stylesheet" href="/admin_lte/plugins/daterangepicker-master/daterangepicker.css">
+    <link rel="stylesheet" href="/static/admin_lte/plugins/daterangepicker/daterangepicker.css">
     <title>Tra cứu lịch sử tác động</title>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed text-sm">
@@ -140,7 +140,7 @@
         var token = "[[${session.token}]]";
         console.log(apiUrl + "|" + JSON.stringify(userBO) + "|" + token);
     </script>
-    <script src="/admin_lte/plugins/daterangepicker-master/daterangepicker.js"></script>
+    <script src="/static/admin_lte/plugins/daterangepicker/daterangepicker.js"></script>
     <script src="/js/log_act.js"></script>
 </div>
 </body>

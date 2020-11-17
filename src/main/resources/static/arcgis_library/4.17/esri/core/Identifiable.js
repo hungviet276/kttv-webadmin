@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","tslib","./accessorSupport/decorators/subclass"],function(d,a,c,e){Object.defineProperty(a,"__esModule",{value:!0});a.Identifiable=a.IdentifiableMixin=void 0;var f=0;a.IdentifiableMixin=function(a){return function(a){function b(){for(var b=[],c=0;c<arguments.length;c++)b[c]=arguments[c];b=a.apply(this,b)||this;Object.defineProperty(b,"uid",{writable:!1,configurable:!1,value:Date.now().toString(16)+"-object-"+f++});return b}c.__extends(b,a);return b=c.__decorate([e.subclass("esri.core.Identifiable")],
+b)}(a)};d=function(b){function a(){return null!==b&&b.apply(this,arguments)||this}c.__extends(a,b);return a=c.__decorate([e.subclass("esri.core.Identifiable")],a)}(a.IdentifiableMixin(function(){return function(){}}()));a.Identifiable=d});

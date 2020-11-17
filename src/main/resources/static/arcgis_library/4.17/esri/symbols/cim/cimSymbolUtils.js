@@ -1,0 +1,6 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../../symbols ../../core/promiseUtils ./cimAnalyzer ./ExpandedCIM".split(" "),function(p,c,b,k,l,m,e){Object.defineProperty(c,"__esModule",{value:!0});c.expandSymbol=c.expandSymbols=void 0;c.expandSymbols=function(a,n,d){return b.__awaiter(void 0,void 0,void 0,function(){return b.__generator(this,function(b){return[2,l.all(a.map(function(a){return c.expandSymbol(a,n,d)}))]})})};var h=function(a,c){return b.__awaiter(void 0,void 0,void 0,function(){var d;return b.__generator(this,
+function(b){switch(b.label){case 0:return d=e.ExpandedCIM.bind,[4,m.analyzeCIMSymbol(a.data,c)];case 1:return[2,new (d.apply(e.ExpandedCIM,[void 0,b.sent(),a.data,a.rendererKey]))]}})})};c.expandSymbol=function(a,c,d){return b.__awaiter(void 0,void 0,void 0,function(){var e,g,f;return b.__generator(this,function(b){switch(b.label){case 0:if(!a)return[2,null];if("cim"===a.type)return[2,h(a,c)];if("web-style"!==a.type)return[3,2];e=k.WebStyleSymbol.fromJSON(a);f={type:"cim"};return[4,e.fetchCIMSymbol(d)];
+case 1:return g=(f.data=b.sent().data,f.rendererKey=a.rendererKey,f),[2,h(g,c)];case 2:return[2,a]}})})}});

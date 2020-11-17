@@ -65,28 +65,31 @@
                                     <div class="form-row" id ="search_users">
                                         <div class="form-group col-md-6 errorTxt">
                                             <div class="insertError">
-                                                <label for="codeMailGroup">Mã nhóm cảnh báo </label>
+                                                <label for="codeMailGroup">Mã nhóm nhận cảnh báo </label>
                                                 <input type="text" class="form-control" id="codeMailGroup" name="codeMailGroup" placeholder="">
                                             </div>
                                             <label></label>
                                         </div>
                                         <div class="form-group col-md-6 errorTxt">
                                             <div class="insertError">
-                                                <label for="nameMailGroup">Tên nhóm cảnh báo </label>
+                                                <label for="nameMailGroup">Tên nhóm nhận cảnh báo </label>
                                                 <input type="text" class="form-control" id="nameMailGroup" name="nameMailGroup" placeholder="">
                                             </div>
                                             <label></label>
                                         </div>
                                     </div>
                                     <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label for="statusMailGroup">Trạng thái</label>
-                                            <select class="form-control" id="statusMailGroup" data-placeholder="Select a State"
-                                                    data-dropdown-css-class="select2-purple" style="width: 100%;">
-                                                <option>--- Hãy chọn ---</option>
-                                                <option value="1">Hoạt động</option>
-                                                <option value="0">Dừng hoạt động</option>
-                                            </select>
+                                        <div class="form-group col-md-6 errorTxt">
+                                            <div class="insertError">
+                                                <label for="statusMailGroup">Trạng thái</label>
+                                                <select class="form-control" id="statusMailGroup" data-placeholder="Select a State"
+                                                        data-dropdown-css-class="select2-purple" style="width: 100%;">
+                                                    <option>--- Hãy chọn ---</option>
+                                                    <option value="1">Hoạt động</option>
+                                                    <option value="0">Dừng hoạt động</option>
+                                                </select>
+                                            </div>
+                                            <label></label>
                                         </div>
                                     </div>
                                 </form>
@@ -129,12 +132,12 @@
                                             <li class="nav-item child_template">
                                                 <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill"
                                                    href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home"
-                                                   aria-selected="true">Nhóm người nhận trong hệ thống</a>
+                                                   aria-selected="true">Quản lý nhóm người nhận mail</a>
                                             </li>
                                             <li class="nav-item child_template">
                                                 <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill"
                                                    href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile"
-                                                   aria-selected="false">Nhóm người nhận ngoài hệ thống</a>
+                                                   aria-selected="false">Quản lý nhóm người nhận mail ngoài hệ thống</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -149,7 +152,7 @@
                                                         <div class="form-row">
                                                             <div class="form-group col-md-6 errorTxt">
                                                                 <div class="insertError">
-                                                                    <label for="code">Mã nhóm cảnh báo </label>
+                                                                    <label for="code">Mã nhóm cảnh báo <span style="color: red;">*</span></label>
                                                                     <input type="text" class="form-control" id="code" name="code" placeholder="">
                                                                 </div>
                                                                 <label></label>
@@ -157,7 +160,7 @@
 
                                                             <div class="form-group col-md-6 errorTxt">
                                                                 <div class="insertError">
-                                                                    <label for="name">Tên nhóm cảnh báo </label>
+                                                                    <label for="name">Tên nhóm cảnh báo <span style="color: red;">*</span></label>
                                                                     <input type="text" class="form-control" id="name" name="name" placeholder="">
                                                                 </div>
                                                                 <label></label>
@@ -171,26 +174,28 @@
                                                         </div>
 
                                                         <div class="form-row">
-                                                            <div class="form-group col-md-6">
-                                                                <label for="status">Trạng thái</label>
-                                                                <select class="form-control" id="status" name="status" data-placeholder="Select a State"
-                                                                        data-dropdown-css-class="select2-purple" style="width: 100%;">
-                                                                    <option>--- Hãy chọn ---</option>
-                                                                    <option value="1">Hoạt động</option>
-                                                                    <option value="0">Dừng hoạt động</option>
-                                                                </select>
+                                                            <div class="form-group col-md-6 errorTxt">
+                                                                <label for="status">Trạng thái <span style="color: red;">*</span></label>
+                                                                <div class="insertError">
+                                                                    <select class="form-control" id="status" name="status" data-placeholder="Select a State"
+                                                                            data-dropdown-css-class="select2-purple" style="width: 100%;">
+                                                                        <option value="">--- Hãy chọn ---</option>
+                                                                        <option value="1">Hoạt động</option>
+                                                                        <option value="0">Dừng hoạt động</option>
+                                                                    </select>
+                                                                </div>
+                                                                <label></label>
                                                             </div>
                                                         </div>
                                                         <input type="number" class="form-control" id="id" name="id" hidden>
                                                     </form>
                                                     </fieldset>
-                                                    <div>
-                                                        <h3 style="text-align: center"><b>Danh sách nhóm người dùng trong hệ thống</b></h3>
-                                                    </div>
+                                                    <fieldset class="fieldset-normal">
+                                                        <legend class="legend-normal">Dánh sách người dùng trong hệ thống</legend>
                                                     <form class="form-horizontal" id="formUserReceiveInsite">
                                                         <div class="form-row">
                                                             <div class="form-group col-md-12 errorTxt">
-                                                                <label for="userReceiveInsite">Tài khoản - Tên - Email <span style="color: red;">*</span></label>
+                                                                <label for="userReceiveInsite">Tài khoản - Tên - Email</label>
                                                                 <div class="select2-purple insertError" style="height: 38px">
                                                                     <select id="userReceiveInsite" data-placeholder="Select a State" name="thresholdWarning"
                                                                             data-dropdown-css-class="select2-purple" style="width: 100%; height: 38px">
@@ -201,6 +206,7 @@
                                                             </div>
                                                         </div>
                                                     </form>
+                                                    </fieldset>
                                                     <div class="wrap-button-control">
                                                         <button class="btn btn-primary" id="btnSaveUserInsite" style="width: 100px;">
                                                             <i class="fas fa-plus"></i> Lưu
@@ -210,6 +216,40 @@
                                                         <thead>
                                                         <tr>
                                                             <th>Tài khoản</th>
+                                                            <th>Tên</th>
+                                                            <th>Email</th>
+                                                            <th>Xóa</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        </tbody>
+                                                    </table>
+                                                    <fieldset class="fieldset-normal">
+                                                        <legend class="legend-normal">Dánh sách người dùng ngoài hệ thống</legend>
+                                                    <form class="form-horizontal" id="formUserReceiveOutsite">
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-12 errorTxt">
+                                                                <label for="userReceiveInsite">Tên - Email </label>
+                                                                <div class="select2-purple insertError" style="height: 38px">
+                                                                    <select id="userReceiveOutSite" data-placeholder="Select a State" name="userReceiveOutSite"
+                                                                            data-dropdown-css-class="select2-purple" style="width: 100%; height: 38px">
+                                                                        <!--                                                            -->
+                                                                    </select>
+                                                                </div>
+                                                                <label></label>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    </fieldset>
+                                                    <div class="wrap-button-control">
+                                                        <button class="btn btn-primary" id="btnSaveUserOutSiteInTbl" style="width: 100px;">
+                                                            <i class="fas fa-plus"></i> Lưu
+                                                        </button>
+                                                    </div>
+                                                    <table id="tableUserReceiveMailOutSite" class="table table-bordered table-hover" style="margin: 0 auto; width: 100%">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>id</th>
                                                             <th>Tên</th>
                                                             <th>Email</th>
                                                             <th>Xóa</th>
@@ -343,19 +383,22 @@
                                                     </form>
                                                     </fieldset>
                                                     <div class="wrap-button-control">
-                                                        <button class="btn btn-primary" id="btnsaveStationValueType" style="width: 100px;">
+                                                        <button class="btn btn-primary" id="btnSaveUserOutSite" style="width: 100px;">
                                                             <i class="fas fa-plus"></i> Lưu
                                                         </button>
                                                     </div>
-                                                    <table id="tableWarningThreshold" class="table table-bordered table-hover" style="margin: 0 auto; width: 100%">
+                                                    <table id="tableUserOutSite" class="table table-bordered table-hover" style="margin: 0 auto; width: 100%">
                                                         <thead>
                                                         <tr>
-                                                            <th>Mã mức cảnh báo</th>
-                                                            <th>Id Yếu tố</th>
-                                                            <th>Tên yếu tố</th>
-                                                            <th>Ngưỡng cảnh báo</th>
-                                                            <th>Ngưỡng hủy cảnh báo</th>
+                                                            <th>Id</th>
+                                                            <th>Tên</th>
+                                                            <th>Số điện thoại</th>
+                                                            <th>Mã người dùng</th>
+                                                            <th>Email</th>
+                                                            <th>Giới tinh</th>
                                                             <th>Trạng thái</th>
+                                                            <th>Số chứng minh thư</th>
+                                                            <th>Chức vụ</th>
                                                             <th>Xóa</th>
                                                         </tr>
                                                         </thead>

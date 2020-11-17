@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../../../../../core/Error ../../../../../core/Logger @dojo/framework/shim/Promise".split(" "),function(h,a,b,k,d){Object.defineProperty(a,"__esModule",{value:!0});a.createWhereClause=void 0;var e=d.getLogger("esri.views.2d.layers.features.support.whereUtils"),m={getAttribute:function(l,a){return l.field(a)}};a.createWhereClause=function(a,d){return b.__awaiter(this,void 0,void 0,function(){var f,c,g;return b.__generator(this,function(b){switch(b.label){case 0:return[4,
+new Promise(function(a,b){h(["../../../../../core/sql/WhereClause"],a,b)})];case 1:f=b.sent();try{return c=f.WhereClause.create(a,d),c.isStandardized||(g=new k("mapview - bad input","Unable to apply filter's definition expression, as expression is not standardized.",c),e.error(g)),[2,function(a){a=a.readArcadeFeature();return c.testFeature(a,m)}]}catch(n){return e.warn("mapview-bad-where-clause","Encountered an error when evaluating where clause",a),[2,function(a){return!0}]}}})})}});

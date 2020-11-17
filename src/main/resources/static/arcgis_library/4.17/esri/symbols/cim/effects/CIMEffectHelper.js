@@ -1,0 +1,4 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","../CIMCursor","../CIMEffects","../CIMOperators"],function(c,a,e,g,h){Object.defineProperty(a,"__esModule",{value:!0});a.CIMEffectHelper=void 0;var k=96/72;c=function(){function a(){}a.executeEffects=function(a,b){b=e.cloneAndDecodeGeometry(b);b=new g.SimpleGeometryCursor(b);for(var d=0;d<a.length;d++){var c=a[d],f=h.getEffectOperator(c);f&&(b=f.execute(b,c,k))}return b};a.next=function(a){a=a.next();e.deltaEncodeGeometry(a);return a};return a}();a.CIMEffectHelper=c});

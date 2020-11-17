@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","../../../../core/libs/gl-matrix-2/vec3f64"],function(b,a,c){Object.defineProperty(a,"__esModule",{value:!0});a.SphericalHarmonicsLight=a.AmbientLight=a.FillLight=a.MainLight=void 0;b=function(){return function(d,a,b){void 0===d&&(d=c.vec3f64.create());void 0===a&&(a=c.vec3f64.fromValues(.57735,.57735,.57735));void 0===b&&(b=!0);this.intensity=d;this.direction=a;this.castShadows=b}}();a.MainLight=b;b=function(){return function(a,b){void 0===a&&(a=c.vec3f64.create());void 0===
+b&&(b=c.vec3f64.fromValues(.57735,.57735,.57735));this.intensity=c.vec3f64.create();this.direction=c.vec3f64.create();this.intensity=a;this.direction=b}}();a.FillLight=b;b=function(){return function(a){void 0===a&&(a=c.vec3f64.create());this.intensity=a}}();a.AmbientLight=b;b=function(){return function(){this.sh={r:[0],g:[0],b:[0]}}}();a.SphericalHarmonicsLight=b});

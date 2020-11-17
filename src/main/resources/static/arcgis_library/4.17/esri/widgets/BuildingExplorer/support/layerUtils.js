@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","tslib","../../../core/promiseUtils"],function(h,e,b,f){function g(a,c){return b.__awaiter(this,void 0,void 0,function(){return b.__generator(this,function(d){switch(d.label){case 0:return[4,a.load(c)];case 1:return d.sent(),[4,a.loadAll()];case 2:return d.sent(),f.throwIfAborted(c),a.summaryStatistics?[4,a.summaryStatistics.load(c)]:[3,4];case 3:d.sent(),d.label=4;case 4:return[2]}})})}Object.defineProperty(e,"__esModule",{value:!0});e.createLoadLayersFunction=void 0;
+e.createLoadLayersFunction=function(){var a=this,c=f.createAbortController();return function(d){return b.__awaiter(a,void 0,void 0,function(){var a,e;return b.__generator(this,function(b){switch(b.label){case 0:return c.abort(),c=f.createAbortController(),a={signal:c.signal},e=d.toArray().map(function(b){return g(b,a)}),[4,f.all(e)];case 1:return b.sent(),f.throwIfAborted(a),[2]}})})}}});

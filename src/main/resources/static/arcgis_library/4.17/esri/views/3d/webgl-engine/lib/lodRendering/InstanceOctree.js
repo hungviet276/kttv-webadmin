@@ -1,0 +1,6 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../../../../../core/libs/gl-matrix-2/mat4f64 ../../../../../core/libs/gl-matrix-2/vec3 ../../../../../core/libs/gl-matrix-2/vec3f64 ../../../support/mathUtils ../Octree".split(" "),function(f,b,g,h,k,l,m,n){Object.defineProperty(b,"__esModule",{value:!0});b.InstanceOctree=void 0;f=function(b){function e(a,d){var c=b.call(this,{getCenter:function(a){var b=c._instanceData.view.boundingSphere,d=c._tmpCenter;d[0]=b.get(a,0);d[1]=b.get(a,1);d[2]=b.get(a,2);return d},getRadius:function(a){return c._instanceData.view.boundingSphere.get(a,
+3)}},{maximumDepth:25})||this;c._tmpCenter=l.vec3f64.create();c._tmpMat4=h.mat4f64.create();c._instanceData=a;c._boundingSphere=d;return c}g.__extends(e,b);e.prototype.addInstance=function(a){var d=this._instanceData.view.boundingSphere,c=this._instanceData.getCombinedModelTransform(a,this._tmpMat4),b=k.vec3.transformMat4(this._tmpCenter,this._boundingSphere.center,c),c=this._boundingSphere.radius*m.maxScale(c);d.set(a,0,b[0]);d.set(a,1,b[1]);d.set(a,2,b[2]);d.set(a,3,c);this.add(a)};e.prototype.removeInstance=
+function(a){this.remove(a)};return e}(n);b.InstanceOctree=f});

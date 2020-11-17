@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../../Color ../../core/JSONSupport ../../core/lang ../../core/accessorSupport/decorators ./materialUtils".split(" "),function(a,b,d,g,h,k,e,f){Object.defineProperty(b,"__esModule",{value:!0});b.Symbol3DHalo=void 0;a=function(b){function c(){var a=null!==b&&b.apply(this,arguments)||this;a.color=new g([0,0,0,1]);a.size=0;return a}d.__extends(c,b);a=c;c.prototype.clone=function(){return new a({color:k.clone(this.color),size:this.size})};var a;d.__decorate([e.property(f.colorAndTransparencyProperty)],
+c.prototype,"color",void 0);d.__decorate([e.property(f.screenSizeProperty)],c.prototype,"size",void 0);return c=a=d.__decorate([e.subclass("esri.symbols.support.Symbol3DHalo")],c)}(h.JSONSupport);b.Symbol3DHalo=a;b.default=a});

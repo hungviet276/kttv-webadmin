@@ -1,0 +1,4 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["../Logger","../deprecate"],function(c,d){d.deprecated(c.getLogger("esri.core.tsSupport.makeTemplateObjectHelper"),"helpers from esri.core.tsSupport are no longer required",{replacement:"use helpers from TSLib by enabling the TypeScript compiler importHelpers option",version:"4.16",see:"https://github.com/Microsoft/tslib#readme"});return function(a,b){if(Object.defineProperty)return Object.defineProperty(a,"raw",{value:b});a.raw=b;return a}});

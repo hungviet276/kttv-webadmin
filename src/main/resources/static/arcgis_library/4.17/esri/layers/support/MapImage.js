@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../../core/JSONSupport ../../core/accessorSupport/decorators ../../geometry/Extent".split(" "),function(g,h,b,e,c,f){return function(d){function a(){var a=null!==d&&d.apply(this,arguments)||this;a.extent=null;a.height=null;a.href=null;a.opacity=1;a.rotation=0;a.scale=null;a.visible=!0;a.width=null;return a}b.__extends(a,d);b.__decorate([c.property({type:f})],a.prototype,"extent",void 0);b.__decorate([c.property()],a.prototype,"height",void 0);b.__decorate([c.property()],
+a.prototype,"href",void 0);b.__decorate([c.property()],a.prototype,"opacity",void 0);b.__decorate([c.property()],a.prototype,"rotation",void 0);b.__decorate([c.property()],a.prototype,"scale",void 0);b.__decorate([c.property()],a.prototype,"visible",void 0);b.__decorate([c.property()],a.prototype,"width",void 0);return a=b.__decorate([c.subclass("esri.layer.support.MapImage")],a)}(e.JSONSupport)});

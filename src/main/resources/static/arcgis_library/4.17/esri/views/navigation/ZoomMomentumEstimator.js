@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","tslib","./Momentum","./MomentumEstimator"],function(g,c,h,l,m){Object.defineProperty(c,"__esModule",{value:!0});c.ZoomMomentumEstimator=c.ZoomMomentum=void 0;var k=function(d){function a(b,e,a){return d.call(this,b,e,a)||this}h.__extends(a,d);a.prototype.value=function(b){b=d.prototype.value.call(this,b);return Math.exp(b)};a.prototype.valueDelta=function(b,a){var e=d.prototype.value.call(this,b);b=d.prototype.value.call(this,b+a);return Math.exp(b-e)};return a}(l.Momentum);
+c.ZoomMomentum=k;g=function(d){function a(b,a,c,f){void 0===b&&(b=2.5);void 0===a&&(a=.01);void 0===c&&(c=.95);void 0===f&&(f=12);return d.call(this,b,a,c,f)||this}h.__extends(a,d);a.prototype.add=function(b,a){d.prototype.add.call(this,Math.log(b),a)};a.prototype.createMomentum=function(a,c,d){return new k(a,c,d)};return a}(m.MomentumEstimator);c.ZoomMomentumEstimator=g});

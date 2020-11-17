@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","tslib","./maybe","./ObjectPool"],function(e,d,f,g,h){Object.defineProperty(d,"__esModule",{value:!0});d.ReentrantObjectPool=void 0;e=function(c){function b(){var a=null!==c&&c.apply(this,arguments)||this;a._set=new Set;return a}f.__extends(b,c);b.prototype.destroy=function(){c.prototype.destroy.call(this);this._set=g.nullifyNonnullableForDispose(this._set)};b.prototype.acquire=function(){for(var a=[],b=0;b<arguments.length;b++)a[b]=arguments[b];a=c.prototype.acquire.apply(this,
+a);this._set.delete(a);return a};b.prototype.release=function(a){a&&!this._set.has(a)&&(c.prototype.release.call(this,a),this._set.add(a))};b.prototype._dispose=function(a){this._set.delete(a);c.prototype._dispose.call(this,a)};return b}(h);d.ReentrantObjectPool=e});

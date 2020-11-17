@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../../core/JSONSupport ../../core/accessorSupport/decorators ./ClassificationDefinition".split(" "),function(g,h,b,e,c,f){return function(d){function a(){var a=null!==d&&d.apply(this,arguments)||this;a.classificationDefinition=null;a.where=null;return a}b.__extends(a,d);b.__decorate([c.property({type:f,json:{read:{source:"classificationDef"},write:{target:"classificationDef"}}})],a.prototype,"classificationDefinition",void 0);b.__decorate([c.property({type:String,json:{write:!0}})],
+a.prototype,"where",void 0);return a=b.__decorate([c.subclass("esri.tasks.support.GenerateRendererParameters")],a)}(e.JSONSupport)});

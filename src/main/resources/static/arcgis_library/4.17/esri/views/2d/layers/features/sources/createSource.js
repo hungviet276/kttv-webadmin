@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports ../../../../../layers/support/arcgisLayerUrl ./DrillDownFeatureSource ./GeoEventSource ./PagedFeatureSource".split(" "),function(m,b,f,g,h,k){Object.defineProperty(b,"__esModule",{value:!0});b.createSource=void 0;b.createSource=function(a,b,l,d,e){a:{switch(a.type){case "stream":a={type:"geoevent",serviceInfo:a,onRequest:d,outSR:b,canAcceptRequest:e};break a;case "memory":case "on-demand":var c;c=a.source;c=Array.isArray(c)?"local":"path"in c&&f.isHostedAgolService(c.path)?
+"hosted":"unknown";a={type:"feature",serviceInfo:a,onRequest:d,outSR:b,origin:c,tileInfoView:l,canAcceptRequest:e};break a}a=void 0}switch(a.type){case "feature":switch(a.origin){case "hosted":case "local":return new k.PagedFeatureSource(a);case "unknown":return new g.DrillDownFeatureSource(a)}case "geoevent":return new h.GeoEventSource(a)}}});

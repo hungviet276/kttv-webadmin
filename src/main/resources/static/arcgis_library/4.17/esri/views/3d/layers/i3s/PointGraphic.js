@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","tslib","../../../../Graphic","../../../../core/accessorSupport/decorators"],function(e,b,c,g,f){Object.defineProperty(b,"__esModule",{value:!0});b.PointGraphic=void 0;e=function(b){function a(a){return b.call(this,a)||this}c.__extends(a,b);d=a;a.prototype.clone=function(){return new d(this.cloneProperties())};a.prototype.cloneProperties=function(){var a=this.pointCloudMetadata;return c.__assign(c.__assign({},b.prototype.cloneProperties.call(this)),{pointCloudMetadata:a})};
+var d;c.__decorate([f.property({constructOnly:!0})],a.prototype,"pointCloudMetadata",void 0);return a=d=c.__decorate([f.subclass("esri.views.3d.layers.i3s.PointGraphic")],a)}(g);b.PointGraphic=e});

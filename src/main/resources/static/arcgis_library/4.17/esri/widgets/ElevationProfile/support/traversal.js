@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","tslib","@dojo/framework/shim/Promise"],function(m,e,l){function h(c,b){var a,e,k,f,g;return l.__generator(this,function(d){switch(d.label){case 0:if(c>=b)return[2];a=c+Math.floor((b-c)/2);return[4,a];case 1:d.sent(),e=h(c,a),k=h(a+1,b),d.label=2;case 2:return f=e.next(),g=k.next(),f.done&&g.done?[3,7]:f.done?[3,4]:[4,f.value];case 3:d.sent(),d.label=4;case 4:return g.done?[3,6]:[4,g.value];case 5:d.sent(),d.label=6;case 6:return[3,2];case 7:return[2]}})}Object.defineProperty(e,
+"__esModule",{value:!0});e.getIndices=void 0;e.getIndices=function(c,b,a){void 0===a&&(a=[]);if(c>=b)return a;a.push(c);if(2>b-c)return a;--b;a.push(b);for(c=h(c+1,b);;){b=c.next();if(b.done)break;a.push(b.value)}return a}});

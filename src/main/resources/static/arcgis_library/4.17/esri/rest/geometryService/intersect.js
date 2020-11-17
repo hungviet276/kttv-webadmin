@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../../request ../../geometry/support/jsonUtils ../utils ./utils".split(" "),function(m,a,b,n,e,f,p){Object.defineProperty(a,"__esModule",{value:!0});a.intersect=void 0;a.intersect=function(a,g,h,q){return b.__awaiter(this,void 0,void 0,function(){var c,d,k,l;return b.__generator(this,function(m){c=g[0].spatialReference;d=f.parseUrl(a);k=b.__assign(b.__assign({},d.query),{f:"json",sr:JSON.stringify(c.toJSON()),geometries:JSON.stringify(p.encodeGeometries(g)),geometry:JSON.stringify({geometryType:e.getJsonType(h),
+geometry:h.toJSON()})});l=f.asValidOptions(k,q);return[2,n(d.path+"/intersect",l).then(function(a){return(a.data.geometries||[]).map(function(a){return e.fromJSON(a).set({spatialReference:c})})})]})})}});
