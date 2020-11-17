@@ -1,12 +1,15 @@
 let userIDs = {};
 let userId;
 let casbins = [];
-let isStart = false;
-let casbinDataTable = [];
+let casbinsDelete = [];
+let casbinAdd = [];
+let casbinselected = [];
+let oldList = [];
+let casbinSearch = [];
 let tableApi;
-let rowOfUser = [];
+let oldLength;
 const URL = {
-    'GET_USERS_URL': apiUrl + 'user-info/get-all-user-id'
+    GET_USERS_URL: apiUrl + 'user-info/get-all-user-id'
     , GET_CASBIN: apiUrl + 'casbin-rule/get-casbin-by-user-id?userId='
     , ADD_CASBIN: apiUrl + "casbin-rule/add-casbin"
     , UPDATE_CASBIN: apiUrl + "casbin-rule/update-casbin"
@@ -18,7 +21,7 @@ $(document).ready(function () {
     getUsers();
 });
 
-function getUsers() {
+getUsers = function () {
     $.ajax({
         headers: {
             'Authorization': token
@@ -27,11 +30,9 @@ function getUsers() {
         , method: "GET"
         , contentType: "application/json"
         , success: function (data) {
-            console.log("data", data);
             for (let i = 0; i < data.length; i++) {
                 userIDs[i] = data[i].id;
             }
-            console.log("userIDs", userIDs);
             let listOptions = "<option value='' disabled selected>Chọn User</option>";
             for (let i = 0; i < data.length; i++) {
                 listOptions += "<option value='" + userIDs[i] + "'>" + userIDs[i] + "</option>";
@@ -44,47 +45,35 @@ function getUsers() {
     });
 }
 
-let Table = {
-    drawTable: function (user) {
-        userId = user;
-        console.log("drawTable userId:  " + user);
-        $.ajax({
-            headers: {
-                'Authorization': token
+filterData = function () {
+    casbinAdd = [];
+    casbinsDelete = [];
+    for (let i = 0; i < oldList.length; i++) {
+        for (let j = 0; j < casbinselected.length; j++) {
+            if (oldList[i].indexCount === casbinselected[j].indexCount) {
+                casbinselected.splice(j, 1);
+                oldList.splice(i, 1);
             }
-            , url: URL.GET_CASBIN + userId
-            , method: 'POST'
-            , contentType: "application/json"
-            , success: function (responseJson) {
-                console.log("get-casbin-by-user-id : ", responseJson);
-                casbins = [];
-                for (let i = 0; i < responseJson.length; i++) {
-                    casbins.push({
-                        "": ""
-                        , "indexCount": i + 1
-                        , 'api': responseJson[i].v1
-                        , "method": responseJson[i].v2
-                        , 'user': responseJson[i].v0
-                    });
-                }
-                console.log('dataRes.data : ', casbins.length);
-                Table.initTable();
-            }
-        });
+        }
     }
-    , initTable: function () {
+    oldList.map(oldData => casbinsDelete.push(castToCasbin(oldData)));
+    casbinselected.map(dataSelected => casbinAdd.push(castToCasbin(dataSelected)));
+}
+
+let Table = {
+    initTable: function (casbins) {
         if (tableApi) {
             tableApi.destroy();
         }
         tableApi = $('#tableDataView').DataTable({
             columnDefs: [{
                 orderable: false
-                , "processing": true
                 , className: 'select-checkbox'
                 , targets: 0
-                , 'checkboxes': {
-                    'selectRow': true
+                , checkboxes: {
+                    selectRow: true
                 }
+                , processing: true
             }]
             , dom: 'Bfrtip'
             , select: {
@@ -113,165 +102,70 @@ let Table = {
             ]
             , data: casbins
         });
-        tableApi.rows(function (idx, data, node) {
+        oldList = [];
+        oldLength = 0;
+        tableApi.rows(function (idx, data) {
             if (data.user && data.user === userId) {
                 tableApi.row(idx).select();
+                oldList.push(data);
             }
         });
+        oldLength = oldList.length;
+    }
+    , getCasbinselect: function () {
+        casbinselected = [];
+        casbinselected = tableApi.rows({selected: true}).data().toArray();
     }
 };
 
-$("#btnSearch").click(function (event) {
-    event.preventDefault();
-    event.stopPropagation();
-    $("#btnDetail").prop("disabled", true);
-    $("#btnDonew").attr("disabled", false);
-    var inputSearch = $(".table-data-input-search");
-    for (let i = 0; i < inputSearch.length; i++) {
-        $(inputSearch[i]).val("");
-    }
-    if ($("#station").val() === -1) {
-        objSearch.s_id_station = null;
-    } else {
-        objSearch.s_id_station = $("#station").val();
-    }
-
-    if ($("#value-type").val() === -1) {
-        objSearch.s_parameter_type_id = null;
-    } else {
-        objSearch.s_parameter_type_id = $("#value-type").val();
-    }
-    tableConfigValueType.search(objSearch).draw();
-});
-
-let CasbinRule = {
-    getCasbinRule: function (userId) {
-        if (!userId) {
-            return;
+let Casbin = {
+    getAllCasbinByUser: function (user) {
+        if (user) {
+            userId = user;
         }
         $.ajax({
             headers: {
                 'Authorization': token
             }
             , url: URL.GET_CASBIN + userId
-            , method: "POST"
-            , contentType: "application/json"
-            , success: function (data) {
-                console.log('getCasbinRule casbinRules', data);
-                casbins = [];
-                if (data !== null && data.length > 0) {
-                    for (let i = 0; i < data.length; i++) {
-                        casbins.push({
-                            'v0': data[i].v0
-                            , 'v1': data[i].v1
-                            , 'v2': data[i].v2
-                        });
-                    }
-                }
-                Table.drawTable(casbins);
-            }
-            , error: function (error) {
-                toastr.error('Lỗi', error.message);
-            }
-        })
-    }
-    , addCasbin: function () {
-        debugger;
-        casbin = {
-            "v0": userId
-            , "v1": $.trim($('#inputApi').val())
-            , "v2": $.trim($('#inputMethod').val())
-        };
-        console.log('addCasbin casbin : ', casbin);
-        if (!casbin.v0) {
-            toastr.error('Chưa chọn user');
-            return;
-        }
-        if (!casbin.v1) {
-            toastr.error('Chưa nhập url');
-            return;
-        }
-        if (!casbin.v2) {
-            toastr.error('Chưa chọn method');
-            return;
-        }
-        console.log("Casbin : ", casbin);
-        $.ajax({
-            headers: {
-                'Authorization': token
-            }
-            , url: URL.ADD_CASBIN
-            , data: JSON.stringify(casbin), method: "POST"
-            , contentType: "application/json",
-            success: function (respone) {
-                console.log("respone", respone);
-                if (respone.status === 1) {
-                    $('#apiUrl').val();
-                    toastr.success(respone.message);
-                    casbins.push(casbin);
-                    Table.drawTable(casbins);
-                } else {
-                    toastr.error('Lỗi', respone.message);
-                }
-            }
-            , error: function (error) {
-                toastr.error('Lỗi', error.message);
-            }
-        });
-    }
-    , updateCasbin: function () {
-        let data =
-            [{
-                v0: 'anhocho'
-                , v1: 'linktest3'
-                , v2: 'POST'
-            }
-                , {
-                v0: 'anhocho'
-                , v1: 'linktest4'
-                , v2: 'POST'
-            }
-            ];
-        $.ajax({
-            headers: {
-                'Authorization': token
-            }
-            , url: URL.ADD_CASBIN
             , method: 'POST'
             , contentType: "application/json"
-            , data: JSON.stringify(data)
             , success: function (responseJson) {
-                console.log("ADD_CASBIN : ", responseJson);
+                if (responseJson.length > 0) {
+                    casbins = [];
+                    for (let i = 0; i < responseJson.length; i++) {
+                        let casbin = responseJson[i];
+                        casbins.push({
+                            "": ""
+                            , "indexCount": i + 1
+                            , 'api': casbin.v1
+                            , "method": casbin.v2
+                            , 'user': casbin.v0
+                        });
+                    }
+                    Table.initTable(casbins);
+                } else if (tableApi) {
+                    tableApi.destroy();
+                }
             }
         });
     }
-    , removeCasbin() {
-        let dataSelected = [];
-        let rowsDelete = [];
-        dataSelected = table.rows({selected: true}).data();
-        dataSelected.map(casbinRemove => {
-            console.table(casbinRemove);
-            casbin.v0 = casbinRemove.v0;
-            casbin.v1 = casbinRemove.v1;
-            casbin.v2 = casbinRemove.v2;
-            rowsDelete.push(casbin);
-        });
-        console.table('remove casbin array : ', rowsDelete);
-        let data = JSON.stringify(rowsDelete);
+    , update: function (data) {
+        let dataRequest = JSON.stringify(data)
+        console.log('dataRequest ', dataRequest);
         $.ajax({
             headers: {
                 'Authorization': token
             }
-            , url: URL.DELETE_CASBIN
-            , data: data
-            , dataType: 'json'
-            , method: "POST"
-            , contentType: "application/json"
-            , success: function (respone) {
-                console.log("respone", respone);
-                if (respone.status === 1) {
-                    toastr.success(respone.message);
-                    Table.removeRow(casbin);
+            , url: URL.UPDATE_CASBIN
+            , method: 'POST'
+            , contentType: 'application/json'
+            , data: dataRequest
+            , success: function (responseJson) {
+                console.log("update : ", responseJson);
+                if (responseJson.status === 1) {
+                    toastr.success(responseJson.message);
+                    Casbin.getAllCasbinByUser(userId);
                 }
             }
             , error: function (error) {
@@ -279,58 +173,66 @@ let CasbinRule = {
             }
         });
     }
-};
+    , searchCasbin: function (stringSearch) {
+        casbinSearch = [];
+        casbins.map(casbin => {
+            let api = casbin.api;
+            let method = casbin.method;
+            let resultSearch = api.search(stringSearch);
+            let methodInput = $('#inputPublish').val();
+            console.log('methodInput : ' + methodInput);
+            if (resultSearch >= 0 && method === methodInput) {
+                casbinSearch.push(casbin);
+            }
+        })
+        Table.initTable(casbinSearch);
+    }
+}
 
 initActive = function () {
     initSearchButton();
     show_search();
-    $("#btnUpdate").click(function (event) {
-        CasbinRule.updateCasbin();
-    });
+    initUpdateBtn();
+    initChangeUser();
 };
 
-function show_search() {
+show_search = function () {
     $("#box_info").hide(150);
     $("#box_search").show(250);
     $("#box_search").attr('class', 'col-sm-12');
 }
 
-addOrRemove = function () {
-    $('#example tbody').on('click', 'tr', function () {
-        var id = this.id;
-        var index = $.inArray(id, selected);
-
-        if (index === -1) {
-            selected.push(id);
-        } else {
-            selected.splice(index, 1);
-        }
-
-        $(this).toggleClass('selected');
+initChangeUser = function () {
+    $('#inputUsers').change(function () {
+        userId = $(this).val();
+        console.log('$(this).val()', userId)
+        Casbin.getAllCasbinByUser(userId);
+    })
+}
+initUpdateBtn = function () {
+    $("#btnUpdate").click(function () {
+        Table.getCasbinselect();
+        filterData();
+        let dataRequest = [];
+        dataRequest[0] = casbinsDelete;
+        dataRequest[1] = casbinAdd;
+        console.log('casbinAdd', casbinAdd);
+        console.log('casbinsDelete', casbinsDelete);
+        Casbin.update(dataRequest);
     });
 };
-
+castToCasbin = function (data) {
+    let casbin = {
+        v0: userId
+        , v1: data.api
+        , v2: data.method
+    }
+    return casbin;
+}
 initSearchButton = function () {
-    $("#btnSearch").click(function (event) {
-        event.preventDefault();
-        event.stopPropagation();
-        $("#btnDetail").prop("disabled", true);
-        $("#btnDonew").attr("disabled", false);
-        var inputSearch = $(".table-data-input-search");
-        for (let i = 0; i < inputSearch.length; i++) {
-            $(inputSearch[i]).val("");
-        }
-        if ($("#station").val() == -1) {
-            objSearch.s_id_station = null;
-        } else {
-            objSearch.s_id_station = $("#station").val();
-        }
-
-        if ($("#value-type").val() == -1) {
-            objSearch.s_parameter_type_id = null;
-        } else {
-            objSearch.s_parameter_type_id = $("#value-type").val();
-        }
-        tableConfigValueType.search(objSearch).draw();
+    $('#btnSearch').click(function () {
+        let stringSeach = $('#inputUrl').val().trim().toLowerCase();
+        console.log('stringSeach : ' + stringSeach)
+        Casbin.searchCasbin(stringSeach);
     });
 };

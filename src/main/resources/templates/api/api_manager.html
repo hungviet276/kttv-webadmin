@@ -4,7 +4,8 @@
 <head>
     <th:block th:replace="layout_header.html :: head_tag"/>
     <title>Quản lý Api</title>
-    <link rel="stylesheet" href="/static/css/api_manager.css" type="text/css">
+    <link rel="stylesheet" href="/css/api_manager.css" type="text/css">
+
 </head>
 <body class="hold-transition sidebar-mini layout-fixed text-sm">
 <div class="wrapper">
@@ -31,24 +32,24 @@
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label for="inputUsers">User</label>
-                                            <select id="inputUsers" onchange="Table.drawTable(this.value);"
+                                            <select id="inputUsers"
                                                     class="select2bs4 form-control">
                                             </select>
                                         </div>
                                     </div>
                                     <div class="form-row">
                                         <div class="col-md-6">
-                                            <label for="inputDetailFile">URL</label>
-                                            <input type="text" class="form-control" id="inputDetailFile"
-                                                   placeholder="Đường dẫn">
+                                            <label>URL</label>
+                                            <input type="text" class="form-control" id="inputUrl"
+                                                   placeholder="Nhập đường dẫn">
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="inputPublish">Method</label>
                                             <select id="inputPublish" class="form-control">
-                                                <option value="1">POST</option>
-                                                <option value="0">GET</option>
-                                                <option value="0">PUT</option>
-                                                <option value="0">DELETE</option>
+                                                <option value="POST">POST</option>
+                                                <option value="GET">GET</option>
+                                                <option value="PUT">PUT</option>
+                                                <option value="DELETE">DELETE</option>
                                             </select>
                                         </div>
                                     </div>
@@ -84,18 +85,6 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="popup-loading">
-                    <div class="wrapper-loading">
-                        <div class="sub-wrapper-loading">
-                            <div class="d-flex justify-content-center">
-                                <div class="spinner-border" role="status">
-                                    <span class="sr-only" th:text="#{action.loading}">Loading...</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -112,5 +101,5 @@
     var username = "[[${session.userBO.Username}]]";
     var token = "[[${session.token}]]";
 </script>
-<script src="../../static/js/api_manager.js"></script>
+<script src="js/api_manager.js"></script>
 </html>

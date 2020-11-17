@@ -8,6 +8,6 @@ public class ApiManagerController {
 
     @GetMapping("/demo")
     public String loadConfig() {
-        return "users_manager/api_manager";
+        return "api/api_manager";
     }
 }
