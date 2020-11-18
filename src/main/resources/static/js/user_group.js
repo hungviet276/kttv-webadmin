@@ -437,9 +437,10 @@ let uGroup = {
     },
 
     initEvent: function () {
-        uGroup.groupTable.on( 'select', function ( e, dt, type, indexes ) {
+        uGroup.groupTable.on('select', function ( e, dt, type, indexes ) {
+            console.log("chay vao day");
             uGroup.currGroupId = uGroup.groupTable.rows(indexes).data().toArray()[0].groupId;
-            uGroup.openForm("update", uGroup.currGroupId);
+            // uGroup.openForm("update", uGroup.currGroupId);
         } );
 
         $("#btnNew").click(function () {
