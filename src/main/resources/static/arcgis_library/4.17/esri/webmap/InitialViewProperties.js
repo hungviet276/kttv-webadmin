@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../Viewpoint ../core/Accessor ../core/lang ../core/accessorSupport/decorators ../geometry/SpatialReference ../webdoc/RangeInfo ./background/ColorBackground".split(" "),function(n,p,b,f,g,h,c,k,l,m){return function(e){function a(a){a=e.call(this,a)||this;a.background=null;a.rangeInfo=null;a.spatialReference=null;a.viewpoint=null;return a}b.__extends(a,e);d=a;a.prototype.clone=function(){return new d(h.clone({background:this.background,rangeInfo:this.rangeInfo,spatialReference:this.spatialReference,
+viewpoint:this.viewpoint}))};var d;b.__decorate([c.property({type:m})],a.prototype,"background",void 0);b.__decorate([c.property({type:l})],a.prototype,"rangeInfo",void 0);b.__decorate([c.property({type:k})],a.prototype,"spatialReference",void 0);b.__decorate([c.property({type:f})],a.prototype,"viewpoint",void 0);return a=d=b.__decorate([c.subclass("esri.webmap.InitialViewProperties")],a)}(g)});

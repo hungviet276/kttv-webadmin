@@ -1,0 +1,6 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../../../core/accessorSupport/decorators ../engine/webgl/GroupContainer ./LayerView2D ../../layers/GroupLayerView".split(" "),function(h,k,c,d,e,f,g){return function(b){function a(){var a=null!==b&&b.apply(this,arguments)||this;a.container=new e.GroupContainer;return a}c.__extends(a,b);a.prototype.attach=function(){var a=this;this._updateStageChildren();this.handles.add(this.layerViews.on("after-changes",function(){return a._updateStageChildren()}),"grouplayerview2d")};
+a.prototype.detach=function(){this.handles.remove("grouplayerview2d");this.container.removeAllChildren()};a.prototype.hitTest=function(a,b){return null};a.prototype.update=function(a){};a.prototype.moveStart=function(){};a.prototype.viewChange=function(){};a.prototype.moveEnd=function(){};a.prototype._updateStageChildren=function(){var a=this;this.container.removeAllChildren();this.layerViews.forEach(function(b,c){return a.container.addChildAt(b.container,c)})};return a=c.__decorate([d.subclass("esri.views.2d.layers.GroupLayerView2D")],
+a)}(f.LayerView2DMixin(g))});

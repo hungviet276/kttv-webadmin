@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports"],function(b,a){Object.defineProperty(a,"__esModule",{value:!0});a.DisplayIdGenerator=a.getDisplayIdIndex=a.getDisplayIdType=a.DISPLAY_ID_TYPE_AGGREGATE=a.DISPLAY_ID_TYPE_FEATURE=void 0;a.DISPLAY_ID_TYPE_FEATURE=0;a.DISPLAY_ID_TYPE_AGGREGATE=1;a.getDisplayIdType=function(a){return(a&2147483648)>>>31};a.getDisplayIdIndex=function(a){return a&2147483647};b=function(){function a(){this._freeIds=[];this._idCounter=1}a.prototype.createId=function(a){void 0===a&&(a=!1);var b=
+this._getFreeId();return((a?2147483648:0)|b)>>>0};a.prototype.releaseId=function(a){this._freeIds.push(a)};a.prototype._getFreeId=function(){return this._freeIds.length?this._freeIds.pop():this._idCounter++};return a}();a.DisplayIdGenerator=b});

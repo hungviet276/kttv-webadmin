@@ -1,0 +1,4 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","../../../renderers/support/HeatmapColorStop"],function(f,b,e){Object.defineProperty(b,"__esModule",{value:!0});b.getHeatmapRampStops=void 0;b.getHeatmapRampStops=function(a){a=a.colorStops;var b=a.length-1;if(a&&a[0]){var c=a[b];c&&1!==c.ratio&&(a=a.slice(0),a.push(new e({ratio:1,color:c.color})),b++)}return a.map(function(a,c){var d="";0===c?d="low":c===b&&(d="high");return{color:a.color,label:d,ratio:a.ratio}}).reverse()}});

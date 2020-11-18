@@ -1,0 +1,6 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../../core/Error ../../core/promiseUtils ../../core/accessorSupport/decorators".split(" "),function(r,a,c,k,l,e){Object.defineProperty(a,"__esModule",{value:!0});a.WMSLayerView=void 0;a.WMSLayerView=function(a){return function(a){function b(){return null!==a&&a.apply(this,arguments)||this}c.__extends(b,a);b.prototype.fetchPopupFeatures=function(a){return c.__awaiter(this,void 0,void 0,function(){var b,m,d,f,g,h,e,p,q,n;return c.__generator(this,function(c){b=this.layer;
+if(!a)return[2,l.reject(new k("wmslayerview:fetchPopupFeatures","Nothing to fetch without area",{layer:b}))];m=b.popupEnabled;if(!m)return[2,l.reject(new k("wmslayerview:fetchPopupFeatures","popupEnabled should be true",{popupEnabled:m}))];d=this.createFetchPopupFeaturesQuery(a);f=d.extent;g=d.width;h=d.height;e=d.x;p=d.y;q=f&&g&&h;if(!q)throw new k("wmslayerview:fetchPopupFeatures","WMSLayer does not support fetching features.",{extent:f,width:g,height:h});n=b.fetchFeatureInfo(f,g,h,e,p);return[2,
+n?n.then(function(a){return[a]}):l.resolve([])]})})};c.__decorate([e.property()],b.prototype,"layer",void 0);return b=c.__decorate([e.subclass("esri.layers.mixins.WMSLayerView")],b)}(a)}});

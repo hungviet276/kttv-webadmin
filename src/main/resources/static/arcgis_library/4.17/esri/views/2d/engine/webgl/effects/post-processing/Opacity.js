@@ -1,0 +1,6 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","../../../../../webgl"],function(e,f,h){Object.defineProperty(f,"__esModule",{value:!0});f.Opacity=void 0;e=function(){function d(){this._size=[0,0]}d.prototype.dispose=function(){this._layerFBOTexture&&(this._layerFBOTexture.dispose(),this._layerFBOTexture=null)};d.prototype.draw=function(a,d,b){this._createOrResizeResources(a);var c=a.context,g=a.pixelRatio,f=a.painter;a=a.state.size;b=b.amount;g=[Math.round(g*a[0]),Math.round(g*a[1])];a=c.gl;var e=this._layerFBOTexture;
+c.bindFramebuffer(d);d.copyToTexture(0,0,g[0],g[1],0,0,e);c.setBlendingEnabled(!0);c.setStencilTestEnabled(!1);c.setDepthTestEnabled(!1);c.setClearColor(0,0,0,0);c.clear(a.COLOR_BUFFER_BIT);f.blitTexture(c,e,9728,b)};d.prototype._createOrResizeResources=function(a){var d=a.context,b=a.pixelRatio,c=a.state.size;a=Math.round(b*c[0]);b=Math.round(b*c[1]);this._layerFBOTexture&&this._size[0]===a&&this._size[1]===b||(this._size[0]=a,this._size[1]=b,this._layerFBOTexture?this._layerFBOTexture.resize(a,
+b):this._layerFBOTexture=new h.Texture(d,{target:3553,pixelFormat:6408,internalFormat:6408,dataType:5121,wrapMode:33071,samplingMode:9728,flipped:!1,width:a,height:b}))};return d}();f.Opacity=e});

@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports ../../../../../core/libs/gl-matrix-2/quat ../../../../../core/libs/gl-matrix-2/quatf64 ../../../../../core/libs/gl-matrix-2/vec3f64 ../../../../../core/libs/gl-matrix-2/factories/vec3f64".split(" "),function(d,c,f,g,e,h){Object.defineProperty(c,"__esModule",{value:!0});c.Node=void 0;d=function(){function b(){this.name="";this.mesh=null;this.translation=e.vec3f64.create();this.rotation=g.quatf64.create();this.scale=e.vec3f64.clone(h.ONES);this.nodes=[]}b.prototype.addNode=function(a){if(0<=
+this.nodes.indexOf(a))throw Error("Node already added");this.nodes.push(a)};b.prototype.forEachNode=function(a){this.nodes.forEach(a)};Object.defineProperty(b.prototype,"rotationAngles",{set:function(a){f.quat.fromEuler(this.rotation,a[0],a[1],a[2])},enumerable:!1,configurable:!0});return b}();c.Node=d});

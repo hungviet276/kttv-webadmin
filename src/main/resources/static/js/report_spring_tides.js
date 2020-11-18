@@ -59,6 +59,8 @@ function validateSearch() {
 }
 
 // chart
+
+// Dữ liệu test
 function addDays(dateObj, numDays) {
     dateObj.setDate(dateObj.getDate() + numDays);
     return dateObj;
@@ -67,9 +69,16 @@ let today = Date.parse(new Date());
 let nextday1 = Date.parse(addDays(new Date() , 1));
 let nextday2 = Date.parse(addDays(new Date() , 2));
 let nextday3 = Date.parse(addDays(new Date() , 3));
+
+//Chart
 const chart = {
     time: [],
+    timeGuess: [],
+    timeSeries: [],
     dataSpringTides: [],
+    dataSpringTidesGuess: [],
+    dataSeriesOne:[],
+    dataSeriesTwo:[],
     min: undefined,
     max: undefined,
     avg: undefined,
@@ -86,15 +95,53 @@ const chart = {
         this.avg = Math.round((arr.reduce((sume, el) => sume + el, 0) / arr.length + Number.EPSILON) * 10) / 10;
         return this.avg;
     },
-    getDataSpringTides: function (){
-        this.dataSpringTides = [10, 26, 44, 63, 74, 145, 70, 33];
+    getTime: function () {
+        this.time = [1563796800000, 1563800400000, 1563804000000, 1563807600000,today];
+        return this.time;
+    },
+    getTimeGuess: function () {
+        this.timeGuess = [nextday1, nextday2, nextday3];
+        return this.timeGuess;
+    },
+    getTimeSeries: function () {
+        for (let i = 0; i < this.timeGuess.length; i++){
+            this.time.push(this.timeGuess[i]);
+        }
+        this.timeSeries = this.time;
+        return this.timeSeries;
+    },
+    getDataSpringTides: function () {
+        this.dataSpringTides = [10, 26, 44, 63,74];
         return this.dataSpringTides;
     },
-    getTime: function () {
-        this.time = [1563796800000, 1563800400000, 1563804000000, 1563807600000, today, nextday1, nextday2, nextday3];
-        return this.time;
+    getDataSpringTidesGuess: function () {
+        this.dataSpringTidesGuess = [145, 70, 33];
+        return this.dataSpringTidesGuess;
+    },
+    getDataSeriesOne : function () {
+        this.dataSeriesOne = this.dataSpringTides;
+        return this.dataSeriesOne;
+    },
+    getDataSeriesTwo : function () {
+        for (let i =0 ; i < this.dataSeriesOne.length; i++){
+            if (i == (this.dataSeriesOne.length-1)){
+                this.dataSeriesTwo.push(this.dataSeriesOne[i]);
+            } else this.dataSeriesTwo.push(null);
+        };
+        for (let j = 0 ; j < this.dataSpringTidesGuess.length; j++){
+            this.dataSeriesTwo.push(this.dataSpringTidesGuess[j]);
+        }
+        return this.dataSeriesTwo;
     }
 };
+//Get dữ liệu test
+chart.getTime();
+chart.getTimeGuess();
+chart.getTimeSeries();
+chart.getDataSpringTides();
+chart.getDataSpringTidesGuess();
+chart.getDataSeriesOne();
+chart.getDataSeriesTwo();
 ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9", "b55b025e438fa8a98e32482b5f768ff5"]; // CHART CONFIG
 // -----------------------------
 let chartConfig = {
@@ -103,17 +150,17 @@ let chartConfig = {
         fontFamily: 'Helvetica',
         shadow: false
     },
-    labels: [
-        // Label 1
-        {
-            text: '<br>Giá trị nhỏ nhất: ' + chart.getMin(chart.getDataSpringTides()) +'<b>m'
-                + '</b>' + '<br>Giá trị lớn nhất: ' + chart.getMax(chart.getDataSpringTides()) +'<b>m'
-                + '</b>' + '<br>Giá trị trung bình: ' + chart.getAverage(chart.getDataSpringTides()) +'<b>m</b>',
-            'font-family': "Georgia",
-            'font-size': "11",
-            x: "70%",
-            y: "0%"
-        },],
+    // labels: [
+    //     // Label 1
+    //     {
+    //         text: '<br>Giá trị nhỏ nhất: ' + chart.getMin(chart.getDataSpringTides()) +'<b>m'
+    //             + '</b>' + '<br>Giá trị lớn nhất: ' + chart.getMax(chart.getDataSpringTides()) +'<b>m'
+    //             + '</b>' + '<br>Giá trị trung bình: ' + chart.getAverage(chart.getDataSpringTides()) +'<b>m</b>',
+    //         'font-family': "Georgia",
+    //         'font-size': "11",
+    //         x: "60%",
+    //         y: "0%"
+    //     },],
     backgroundColor: '#fff',
     title: {
         text: 'Biểu Đồ Theo Dõi Triều Cường',
@@ -137,10 +184,6 @@ let chartConfig = {
         }
     },
     plot: {
-        rules: [{
-            "rule": "%k >"+ today,
-            "line-color": "red"
-        }],
         alphaArea: 1,
         animation: {
             delay: 500,
@@ -152,15 +195,10 @@ let chartConfig = {
         },
         // aspect: 'spline',
         contourOnTop: false,
-        // lineWidth: '2px',
-        // marker: {
-        //     visible: false
-        // }
-
     },
     scaleX: {
         // Time trục x
-        values: chart.getTime(),
+        values: chart.timeSeries,
         guide: {
             visible: false
         },
@@ -175,16 +213,9 @@ let chartConfig = {
             lineWidth: '1px'
         },
         transform: {
-            type: 'date'
+            type: 'date',
+            "all":"%dd/%mm/%Y"+"<br>"+"%h:%i %A"
         },
-        markers: [ //create marker array
-            { //create n number of marker objects
-                type: "line",
-                range: [1563804000000],
-                valueRange: true
-            }
-        ],
-
         zooming: true
     },
     scaleY: {
@@ -246,11 +277,18 @@ let chartConfig = {
     // Giá trị
     series: [{
         text: 'Mực nước',
-        values: chart.getDataSpringTides(),
+        values: chart.dataSeriesOne,
         backgroundColor1: '#E84F28',
         backgroundColor2: '#E84F28',
         lineColor: '#7628e8'
     },
+        {
+            text: 'Mực nước dự báo',
+            values: chart.dataSeriesTwo,
+            backgroundColor1: '#E84F28',
+            backgroundColor2: '#E84F28',
+            lineColor: '#e81f20'
+        },
     ]
 };
 

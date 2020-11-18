@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","tslib","../../shaderModules/interfaces"],function(e,a,c,d){Object.defineProperty(a,"__esModule",{value:!0});a.CameraSpace=void 0;a.CameraSpace=function(a){a.fragment.uniforms.add("projInfo","vec4");a.fragment.uniforms.add("zScale","vec2");a.fragment.code.add(d.glsl(b||(b=c.__makeTemplateObject(["\n    vec3 reconstructPosition(vec2 fragCoord, float depth) {\n      return vec3((fragCoord * projInfo.xy + projInfo.zw) * (zScale.x * depth + zScale.y), depth);\n    }\n  "],
+["\n    vec3 reconstructPosition(vec2 fragCoord, float depth) {\n      return vec3((fragCoord * projInfo.xy + projInfo.zw) * (zScale.x * depth + zScale.y), depth);\n    }\n  "]))))};var b});

@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","tslib","../../../core/maybe","../support/WorkerHandle"],function(g,b,h,f,k){Object.defineProperty(b,"__esModule",{value:!0});b.PointCloudWorkerHandle=void 0;g=function(b){function d(a){return b.call(this,"PointCloudWorker","transform",a)||this}h.__extends(d,b);d.prototype.getTransferList=function(a){var b=[a.geometryBuffer];f.isSome(a.primaryAttributeData)&&a.primaryAttributeData.buffer&&b.push(a.primaryAttributeData.buffer);f.isSome(a.modulationAttributeData)&&a.modulationAttributeData.buffer&&
+b.push(a.modulationAttributeData.buffer);if(f.isSome(a.filterAttributesData))for(var c=0,d=a.filterAttributesData;c<d.length;c++){var e=d[c];f.isSome(e)&&e.buffer&&b.push(e.buffer)}c=0;for(a=a.userAttributesData;c<a.length;c++)e=a[c],e.buffer&&b.push(e.buffer);return b};return d}(k.WorkerHandle);b.PointCloudWorkerHandle=g});

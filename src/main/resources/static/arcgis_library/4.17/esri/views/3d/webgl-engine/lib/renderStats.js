@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports"],function(e,a){function c(){return{triangles:0,drawCalls:0}}Object.defineProperty(a,"__esModule",{value:!0});a.RenderStatsAggregator=a.addToRenderStats=a.makeNewRenderStats=void 0;a.makeNewRenderStats=c;a.addToRenderStats=function(a,d,b){b&&(b.drawCalls+=a,b.triangles+=d)};e=function(){function a(){this.materialRenderStats=new Map;this.reset()}a.prototype.getMaterialRenderStatsObject=function(a){var b=this.materialRenderStats.get(a);b||(b=c(),this.materialRenderStats.set(a,
+b));return b};a.prototype.getAggregatedStats=function(){var a={materialRenderers:{},total:c()};this.materialRenderStats.forEach(function(b,d){a.materialRenderers[d]=b;a.total.drawCalls+=b.drawCalls;a.total.triangles+=b.triangles});return a};a.prototype.reset=function(){this.materialRenderStats.forEach(function(a){a.drawCalls=0;a.triangles=0})};return a}();a.RenderStatsAggregator=e});

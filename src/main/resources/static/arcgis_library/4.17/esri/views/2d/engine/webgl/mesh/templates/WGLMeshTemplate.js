@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports ../../../../../../core/maybe ../../../../../../geometry/support/jsonUtils ../../../../../../symbols/cim/effects/CIMEffectHelper ../../enums".split(" "),function(g,h,l,m,f,b){Object.defineProperty(h,"__esModule",{value:!0});g=function(){function a(){}Object.defineProperty(a.prototype,"needsPixelBuffer",{get:function(){return!!this.effects||this.geometryType===b.WGLGeometryType.MARKER||this.geometryType===b.WGLGeometryType.TEXT||this.geometryType===b.WGLGeometryType.LABEL},enumerable:!1,
+configurable:!0});a.prototype.writeMesh=function(a,k,c,d,b){if(l.isNone(this.effects))return this.writeMeshWithGeometry(a,k,c,d,b);d=f.CIMEffectHelper.executeEffects(this.effects,c.readLegacyGeometry());for(var e=f.CIMEffectHelper.next(d);e;)this.writeMeshWithGeometry(a,k,c,m.getJsonType(e),b,e),e=f.CIMEffectHelper.next(d)};a.prototype.writeMeshWithGeometry=function(a,b,c,d,f,e){};a.prototype.bindFeature=function(a,b,c){};return a}();h.default=g});

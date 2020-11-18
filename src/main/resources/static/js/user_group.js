@@ -289,15 +289,6 @@ let uGroup = {
                     orderable: false,
                     className: 'select-checkbox',
                     targets: 0
-                }, {
-                    targets: 5,
-                    render: function (data, type, row) {
-                        if (data === 1) {
-                            return '<div class="status_green">Hoạt động</div>';
-                        } else {
-                            return '<div class="status_red">Không hoạt động</div>';
-                        }
-                    }
                 },
                     {"width": "25px", "targets": 0},
                     {
@@ -312,7 +303,7 @@ let uGroup = {
                 },
                 "pagingType": "full_numbers",
                 "lengthMenu": [
-                    [10, 25, 50, -1],
+                    [10, 25, 50],
                     [10, 25, 50]
                 ],
                 "lengthChange": true,

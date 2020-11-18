@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../../../core/Accessor ../../../core/accessorSupport/decorators ../../input/gamepad/GamepadInputDevice".split(" "),function(g,h,b,e,c,f){return function(d){function a(a){a=d.call(this,a)||this;a.enabled=!0;a.device=null;a.mode="pan";a.tiltDirection="forward-down";a.velocityFactor=1;return a}b.__extends(a,d);b.__decorate([c.property({type:Boolean,nonNullable:!0})],a.prototype,"enabled",void 0);b.__decorate([c.property({type:f})],a.prototype,"device",void 0);b.__decorate([c.property({type:["pan",
+"zoom"],nonNullable:!0})],a.prototype,"mode",void 0);b.__decorate([c.property({type:["forward-down","forward-up"],nonNullable:!0})],a.prototype,"tiltDirection",void 0);b.__decorate([c.property({type:Number,nonNullable:!0})],a.prototype,"velocityFactor",void 0);return a=b.__decorate([c.subclass("esri.views.navigation.gamepad.GamepadSettings")],a)}(e)});

@@ -1,0 +1,6 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../../../core/Error ../../../core/Logger ../../../geometry/support/quantizationUtils".split(" "),function(r,l,h,n,m,f){function p(g){var c={};switch(g){case "esriGeometryPoint":return function(d,a,b,e){return f.unquantizePoint(a,c,d,b,e)};case "esriGeometryPolygon":return function(d,a,b,e){return f.unquantizePolygon(a,c,d,b,e)};case "esriGeometryPolyline":return function(d,a,b,e){return f.unquantizePolyline(a,c,d,b,e)};case "esriGeometryMultipoint":return function(d,
+a,b,e){return f.unquantizeMultipoint(a,c,d,b,e)};default:return m.getLogger("esri.views.2d.support.arcadeOnDemand").error(new n("mapview-arcade","Unable to handle geometryType: "+g)),function(c){return c}}}Object.defineProperty(l,"__esModule",{value:!0});l.default=function(g,c,d,a,b){if(g.referencesGeometry()&&b){var e=b.transform,f=b.hasZ;b=b.hasM;k.has(a)||k.set(a,p(a));a=k.get(a)(c.geometry,e,f,b);c=h.__assign(h.__assign({},c),{geometry:a})}c=g.repurposeFeature(c);try{return g.evaluate(h.__assign(h.__assign({},
+d),{$feature:c}))}catch(q){return m.getLogger("esri.views.2d.support.arcadeOnDemand").warn("Feature arcade evaluation failed:",q),null}};var k=new Map});

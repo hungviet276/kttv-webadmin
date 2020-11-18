@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../../core/JSONSupport ../../core/accessorSupport/decorators ../../geometry/Extent ../../geometry/Point".split(" "),function(h,k,b,e,c,f,g){return function(d){function a(a){a=d.call(this,a)||this;a.address=null;a.attributes=null;a.extent=null;a.location=null;a.score=null;return a}b.__extends(a,d);b.__decorate([c.property({type:String,json:{write:!0}})],a.prototype,"address",void 0);b.__decorate([c.property({type:Object,json:{write:!0}})],a.prototype,"attributes",void 0);
+b.__decorate([c.property({type:f,json:{write:!0}})],a.prototype,"extent",void 0);b.__decorate([c.property({type:g,json:{write:!0}})],a.prototype,"location",void 0);b.__decorate([c.property({type:Number,json:{write:!0}})],a.prototype,"score",void 0);return a=b.__decorate([c.subclass("esri.tasks.support.AddressCandidate")],a)}(e.JSONSupport)});

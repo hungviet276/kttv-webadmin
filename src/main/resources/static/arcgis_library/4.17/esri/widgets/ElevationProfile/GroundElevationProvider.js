@@ -1,0 +1,6 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../../core/Accessor ../../core/Logger ../../core/accessorSupport/decorators ../../support/groundUtils".split(" "),function(m,n,c,g,h,d,k){var l=h.getLogger("GroundElevationProvider");return function(f){function b(a){a=f.call(this,a)||this;a.ground="world-elevation";a.numSamplesForPreview=30;a.numSamplesPerChunk=200;return a}c.__extends(b,f);b.prototype.castGround=function(a){a=k.ensureType(a);return a?a:(l.error("GroundElevationProvider.ground may not be set to null or undefined"),
+this._get("ground"))};b.prototype.queryElevation=function(a,b){return c.__awaiter(this,void 0,void 0,function(){var d,e;return c.__generator(this,function(c){d=this.castGround(this.ground);e=d.layers.getItemAt(0);if("elevation"!==e.type)throw Error("Could not find elevation layer to query");return[2,e.queryElevation(a,b)]})})};c.__decorate([d.property({nonNullable:!0})],b.prototype,"ground",void 0);c.__decorate([d.cast("ground")],b.prototype,"castGround",null);return b=c.__decorate([d.subclass("esri.widgets.ElevationProfile.GroundElevationProvider")],
+b)}(g)});

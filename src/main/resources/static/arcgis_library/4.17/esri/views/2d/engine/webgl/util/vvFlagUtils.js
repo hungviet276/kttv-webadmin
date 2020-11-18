@@ -1,0 +1,4 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","../enums","../visualVariablesUtils"],function(h,a,d,g){Object.defineProperty(a,"__esModule",{value:!0});a.getVVFlags=void 0;a.getVVFlags=function(a){if(!a)return d.WGLVVFlag.NONE;for(var b=0,e=0;e<a.length;e++){var c=a[e];if("size"===c.type){var f=g.getTypeOfSizeVisualVariable(c),b=b|f;"outline"===c.target&&(b|=f<<4)}else"color"===c.type?b|=d.WGLVVFlag.COLOR:"opacity"===c.type?b|=d.WGLVVFlag.OPACITY:"rotation"===c.type&&(b|=d.WGLVVFlag.ROTATION)}return b}});

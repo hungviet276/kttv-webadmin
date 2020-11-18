@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","tslib","./Bitmap","./webgl/TiledDisplayObject"],function(g,b,h,k,l){Object.defineProperty(b,"__esModule",{value:!0});b.BitmapTile=void 0;g=function(b){function a(a,d,e,f){void 0===f&&(f=null);var c=b.call(this,a,d,e,e)||this;c.bitmap=new k.Bitmap(f);c.bitmap.coordScale=e;c.bitmap.once("isReady",function(){return c.ready()});return c}h.__extends(a,b);Object.defineProperty(a.prototype,"stencilRef",{get:function(){return this.bitmap.stencilRef},set:function(a){this.bitmap.stencilRef=
+a},enumerable:!1,configurable:!0});a.prototype.setTransform=function(a,d){b.prototype.setTransform.call(this,a,d);this.bitmap.transforms.dvs=this.transforms.dvs};a.prototype.onAttach=function(){this.bitmap.stage=this.stage};a.prototype.onDetach=function(){this.bitmap.stage=null};return a}(l.TiledDisplayObject);b.BitmapTile=g});

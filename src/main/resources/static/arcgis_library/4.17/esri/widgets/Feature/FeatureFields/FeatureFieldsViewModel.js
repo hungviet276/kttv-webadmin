@@ -1,0 +1,6 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../../../core/Accessor ../../../core/accessorSupport/decorators ../../../popup/ExpressionInfo ../../../popup/FieldInfo ../support/featureUtils".split(" "),function(k,l,a,e,c,f,g,h){return function(d){function b(b){b=d.call(this,b)||this;b.attributes=null;b.expressionInfos=null;b.fieldInfos=null;return b}a.__extends(b,d);Object.defineProperty(b.prototype,"formattedFieldInfos",{get:function(){var b=this.expressionInfos,a=this.fieldInfos,c=[];null===a||void 0===a?void 0:
+a.forEach(function(a){if(!a.hasOwnProperty("visible")||a.visible)a=a.clone(),a.label=h.getFieldInfoLabel(a,b),c.push(a)});return c},enumerable:!1,configurable:!0});a.__decorate([c.property()],b.prototype,"attributes",void 0);a.__decorate([c.property({type:[f]})],b.prototype,"expressionInfos",void 0);a.__decorate([c.property({type:[g]})],b.prototype,"fieldInfos",void 0);a.__decorate([c.property({readOnly:!0,dependsOn:["expressionInfos","fieldInfos"]})],b.prototype,"formattedFieldInfos",null);return b=
+a.__decorate([c.subclass("esri.widgets.Feature.FeatureFields.FeatureFieldsViewModel")],b)}(e)});

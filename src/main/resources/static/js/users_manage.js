@@ -297,14 +297,16 @@ var draw = 0;
 var table = $('#tableDataView').DataTable({
     columnDefs: [{
         orderable: false,
-        className: 'select-checkbox',
+        // className: 'select-checkbox',
         targets: 0,
-
+        checkboxes: {
+            selectRow: true
+        }
     }],
     select: {
-        style: 'os',
+        style: 'multi',
         selector: 'td:first-child',
-        type: 'single'
+        type: 'checkbox'
     },
     "pagingType": "full_numbers",
     "lengthMenu": [
@@ -328,6 +330,7 @@ var table = $('#tableDataView').DataTable({
     "columns": [
         {"data": ""},
         {"data": "indexCount", "render": $.fn.dataTable.render.text()},
+        {"data": "control"},
         {"data": "id", "render": $.fn.dataTable.render.text()},
         {"data": "password", "visible": false},
         {"data": "name", "render": $.fn.dataTable.render.text()},
@@ -421,6 +424,7 @@ var table = $('#tableDataView').DataTable({
                     "statusId": responseJson.content[i].statusId,
                     "group_id": responseJson.content[i].group_id,
                     "createdDate": responseJson.content[i].createdDate,
+                    "control": "<span class='fa fa-edit' title='Cập nhật'  onclick='preEdit(" + i + ")' style='cursor: pointer'></span>",
                 })
             }
 
@@ -428,6 +432,11 @@ var table = $('#tableDataView').DataTable({
         }
     }
 });
+
+ function preEdit(indexes) {
+    let rowData = table.rows(indexes).data().toArray();
+    fillDataToForm(rowData);
+}
 
 function getact_basic() {
 
@@ -472,24 +481,65 @@ function get_role(user_id) {
 table.on('select', rowSelect).on('deselect', rowDeselect);
 
 function rowSelect(e, dt, type, indexes) {
-    indexRowDt = indexes;
-    let rowData = table.rows(indexes).data().toArray();
-    fillDataToForm(rowData);
+    // indexRowDt = indexes;
+    // let rowData = table.rows(indexes).data().toArray();
+    // fillDataToForm(rowData);
+    var rowDt = table.rows('.selected').data()
+    if(rowDt.length == 0){
+        $("#btnDelete").css("display", "none");
+    }else {
+        $("#btnDelete").css("display", "inline");
+    }
 }
 
 function rowDeselect(e, dt, type, indexes) {
-    $('#input_code').val('');
-    $('#input_email').val('');
-    $('#input_Username').val('');
-    $('#input_Password').val('');
-    $('#input_name').val('');
-    $('#input_cardNumber').val('');
-    $('#input_group_id').val('');
-    $('#status_id').val('');
-    $('#input_time_download').val('');
-    show_search();
+    var rowDt = table.rows('.selected').data()
+    if(rowDt.length == 0){
+        $("#btnDelete").css("display", "none");
+    }else {
+        $("#btnDelete").css("display", "inline");
+    }
 
 }
+
+$("#btnDelete").click(
+    function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        if(confirm("Bạn có muốn xóa bản ghi")){
+
+        } else {
+            return;
+        }
+        var rowDt = table.rows('.selected').data();
+        var data = [];
+
+        for(let i =0 ; i < rowDt.length ; i++){
+            data.push(rowDt[i].id);
+        }
+        console.log(data);
+        $.ajax({
+            headers: {
+                'Authorization': token
+            },
+            "url": apiUrl + "user-manager",
+            "method": "DELETE",
+            "data" : JSON.stringify(data),
+            "contentType": "application/json",
+            "success": function (response) {
+                toastr.success('Thành công', response.message);
+                $("#btnDelete").css("display", "none");
+                table.ajax.reload();
+                table.rows().deselect();
+            },
+            "error": function (error) {
+                toastr.error('Lỗi', error.responseJSON.message);
+            }
+        });
+    }
+);
+
 var edit_pass_var ='1';
 //doEdit
 function fillDataToForm(rowData) {
@@ -531,7 +581,6 @@ function fillDataToForm(rowData) {
     }
     togle_search();
     $("#btnsave").css("display", "inline");
-    $("#btnDelete").css("display", "inline");
     $("#btnReset").css("display", "inline");
     $("#btncancer").css("display", "inline");
     $("#btnDonew").attr("disabled", true);
@@ -798,31 +847,31 @@ $('#btnsave').on('click', function (e) {
     }
 });
 
-$('#btnDelete').on('click', function (e) {
-    // call ajax here edit
-    $.ajax({
-        headers: {
-            'Authorization': token
-        },
-        url: apiUrl + "user-manager/delete_users",
-        method: 'POST',
-        data: 'username=' + $('#input_Username').val(),
-        success: function (data) {
-            if (data == "true") {
-                toastr.success('Xóa người dùng thành công', data.message);
-                location.reload();
-            } else if (data == "check_id_exist") {
-                toastr.error('Tài khoản không tồn tại', data.message);
-            } else {
-                toastr.error('Có lỗi xảy ra' + data, data.message);
-            }
-        },
-        error: function (err) {
-            toastr.error("Có lỗi xảy ra : " + err);
-            console.log("result = " + err);
-        }
-    });
-});
+// $('#btnDelete').on('click', function (e) {
+//     // call ajax here edit
+//     $.ajax({
+//         headers: {
+//             'Authorization': token
+//         },
+//         url: apiUrl + "user-manager/delete_users",
+//         method: 'POST',
+//         data: 'username=' + $('#input_Username').val(),
+//         success: function (data) {
+//             if (data == "true") {
+//                 toastr.success('Xóa người dùng thành công', data.message);
+//                 location.reload();
+//             } else if (data == "check_id_exist") {
+//                 toastr.error('Tài khoản không tồn tại', data.message);
+//             } else {
+//                 toastr.error('Có lỗi xảy ra' + data, data.message);
+//             }
+//         },
+//         error: function (err) {
+//             toastr.error("Có lỗi xảy ra : " + err);
+//             console.log("result = " + err);
+//         }
+//     });
+// });
 
 function validateForm() {
     $('.err_msg').html('');

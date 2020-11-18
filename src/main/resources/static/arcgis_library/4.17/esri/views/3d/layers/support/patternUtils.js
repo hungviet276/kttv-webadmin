@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports ../../../../core/compilerUtils ../../../../core/maybe ../../../../core/libs/gl-matrix-2/vec4f64 ../../webgl-engine/materials/ColorMaterial ../../webgl-engine/materials/PatternMaterial".split(" "),function(m,a,g,h,k,d,l){function e(c,b,a){if(h.isSome(c)){if("none"===c.style||"solid"===c.style)return"none"===c.style&&(b.color=k.vec4f64.fromValues(0,0,0,0),b.transparent=!0),new d(b,a.idHint+"_colormat");b.style=f(c.style);b.draped=a.isDraped;return new l(b,a.idHint+"_patternmat")}return new d(b,
+a.idHint+"_colormat")}function f(a){switch(a){case "horizontal":return 0;case "vertical":return 1;case "cross":return 2;case "forward-diagonal":return 3;case "backward-diagonal":return 4;case "diagonal-cross":return 5;default:g.neverReached(a)}}Object.defineProperty(a,"__esModule",{value:!0});a.parsePatternStyle=a.createMaterialFromPattern=a.createMaterial=void 0;a.createMaterial=function(a,b,d){return e(a&&a.pattern||null,b,d)};a.createMaterialFromPattern=e;a.parsePatternStyle=f});
