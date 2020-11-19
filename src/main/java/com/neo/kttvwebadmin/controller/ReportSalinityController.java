@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ReportSalinityController {
     @GetMapping
     public String getReportPage() {
-        return "report_salinity/report_salinity";
+        return "report/report_salinity";
     }
 }

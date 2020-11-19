@@ -8,6 +8,9 @@
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+    <link href="/css/slider_chart.css" rel="stylesheet" type="text/css" media="all"/>
+    <script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <style>
         .legend-normal {
             margin-left: 1em;
@@ -141,6 +144,101 @@
                                 <div style="width: 100%;float: right">
                                     <fieldset class="fieldset-normal" style="margin-top: 15px;">
                                         <legend class="legend-normal">Biểu Đồ</legend>
+                                        <!--                                        slide-->
+                                        <section class="slider">
+                                            <div class="flexslider">
+                                                <ul class="slides">
+                                                    <li>
+                                                        <div class="wthree_main_grid">
+                                                            <div class="wthree_main">
+                                                                <div class="w3l_main_grid">
+                                                                    <div class="w3l_main_grid_text w3l_main_grid1">
+                                                                        <h3>Giá Trị Trung Bình</h3>
+                                                                        <p>-2°<span>C</span></p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="wthree_main wthree_main1">
+                                                                <div class="w3l_main_grid">
+                                                                    <div class="w3l_main_grid_text w3l_main_grid2">
+                                                                        <h3>Giá Trị Lớn Nhất</h3>
+                                                                        <p>-3°<span>C</span></p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="wthree_main">
+                                                                <div class="w3l_main_grid">
+                                                                    <div class="w3l_main_grid_text w3l_main_grid3">
+                                                                        <h3>Giá Trị Nhỏ Nhất</h3>
+                                                                        <p>0°<span>C</span></p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="clear"></div>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="wthree_main_grid">
+                                                            <div class="wthree_main">
+                                                                <div class="w3l_main_grid">
+                                                                    <div class="w3l_main_grid_text w3l_main_grid4">
+                                                                        <h3>Giá Trị Trung Bình</h3>
+                                                                        <p>-4°<span>C</span></p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="wthree_main wthree_main1">
+                                                                <div class="w3l_main_grid">
+                                                                    <div class="w3l_main_grid_text w3l_main_grid5">
+                                                                        <h3>Giá Trị Lớn Nhất</h3>
+                                                                        <p>-8°<span>C</span></p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="wthree_main">
+                                                                <div class="w3l_main_grid">
+                                                                    <div class="w3l_main_grid_text w3l_main_grid6">
+                                                                        <h3>Giá Trị Nhỏ Nhất</h3>
+                                                                        <p>0°<span>C</span></p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="clear"></div>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="wthree_main_grid">
+                                                            <div class="wthree_main">
+                                                                <div class="w3l_main_grid">
+                                                                    <div class="w3l_main_grid_text w3l_main_grid7">
+                                                                        <h3>Giá Trị Trung Bình</h3>
+                                                                        <p>0°<span>C</span></p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="wthree_main wthree_main1">
+                                                                <div class="w3l_main_grid">
+                                                                    <div class="w3l_main_grid_text w3l_main_grid8">
+                                                                        <h3>Giá Trị Lớn Nhất</h3>
+                                                                        <p>2°<span>C</span></p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="wthree_main">
+                                                                <div class="w3l_main_grid">
+                                                                    <div class="w3l_main_grid_text w3l_main_grid9">
+                                                                        <h3>Giá Trị Nhỏ Nhất</h3>
+                                                                        <p>-1°<span>C</span></p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="clear"></div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </section>
+                                        <!--                                        chart-->
                                         <figure class="highcharts-figure">
                                             <div id="container"></div>
                                             <p class="highcharts-description">
@@ -178,5 +276,6 @@
 <th:block th:replace="layout_footer.html :: footer_tag"/>
 <th:block th:replace="global_import_js.html :: global_import_js"/>
 <script src="/js/report_temperature_rainfall.js"></script>
+<script src="/js/slider_chart.js"></script>
 </body>
 </html>

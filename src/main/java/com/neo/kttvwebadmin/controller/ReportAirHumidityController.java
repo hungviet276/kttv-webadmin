@@ -5,10 +5,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/report_tides")
-public class ReportTidesController {
+@RequestMapping("/report_air_humidity")
+public class ReportAirHumidityController {
     @GetMapping
     public String getReportPage() {
-        return "report/report_tides";
+        return "report/report_air_humidity";
     }
 }
