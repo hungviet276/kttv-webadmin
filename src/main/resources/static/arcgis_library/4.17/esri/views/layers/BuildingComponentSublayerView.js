@@ -1,0 +1,6 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","tslib","../../core/Accessor","../../core/accessorSupport/decorators"],function(f,g,b,e,d){return function(c){function a(){var a=null!==c&&c.apply(this,arguments)||this;a.sublayer=null;return a}b.__extends(a,c);Object.defineProperty(a.prototype,"updating",{get:function(){return!1},enumerable:!1,configurable:!0});Object.defineProperty(a.prototype,"suspended",{get:function(){return!1},enumerable:!1,configurable:!0});Object.defineProperty(a.prototype,"availableFields",{get:function(){return[]},
+enumerable:!1,configurable:!0});a.prototype.queryFeatures=function(a){throw Error("Not implemented");};a.prototype.queryObjectIds=function(a){throw Error("Not implemented");};a.prototype.queryFeatureCount=function(a){throw Error("Not implemented");};a.prototype.createQuery=function(){throw Error("Not implemented");};a.prototype.queryExtent=function(a){throw Error("Not implemented");};a.prototype.highlight=function(a){throw Error("Not implemented");};b.__decorate([d.property()],a.prototype,"sublayer",
+void 0);b.__decorate([d.property()],a.prototype,"availableFields",null);return a}(e)});

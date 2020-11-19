@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../../Color ../../core/JSONSupport ../../core/lang ../../core/accessorSupport/decorators ../support/materialUtils".split(" "),function(a,b,d,f,g,h,e,k){Object.defineProperty(b,"__esModule",{value:!0});b.LineCallout3DBorder=void 0;a=function(b){function c(){var a=null!==b&&b.apply(this,arguments)||this;a.color=new f("white");return a}d.__extends(c,b);a=c;c.prototype.clone=function(){return new a({color:h.clone(this.color)})};var a;d.__decorate([e.property(k.colorAndTransparencyProperty)],
+c.prototype,"color",void 0);return c=a=d.__decorate([e.subclass("esri.symbols.callouts.LineCallout3DBorder")],c)}(g.JSONSupport);b.LineCallout3DBorder=a;b.default=a});

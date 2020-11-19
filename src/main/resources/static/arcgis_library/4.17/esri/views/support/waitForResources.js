@@ -1,0 +1,6 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports ../../core/promiseUtils ../../core/scheduling ../../core/watchUtils ../../core/accessorSupport/watch".split(" "),function(q,r,h,k,b,l){function p(a){function m(){!a.destroyed&&b()?setTimeout(m,16):n()}var n=h.createResolver(),b=function(){var b,c,d,e,f,g;l.dispatch();k.debug.dispatch();return!a.ready||a.updating||!a.stationary||a.rendering||!0===(null===(b=a.layerViewManager)||void 0===b?void 0:b.updating)||!0===(null===(c=a.labelManager)||void 0===c?void 0:c.updating)||!0===
+(null===(d=a.graphicsView)||void 0===d?void 0:d.updating)||!0===(null===(e=a.magnifier)||void 0===e?void 0:e.visible)&&!((null===(f=a._magnifierView)||void 0===f?0:f.mask)&&(null===(g=a._magnifierView)||void 0===g?0:g.overlay))||a.allLayerViews.some(function(a){return!0===a.updating})||a.allLayerViews.find(function(a){var b=!a.isFulfilled();a=a.updating&&!a.suspended;return b||a})?!0:!1};setTimeout(m,16);return n.promise}return function(a){switch(a.type){case "2d":return p(a);case "3d":if(a)return l.dispatch(),
+k.debug.dispatch(),b.whenNotOnce(a,"updating")}return h.resolve()}});

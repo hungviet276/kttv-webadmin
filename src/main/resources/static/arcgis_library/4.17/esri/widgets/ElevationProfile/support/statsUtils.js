@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","../../../core/maybe"],function(x,c,h){Object.defineProperty(c,"__esModule",{value:!0});c.getStats=void 0;c.getStats=function(f){var c=f.length;if(0===c)return null;var d=f[0].z;if(h.isNone(d))return null;for(var k=d,l=d,r=0,t=0,m=0,n=0,u=0,v=0,w=1,p=0,q=0,g=1;g<c;++g){var b=f[g],e=f[g-1],a=b.z,b=b.distance-e.distance;0===b||h.isNone(a)||(w++,d+=a,a<k&&(k=a),a>l&&(l=a),e=e.z,h.isNone(e)||(a-=e,b=a/b,0<b?(r+=a,u+=b,p++,b>m&&(m=b)):0>b&&(t+=-a,q++,a=-b,v+=a,a>n&&(n=a))))}return{minElevation:k,
+maxElevation:l,avgElevation:d/w,elevationGain:r,elevationLoss:t,maxPositiveSlope:m,maxNegativeSlope:n,avgPositiveSlope:0===p?0:u/p,avgNegativeSlope:0===q?0:v/q}}});

@@ -1,0 +1,6 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../../Color ../../core/JSONSupport ../../core/lang ../../core/screenUtils ../../core/accessorSupport/decorators ../support/materialUtils".split(" "),function(l,m,b,f,g,h,k,c,d){return function(e){function a(a){a=e.call(this,a)||this;a.color=new f([0,0,0,1]);a.extensionLength=0;a.size=k.px2pt(1);return a}b.__extends(a,e);a.prototype.clone=function(){};a.prototype.cloneProperties=function(){return{color:h.clone(this.color),size:this.size,extensionLength:this.extensionLength}};
+b.__decorate([c.property({type:["solid","sketch"],readOnly:!0,json:{read:!0,write:{ignoreOrigin:!0}}})],a.prototype,"type",void 0);b.__decorate([c.property(d.colorAndTransparencyProperty)],a.prototype,"color",void 0);b.__decorate([c.property(b.__assign(b.__assign({},d.screenSizeProperty),{json:{write:{overridePolicy:function(a){return{enabled:!!a}}}}}))],a.prototype,"extensionLength",void 0);b.__decorate([c.property(d.screenSizeProperty)],a.prototype,"size",void 0);return a=b.__decorate([c.subclass("esri.symbols.edges.Edges3D")],
+a)}(g.JSONSupport)});

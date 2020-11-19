@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../../../../core/Accessor ../../../../core/Handles ../../../../core/accessorSupport/decorators ./disposeMembers".split(" "),function(e,b,c,f,g,d,h){Object.defineProperty(b,"__esModule",{value:!0});b.PointOfInterest=void 0;e=function(b){function a(a){a=b.call(this,a)||this;a.handles=new g;return a}c.__extends(a,b);a.prototype.destroy=function(){h.default(this,"handles")};c.__decorate([d.property({constructOnly:!0})],a.prototype,"renderCoordsHelper",void 0);c.__decorate([d.property({constructOnly:!0})],
+a.prototype,"surface",void 0);c.__decorate([d.property({constructOnly:!0})],a.prototype,"state",void 0);return a=c.__decorate([d.subclass("esri.views.3d.support.PointOfInterest")],a)}(f);b.PointOfInterest=e;b.default=e});

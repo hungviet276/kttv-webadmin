@@ -1,0 +1,6 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","../../../intl"],function(f,b,e){Object.defineProperty(b,"__esModule",{value:!0});b.isImageryStretchedLegend=b.isRendererTitle=b.getTitle=b.attachToNode=void 0;b.attachToNode=function(c){c.appendChild(this)};b.getTitle=function(c,a,b){if(a){if("string"===typeof a)return a;if("value"in a||"unit"in a)return e.substitute(c.dotValue,a);if("colorName"in a||"bandName"in a)return c[a.colorName]+": "+(c[a.bandName]||a.bandName);if("showCount"in a)return a.showCount?c.clusterCountTitle:
+null;var d=null;b?d=a.ratioPercentTotal?"showRatioPercentTotal":a.ratioPercent?"showRatioPercent":a.ratio?"showRatio":a.normField?"showNormField":a.field?"showField":null:b||(d=a.normField?"showNormField":a.normByPct?"showNormPct":a.field?"showField":null);return d?e.substitute("showField"===d?"{field}":c[d],{field:a.field,normField:a.normField}):null}};b.isRendererTitle=function(b,a){return!a};b.isImageryStretchedLegend=function(b,a){return!!(a&&"Stretched"===a&&10.3<=b.version&&"esri.layers.ImageryLayer"===
+b.declaredClass)}});

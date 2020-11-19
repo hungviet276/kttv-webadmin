@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../request ./utils ../tasks/operations/find ../tasks/support/FindParameters ../tasks/support/FindResult".split(" "),function(r,c,d,m,f,n,p,g){function q(a){a=a.data;a.results=a.results||[];var b={results:[]};b.results=a.results.map(function(a){return g.fromJSON(a)});return b}Object.defineProperty(c,"__esModule",{value:!0});c.find=void 0;c.find=function(a,b,c){return d.__awaiter(this,void 0,void 0,function(){var h,e,k,l;return d.__generator(this,function(g){b=p.from(b);
+h=n.findToFindRESTParameters(b);e=f.parseUrl(a);e.path+="/find";k=f.encode(d.__assign(d.__assign(d.__assign({},e.query),{f:"json"}),h));l=f.asValidOptions(k,c);return[2,m(e.path,l).then(q)]})})}});

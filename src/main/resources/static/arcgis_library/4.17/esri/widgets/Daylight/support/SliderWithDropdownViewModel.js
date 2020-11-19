@@ -1,0 +1,6 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","tslib","../../../core/accessorSupport/decorators","../../Slider/SliderViewModel"],function(e,b,c,d,f){Object.defineProperty(b,"__esModule",{value:!0});b.SliderWithDropdownViewModel=void 0;e=function(b){function a(a){a=b.call(this,a)||this;a.items=null;a.currentIndex=0;a.isDropdownOpen=!1;return a}c.__extends(a,b);Object.defineProperty(a.prototype,"currentItem",{get:function(){return null!==this.items&&null!==this.currentIndex&&this.currentIndex<this.items.length?this.items[this.currentIndex]:
+null},enumerable:!1,configurable:!0});a.prototype.selectItem=function(a){this.currentIndex=a;this.isDropdownOpen=!1};a.prototype.toggle=function(){this.isDropdownOpen=!this.isDropdownOpen};c.__decorate([d.property()],a.prototype,"items",void 0);c.__decorate([d.property()],a.prototype,"currentIndex",void 0);c.__decorate([d.property({dependsOn:["currentIndex","items"]})],a.prototype,"currentItem",null);c.__decorate([d.property()],a.prototype,"isDropdownOpen",void 0);return a=c.__decorate([d.subclass("esri.widgets.Daylight.SliderWithDropdown")],
+a)}(f);b.SliderWithDropdownViewModel=e});

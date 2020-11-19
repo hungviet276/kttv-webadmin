@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","tslib","../core/JSONSupport","../core/accessorSupport/decorators"],function(g,h,c,f,d){return function(e){function a(b){b=e.call(this,b)||this;b.enabled=!0;b.type=null;return b}c.__extends(a,e);a.prototype.writeEnabled=function(b,a,c){b||(a[c]=b)};c.__decorate([d.property({type:Boolean,json:{read:{source:"enable"},write:{target:"enable"}}})],a.prototype,"enabled",void 0);c.__decorate([d.writer("enabled")],a.prototype,"writeEnabled",null);c.__decorate([d.property({type:"icon object line path fill water extrude text".split(" "),
+readOnly:!0})],a.prototype,"type",void 0);return a=c.__decorate([d.subclass("esri.symbols.Symbol3DLayer")],a)}(f.JSONSupport)});

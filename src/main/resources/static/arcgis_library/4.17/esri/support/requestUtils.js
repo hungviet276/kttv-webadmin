@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","../core/has","../core/maybe","../core/promiseUtils"],function(r,b,l,m,n){function p(){try{return new DOMException("Aborted","AbortError")}catch(t){var a=Error();a.name="AbortError";return a}}Object.defineProperty(b,"__esModule",{value:!0});b.loadImageAsync=void 0;b.loadImageAsync=function(a,b,f,c){void 0===f&&(f=!1);return n.create(function(q,g){if(n.isAborted(c))g(p());else{var d=function(){h();g(Error("Unable to load "+b))},e=function(){var b=a;h();q(b)},k=function(){if(a){var b=
+a;h();b.src="";g(p())}},h=function(){l("esri-image-decode")||(a.removeEventListener("error",d),a.removeEventListener("load",e));a=e=d=null;m.isSome(c)&&c.removeEventListener("abort",k);k=null;f&&URL.revokeObjectURL(b)};m.isSome(c)&&c.addEventListener("abort",k);l("esri-image-decode")?a.decode().then(e,d):(a.addEventListener("error",d),a.addEventListener("load",e))}})}});

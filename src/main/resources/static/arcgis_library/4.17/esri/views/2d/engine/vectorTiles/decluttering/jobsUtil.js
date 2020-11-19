@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports ./core ./jobs ./SymbolDeclutterer ./SymbolRepository ./util".split(" "),function(m,a,g,h,k,l,d){Object.defineProperty(a,"__esModule",{value:!0});a.declutterSingleTile=void 0;a.declutterSingleTile=function(b){var a=new d.TileForest,e=new l.SymbolRepository(4096,a,function(){var c=new g.VTLUniqueSymbol;c.show=!1;c.parts.push({startTime:0,startOpacity:0,targetOpacity:0,show:!1});c.parts.push({startTime:0,startOpacity:0,targetOpacity:0,show:!1});return c}),f=new k.SymbolDeclutterer(a,
+e,function(c,a,d){return new h.CollisionJob(c,a,d,b.styleLayers.layers,b.key.level,0)},function(a,b){d.writeOpacityToBuffers(a,b,!1)});a.add(b);e.addTile(b);f.setScreenSize(512,512);f.continue(Infinity)}});

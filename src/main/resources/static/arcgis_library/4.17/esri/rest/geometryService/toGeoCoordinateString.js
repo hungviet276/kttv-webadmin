@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../../request ../utils ./units".split(" "),function(l,c,d,m,f,n){Object.defineProperty(c,"__esModule",{value:!0});c.toGeoCoordinateString=void 0;c.toGeoCoordinateString=function(c,a,p){return d.__awaiter(this,void 0,void 0,function(){var b,g,e,h,k;return d.__generator(this,function(l){b={};b.sr=null!=a.sr&&"object"===typeof a.sr?a.sr.wkid||JSON.stringify(a.sr):a.sr;b.coordinates=JSON.stringify(a.coordinates);g=a.conversionType||"mgrs";b.conversionType=n.conversionTypeKebabDict.toJSON(g);
+b.conversionMode=a.conversionMode;b.numOfDigits=a.numOfDigits;b.rounding=a.rounding;b.addSpaces=a.addSpaces;e=f.parseUrl(c);h=d.__assign(d.__assign(d.__assign({},e.query),{f:"json"}),b);k=f.asValidOptions(h,p);return[2,m(e.path+"/toGeoCoordinateString",k).then(function(a){return a.data.strings})]})})}});

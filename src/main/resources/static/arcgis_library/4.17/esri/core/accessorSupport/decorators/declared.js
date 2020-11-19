@@ -1,0 +1,4 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","../../deprecate","../../has","../../Logger"],function(g,a,d,e,f){Object.defineProperty(a,"__esModule",{value:!0});a.declared=void 0;a.declared=function(a){for(var c=[],b=1;b<arguments.length;b++)c[b-1]=arguments[b];if(0<c.length)throw Error("Multi-inheritance unsupported since 4.16");e("esri-deprecation-warnings")&&d.deprecated(f.getLogger("esri.core.accessorSupport.decorators"),"'extends declared(superclass)' syntax",{version:"4.16",see:"https://arcg.is/T8fr4"});return a}});

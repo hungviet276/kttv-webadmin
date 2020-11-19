@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","../../../../../core/libs/gl-matrix-2/mat4","../../../../../core/libs/gl-matrix-2/mat4f64"],function(d,b,f,g){Object.defineProperty(b,"__esModule",{value:!0});b.addOrMerge=b.sortInstancesAccordingToRange=b.Instance=void 0;d=function(){return function(h,a,c,b,d,e){this.from=h;this.to=a;this.isVisible=c;this.hasHighlights=b;this.hasOccludees=d;this.transformation=e;null!=e&&(this.transformationNormal=g.mat4f64.clone(e),f.mat4.invert(this.transformationNormal,this.transformationNormal),
+f.mat4.transpose(this.transformationNormal,this.transformationNormal))}}();b.Instance=d;b.sortInstancesAccordingToRange=function(b){return b.sort(function(a,c){return a.from===c.from?a.to>c.to?1:a.to<c.to?-1:0:a.from>c.from?1:a.from<c.from?-1:0})};b.addOrMerge=function(b,a){if(0===b.length)b.push({first:a.from,count:a.to-a.from});else{var c=b[b.length-1],d;d=c.first+c.count>=a.from?!0:!1;d?c.count=a.from-c.first+a.to-a.from:b.push({first:a.from,count:a.to-a.from})}}});

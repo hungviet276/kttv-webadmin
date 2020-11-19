@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../../core/jsonMap ../../core/JSONSupport ../../core/accessorSupport/decorators ../../symbols/Symbol ./colorRamps".split(" "),function(l,m,b,g,h,c,k,e){var f=new g.default({classBreaksDef:"class-breaks-definition",uniqueValueDef:"unique-value-definition"});return function(d){function a(){var a=null!==d&&d.apply(this,arguments)||this;a.baseSymbol=null;a.colorRamp=null;a.type=null;return a}b.__extends(a,d);b.__decorate([c.property({type:k,json:{write:!0}})],a.prototype,
+"baseSymbol",void 0);b.__decorate([c.property({types:e.types,json:{read:{reader:e.fromJSON},write:!0}})],a.prototype,"colorRamp",void 0);b.__decorate([c.property({json:{read:f.read,write:f.write}})],a.prototype,"type",void 0);return a=b.__decorate([c.subclass("esri.tasks.support.ClassificationDefinition")],a)}(h.JSONSupport)});

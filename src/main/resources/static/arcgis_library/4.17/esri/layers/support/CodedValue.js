@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","tslib","../../core/JSONSupport","../../core/accessorSupport/decorators"],function(a,b,d,f,e){Object.defineProperty(b,"__esModule",{value:!0});b.CodedValue=void 0;a=function(b){function c(a){a=b.call(this,a)||this;a.name=null;a.code=null;return a}d.__extends(c,b);a=c;c.prototype.clone=function(){return new a({name:this.name,code:this.code})};var a;d.__decorate([e.property({type:String,json:{write:!0}})],c.prototype,"name",void 0);d.__decorate([e.property({type:[String,
+Number],json:{write:!0}})],c.prototype,"code",void 0);return c=a=d.__decorate([e.subclass("esri.layers.support.CodedValue")],c)}(f.JSONSupport);b.CodedValue=a;b.default=a});

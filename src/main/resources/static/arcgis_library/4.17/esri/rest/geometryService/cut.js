@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../../geometry ../../request ../../geometry/support/jsonUtils ../utils".split(" "),function(w,b,a,p,q,r,t){Object.defineProperty(b,"__esModule",{value:!0});b.cut=void 0;b.cut=function(b,c,u,v){return a.__awaiter(this,void 0,void 0,function(){var d,e,h,k,f,l,g,m;return a.__generator(this,function(n){switch(n.label){case 0:return d=t.parseUrl(b),e=c[0].spatialReference,h=a.__assign(a.__assign({},v),{query:a.__assign(a.__assign({},d.query),{f:"json",sr:JSON.stringify(e),
+target:JSON.stringify({geometryType:r.getJsonType(c[0]),geometries:c}),cutter:JSON.stringify(u)})}),[4,q(d.path+"/cut",h)];case 1:return k=n.sent(),f=k.data,l=f.cutIndexes,g=f.geometries,m=void 0===g?[]:g,[2,{cutIndexes:l,geometries:m.map(function(a){a=p.fromJSON(a);a.spatialReference=e;return a})}]}})})}});

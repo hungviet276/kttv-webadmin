@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","tslib","../../core/Accessor","../../core/accessorSupport/decorators"],function(f,g,b,e,c){return function(d){function a(a){return d.call(this,a)||this}b.__extends(a,d);Object.defineProperty(a.prototype,"editedBookmark",{get:function(){var a;return(null===(a=this.bookmark)||void 0===a?void 0:a.clone())||null},enumerable:!1,configurable:!0});Object.defineProperty(a.prototype,"state",{get:function(){return this._get("state")},set:function(a){this.loading=this.validationState=
+void 0;this._set("state",a)},enumerable:!1,configurable:!0});b.__decorate([c.property()],a.prototype,"bookmark",void 0);b.__decorate([c.property({readOnly:!0,dependsOn:["bookmark"]})],a.prototype,"editedBookmark",null);b.__decorate([c.property()],a.prototype,"state",null);b.__decorate([c.property()],a.prototype,"validationState",void 0);b.__decorate([c.property()],a.prototype,"loading",void 0);return a=b.__decorate([c.subclass("esri.widgets.Bookmarks.UserState")],a)}(e)});

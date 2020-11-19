@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","../../../../core/jsonMap"],function(u,a,n){Object.defineProperty(a,"__esModule",{value:!0});a.analyzeRings=a.toJSONGeometryType=void 0;var p=new n.default({esriGeometryPoint:"point",esriGeometryMultipoint:"multipoint",esriGeometryPolyline:"polyline",esriGeometryPolygon:"polygon",esriGeometryMultiPatch:"multipatch",mesh:"mesh"});a.toJSONGeometryType=function(a){return p.toJSON(a)};a.analyzeRings=function(a,n,r){for(var e=[],l=[],c=0,b=0,q=0;q<a.length;q++){var f=a[q],d=
+b,g=f[0][0],h=f[0][1];e[b++]=g;e[b++]=h;for(var k=0,m=1;m<f.length;++m){var p=g,t=h,g=f[m][0],h=f[m][1],k=k+(h*p-g*t);e[b++]=g;e[b++]=h}n(k/2);0<k?(0<d-c&&(r(c,d,e,l),c=d),l.length=0):0>k?0<d-c?l.push(.5*(d-c)):b=d:b=d}0<b-c&&r(c,b,e,l)}});

@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../../../core/JSONSupport ../../../core/accessorSupport/decorators ../../../core/accessorSupport/ensureType".split(" "),function(f,b,c,g,d,h){Object.defineProperty(b,"__esModule",{value:!0});b.MapLayerSource=void 0;f=function(b){function a(a){a=b.call(this,a)||this;a.type="map-layer";return a}c.__extends(a,b);e=a;a.prototype.clone=function(){return new e({mapLayerId:this.mapLayerId,gdbVersion:this.gdbVersion})};var e;c.__decorate([d.enumeration({mapLayer:"map-layer"})],
+a.prototype,"type",void 0);c.__decorate([d.property({type:h.Integer,json:{write:!0}})],a.prototype,"mapLayerId",void 0);c.__decorate([d.property({type:String,json:{write:!0}})],a.prototype,"gdbVersion",void 0);return a=e=c.__decorate([d.subclass("esri.layers.support.source.MapLayerSource")],a)}(g.JSONSupport);b.MapLayerSource=f});
