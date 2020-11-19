@@ -93,6 +93,7 @@ $('#btnSearch').on('click', function (e) {
         let parameterTypeId = $('#parameter_search').val();
         let fromDate = $('#start_date').val();
         let toDate = $('#end_date').val();
+        alert(stationId);
         $.ajax({
             headers: {
                 'Authorization': token

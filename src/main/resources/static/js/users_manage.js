@@ -284,11 +284,11 @@ $('#tableDataView thead th').each(function () {
         if (is_select == null || is_select == undefined) {
             $(this).html('<p style="text-align: center">' + title + '</p><input  id="' + dataId + '" class="table-data-input-search" type="text"  placeholder="Tìm kiếm ' + title + '" autocomplete="off" />');
         } else if (is_select == 1) {
-            $(this).html('<p style="text-align: center">Ngày tạo</p>');
+            $(this).html('<p style="text-align: center">'+ title +'</p>');
         } else if (is_select == 2) {
-            $(this).html('<select class="select_table"  id="' + dataId + '"><option value="">Không chọn</option><option  value="1">Hoạt động</option><option value="0">Không hoạt động</option></select>');
+            $(this).html('<p style="text-align: center">'+ title +'</p><select class="select_table"  id="' + dataId + '"><option value="">Không chọn</option><option  value="1">Hoạt động</option><option value="0">Không hoạt động</option></select>');
         }else{
-            $(this).html('<select  class="select_table" id="' + dataId + '"><option value="">Không chọn</option><option value="1">Nam</option><option value="0">Nữ</option></select>');
+            $(this).html('<p style="text-align: center">'+ title +'</p><select  class="select_table" id="' + dataId + '"><option value="">Không chọn</option><option value="1">Nam</option><option value="0">Nữ</option></select>');
         }
     }
 });
@@ -316,7 +316,7 @@ var table = $('#tableDataView').DataTable({
     "lengthChange": true,
     "searchDelay": 500,
     "searching": false,
-    "ordering": true,
+    "ordering": false,
     "info": true,
     "autoWidth": false,
     "scrollX": true,
@@ -512,6 +512,7 @@ $("#btnDelete").click(
         } else {
             return;
         }
+        showLoading();
         var rowDt = table.rows('.selected').data();
         var data = [];
 
@@ -528,13 +529,15 @@ $("#btnDelete").click(
             "data" : JSON.stringify(data),
             "contentType": "application/json",
             "success": function (response) {
-                toastr.success('Thành công', response.message);
+                toastr.success('Xóa người dùng thành công', response.message);
                 $("#btnDelete").css("display", "none");
                 table.ajax.reload();
                 table.rows().deselect();
+                disableLoading();
             },
             "error": function (error) {
                 toastr.error('Lỗi', error.responseJSON.message);
+                disableLoading();
             }
         });
     }
@@ -805,7 +808,7 @@ $('#btnsave').on('click', function (e) {
                     } else {
                         toastr.error('Có lỗi xảy ra' + data, data.message);
                     }
-                    table.ajax.reload();
+                    location.reload();
                 },
                 error: function (err) {
                     toastr.error("Có lỗi xảy ra : " + err);
@@ -835,7 +838,7 @@ $('#btnsave').on('click', function (e) {
                     } else {
                         toastr.error('Có lỗi xảy ra' + data, data.message);
                     }
-                    table.ajax.reload();
+                    location.reload();
                 },
                 error: function (err) {
                     toastr.error("Có lỗi xảy ra : " + err);
@@ -1028,4 +1031,14 @@ $('#btnSearch').on('click', function (e) {
     }
 });
 
+function showLoading() {
+    $('.popup-loading').css('opacity', '1');
+    $('.popup-loading').css('display', 'block');
+    $('body').css('overflow', 'hidden');
+}
 
+function disableLoading() {
+    $('.popup-loading').css('opacity', '0');
+    $('.popup-loading').css('display', 'none');
+    $('body').css('overflow', 'scroll');
+}

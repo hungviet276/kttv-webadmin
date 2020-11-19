@@ -1,6 +1,7 @@
 let uGroup = {
     groupTable: undefined,
     currGroupId: undefined,
+    currGroupIdEdit: '',
     waitTimeSearch: 1000,
     userTable: {
         body: $("#tableDataParameter tbody"),
@@ -76,7 +77,7 @@ let uGroup = {
     isValid: function (tram, nhom, nhomcha, cap, trangthai, mota) {
         $(".help-block").html("");
         let valid = true;
-        if (tram == null) {
+        if (tram == null || tram == -1) {
             $("#tram_error").html("Cần chọn trạm");
             $('#tram').focus();
             valid = false;
@@ -133,19 +134,24 @@ let uGroup = {
         });
     },
     delete: function () {
+        if(confirm("Bạn có muốn xóa bản ghi?")){
+
+        } else {
+            return;
+        }
+
         if (uGroup.currGroupId == null) {
             alert("Chưa chọn nhóm người sử dụng");
             return;
         }
-         if(uGroup.userTable.data.length > 0){
-             if (uGroup.userTable.data[0].userId !="" ) {
-                 alert("Phải làm trống danh sách thành viên!");
-                 return;
-             }
-         }
 
-
-
+        if(uGroup.userTable.data.length > 0){
+            if (uGroup.userTable.data[0].userId !="" ) {
+                alert("Phải làm trống danh sách thành viên!");
+                return;
+            }
+        }
+        showLoading();
         let data = {
             id: uGroup.currGroupId
         }
@@ -160,16 +166,18 @@ let uGroup = {
             success: function (response) {
                 if (response.status == "1") {
                     toastr.success('Thành công', response.message);
-                    uGroup.clearForm();
                     uGroup.closeForm();
                 } else {
                     toastr.error('Lỗi', response.message);
                 }
+                disableLoading();
             },
             error: function (error) {
                 toastr.error('Lỗi', error);
+                disableLoading();
             }
         });
+
     },
     update: function () {
         let tram = $.trim($("#tram").val());
@@ -182,6 +190,14 @@ let uGroup = {
         if (!uGroup.isValid(tram, nhom, nhomcha, cap, trangthai, mota)) {
             return;
         }
+
+        if(uGroup.currGroupIdEdit !=''){
+            if(nhomcha == uGroup.currGroupIdEdit ){
+                alert("Nhóm NSD cha không hợp lệ !");
+                return;
+            }
+        }
+
 
         let data = {
             id: uGroup.currGroupId,
@@ -224,6 +240,7 @@ let uGroup = {
             method: "GET",
             contentType: "application/json",
             success: function (response) {
+                uGroup.currGroupIdEdit =groupId;
                 $("#tram").val(response.stationId);
                 $("#tram").trigger("change");
                 $("#tram").select2();
@@ -232,7 +249,8 @@ let uGroup = {
                 $("#nhom_nsd_cha").select2();
                 $("#cap").val(response.groupLevel);
                 $("#trangthai").val(response.status);
-                console.log(response.users);
+                $("#mota").val(response.description);
+                console.log(response.description);
                 uGroup.userTable.data = response.users;
                 uGroup.userTable.render();
             },
@@ -286,14 +304,20 @@ let uGroup = {
         if (uGroup.groupTable === undefined) {
             uGroup.groupTable = $('#uGroupTable').DataTable({
                 columnDefs: [{
-                    orderable: false,
-                    className: 'select-checkbox',
-                    targets: 0
+                    //     orderable: false,
+                    //     className: 'select-checkbox',
+                    //     targets: 0,
+                    //
                 },
                     {"width": "25px", "targets": 0},
                     {
                         className: "hide-col",
                         targets: 7,
+                    },
+                    {"width": "25px", "targets": 0},
+                    {
+                        className: "hide-col",
+                        targets: 8,
                     }
                 ],
                 select: {
@@ -324,14 +348,15 @@ let uGroup = {
                 "processing": true,
                 "serverSide": true,
                 "columns": [
-                    {"data": ""},
                     {"data": "indexCount","render": $.fn.dataTable.render.text()},
+                    {"data": "control"},
                     {"data": "stationName","render": $.fn.dataTable.render.text()},
                     {"data": "groupName","render": $.fn.dataTable.render.text()},
                     {"data": "groupLevel","render": $.fn.dataTable.render.text()},
                     {"data": "groupParentName","render": $.fn.dataTable.render.text()},
                     {"data": "statusStr","render": $.fn.dataTable.render.text()},
                     {"data": "groupId"},
+                    {"data": "description"},
                 ],
                 initComplete: function () {
                     // Apply the search
@@ -407,7 +432,6 @@ let uGroup = {
 
                         for (let i = 0; i < responseJson.content.length; i++) {
                             dataRes.data.push({
-                                "": "",
                                 "indexCount": i + 1,
                                 "stationName": responseJson.content[i].stationsName,
                                 "groupName": responseJson.content[i].name,
@@ -415,6 +439,8 @@ let uGroup = {
                                 "groupParentName": responseJson.content[i].groupParentName,
                                 "statusStr": responseJson.content[i].statusStr,
                                 "groupId": responseJson.content[i].id,
+                                "description": responseJson.content[i].description,
+                                "control": "<span class='fa fa-edit' title='Cập nhật'  onclick='preEdit(" + i + ")' style='cursor: pointer'></span>",
                             })
                         }
 
@@ -428,11 +454,11 @@ let uGroup = {
     },
 
     initEvent: function () {
-        uGroup.groupTable.on('select', function ( e, dt, type, indexes ) {
-            console.log("chay vao day");
-            uGroup.currGroupId = uGroup.groupTable.rows(indexes).data().toArray()[0].groupId;
-            // uGroup.openForm("update", uGroup.currGroupId);
-        } );
+        // uGroup.groupTable.on( 'select', function ( e, dt, type, indexes ) {
+        //     uGroup.currGroupId = uGroup.groupTable.rows(indexes).data().toArray()[0].groupId;
+        //     uGroup.openForm("update", uGroup.currGroupId);
+        // } );
+
 
         $("#btnNew").click(function () {
             uGroup.openForm("new");
@@ -472,6 +498,11 @@ let uGroup = {
         });
 
         $("#nhom_nsd_cha").change(function () {
+            // if(uGroup.currGroupIdEdit !=''){
+            //     if($('#nhom_nsd_cha').val() == uGroup.currGroupIdEdit ){
+            //         alert("Nhóm NSD cha không hợp lệ !");
+            //     }
+            // }
             console.log("Vao day");
             let level = $(this.options[this.selectedIndex]).attr("level");
             let nextLevel = level == null ? 1 : parseInt(level) + 1;
@@ -559,3 +590,19 @@ $(document).ready(function () {
     uGroup.initPage();
 });
 
+function showLoading() {
+    $('.popup-loading').css('opacity', '1');
+    $('.popup-loading').css('display', 'block');
+    $('body').css('overflow', 'hidden');
+}
+
+function disableLoading() {
+    $('.popup-loading').css('opacity', '0');
+    $('.popup-loading').css('display', 'none');
+    $('body').css('overflow', 'scroll');
+}
+
+function preEdit(indexes) {
+    uGroup.currGroupId = uGroup.groupTable.rows(indexes).data().toArray()[0].groupId;
+    uGroup.openForm("update", uGroup.currGroupId);
+}
