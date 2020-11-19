@@ -70,12 +70,7 @@ let Table = {
                 orderable: false
                 , className: 'select-checkbox'
                 , targets: 0
-                , checkboxes: {
-                    selectRow: true
-                }
-                , processing: true
             }]
-            , dom: 'Bfrtip'
             , select: {
                 style: 'multi'
                 , selector: 'td:first-child'
@@ -95,10 +90,10 @@ let Table = {
             , paging: false
             , columns: [
                 {"data": ""}
-                , {"data": "indexCount"}
-                , {"data": "api"}
-                , {"data": "method"}
-                , {"data": "user"}
+                , {"data": "indexCount", "render": $.fn.dataTable.render.text()}
+                , {"data": "api", "render": $.fn.dataTable.render.text()}
+                , {"data": "method", "render": $.fn.dataTable.render.text()}
+                , {"data": "user", "render": $.fn.dataTable.render.text()}
             ]
             , data: casbins
         });
