@@ -194,8 +194,10 @@ function validateSearch(){
             {"data": "stationName", "render": $.fn.dataTable.render.text()},
             {"data": "warningNo","render": $.fn.dataTable.render.text()},
             {"data": "warningName", "render": $.fn.dataTable.render.text()},
+            {"data": "groupMail", "render": $.fn.dataTable.render.text()},
             {"data": "description", "render": $.fn.dataTable.render.text()},
             {"data": "pushTimestampStr", "render": $.fn.dataTable.render.text()},
+
         ],
         initComplete: function () {
             // Apply the search
@@ -261,6 +263,7 @@ function validateSearch(){
                         "stationName": responseJson.content[i].stationName,
                         "warningNo": responseJson.content[i].warningNo,
                         "warningName": responseJson.content[i].warningName,
+                        "groupMail": responseJson.content[i].groupReMailName,
                         "description": responseJson.content[i].description,
                         "pushTimestampStr": responseJson.content[i].pushTimestampStr,
                     })
@@ -278,6 +281,7 @@ $('#btnExport').on('click', function (e) {
             s_stationName: $('#s_stationName').val(),
             s_warning_code: $('#s_warning_code').val(),
             s_warning_name: $('#s_warning_name').val(),
+            s_group_mail: $('#s_group_mail').val(),
             s_note: $('#s_note').val(),
             s_stationId: $('#stations_search').val(),
             s_warningId: $('#warningType_Search').val(),

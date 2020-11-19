@@ -752,8 +752,6 @@ function getStationType() {
 }
 
 $('#btnsave').on('click', function (e) {
-    $("#exampleModal").modal();
-
     if (validateForm()) {
         var checkedGender = "1";//nam
         var c = $("#checkNam").is(":checked");
@@ -810,7 +808,7 @@ $('#btnsave').on('click', function (e) {
                     } else {
                         toastr.error('Có lỗi xảy ra' + data, data.message);
                     }
-                    table.ajax.reload();
+                    location.reload();
                 },
                 error: function (err) {
                     toastr.error("Có lỗi xảy ra : " + err);
@@ -840,7 +838,7 @@ $('#btnsave').on('click', function (e) {
                     } else {
                         toastr.error('Có lỗi xảy ra' + data, data.message);
                     }
-                    table.ajax.reload();
+                    location.reload();
                 },
                 error: function (err) {
                     toastr.error("Có lỗi xảy ra : " + err);
