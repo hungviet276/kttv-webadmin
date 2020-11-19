@@ -397,7 +397,7 @@ $("#userReceiveInsite").select2({
         }
     }
 });
-var tableUserReceveiMailInSite = $('#tableUserReceveiMailInSite').DataTable({
+var tableUserReceiveMailInSite = $('#tableUserReceveiMailInSite').DataTable({
     columns: [
         {"data": "id"},
         {"data": "name"},
@@ -423,7 +423,7 @@ var tableUserReceiveMailOutSite = $('#tableUserReceiveMailOutSite').DataTable({
     ]
 });
 $("#btnSaveUserInsite").click(function () {
-    var formData  = tableUserReceveiMailInSite.rows().data();
+    var formData  = tableUserReceiveMailInSite.rows().data();
     let insert = true;
     $.each( formData, function( key, value ) {
         if($('#userReceiveInsite').select2('data')[0].id == value.id){
@@ -437,7 +437,7 @@ $("#btnSaveUserInsite").click(function () {
     tableUserReceveiMailInSite.row.add($('#userReceiveInsite').select2('data')[0].data).draw(true);
 
 });
-tableUserReceveiMailInSite.on('click', 'a.editor_remove', function (e) {
+tableUserReceiveMailInSite.on('click', 'a.editor_remove', function (e) {
     if(confirm("Bạn có muốn xóa bản ghi")){
 
     } else {
@@ -738,6 +738,18 @@ tableUserReceiveMailOutSite.on('click', 'a.editor_remove', function (e) {
         .row( $(this).parents('tr') )
         .remove().draw();
 });
+tableWarningConfig.on('click', 'a.editor_remove', function (e) {
+    if(confirm("Bạn có muốn xóa bản ghi")){
+
+    } else {
+        return;
+    }
+    e.preventDefault();
+    var tableWarningConfig = $('#tableWarningConfig').DataTable();
+    tableWarningConfig
+        .row( $(this).parents('tr') )
+        .remove().draw();
+});
 
 table
     .on('select', rowSelect)
@@ -774,8 +786,86 @@ $("#btnDetail").click(function(){
     $("#status").val(rowDt.status);
     $('#status').trigger('change');
     //validatorhorizontal.resetForm();
-    //showDetailData(rowDt);
+    showDetailData(rowDt);
 });
+ function showDetailData(rowDt){
+     $.ajax({
+         headers: {
+             'Authorization': token
+         },
+         "url": apiUrl + "group-mail-config/get-info?id="+rowDt.id,
+         "method": "GET",
+         "contentType": "application/json",
+         "success": function (response) {
+             let userInSite = response[0];
+             let userOuSite = response[1];
+             let warning = response[2];
+
+             for(let i = 0 ; i <userInSite.length ; i++){
+                 tableUserReceiveMailInSite.row.add(userInSite[i]).draw(true);
+             }
+
+             for(let i = 0 ; i <userOuSite.length ; i++){
+                 tableUserReceiveMailOutSite.row.add(userOuSite[i]).draw(true);
+             }
+
+             for(let i = 0 ; i <warning.length ; i++){
+                 tableWarningConfig.row.add(warning[i]).draw(true);
+             }
+         },
+         "error": function (error) {
+             console.log(error);
+         }
+     });
+ }
+ $("#btnsaveEdit").click(function(){
+     var submit = $("#formInSite").valid();
+     if(submit==false){
+         return;
+     }
+     let object = {};
+     object.id = $("#id").val();
+     object.code = $("#code").val();
+     object.name = $("#name").val();
+     object.description = $("#description").val();
+     object.status = $("#status").val();
+     let userInSiteTmps  = tableUserReceveiMailInSite.rows().data();
+     let userInSites = [];
+     for(let i = 0; i < userInSiteTmps.length ; i++){
+         userInSites.push(userInSiteTmps[i].id);
+     }
+
+     let warningConfigTmp = tableWarningConfig.rows().data();
+     let warningConfig = [];
+     for(let i =0 ; i<warningConfigTmp.length; i++){
+         warningConfig.push(warningConfigTmp[i].warningManagerId)
+     }
+     let userOutSiteTmp = tableUserReceiveMailOutSite.rows().data();
+     let userOutSite = [];
+     for(let i =0; i< userOutSiteTmp.length ; i++){
+         userOutSite.push(userOutSiteTmp[i].id);
+     }
+     object.userInSites = userInSites;
+     object.warningConfig = warningConfig;
+     object.userOutSite = userOutSite;
+     object.user = username;
+     console.log(object);
+     $.ajax({
+         headers: {
+             'Authorization': token
+         },
+         "url": apiUrl + "group-mail-config",
+         "method": "POST",
+         "contentType": "application/json",
+         "data" : JSON.stringify(object),
+         "success": function (response) {
+             console.log(response)
+         },
+         "error": function (error) {
+             console.log(error);
+         }
+     });
+ });
 //
 // $('#valueTypeSpatial').select2({
 //
