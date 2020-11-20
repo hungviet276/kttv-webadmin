@@ -167,8 +167,42 @@ const chart = {
     getTime: function () {
         this.time = [today, 1563800400000, 1563804000000, 1563807600000,1563907600000,1564807600000 ];
         return this.time;
-    }
+    },
+    showSlider: function (){
+        let valueAVGH2O = document.getElementsByClassName("value_avg_h2o");
+        let valueMINH2O = document.getElementsByClassName("value_min_h2o");
+        let valueMAXH2O = document.getElementsByClassName("value_max_h2o");
+        let valueAVGO3 = document.getElementsByClassName("value_avg_o3");
+        let valueMINO3 = document.getElementsByClassName("value_min_o3");
+        let valueMAXO3 = document.getElementsByClassName("value_max_o3");
+        let valueAVGCO2 = document.getElementsByClassName("value_avg_co2");
+        let valueMINCO2 = document.getElementsByClassName("value_min_co2");
+        let valueMAXCO2 = document.getElementsByClassName("value_max_co2");
+        let valueAVGCO = document.getElementsByClassName("value_avg_co");
+        let valueMINCO = document.getElementsByClassName("value_min_co");
+        let valueMAXCO = document.getElementsByClassName("value_max_co");
+        let valueAVGCH4 = document.getElementsByClassName("value_avg_ch4");
+        let valueMINCH4 = document.getElementsByClassName("value_min_ch4");
+        let valueMAXCH4 = document.getElementsByClassName("value_max_ch4");
 
+        for (let i = 0; i < valueAVGH2O.length; i++){
+            valueAVGH2O[i].innerHTML  = this.getAverage(this.dataH2O) +' ppm';
+            valueMINH2O[i].innerHTML  = this.getMin(this.dataH2O) +' ppm';
+            valueMAXH2O[i].innerHTML  = this.getMax(this.dataH2O) +' ppm';
+            valueAVGCO[i].innerHTML  = this.getAverage(this.dataCO) +' ppm';
+            valueMINCO[i].innerHTML  = this.getMin(this.dataCO) +' ppm';
+            valueMAXCO[i].innerHTML  = this.getMax(this.dataCO) +' ppm';
+            valueAVGO3[i].innerHTML  = this.getAverage(this.dataO3) +' ppm';
+            valueMINO3[i].innerHTML  = this.getMin(this.dataO3) +' ppm';
+            valueMAXO3[i].innerHTML  = this.getMax(this.dataO3) +' ppm';
+            valueAVGCO2[i].innerHTML  = this.getAverage(this.dataCO2) +' ppm';
+            valueMINCO2[i].innerHTML  = this.getMin(this.dataCO2) +' ppm';
+            valueMAXCO2[i].innerHTML  = this.getMax(this.dataCO2) +' ppm';
+            valueAVGCH4[i].innerHTML  = this.getAverage(this.dataCH4) +' ppb';
+            valueMINCH4[i].innerHTML  = this.getMin(this.dataCH4) +' ppb';
+            valueMAXCH4[i].innerHTML  = this.getMax(this.dataCH4) +' ppb';
+        }
+    }
 
 };
 //Lấy dữ liệu test
@@ -178,6 +212,7 @@ chart.getDataO3();
 chart.getDataCO2();
 chart.getDataCO();
 chart.getDataCH4();
+chart.showSlider();
 
 ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9", "b55b025e438fa8a98e32482b5f768ff5"];
 let chartConfig = {

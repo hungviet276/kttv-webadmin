@@ -50,17 +50,17 @@
                                             <th data-id="s_timeStart">Thời gian bắt đầu</th>
                                             <th data-id="s_timeEnd">Thời gian kết thúc</th>
                                             <th style="width: 6em">Thời gian trung bình</th>
-                                            <th style="width: 4em">Lưu lượng</th>
-                                            <th style="width: 4em">Diện tích sông</th>
-                                            <th style="width: 4em">Độ sâu sông</th>
-                                            <th style="width: 6em">Tốc độ trung bình</th>
-                                            <th style="width: 6em">Tốc độ lớn nhất</th>
-                                            <th style="width: 6em">Độ sâu trung bình</th>
-                                            <th style="width: 6em">Độ sâu lớn nhất</th>
-                                            <th style="width: 6em">Mực nước bắt đầu</th>
-                                            <th style="width: 6em">Mực nước kết thúc</th>
-                                            <th style="width: 6em">Mực nước trung bình</th>
-                                            <th style="width: 4em">Ghi chú</th>
+                                            <th style="width: 4em">Độ đục toàn sông</th>
+<!--                                            <th style="width: 4em">Diện tích sông</th>-->
+<!--                                            <th style="width: 4em">Độ sâu sông</th>-->
+<!--                                            <th style="width: 6em">Tốc độ trung bình</th>-->
+<!--                                            <th style="width: 6em">Tốc độ lớn nhất</th>-->
+<!--                                            <th style="width: 6em">Độ sâu trung bình</th>-->
+<!--                                            <th style="width: 6em">Độ sâu lớn nhất</th>-->
+<!--                                            <th style="width: 6em">Mực nước bắt đầu</th>-->
+<!--                                            <th style="width: 6em">Mực nước kết thúc</th>-->
+<!--                                            <th style="width: 6em">Mực nước trung bình</th>-->
+<!--                                            <th style="width: 4em">Ghi chú</th>-->
                                             <th style="width: 4em">File đính kèm</th>
                                         </tr>
                                         </thead>
@@ -129,6 +129,10 @@
                                                                placeholder="" disabled>
                                                         <span id="timeAvg_error" class="help-block"
                                                               style="color: red"></span>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="linkFile">File đính kèm</label>
+                                                        <input id="linkFile" name="linkFile" accept=".csv" class="form-control" style="width: 100%;" th:type="file">
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-12" style="overflow: auto">

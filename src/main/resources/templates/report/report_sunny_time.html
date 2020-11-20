@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <title>Báo Cáo Xu Thế Biến Đổi Của Mực Nước Thủy Triều Thiên Văn</title>
+    <title>Báo Cáo Biến Đổi Thời Gian Nắng</title>
     <th:block th:replace="layout_header.html :: head_tag"/>
-    <link rel="stylesheet" href="/css/report_tides.css" type="text/css">
+    <link rel="stylesheet" href="/css/report_general.css" type="text/css">
     <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
     <link href="/css/slider_chart.css" rel="stylesheet" type="text/css" media="all"/>
@@ -46,7 +46,7 @@
             <div class="container-fluid">
                 <div class="card card-default">
                     <div class="card-header">
-                        <h4>Báo Cáo Xu Thế Biến Đổi Của Mực Nước Thủy Triều Thiên Văn </h4>
+                        <h4>Báo Cáo Biến Đổi Thời Gian Nắng</h4>
                     </div>
                     <div class="container-fluid">
                         <div class="row content" style="width: 100%">
@@ -60,6 +60,13 @@
                                                     <label for="tram">Trạm <span style="color: red;">*</span></label>
                                                     <select id="tram" class="form-control" style="width: 100%;">
                                                         <option value="">--Chọn Trạm--</option>
+                                                        <option value="son_la">Sơn La</option>
+                                                        <option value="tuyen_quang">Tuyên Quang</option>
+                                                        <option value="lang_son">Lạng Sơn</option>
+                                                        <option value="thai_binh">Thái Bình</option>
+                                                        <option value="ky_anh">Kỳ Anh</option>
+                                                        <option value="hue">Huế</option>
+                                                        <option value="can_tho">Cần Thơ</option>
                                                     </select>
                                                     <span id="tram_error" class="help-block" style="color: red"></span>
                                                 </div>
@@ -273,7 +280,7 @@
 </div>
 <th:block th:replace="layout_footer.html :: footer_tag"/>
 <th:block th:replace="global_import_js.html :: global_import_js"/>
-<script src="/js/report_tides.js"></script>
+<script src="/js/report_sunny_time.js"></script>
 <script src="/js/slider_chart.js"></script>
 </body>
 </html>
