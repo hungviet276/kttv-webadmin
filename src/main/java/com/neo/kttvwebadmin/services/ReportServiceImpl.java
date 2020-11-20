@@ -2,13 +2,12 @@ package com.neo.kttvwebadmin.services;
 
 import com.neo.kttvwebadmin.entity.ParameterChartMappingAndData;
 import com.neo.kttvwebadmin.exception.KTTVException;
-import com.neo.kttvwebadmin.utils.Constants;
-import com.neo.kttvwebadmin.utils.DateUtils;
-import com.neo.kttvwebadmin.utils.GetParameterChartMappingAndDataVM;
+import com.neo.kttvwebadmin.utils.*;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -16,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.List;
 
 /**
  * @author thanglv on 11/14/2020
@@ -33,7 +34,7 @@ public class ReportServiceImpl implements ReportService {
     private String apiUrl;
 
     @Override
-    public ParameterChartMappingAndData getParameterChartMappingAndData(String stationCode, String parameterTypeId, String startDate, String endDate, String token) throws KTTVException {
+    public ParameterChartMappingAndData getParameterChartMappingAndData(String stationCode, String parameterTypeId, String type,String startDate, String endDate, String token) throws KTTVException {
         // validate request
         validateDataRequest(stationCode, parameterTypeId, startDate, endDate);
         // call api get data
@@ -45,12 +46,13 @@ public class ReportServiceImpl implements ReportService {
         GetParameterChartMappingAndDataVM request = GetParameterChartMappingAndDataVM.builder()
                 .stationCode(stationCode)
                 .parameterTypeId(parameterTypeId)
+                .type(type)
                 .startDate(startDate)
                 .endDate(endDate)
                 .build();
 
         HttpEntity<GetParameterChartMappingAndDataVM> entity = new HttpEntity<>(request, headers);
-        UriComponentsBuilder urlRequestBuilder = UriComponentsBuilder.fromHttpUrl(apiUrl + Constants.REPORT.URL_REQ_REPORT_API);
+        UriComponentsBuilder urlRequestBuilder = UriComponentsBuilder.fromHttpUrl(apiUrl + Constants.REPORT.URL_REQ_REPORT_PARAMETER_API);
         ResponseEntity<ParameterChartMappingAndData> responseEntity = restTemplate
                 .exchange(
                         urlRequestBuilder.toUriString(),
@@ -58,6 +60,52 @@ public class ReportServiceImpl implements ReportService {
                         entity,
                         ParameterChartMappingAndData.class);
 
+        return responseEntity.getBody();
+    }
+
+    @Override
+    public List<TimeSeriesDataDTO> getStationReportData(String stationCode, String token) {
+        // call api get data
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", token);
+        headers.add("Accept", "application/json");
+        headers.add("Content-Type", "application/json");
+
+        GetStationDataReportVM request = GetStationDataReportVM.builder()
+                .stationCode(stationCode)
+                .build();
+
+        HttpEntity<GetStationDataReportVM> entity = new HttpEntity<>(request, headers);
+        UriComponentsBuilder urlRequestBuilder = UriComponentsBuilder.fromHttpUrl(apiUrl + Constants.REPORT.URL_REQ_REPORT_PARAMETER_API);
+        ResponseEntity<List<TimeSeriesDataDTO>> responseEntity = restTemplate
+                .exchange(
+                        urlRequestBuilder.toUriString(),
+                        HttpMethod.POST,
+                        entity,
+                        new ParameterizedTypeReference<List<TimeSeriesDataDTO>>(){});
+        return responseEntity.getBody();
+    }
+
+    @Override
+    public String[] getListParameterTypeIdDisplayChart(String stationCode, String token) {
+        // call api get data
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", token);
+        headers.add("Accept", "application/json");
+        headers.add("Content-Type", "application/json");
+
+        GetStationDataReportVM request = GetStationDataReportVM.builder()
+                .stationCode(stationCode)
+                .build();
+
+        HttpEntity<GetStationDataReportVM> entity = new HttpEntity<>(request, headers);
+        UriComponentsBuilder urlRequestBuilder = UriComponentsBuilder.fromHttpUrl(apiUrl + Constants.REPORT.URL_REQ_REPORT_GET_LIST_PARAMETER_TYPE_ID_DISPLAY);
+        ResponseEntity<String[]> responseEntity = restTemplate
+                .exchange(
+                        urlRequestBuilder.toUriString(),
+                        HttpMethod.POST,
+                        entity,
+                        new ParameterizedTypeReference<String[]>(){});
         return responseEntity.getBody();
     }
 
