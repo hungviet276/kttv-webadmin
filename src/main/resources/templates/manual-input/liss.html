@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Nhập dữ liệu LISS</title>
+    <th:block th:replace="layout_header.html :: head_tag"/>
+    <link rel="stylesheet" href="/css/management-station.css" type="text/css">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed text-sm">
+<div class="wrapper">
+
+    <th:block th:replace="layout_menu.html :: menu_tag"/>
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="container-fluid">
+                <div class="card card-default">
+                    <div class="card-header">
+                        <h4>Dữ liệu LISS</h4>
+                    </div>
+                    <div class="container-fluid">
+                        <div class="row content" style="width: 100%">
+                            <div class="col-sm-12 col-md-12 col-lg-12" id="box_search">
+                                <div class="mt-1">
+                                    <button class="btn btn-primary" id="btnDoNew" style="width:100px;">
+                                        <i class="fas fa-plus"></i> Thêm
+                                    </button>
+                                    <button class="btn btn-primary" id="btnExport" style="width:100px;"
+                                            onclick="station.btnExport()">
+                                        <i class="fas fa-download"></i> Export
+                                    </button>
+                                </div>
+
+                                <div class="card-body" style="width: 100%;">
+                                    <table id="tableDataView" class="table table-bordered table-hover">
+                                        <thead>
+                                        <tr>
+                                            <!--                                            <th></th>-->
+                                            <th>#</th>
+                                            <th style="width: 4em">Thao tác</th>
+                                            <th data-id="s_objectType">Loại trạm</th>
+                                            <th data-id="s_objectTypeName">Tên loại trạm</th>
+                                            <th data-id="s_stationCode">Mã trạm</th>
+                                            <th data-id="s_stationName">Tên trạm</th>
+                                            <th data-id="s_riverName">Tên sông</th>
+                                            <th data-id="s_timeStart">Thời gian bắt đầu</th>
+                                            <th data-id="s_timeEnd">Thời gian kết thúc</th>
+                                            <th style="width: 6em">Thời gian trung bình</th>
+                                            <th style="width: 4em">Lưu lượng</th>
+                                            <th style="width: 4em">Diện tích sông</th>
+                                            <th style="width: 4em">Độ sâu sông</th>
+                                            <th style="width: 6em">Tốc độ trung bình</th>
+                                            <th style="width: 6em">Tốc độ lớn nhất</th>
+                                            <th style="width: 6em">Độ sâu trung bình</th>
+                                            <th style="width: 6em">Độ sâu lớn nhất</th>
+                                            <th style="width: 6em">Mực nước bắt đầu</th>
+                                            <th style="width: 6em">Mực nước kết thúc</th>
+                                            <th style="width: 6em">Mực nước trung bình</th>
+                                            <th style="width: 4em">Ghi chú</th>
+                                            <th style="width: 4em">File đính kèm</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- /.card-footer -->
+                            <div class="col-sm-12 col-md-12 col-lg-12" id="box_info">
+                                <div style="width: 100%;float: right">
+                                    <form method="post" enctype="multipart/form-data" id="uploadForm">
+                                        <div class="form-horizontal" id="form_input">
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="timeStart">Trạm <span
+                                                            style="color: red;">*</span></label>
+                                                    <select name="stationId" id="stationId" class="form-control"
+                                                            style="width: 100%;"
+                                                            onchange="station.stationIdOnchange(this)">
+                                                        <option value="-1">Không chọn</option>
+                                                    </select>
+                                                    <span id="stationId_error" class="help-block"
+                                                          style="color: red"></span>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="riverId">Thuộc sông <span
+                                                            style="color: red;">*</span></label>
+                                                    <select name="riverId" id="riverId" class="form-control"
+                                                            style="width: 100%;" disabled>
+                                                        <option value="-1">Không chọn</option>
+                                                    </select>
+                                                    <span id="riverId_error" class="help-block"
+                                                          style="color: red"></span>
+                                                </div>
+                                            </div>
+                                            <fieldset class="fieldset-normal">
+                                                <legend class="legend-normal">Thời gian đo + mực nước</legend>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="timeStart">Thời gian bắt đầu <span
+                                                                style="color: red;">*</span></label>
+                                                        <input name="timeStart" id="timeStart" class="form-control"
+                                                               style="width: 100%;"
+                                                               onchange="station.timeStartOnchange()">
+                                                        <span id="timeStart_error" class="help-block"
+                                                              style="color: red"></span>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="timeEnd">Thời gian kết thúc <span
+                                                                style="color: red;">*</span></label>
+                                                        <input type="text" class="form-control" name="timeEnd"
+                                                               id="timeEnd"
+                                                               placeholder="" onchange="station.timeEndOnchange()">
+                                                        <span id="timeEnd_error" class="help-block"
+                                                              style="color: red"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="timeAvg">Thời gian trung bình <span
+                                                                style="color: red;">*</span></label>
+                                                        <input class="form-control" name="timeAvg" id="timeAvg"
+                                                               placeholder="" disabled>
+                                                        <span id="timeAvg_error" class="help-block"
+                                                              style="color: red"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-12" style="overflow: auto">
+                                                    <table class="table table-bordered" id="tableTT" >
+                                                        <thead id="tHeadTT">
+                                                        <tr>
+                                                            <th style="width: 10px" rowspan="2">STT</th>
+                                                            <th id="thTT1" colspan="2" style="width: 50px;text-align: center">Thủy
+                                                                trực 1
+                                                            </th>
+                                                            <th border="0" cellspacing="0" cellpadding="0"><i
+                                                                    class="fa fa-plus" onclick="station.addTT()"></i>
+                                                                &nbsp;<i class="fa fa-trash"
+                                                                         onclick="station.subTT()"></i></th>
+                                                        </tr>
+                                                        <tr>
+                                                            <th style="text-align: center">Độ sâu</th>
+                                                            <th style="text-align: center">Giá trị</th>
+                                                        </tr>
+
+                                                        </thead>
+                                                        <tbody id="tBodyTT">
+                                                        <tr>
+                                                            <td>1</td>
+                                                            <td contenteditable="true" data-placeholder="Độ sâu"></td>
+                                                            <td contenteditable="true" data-placeholder="Giá trị">Giá trị</td>
+                                                            <td contenteditable="true" data-placeholder="Độ sâu"></td>
+                                                            <td contenteditable="true" data-placeholder="Giá trị">Giá trị</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><i class="fa fa-plus" onclick="station.addRow()"></i>
+                                                                &nbsp;<i class="fa fa-trash"
+                                                                         onclick="station.subTT()"></i></td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                    </form>
+                                    <!-- end tab phan quyen-->
+                                    <div class="wrap-button-control">
+                                        <button class="btn btn-primary" id="btnSave" style="display:none;width: 100px;"
+                                                onclick="station.btnSave(event)">
+                                            <i class="fas fa-plus"></i> Lưu
+                                        </button>
+                                        <button class="btn btn-primary" id="btnUpdate"
+                                                style="display:none;width: 100px;" onclick="station.btnUpdate(event)">
+                                            <i class="fas fa-edit"></i> Cập nhật
+                                        </button>
+                                        <button class="btn btn-primary" id="btnDelete"
+                                                style="display:none;width: 100px;" onclick="station.btnDelete()">
+                                            <i class="far fa-trash-alt"></i> Xoá
+                                        </button>
+                                        <button class="btn btn-primary" id="btnReset" style="display:none;width: 100px;"
+                                                onclick="station.btnRefresh()">
+                                            <i class="fas fa-redo-alt"></i> Làm mới
+                                        </button>
+                                        <button class="btn btn-primary" id="btnCancel"
+                                                style="display:none;width: 100px;">
+                                            <i class="fas fa-times"></i> Hủy
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <br>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="popup-loading">
+                    <div class="wrapper-loading">
+                        <div class="sub-wrapper-loading">
+                            <div class="d-flex justify-content-center">
+                                <div class="spinner-border" role="statusLoading">
+                                    <span class="sr-only" th:text="#{action.loading}">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <th:block th:replace="management-station/control.html :: management-station-control"/>
+        </div>
+    </div>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark" style="top: 0px; height: 306px; display: none; bottom: 28.6px;">
+        <!-- Control sidebar content goes here -->
+    </aside>
+</div>
+<th:block th:replace="layout_footer.html :: footer_tag"/>
+<th:block th:replace="global_import_js.html :: global_import_js"/>
+<script src="/js/liss.js"></script>
+</body>
+</html>

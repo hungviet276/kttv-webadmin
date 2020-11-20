@@ -1,7 +1,6 @@
 package com.neo.kttvwebadmin.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.neo.kttvwebadmin.entity.ParameterChartMapping;
 import com.neo.kttvwebadmin.entity.ParameterChartMappingAndData;
 import com.neo.kttvwebadmin.exception.KTTVException;
@@ -12,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -31,9 +31,6 @@ public class ReportController {
     @Autowired
     private ReportService reportService;
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
     @GetMapping("/parameter")
     public String getParameterReportPage(@RequestParam String stationCode, @RequestParam String parameterTypeId, @RequestParam(required = false) String type, @RequestParam String startDate, @RequestParam String endDate, HttpServletRequest httpServletRequest, Model model) throws KTTVException, JsonProcessingException {
         // call api get data report
@@ -49,6 +46,41 @@ public class ReportController {
                 return parameterChartMapping.getTemplateDir();
         }
         return "page_not_found";
+    }
+
+    @GetMapping("/report_spring_tides")
+    public String getReportSpringTides(){
+        return "report/report_spring_tides";
+    }
+
+    @GetMapping("/report_air_humidity")
+    public String getReportAirHumidity(){
+        return "report/report_air_humidity";
+    }
+
+    @GetMapping("/report_ozone")
+    public String getReportOzone(){
+        return "report/report_ozone";
+    }
+
+    @GetMapping("/report_salinity")
+    public String getReportSalinity(){
+        return "report/report_salinity";
+    }
+
+    @GetMapping("/report_sunny_time")
+    public String getReportSunnyTime(){
+        return "report/report_sunny_time";
+    }
+
+    @GetMapping("/report_temperature_rainfall")
+    public String getReportTemperatureRainfall(){
+        return "report/report_temperature_rainfall";
+    }
+
+    @GetMapping("/report_tides")
+    public String getReportTides(){
+        return "report/report_tides";
     }
 
     @GetMapping("/station")

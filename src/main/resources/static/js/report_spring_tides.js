@@ -132,6 +132,22 @@ const chart = {
             this.dataSeriesTwo.push(this.dataSpringTidesGuess[j]);
         }
         return this.dataSeriesTwo;
+    },
+    showSlider: function (){
+        let valueAVG = document.getElementsByClassName("value_avg");
+        let valueMIN = document.getElementsByClassName("value_min");
+        let valueMAX = document.getElementsByClassName("value_max");
+        let valueAVGGuess = document.getElementsByClassName("value_avg_guess");
+        let valueMINGuess = document.getElementsByClassName("value_min_guess");
+        let valueMAXGuess = document.getElementsByClassName("value_max_guess");
+        for (let i = 0; i < valueAVG.length; i++){
+            valueAVG[i].innerHTML  = this.getAverage(this.dataSpringTides) +' m';
+            valueMIN[i].innerHTML  = this.getMin(this.dataSpringTides) +' m';
+            valueMAX[i].innerHTML  = this.getMax(this.dataSpringTides) +' m';
+            valueAVGGuess[i].innerHTML  = this.getAverage(this.dataSpringTidesGuess) +' m';
+            valueMINGuess[i].innerHTML  = this.getMin(this.dataSpringTidesGuess) +' m';
+            valueMAXGuess[i].innerHTML  = this.getMax(this.dataSpringTidesGuess) +' m';
+        }
     }
 };
 //Get dữ liệu test
@@ -142,6 +158,7 @@ chart.getDataSpringTides();
 chart.getDataSpringTidesGuess();
 chart.getDataSeriesOne();
 chart.getDataSeriesTwo();
+chart.showSlider();
 ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9", "b55b025e438fa8a98e32482b5f768ff5"]; // CHART CONFIG
 // -----------------------------
 let chartConfig = {

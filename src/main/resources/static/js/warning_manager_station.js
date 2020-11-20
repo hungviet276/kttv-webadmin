@@ -814,10 +814,10 @@ var warningManagerStationValid = $("#form_input").validate({
 });
 // làm ra để đây để sau này dùng  chứ giờ chưa sử dụng
 jQuery.validator.addMethod("validUtf8", function(value, element){
-    var myRe = /[A-Z,1-9]+$/;
+    var myRe = /[A-Z,0-9]+$/;
     var myArray = myRe.test(value);
     return myArray;
-}, "Mã cảnh báo không được chứa ký tự đặc biệt hoặc số hoặc các chữ cái có dấu");
+}, "Mã cảnh báo phải viết hoa không được chứa ký tự đặc biệt hoặc số hoặc các chữ cái có dấu");
 
 jQuery.validator.addMethod("maxByteCode", function(value, element){
     var utf8 = [];
@@ -914,16 +914,12 @@ function togle_search() {
     $("#box_info").show(150);
     $("#box_info").attr('class', 'col-sm-12');
     $("#box_search").hide(250);
-    // $("#box_search").attr('class', 'col-sm-5');
 }
 $("#btnDetail").click(function () {
     $("#btnDelete").prop( "disabled", false );
     var rowDt = tableWarningMangerStation.rows('.selected').data()[0];
 
-
-    //console.log(rowDt);
     $("#id").val(rowDt.id);
-    //$('#action_info').val(1);
     togle_search();
     $("#btnsave").css("display", "none");
     $("#btnDelete").css("display", "inline");

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<style>
+    .select{
+        text-transform: none;
+        height: 38px;
+        border-radius: 5px;
+        width: 100%;
+    }
+    .legend-normal {
+        margin-left: 1em;
+        padding: 5px;
+        width: auto;
+        font-size: inherit;
+        font-weight: bold;
+    }
+
+    .fieldset-normal {
+        border: 1px gray solid;
+        padding: 10px;
+    }
+    .btn-100 {
+        width: 100px;
+    }
+    .hide-col {
+        display: none;
+    }
+    .table-bordered{
+        width: 100% !important;
+    }
+    table.dataTable thead .dt-checkboxes-select-all {
+        text-align: left !important;
+    }
+    div.dataTables_scrollHeadInner{
+        width: 100% !important;
+    }
+    .tab-scroll{
+        overflow: scroll;
+    }
+    #tableWaterLevel > thead > tr > th:nth-child(5) > span > span.selection > span{
+        height: 27px !important;
+    }
+</style>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:replace="layout_header.html :: head_tag" />
+    <title>Quản lý người dùng</title>
+</head>
+<body  class="hold-transition sidebar-mini layout-fixed text-sm">
+<div class="wrapper">
+
+    <th:block th:replace="layout_menu.html :: menu_tag" />
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="container-fluid">
+                <div class="card card-default">
+                    <div class="card-header">
+                        <h4>Quản lý cảnh báo của từng yếu tố theo trạm</h4>
+                    </div>
+                    <div class="container-fluid">
+                        <div class="row content" style="width: 100%">
+                            <div class="col-sm-5" id="box_search">
+                                <fieldset class="fieldset-normal">
+                                    <legend class="legend-normal">Tìm kiếm</legend>
+                                    <form class="form-horizontal" id="form_data">
+                                        <div class="form-row" id ="search_users">
+                                            <div class="form-group col-md-6 errorTxt">
+                                                <div class="insertError">
+                                                    <label for="station">Trạm</label>
+                                                    <div class="select2-purple">
+                                                        <select id="station" data-placeholder="Select a State" name="station"
+                                                                data-dropdown-css-class="select2-purple" style="width: 100%;">
+                                                            <!--                                                            -->
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <label></label>
+                                            </div>
+
+                                            <div class="col-md-6 errorTxt">
+                                                <label for="hour1">Khoảng thời gian</label>
+                                                <br>
+                                                <label for="hour1">1 Giờ</label>
+                                                <input type="radio" id="hour1" name="hour" value="1">&emsp;&emsp;
+                                                <label for="hour3">3 Giờ</label>
+                                                <input type="radio" id="hour3" name="hour" value="3">&emsp;&emsp;
+                                                <label for="hour24">24 Giờ</label>
+                                                <input type="radio" id="hour24" name="hour" value="24">
+                                            </div>
+
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="col-md-6 errorTxt">
+                                                <div class="insertError">
+                                                    <label for="startDate">Từ ngày</label>
+                                                    <input type="text" class="form-control" id="startDate" name="startDate" placeholder="">
+                                                </div>
+                                                <label></label>
+                                            </div>
+                                            <div class="col-md-6 errorTxt">
+                                                <div class="insertError">
+                                                    <label for="endDate">Đến ngày</label>
+                                                    <input type="text" class="form-control" id="endDate" name="endDate" placeholder="">
+                                                </div>
+                                                <label></label>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </fieldset>
+                                <div class="wrap-button-control">
+                                    <button class="btn btn-primary" id="btnSearch" style="width:100px;">
+                                        <i class="fas fa-search"></i> Tìm kiếm
+                                    </button>
+                                    <button class="btn btn-primary" id="btnExec" style="width:100px;">
+                                        <i class="fas fa-plus"></i> Thực thi
+                                    </button>
+                                    <button class="btn btn-primary" id="btnEdit" style="width:100px;" data-toggle="modal" data-target="#myModal" disabled="true">
+                                          Chỉnh sửa
+                                    </button>
+                                </div>
+                                <!--                            <p th:text="${a}"></p>-->
+                                <div><input style="display:none" type="text" class="form-control" name="action_info" id="action_info" value="0"></div>
+                                <div class="card-body" style="width: 100%;overflow: auto">
+                                    <div class="row">
+                                        <div class="col-md-12 tab-scroll">
+                                            <table id="tableWaterLevel" class="table table-bordered table-hover">
+                                                <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>#</th>
+                                                    <th data-id="s_id">ID</th>
+                                                    <th data-id="s_ts_id">TS id</th>
+                                                    <th data-id="s_value">Giá trị</th>
+                                                    <th data-id="s_status">Trạng thái</th>
+                                                    <th data-id="s_manual">Cập nhật</th>
+                                                    <th data-id="s_warning" is_select="1">Cảnh báo</th>
+                                                    <th data-id="s_create_user">Người cập nhật</th>
+                                                    <th >Thời gian tạo dữ liệu</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-footer -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="popup-loading">
+                    <div class="wrapper-loading">
+                        <div class="sub-wrapper-loading">
+                            <div class="d-flex justify-content-center">
+                                <div class="spinner-border" role="status">
+                                    <span class="sr-only" th:text="#{action.loading}">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Chỉnh sửa giá trị</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" id="formUpdate">
+                        <div class="form-row">
+                            <div class="col-md-12 errorTxt">
+                                <div class="insertError">
+                                    <label for="valueWaterLevel">Giá trị</label>
+                                    <input type="text" class="form-control" id="valueWaterLevel"  name="valueWaterLevel" placeholder="">
+                                </div>
+                                <label></label>
+                            </div>
+                            <div class="col-md-12 errorTxt">
+                                <input type="text" class="form-control"  name="idWaterLevel" placeholder="" hidden>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" style="width: 100px" id="updateWaterLevel"><i class="fas fa-save"></i> Cập nhật</button>
+                    <button class="btn btn-primary" data-dismiss="modal" style="width: 100px"><i class="fas fa-times"></i> Hủy</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+<!-- Control Sidebar -->
+<aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+</aside>
+<th:block th:replace="layout_footer.html :: footer_tag" />
+<script type="text/javascript">
+    var apiUrl = "[[${session.apiUrl}]]";
+    var userBO = "[[${session.userBO}]]";
+    var username = "[[${session.userBO.Username}]]";
+    var token = "[[${session.token}]]";
+</script>
+<script src="js/water_level.js"></script>
+</html>
