@@ -24,7 +24,7 @@ public class ParameterChartMapping implements Serializable {
 
     private String templateDir;
 
-    private String createdDate;
+    private Long createdDate;
 
     private String createdBy;
 }
