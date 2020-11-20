@@ -87,10 +87,21 @@ const chart = {
     getTime: function () {
         this.time = [1563778800000, 1563782400000, 1563786000000, 1563789600000, 1563793200000, 1563796800000, 1563800400000, 1563804000000];
         return this.time;
+    },
+    showSlider: function (){
+        let valueAVG = document.getElementsByClassName("value_avg");
+        let valueMIN = document.getElementsByClassName("value_min");
+        let valueMAX = document.getElementsByClassName("value_max");
+        for (let i = 0; i < valueAVG.length; i++){
+            valueAVG[i].innerHTML  = this.getAverage(this.dataSalinity) +' ‰';
+            valueMIN[i].innerHTML  = this.getMin(this.dataSalinity) +' ‰';
+            valueMAX[i].innerHTML  = this.getMax(this.dataSalinity) +' ‰';
+        }
     }
 };
 chart.getTime();
 chart.getDataSalinity();
+chart.showSlider();
 
 let chartConfig = {
     type: 'area',

@@ -38,4 +38,39 @@ public class ReportController {
         }
         return "page_not_found";
     }
+
+    @GetMapping("/report_spring_tides")
+    public String getReportSpringTides(){
+        return "report/report_spring_tides";
+    }
+
+    @GetMapping("/report_air_humidity")
+    public String getReportAirHumidity(){
+        return "report/report_air_humidity";
+    }
+
+    @GetMapping("/report_ozone")
+    public String getReportOzone(){
+        return "report/report_ozone";
+    }
+
+    @GetMapping("/report_salinity")
+    public String getReportSalinity(){
+        return "report/report_salinity";
+    }
+
+    @GetMapping("/report_sunny_time")
+    public String getReportSunnyTime(){
+        return "report/report_sunny_time";
+    }
+
+    @GetMapping("/report_temperature_rainfall")
+    public String getReportTemperatureRainfall(){
+        return "report/report_temperature_rainfall";
+    }
+
+    @GetMapping("/report_tides")
+    public String getReportTides(){
+        return "report/report_tides";
+    }
 }

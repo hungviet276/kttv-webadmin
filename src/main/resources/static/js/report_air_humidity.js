@@ -88,10 +88,21 @@ const chart = {
     getTime: function () {
         this.time = [1563778800000, 1563782400000, 1563786000000, 1563789600000, 1563793200000, 1563796800000, 1563800400000, 1563804000000];
         return this.time;
+    },
+    showSlider: function (){
+        let valueAVG = document.getElementsByClassName("value_avg");
+        let valueMIN = document.getElementsByClassName("value_min");
+        let valueMAX = document.getElementsByClassName("value_max");
+        for (let i = 0; i < valueAVG.length; i++){
+            valueAVG[i].innerHTML  = this.getAverage(this.dataAirHumidity) +' %';
+            valueMIN[i].innerHTML  = this.getMin(this.dataAirHumidity) +' %';
+            valueMAX[i].innerHTML  = this.getMax(this.dataAirHumidity) +' %';
+        }
     }
 };
 chart.getTime();
 chart.getDataAirHumidity();
+chart.showSlider();
 
 ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9", "b55b025e438fa8a98e32482b5f768ff5"];
 let chartConfig = {
