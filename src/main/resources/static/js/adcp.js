@@ -268,20 +268,23 @@ const station =
             });
         },
         btnRefresh: function () {
-            $("#stationTypeId").val('-1').trigger('change');
-            $("#modeStationType").val('1').trigger('change');
-            $("#stationCode").val('');
-            $("#stationName").val('');
-            $("#longtitude").val('');
-            $("#latitude").val('');
-
-            $("#areaId").val('-1').trigger('change');
-            $("#provinceId").val('-1').trigger('change');
-            $("#districtId").val('-1').trigger('change');
-            $("#wardId").val('-1').trigger('change');
-            $("#address").val('');
-            $("#riverId").val('-1').trigger('change');
-            $("#status").val('1').trigger('change');
+            $("#stationId").val('-1').trigger('change');
+            $("#riverId").val('1').trigger('change');
+            $("#timeStart").val('');
+            $("#timeEnd").val('');
+            $("#timeAvg").val('');
+            $("#waterLevelStart").val('');
+            $("#waterLevelEnd").val('');
+            $("#waterLevelAvg").val('');
+            $("#speedAvg").val('');
+            $("#speedMax").val('');
+            $("#deepAvg").val('');
+            $("#deepMax").val('');
+            $("#squareRiver").val('');
+            $("#widthRiver").val('');
+            $("#waterFlow").val('');
+            $("#note").val('');
+            $("#linkFile").val('');
         },
         btnDelete: function () {
             if (!confirm('Bạn thực sự muốn xóa ?')) {
@@ -472,7 +475,17 @@ const station =
             }
             return true;
         },
-
+        onKeyPress:function (e,obj){
+            if(!((e.keyCode > 95 && e.keyCode < 106)
+                || (e.keyCode > 47 && e.keyCode < 58)
+                || e.keyCode == 46)) {
+                return false;
+            }
+            if(e.keyCode == 48 && parseFloat($(obj).val()) == 0 && $(obj).val().length > 1){
+                return false;
+            }
+            return true;
+        },
         stationCodeKeyPress: function (event) {
             let key = event.keyCode | event.which;
             if ((key > 47 && key < 58) || key === 8 || (key > 64 && key < 91) || (key > 96 && key < 123)) {
