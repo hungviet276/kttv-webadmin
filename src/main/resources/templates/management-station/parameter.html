@@ -25,40 +25,7 @@
                     <div class="container-fluid">
                         <div class="row content" style="width: 100%">
                             <div class="col-sm-12 col-md-12 col-lg-12" id="box_search">
-                                <!--                                <div class="card-header">-->
-                                <!--                                    <h3 style="text-align: center"><b>Tìm kiếm trạm</b></h3>-->
-                                <!--                                </div>-->
-                                <!--                                <div class="form-horizontal" id="form_data">-->
-                                <!--                                    <div class="form-row">-->
-                                <!--                                        <div class="form-group col-md-6 col-sm-6 col-lg-6">-->
-                                <!--                                            <label for="stationType">Loại trạm</label>-->
-                                <!--                                            <select id="stationType" class="form-control" style="width: 100%;">-->
-
-                                <!--                                            </select>-->
-                                <!--                                        </div>-->
-                                <!--                                        <div class="form-group col-md-6 col-sm-6 col-lg-6">-->
-                                <!--                                            <label for="stationNameSearch">Tên trạm</label>-->
-                                <!--                                            <input type="text" class="form-control" id="stationNameSearch"-->
-                                <!--                                                   placeholder="Tên trạm">-->
-                                <!--                                        </div>-->
-                                <!--                                    </div>-->
-
-                                <!--                                    <div class="form-row">-->
-                                <!--                                        <div class="form-group col-md-6 col-sm-6 col-lg-6">-->
-                                <!--                                            <label for="status">Trạng thái</label>-->
-                                <!--                                            <select id="status" class="form-control" style="width: 100%;">-->
-                                <!--                                                <option value="-1">Tất cả</option>-->
-                                <!--                                                <option value="1">Hoạt động</option>-->
-                                <!--                                                <option value="0">Không hoạt động</option>-->
-                                <!--                                            </select>-->
-                                <!--                                        </div>-->
-                                <!--                                    </div>-->
-
-                                <!--                                </div>-->
                                 <div class="mt-1">
-                                    <!--                                    <button class="btn btn-primary" id="btnSearch" style="width:100px;">-->
-                                    <!--                                        <i class="fas fa-search"></i> Tìm kiếm-->
-                                    <!--                                    </button>-->
                                     <button class="btn btn-primary" id="btnDonew" style="width:100px;">
                                         <i class="fas fa-plus"></i> Thêm
                                     </button>
@@ -75,20 +42,6 @@
                                             <th data-id="s_parameterDesc">Mô tả</th>
                                             <th data-id="s_unit">Đơn vị</th>
                                             <th data-id="s_timeseries">Time series</th>
-                                            <!--                                            <th data-id="s_longtitude">Kinh độ</th>-->
-                                            <!--                                            <th data-id="s_latitude">Vĩ độ</th>-->
-                                            <!--                                            <th data-id="s_provinceName">Tỉnh</th>-->
-                                            <!--                                            <th data-id="s_districtName">Quận/Huyện</th>-->
-                                            <!--                                            <th data-id="s_wardName">Xã</th>-->
-                                            <!--                                            <th data-id="s_address">Địa chỉ</th>-->
-                                            <!--                                            <th data-id="s_riverName">Thuộc sông</th>-->
-                                            <!--                                            <th data-id="s_stationHeight">Độ cao của trạm</th>-->
-                                            <!--                                            <th data-id="s_status" is_select="1">Trạng thái</th>-->
-                                            <!--                                            <th data-id="s_parameterTypeName">Yếu tố</th>-->
-                                            <!--                                            <th data-id="s_unitName">Đơn vị tính</th>-->
-                                            <!--                                            <th data-id="s_device">Thiết bị đo</th>-->
-                                            <!--                                            <th data-id="s_measure">Tần số đo</th>-->
-                                            <!--                                            <th data-id="s_note">Ghi chú</th>-->
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -101,20 +54,6 @@
                                 <div style="width: 100%;float: right">
 
                                     <div class="form-horizontal" id="form_input">
-                                        <!--                                        <div class="form-row">-->
-                                        <!--                                            <div class="form-group col-md-6">-->
-                                        <!--                                                <label for="stationTypeId">Loại trạm <span style="color: red;">*</span></label>-->
-                                        <!--                                                <select id="stationTypeId" class="form-control" style="width: 100%;" onchange="station.checkStationType(this)">-->
-                                        <!--                                                </select>-->
-                                        <!--                                            </div>-->
-                                        <!--                                            <div class="form-group col-md-6">-->
-                                        <!--                                                <label for="modeStationType">Chế độ điều khiển <span style="color: red;">*</span></label>-->
-                                        <!--                                                <select id="modeStationType" class="form-control" style="width: 100%;">-->
-                                        <!--                                                    <option value="1">Qua API</option>-->
-                                        <!--                                                    <option value="2">Lệnh điều khiển hỗ trợ</option>-->
-                                        <!--                                                </select>-->
-                                        <!--                                            </div>-->
-                                        <!--                                        </div>-->
                                         <fieldset class="fieldset-normal" style="margin-top: 15px;">
                                             <legend class="legend-normal">Thông tin yếu tố</legend>
                                             <div class="form-row">
@@ -214,9 +153,9 @@
                                                             <tr>
                                                                 <th>#</th>
                                                                 <!--                                                    <th data-id="s_stationParamterId">Time series Id</th>-->
-                                                                <th data-id="s_parameterName">Time series Name</th>
-                                                                <th data-id="s_tsConfigName">Time series config name
-                                                                </th>
+                                                                <th data-id="s_parameterName">Tần suất</th>
+                                                                <th data-id="s_tsConfigName">Time series config name</th>
+                                                                <th>Storage</th>
                                                                 <th data-id="">Tác động</th>
                                                             </tr>
                                                             </thead>
