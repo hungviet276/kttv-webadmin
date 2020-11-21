@@ -544,7 +544,7 @@ const station =
                         station.table.ajax.reload();
                         //reset cac thong tin them moi
                         // station.btnRefresh();
-                        // station.uuid = global.uuidv4();
+                        station.uuid = global.uuidv4();
                         station.disabled_right();
                         $("#btnSave").css("display", "none");
                         $("#btnDelete").css("display", "none");
