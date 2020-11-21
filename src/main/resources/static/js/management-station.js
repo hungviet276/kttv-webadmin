@@ -736,6 +736,8 @@ const station =
             station.clientAction = 'update';
             station.indexOfRow = indexes;
             let rowData = station.table.rows(indexes).data().toArray();
+            station.btnRefresh();
+            station.btnRefreshParameter();
             station.fillDataToForm(rowData);
         },
         fillDataToForm: function (rowData) {
