@@ -167,17 +167,6 @@ let chartConfig = {
         fontFamily: 'Helvetica',
         shadow: false
     },
-    // labels: [
-    //     // Label 1
-    //     {
-    //         text: '<br>Giá trị nhỏ nhất: ' + chart.getMin(chart.getDataSpringTides()) +'<b>m'
-    //             + '</b>' + '<br>Giá trị lớn nhất: ' + chart.getMax(chart.getDataSpringTides()) +'<b>m'
-    //             + '</b>' + '<br>Giá trị trung bình: ' + chart.getAverage(chart.getDataSpringTides()) +'<b>m</b>',
-    //         'font-family': "Georgia",
-    //         'font-size': "11",
-    //         x: "60%",
-    //         y: "0%"
-    //     },],
     backgroundColor: '#fff',
     title: {
         text: 'Biểu Đồ Theo Dõi Triều Cường',
