@@ -130,6 +130,7 @@ var station =
                     station.objParameterSearch['s_stationId'] = '';
                     station.objParameterSearch['s_uuid'] = station.uuid;
                     station.searchSeries();
+                    station.btnRefreshParameter();
                     global.disableLoading();
                 },
                 error: function (err) {
@@ -257,7 +258,7 @@ var station =
                         station.table.ajax.reload();
                         //reset cac thong tin them moi
                         // station.btnRefresh();
-                        // station.uuid = global.uuidv4();
+                        station.uuid = global.uuidv4();
                         station.closePopup();
                     } else {
                         toastr.error('', data.message);
@@ -444,6 +445,8 @@ var station =
                 station.parameter.stationId = rowData[0].parameterTypeId;
                 station.objParameterSearch['s_stationId'] = rowData[0].parameterTypeId;
                 station.objParameterSearch['s_uuid'] = null;
+                // station.uuid = rowData[0].uuid;
+
                 $('#parameter').val(rowData[0].parameterTypeName);
                 $('#parameterDesc').val(rowData[0].parameterTypeDescription);
                 $('#unitId').val(rowData[0].unitId).trigger('change');
@@ -724,6 +727,7 @@ $(document).ready(function () {
             {"data": "parameterTypeName", "render": $.fn.dataTable.render.text()},
             {"data": "parameterTypeDescription", "render": $.fn.dataTable.render.text()},
             {"data": "unitName", "render": $.fn.dataTable.render.text()},
+            {"data": "storage", "storage": $.fn.dataTable.render.text()},
             {"data": "timeSeries", "render": $.fn.dataTable.render.text()},
         ],
         initComplete: function () {
@@ -780,7 +784,7 @@ $(document).ready(function () {
                         "parameterTypeName": responseJson.content[i].parameterTypeName,
                         "parameterTypeDescription": responseJson.content[i].parameterTypeDescription,
                         "unitName": responseJson.content[i].unitName,
-                        // "tsConfigName": responseJson.content[i].tsConfigName,
+                        "storage": responseJson.content[i].storage,
                         "timeSeries": responseJson.content[i].timeSeries,
                         "unitId": responseJson.content[i].unitId,
                     })
