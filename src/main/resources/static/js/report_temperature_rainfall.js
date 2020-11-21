@@ -89,24 +89,23 @@ const chart = {
         return this.dataTemperature;
     },
     getTime: function () {
-        this.time = [today, 1563800400000, 1563804000000, 1563807600000,1563907600000,1564807600000 ];
+        this.time = [today, 1563800400000, 1563804000000, 1563807600000, 1563907600000, 1564807600000];
         return this.time;
     },
-    showSlider: function (){
+    showSlider: function () {
         let valueAVGTemp = document.getElementsByClassName("value_avg_temp");
         let valueMINTemp = document.getElementsByClassName("value_min_temp");
         let valueMAXTemp = document.getElementsByClassName("value_max_temp");
         let valueAVGRain = document.getElementsByClassName("value_avg_rain");
-        let valueMINRain  = document.getElementsByClassName("value_min_rain");
-        let valueMAXRain  = document.getElementsByClassName("value_max_rain");
-        for (let i = 0; i < valueAVGTemp.length; i++){
-            valueAVGTemp[i].innerHTML  = this.getAverage(this.dataTemperature) +' °C';
-            valueMINTemp[i].innerHTML  = this.getMin(this.dataTemperature) +' °C';
-            valueMAXTemp[i].innerHTML  = this.getMax(this.dataTemperature) +' °C';
-            valueAVGRain[i].innerHTML  = this.getAverage(this.dataRainfall) +' mm';
-            valueMINRain[i].innerHTML  = this.getMin(this.dataRainfall) +' mm';
-            valueMAXRain[i].innerHTML  = this.getMax(this.dataRainfall) +' mm';
-        }
+        let valueMINRain = document.getElementsByClassName("value_min_rain");
+        let valueMAXRain = document.getElementsByClassName("value_max_rain");
+        valueAVGTemp[0].innerHTML = this.getAverage(this.dataTemperature) + ' °C';
+        valueMINTemp[0].innerHTML = this.getMin(this.dataTemperature) + ' °C';
+        valueMAXTemp[0].innerHTML = this.getMax(this.dataTemperature) + ' °C';
+        valueAVGRain[0].innerHTML = this.getAverage(this.dataRainfall) + ' mm';
+        valueMINRain[0].innerHTML = this.getMin(this.dataRainfall) + ' mm';
+        valueMAXRain[0].innerHTML = this.getMax(this.dataRainfall) + ' mm';
+
     }
 };
 // Lấy dữ liệu
@@ -144,8 +143,8 @@ Highcharts.chart('container', {
         //     hour: '%e. %b'
         // },
         labels: {
-            formatter: function() {
-                return Highcharts.dateFormat('%d/%m/%Y'+"<br>"+ '%I:%M %p', this.value);
+            formatter: function () {
+                return Highcharts.dateFormat('%d/%m/%Y' + "<br>" + '%I:%M %p', this.value);
             }
         }
 

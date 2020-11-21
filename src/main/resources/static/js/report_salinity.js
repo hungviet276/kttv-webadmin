@@ -88,15 +88,13 @@ const chart = {
         this.time = [1563778800000, 1563782400000, 1563786000000, 1563789600000, 1563793200000, 1563796800000, 1563800400000, 1563804000000];
         return this.time;
     },
-    showSlider: function (){
+    showSlider: function () {
         let valueAVG = document.getElementsByClassName("value_avg");
         let valueMIN = document.getElementsByClassName("value_min");
         let valueMAX = document.getElementsByClassName("value_max");
-        for (let i = 0; i < valueAVG.length; i++){
-            valueAVG[i].innerHTML  = this.getAverage(this.dataSalinity) +' ‰';
-            valueMIN[i].innerHTML  = this.getMin(this.dataSalinity) +' ‰';
-            valueMAX[i].innerHTML  = this.getMax(this.dataSalinity) +' ‰';
-        }
+        valueAVG[0].innerHTML = this.getAverage(this.dataSalinity) + ' ‰';
+        valueMIN[0].innerHTML = this.getMin(this.dataSalinity) + ' ‰';
+        valueMAX[0].innerHTML = this.getMax(this.dataSalinity) + ' ‰';
     }
 };
 chart.getTime();
@@ -112,17 +110,6 @@ let chartConfig = {
         marginTop: '15px',
         fontColor: '#424242'
     },
-    labels: [
-        // Label 1
-        {
-            text: '<br>Giá trị nhỏ nhất: ' + chart.getMin(chart.dataSalinity) + '<b>‰'
-                + '</b>' + '<br>Giá trị lớn nhất: ' + chart.getMax(chart.dataSalinity) + '<b>‰'
-                + '</b>' + '<br> Giá trị trung bình: ' + chart.getAverage(chart.dataSalinity) + '<b>‰</b>',
-            'font-family': "Helvetica",
-            'font-size': "14",
-            x: "80%",
-            y: "0%"
-        },],
     subtitle: {
         text: '',
         adjustLayout: true,
