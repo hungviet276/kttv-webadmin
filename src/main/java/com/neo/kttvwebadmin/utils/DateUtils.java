@@ -24,4 +24,14 @@ public class DateUtils {
             return false;
         }
     }
+
+    public static String getStringDateFormat(String format) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
+        return simpleDateFormat.format(new Date());
+    }
+
+    public static String getStringDateFormat(Date date, String format) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
+        return simpleDateFormat.format(date);
+    }
 }

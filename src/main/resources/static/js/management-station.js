@@ -544,7 +544,7 @@ const station =
                         station.table.ajax.reload();
                         //reset cac thong tin them moi
                         // station.btnRefresh();
-                        // station.uuid = global.uuidv4();
+                        station.uuid = global.uuidv4();
                         station.disabled_right();
                         $("#btnSave").css("display", "none");
                         $("#btnDelete").css("display", "none");
@@ -736,6 +736,8 @@ const station =
             station.clientAction = 'update';
             station.indexOfRow = indexes;
             let rowData = station.table.rows(indexes).data().toArray();
+            station.btnRefresh();
+            station.btnRefreshParameter();
             station.fillDataToForm(rowData);
         },
         fillDataToForm: function (rowData) {
@@ -771,7 +773,7 @@ const station =
                 // $('#wardId').val(rowData[0].wardId).trigger('change');
                 $('#address').val(rowData[0].address);
                 $('#riverId').val(rowData[0].riverId).trigger('change');
-                $('#status').val(rowData[0].status).trigger('change');
+                $('#status').val(rowData[0].is_active).trigger('change');
 
                 //lay thong tin list parameter
                 station.parameter.stationId = rowData[0].stationId;
@@ -1070,6 +1072,7 @@ $(document).ready(function () {
         }, {
             targets: 14,
             render: function (data, type, row) {
+
                 if (data === 1) {
                     return '<div class="status_green">Hoạt động</div>';
                 } else {
@@ -1122,7 +1125,7 @@ $(document).ready(function () {
             {"data": "address", "render": $.fn.dataTable.render.text()},
             {"data": "riverName", "render": $.fn.dataTable.render.text()},
             // {"data": "stationHeight"},
-            {"data": "status"},
+            {"data": "is_active"},
             // {"data": "parameterTypeName"},
             // {"data": "unitName"},
             // {"data": "device"},
@@ -1216,7 +1219,7 @@ $(document).ready(function () {
                         "address": responseJson.content[i].address,
                         "riverName": responseJson.content[i].riverName,
                         "stationHeight": responseJson.content[i].stationHeight,
-                        "status": responseJson.content[i].status,
+                        "is_active": responseJson.content[i].is_active,
                         "riverId": (responseJson.content[i].riverId === null || responseJson.content[i].riverId === 0) ? -1 : responseJson.content[i].riverId,
                         "stationTypeId": responseJson.content[i].objectTypeId,
                         "districtId": responseJson.content[i].districtId,
