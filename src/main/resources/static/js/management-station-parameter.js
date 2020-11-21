@@ -5,7 +5,7 @@ var station =
         indexOfRow: -1,
         table: undefined,
         tableParamter: undefined,
-        listSeriesType:undefined,
+        listSeriesType: undefined,
         numOfInputSearch: 0,
         uuid: uuid,
         objSearch: {
@@ -99,8 +99,8 @@ var station =
             });
         },
         btnAddSeries: function () {
-            if(!station.validateSeries()){
-                return ;
+            if (!station.validateSeries()) {
+                return;
             }
             let timeTypeId = $("#timeSeries").val().trim();
             let tsConfigName = $("#tsConfigName").val().trim();
@@ -109,7 +109,7 @@ var station =
                 "timeTypeId": timeTypeId,
                 "tsConfigName": tsConfigName,
                 "uuid": station.uuid,
-                "storage":storage
+                "storage": storage
             }
             global.showLoading();
             $.ajax({
@@ -146,7 +146,7 @@ var station =
         },
         deleteSeries: function (id) {
             if (!confirm('Bạn thực sự muốn xóa ?')) {
-                return ;
+                return;
             }
             global.showLoading();
             $.ajax({
@@ -164,6 +164,13 @@ var station =
                         toastr.error('', data.message);
                     }
                     station.tableParameter.ajax.reload();
+
+                    const index = station.listSeriesType.indexOf(id);
+                    if (index > -1) {
+                        station.listSeriesType.splice(index, 1);
+                    }
+                    let d = "tsTypeId=" + station.listSeriesType.toString();
+                    station.getSeries(d);
                     global.disableLoading();
                 },
                 error: function (err) {
@@ -273,7 +280,7 @@ var station =
         },
         btnDelete: function () {
             if (!confirm('Bạn thực sự muốn xóa ?')) {
-                return ;
+                return;
             }
             global.showLoading();
             $.ajax({
@@ -341,31 +348,13 @@ var station =
                     "processing": true,
                     "serverSide": true,
                     "columns": [
-
-                        {"data": "indexCount","render": $.fn.dataTable.render.text()},
-                        {"data": "parameterName","render": $.fn.dataTable.render.text()},
-                        {"data": "unitName","render": $.fn.dataTable.render.text()},
-                        // {"data": "note"},
+                        {"data": "indexCount", "render": $.fn.dataTable.render.text()},
+                        {"data": "parameterName", "render": $.fn.dataTable.render.text()},
+                        {"data": "tsConfigName", "render": $.fn.dataTable.render.text()},
+                        {"data": "storage", "render": $.fn.dataTable.render.text()},
                         {"data": ""}
                     ],
                     initComplete: function () {
-                        // Apply the search
-                        // this.api().columns().every(function () {
-                        //     var that = this;
-                        //     $('.table-data-input-search parameter').on('keyup', function () {
-                        //         let id = $(this).attr("id");
-                        //         // if (that.search() !== this.value) {
-                        //         //
-                        //         // }
-                        //         station.objParameterSearch[id] = this.value;
-                        //         station.numOfInputSearch++;
-                        //         if (station.numOfInputSearch > 3) {
-                        //             that.search(JSON.stringify(station.objParameterSearch)).draw();
-                        //             station.numOfInputSearch = 0;
-                        //         }
-                        //     });
-                        //
-                        // });
                     },
                     "ajax": {
                         headers: {
@@ -403,6 +392,8 @@ var station =
                                     "paramterTypeId": responseJson.content[i].paramterTypeId,
                                     "parameterName": responseJson.content[i].parameterName,
                                     "unitName": responseJson.content[i].unitName,
+                                    "storage": responseJson.content[i].storage,
+                                    "tsConfigName": responseJson.content[i].tsConfigName,
                                     "": "<span class='fa fa-trash' onclick='station.deleteSeries(" + responseJson.content[i].stationParamterId + ")'></span>"
                                 });
                                 station.listSeriesType.push(responseJson.content[i].paramterTypeId);
@@ -412,7 +403,7 @@ var station =
                                 // station.objParameterSearch['s_uuid'] = station.uuid;
                             }
                             //lay lai du lieu cua cac time series da config
-                            let data = "tsTypeId="+ station.listSeriesType.toString();
+                            let data = "tsTypeId=" + station.listSeriesType.toString();
                             station.getSeries(data);
 
                             return JSON.stringify(dataRes);
@@ -539,7 +530,7 @@ var station =
                 $('#timeSeries').focus();
                 return false;
             }
-            if($('#storage').val().trim() === "-1"){
+            if ($('#storage').val().trim() === "-1") {
                 $('#storage_error').html('Storage không được để trống');
                 $('#storage').focus();
                 return false;
@@ -727,13 +718,13 @@ $(document).ready(function () {
         "serverSide": true,
         "columns": [
             {"data": ""},
-            {"data": "indexCount","render": $.fn.dataTable.render.text()},
+            {"data": "indexCount", "render": $.fn.dataTable.render.text()},
             {"data": "control"},
             // {"data": "parameterTypeId"},
-            {"data": "parameterTypeName","render": $.fn.dataTable.render.text()},
-            {"data": "parameterTypeDescription","render": $.fn.dataTable.render.text()},
-            {"data": "unitName","render": $.fn.dataTable.render.text()},
-            {"data": "timeSeries","render": $.fn.dataTable.render.text()},
+            {"data": "parameterTypeName", "render": $.fn.dataTable.render.text()},
+            {"data": "parameterTypeDescription", "render": $.fn.dataTable.render.text()},
+            {"data": "unitName", "render": $.fn.dataTable.render.text()},
+            {"data": "timeSeries", "render": $.fn.dataTable.render.text()},
         ],
         initComplete: function () {
             // Apply the search
@@ -784,7 +775,7 @@ $(document).ready(function () {
                     dataRes.data.push({
                         "": "",
                         "indexCount": i + 1,
-                        "control":"<span class='fa fa-edit' title='Cập nhật'  onclick='station.preEdit(" + i + ")' style='cursor: pointer'></span>",
+                        "control": "<span class='fa fa-edit' title='Cập nhật'  onclick='station.preEdit(" + i + ")' style='cursor: pointer'></span>",
                         "parameterTypeId": responseJson.content[i].parameterTypeId,
                         "parameterTypeName": responseJson.content[i].parameterTypeName,
                         "parameterTypeDescription": responseJson.content[i].parameterTypeDescription,
