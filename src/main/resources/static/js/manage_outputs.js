@@ -83,17 +83,14 @@ function getParameter_by_stationId(station_id) {
         }
     });
 }
-
+var tablePrName = '';
 $('#btnSearch').on('click', function (e) {
-
-    var tablePrName = '';
     if(validateSearch()){
 
         let stationId = $('#stations_search').val();
         let parameterTypeId = $('#parameter_search').val();
         let fromDate = $('#start_date').val();
         let toDate = $('#end_date').val();
-        alert(stationId);
         $.ajax({
             headers: {
                 'Authorization': token
@@ -229,12 +226,7 @@ function validateSearch(){
         "columns": [
             {"data": ""},
             {"data": "indexCount", "render": $.fn.dataTable.render.text()},
-            {"data": "objectTypeShortName", "render": $.fn.dataTable.render.text()},
-            {"data": "stationNo","render": $.fn.dataTable.render.text()},
-            {"data": "stationName", "render": $.fn.dataTable.render.text()},
-            {"data": "parameterTypeName", "render": $.fn.dataTable.render.text()},
-            {"data": "prValue", "render": $.fn.dataTable.render.text()},
-            {"data": "siteName", "render": $.fn.dataTable.render.text()},
+            {"data": "control"},
             {
                 "data": "prWarning", "render": function (data, type, row) {
                     if(data ==1)
@@ -243,14 +235,21 @@ function validateSearch(){
                         return '<div style="width: 100%;text-align: center"><i class="fas fa-exclamation-circle" style="color:forestgreen;" size="7px" title="Dữ liệu bình thường!"></i></div>';
                 },
             },
+            {"data": "siteName", "render": $.fn.dataTable.render.text()},
+            {"data": "objectTypeShortName", "render": $.fn.dataTable.render.text()},
+            {"data": "stationNo","render": $.fn.dataTable.render.text()},
+            {"data": "stationName", "render": $.fn.dataTable.render.text()},
+            {"data": "parameterTypeName", "render": $.fn.dataTable.render.text()},
+            {"data": "prValue", "render": $.fn.dataTable.render.text()},
             // {"data": "prWarning", "render": $.fn.dataTable.render.text()},
-            {"data": "prCreatedUser", "render": $.fn.dataTable.render.text()},
             {"data": "prTimestamp", "render": $.fn.dataTable.render.text()},
-            {
-                data: null,
-                className: "center",
-                defaultContent: '<i class="fas fa-edit"></i>   <i class="fas fa-trash-alt"></i>'
-            }
+            {"data": "prCreatedUser", "render": $.fn.dataTable.render.text()},
+
+            // {
+            //     data: null,
+            //     className: "center",
+            //     defaultContent: '<i class="fas fa-edit"></i>   <i class="fas fa-trash-alt"></i>'
+            // }
 
         ],
         initComplete: function () {
@@ -322,11 +321,33 @@ function validateSearch(){
                         "siteName": responseJson.content[i].siteName,
                         "prWarning": responseJson.content[i].prWarning,
                         "prCreatedUser": responseJson.content[i].prCreatedUser,
+                        "control": "<span class='fa fa-edit' title='Cập nhật'  onclick='preEdit(" + i + ")' style='cursor: pointer'></span>",
                     })
                 }
-                tablePrName = '';
+                // tablePrName = '';
                 return JSON.stringify(dataRes);
             }
         }
 
     });
+
+function preEdit(indexes) {
+    $('#box_edit').show(500);
+    $('#box_search').hide(500);
+    alert(tablePrName);
+    let rowData = table.rows(indexes).data().toArray();
+    fillDataToForm(rowData);
+}
+
+function fillDataToForm(rowData) {
+    $('#arial').val(rowData[0].siteName);
+    $('#station_type').val(rowData[0].objectTypeShortName);
+    $('#tram').val(rowData[0].stationName);
+    $('#parameter').val(rowData[0].parameterTypeName);
+    $('#value').val(rowData[0].prValue);
+}
+
+$("#btn-cancle").click(function () {
+    $('#box_edit').hide(500);
+    $('#box_search').show(500);
+});
