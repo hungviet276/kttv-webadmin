@@ -81,7 +81,7 @@ const chart = {
     },
     // Lấy dữ liệu độ mặn
     getDataAirHumidity: function () {
-        this.dataAirHumidity = [10, 26, 44, 63, 74,33, 20, 47];
+        this.dataAirHumidity = [10, 26, 44, 63, 74, 33, 20, 47];
         return this.dataAirHumidity;
     },
     // lấy thời gian
@@ -89,15 +89,14 @@ const chart = {
         this.time = [1563778800000, 1563782400000, 1563786000000, 1563789600000, 1563793200000, 1563796800000, 1563800400000, 1563804000000];
         return this.time;
     },
-    showSlider: function (){
+    showSlider: function () {
         let valueAVG = document.getElementsByClassName("value_avg");
         let valueMIN = document.getElementsByClassName("value_min");
         let valueMAX = document.getElementsByClassName("value_max");
-        for (let i = 0; i < valueAVG.length; i++){
-            valueAVG[i].innerHTML  = this.getAverage(this.dataAirHumidity) +' %';
-            valueMIN[i].innerHTML  = this.getMin(this.dataAirHumidity) +' %';
-            valueMAX[i].innerHTML  = this.getMax(this.dataAirHumidity) +' %';
-        }
+        valueAVG[0].innerHTML = this.getAverage(this.dataAirHumidity) + ' %';
+        valueMIN[0].innerHTML = this.getMin(this.dataAirHumidity) + ' %';
+        valueMAX[0].innerHTML = this.getMax(this.dataAirHumidity) + ' %';
+
     }
 };
 chart.getTime();
@@ -114,17 +113,6 @@ let chartConfig = {
         marginTop: '15px',
         fontColor: '#424242'
     },
-    labels: [
-        // Label 1
-        {
-            text: '<br>Giá trị nhỏ nhất: ' + chart.getMin(chart.dataAirHumidity) +'<b>‰'
-                + '</b>' + '<br>Giá trị lớn nhất: ' + chart.getMax(chart.dataAirHumidity) +'<b>‰'
-                + '</b>' + '<br> Giá trị trung bình: ' + chart.getAverage(chart.dataAirHumidity) +'<b>‰</b>',
-            'font-family': "Helvetica",
-            'font-size': "14",
-            x: "80%",
-            y: "0%"
-        },],
     subtitle: {
         text: '',
         adjustLayout: true,
@@ -152,7 +140,7 @@ let chartConfig = {
         // format time
         transform: {
             type: 'date',
-            "all":"%dd/%mm/%Y"+"<br>"+"%h:%i %A"
+            "all": "%dd/%mm/%Y" + "<br>" + "%h:%i %A"
         },
         tick: {
             lineColor: '#AAA5A5'
