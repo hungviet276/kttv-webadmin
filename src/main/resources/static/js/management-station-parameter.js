@@ -127,7 +127,7 @@ var station =
                         toastr.error('', data.message);
                     }
                     //station.table.ajax.reload();
-                    station.objParameterSearch['s_stationId'] = '';
+                    station.objParameterSearch['s_stationId'] = station.parameter.stationId;
                     station.objParameterSearch['s_uuid'] = station.uuid;
                     station.searchSeries();
                     station.btnRefreshParameter();
@@ -182,6 +182,11 @@ var station =
         },
         getFormValue: function () {
 
+        },
+        btnRefreshParameter: function () {
+            $("#storage").val('-1').trigger('change');
+            $("#timeSeries").val('-1').trigger('change');
+            $("#tsConfigName").val('');
         },
         btnSave: function () {
             if (!station.validate()) {
