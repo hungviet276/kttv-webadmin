@@ -434,7 +434,9 @@ $("#btnSaveUserInsite").click(function () {
         toastr.error('Lỗi', "Bản ghi đã tồn tại");
         return;
     }
-    tableUserReceveiMailInSite.row.add($('#userReceiveInsite').select2('data')[0].data).draw(true);
+    //tableUserReceiveMailOutSite.row.add(data).draw(true);
+    tableUserReceiveMailInSite.row.add($('#userReceiveInsite').select2('data')[0].data).draw(true);
+    console.log($('#userReceiveInsite').select2('data')[0].data);
 
 });
 tableUserReceiveMailInSite.on('click', 'a.editor_remove', function (e) {
@@ -455,7 +457,7 @@ $("#btnsave").click(function () {
     object.name = $("#name").val().trim();
     object.description = $("#description").val().trim();
     object.status = $("#status").val();
-    var formData  = tableUserReceveiMailInSite.rows().data();
+    var formData  = tableUserReceiveMailInSite.rows().data();
     var userInsite = [];
     $.each( formData, function( key, value ) {
         userInsite.push(value);
@@ -671,7 +673,7 @@ $("#btnsave").click(function(){
     object.name = $("#name").val();
     object.description = $("#description").val();
     object.status = $("#status").val();
-    let userInSiteTmps  = tableUserReceveiMailInSite.rows().data();
+    let userInSiteTmps  = tableUserReceiveMailInSite.rows().data();
     let userInSites = [];
     for(let i = 0; i < userInSiteTmps.length ; i++){
         userInSites.push(userInSiteTmps[i].id);
@@ -829,7 +831,7 @@ $("#btnDetail").click(function(){
      object.name = $("#name").val();
      object.description = $("#description").val();
      object.status = $("#status").val();
-     let userInSiteTmps  = tableUserReceveiMailInSite.rows().data();
+     let userInSiteTmps  = tableUserReceiveMailInSite.rows().data();
      let userInSites = [];
      for(let i = 0; i < userInSiteTmps.length ; i++){
          userInSites.push(userInSiteTmps[i].id);
@@ -855,7 +857,7 @@ $("#btnDetail").click(function(){
              'Authorization': token
          },
          "url": apiUrl + "group-mail-config",
-         "method": "POST",
+         "method": "PUT",
          "contentType": "application/json",
          "data" : JSON.stringify(object),
          "success": function (response) {
