@@ -552,7 +552,6 @@ $('#warningCode').select2({
 //config table mới
 var tableWarningConfig = $('#tableWarningConfig').DataTable({
     columns: [
-        {"data": "id"},
         {"data": "stationId"},
         {"data": "stationName"},
         {"data": "warningManagerId"},
@@ -566,6 +565,7 @@ var tableWarningConfig = $('#tableWarningConfig').DataTable({
 });
 // end config table mới
 $("#btnSaveWarning").click(function(){
+    console.log($("#warningCode").select2('data'));
     let data = {};
     data.id = "";
     data.stationId = $("#stationWarning").select2('data')[0].id;
@@ -595,7 +595,6 @@ var tableUserOutSite = $('#tableUserOutSite').DataTable({
 });
 $("#btnSaveUserOutSite").click(function(){
    var object = {};
-    object.id = "";
     object.nameOutSite = $("#nameOutSite").val();
     object.phoneOutSite =  $("#phoneOutSite").val();
     object.codeUserOutSite =  $("#codeUserOutSite").val();
