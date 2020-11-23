@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <title>Nhập dữ liệu trạm ADCP</title>
+    <title>Nhập dữ liệu LISS</title>
     <th:block th:replace="layout_header.html :: head_tag"/>
     <link rel="stylesheet" href="/css/management-station.css" type="text/css">
 </head>
@@ -131,9 +131,9 @@
                                                               style="color: red"></span>
                                                     </div>
                                                 </div>
-                                                <div class="form-group col-md-6">
-                                                    <table class="table table-bordered" id="tableTT">
-                                                        <thead>
+                                                <div class="form-group col-md-12" style="overflow: auto">
+                                                    <table class="table table-bordered" id="tableTT" >
+                                                        <thead id="tHeadTT">
                                                         <tr>
                                                             <th style="width: 10px" rowspan="2">STT</th>
                                                             <th id="thTT1" colspan="2" style="width: 50px;text-align: center">Thủy
@@ -148,12 +148,15 @@
                                                             <th style="text-align: center">Độ sâu</th>
                                                             <th style="text-align: center">Giá trị</th>
                                                         </tr>
+
                                                         </thead>
-                                                        <tbody>
+                                                        <tbody id="tBodyTT">
                                                         <tr>
                                                             <td>1</td>
-                                                            <td contenteditable="true">Độ sâu</td>
-                                                            <td contenteditable="true">Giá trị</td>
+                                                            <td contenteditable="true" data-placeholder="Độ sâu"></td>
+                                                            <td contenteditable="true" data-placeholder="Giá trị">Giá trị</td>
+                                                            <td contenteditable="true" data-placeholder="Độ sâu"></td>
+                                                            <td contenteditable="true" data-placeholder="Giá trị">Giá trị</td>
                                                         </tr>
                                                         <tr>
                                                             <td><i class="fa fa-plus" onclick="station.addRow()"></i>
