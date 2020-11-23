@@ -262,7 +262,7 @@ var station =
             $("#stationCodeN").val('-1').trigger('change');
             $("#statusN").val('-1');
             $("#timestampN").val('');
-            // $("#salinity").val('');
+            $("#value").val('');
             $("#type_parameter").val('-1');
             // $("#conductivity").val('');
         },
@@ -339,31 +339,8 @@ var station =
                 $('#statusN').val(rowData[0].status);
                 $('#value').val(rowData[0].prValue);
                 $('#type_parameter').val(rowData[0].parameterTypeId);
-                // $('#latitude').val(rowData[0].latitude);
-                // $('#areaId').val(rowData[0].areaId).trigger('change');
 
                 station.parameter.productId = rowData[0].productId;
-                // station.parameter.provinceId = rowData[0].provinceId;
-                // station.parameter.districtId = rowData[0].districtId;
-                // station.parameter.wardId = rowData[0].wardId;
-                // station.parameter.siteId = rowData[0].siteId;
-                // station.parameter.riverId = rowData[0].riverId;
-
-                // $('#districtId').val(rowData[0].districtId).trigger('change');
-                // $('#wardId').val(rowData[0].wardId).trigger('change');
-                // $('#address').val(rowData[0].address);
-                // $('#riverId').val(rowData[0].riverId).trigger('change');
-                // $('#status').val(rowData[0].status).trigger('change');
-
-                //lay thong tin list parameter
-                // station.parameter.stationId = rowData[0].stationId;
-                // station.objParameterSearch['s_stationId'] = rowData[0].stationId;
-                // station.objParameterSearch['s_uuid'] = null;
-                // if (station.tableParameter === undefined) {
-                //     station.searchParameter();
-                // } else {
-                //     station.tableParameter.search(station.objParameterSearch).draw();
-                // }
             }
         },
         btnSave: function (){
@@ -384,10 +361,6 @@ var station =
                     "timestampN": timestampN,
                     "statusN": statusN,
                     "value": value,
-                    // "waterTemperature": water_temperature,
-                    // "conductivity": conductivity,
-                    // "pSalinity": pSalinity,
-                    // "pWT": pWT,
                     "type_parameter": type_parameter,
                     "username": global.username
                 }
@@ -407,7 +380,11 @@ var station =
                             station.table.ajax.reload();
                             station.closePopup();
                         } else {
-                            toastr.error('', data.message);
+                            if(data.message === 'NOK_1'){
+                                toastr.error('', 'Trạm chưa được cấu hình các bảng yếu tố');
+                            }else {
+                                toastr.error('', data.message);
+                            }
                         }
                         global.disableLoading();
                     },

@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <title>Báo Cáo Thời Gian Xuất Hiện Triều Cường</title>
+    <title>Báo Cáo Biến Đổi Thời Gian Nắng</title>
     <th:block th:replace="layout_header.html :: head_tag"/>
-    <link rel="stylesheet" href="/css/report_spring_tides.css" type="text/css">
-    <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+    <link rel="stylesheet" href="/css/report_general.css" type="text/css">
     <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
     <link href="/css/slider_chart.css" rel="stylesheet" type="text/css" media="all"/>
     <script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-
     <style>
         .legend-normal {
             margin-left: 1em;
@@ -48,7 +46,7 @@
             <div class="container-fluid">
                 <div class="card card-default">
                     <div class="card-header">
-                        <h4>Báo Cáo Thời Gian Xuất Hiện Triều Cường </h4>
+                        <h4>Báo Cáo Biến Đổi Thời Gian Nắng</h4>
                     </div>
                     <div class="container-fluid">
                         <div class="row content" style="width: 100%">
@@ -183,35 +181,6 @@
                                                             <div class="clear"></div>
                                                         </div>
                                                     </li>
-                                                    <li>
-                                                        <div class="wthree_main_grid">
-                                                            <div class="wthree_main">
-                                                                <div class="w3l_main_grid">
-                                                                    <div class="w3l_main_grid_text w3l_main_grid4">
-                                                                        <h3>Giá Trị Dự Báo Trung Bình</h3>
-                                                                        <p class="value_avg_guess"></p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="wthree_main wthree_main1">
-                                                                <div class="w3l_main_grid">
-                                                                    <div class="w3l_main_grid_text w3l_main_grid5">
-                                                                        <h3>Giá Trị Dự Báo Lớn Nhất</h3>
-                                                                        <p class="value_max_guess"></p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="wthree_main">
-                                                                <div class="w3l_main_grid">
-                                                                    <div class="w3l_main_grid_text w3l_main_grid6">
-                                                                        <h3>Giá Trị Dự Báo Nhỏ Nhất</h3>
-                                                                        <p class="value_min_guess"></p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="clear"></div>
-                                                        </div>
-                                                    </li>
                                                 </ul>
                                             </div>
                                         </section>
@@ -253,7 +222,7 @@
 </div>
 <th:block th:replace="layout_footer.html :: footer_tag"/>
 <th:block th:replace="global_import_js.html :: global_import_js"/>
-<script src="/js/report_spring_tides.js"></script>
+<script src="/js/report_sunny_time.js"></script>
 <script src="/js/slider_chart.js"></script>
 </body>
 </html>

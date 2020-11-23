@@ -61,52 +61,57 @@ function validateSearch() {
 // Chart
 // Add event listener to fire on selection
 var select = document.querySelector('select[name="chart-selector"]');
-select.addEventListener('change', function() {
-    if (event.target.value == 'h2o') {
+select.addEventListener('change', function () {
+    if (event.target.value === 'h2o') {
+        chart.showSlider(chart.getDataH2O(),"ppm")
         zingchart.exec('myChart', 'setseriesdata', {
             graphid: 0,
             data: [
-                { values: chart.dataH2O ,lineColor: '#af7e67',text: 'H2O (ppm)' },
+                {values: chart.dataH2O, lineColor: '#af7e67', text: 'H2O (ppm)'},
             ]
 
         });
-    } else if (event.target.value == 'o3') {
+    } else if (event.target.value === 'o3') {
+        chart.showSlider(chart.getDataO3(),"ppm")
         zingchart.exec('myChart', 'setseriesdata', {
             graphid: 0,
             data: [
-                { values: chart.dataO3, lineColor: '#34251b',text: 'O3 (ppm)' },
+                {values: chart.dataO3, lineColor: '#34251b', text: 'O3 (ppm)'},
             ]
 
         });
-    } else if (event.target.value == 'co2') {
+    } else if (event.target.value === 'co2') {
+        chart.showSlider(chart.getDataCO2(),"ppm")
         zingchart.exec('myChart', 'setseriesdata', {
             graphid: 0,
             data: [
-                { values: chart.dataCO2, lineColor: '#65af66',text: 'CO2 (ppm)' },
+                {values: chart.dataCO2, lineColor: '#65af66', text: 'CO2 (ppm)'},
             ]
 
         });
-    } else if (event.target.value == 'co') {
+    } else if (event.target.value === 'co') {
+        chart.showSlider(chart.getDataCO(),"ppm")
         zingchart.exec('myChart', 'setseriesdata', {
             graphid: 0,
             data: [
-                { values: chart.dataCO, lineColor: '#1742af',text: 'CO (ppm)' },
+                {values: chart.dataCO, lineColor: '#1742af', text: 'CO (ppm)'},
             ]
 
         });
-    } else if (event.target.value == 'ch4') {
+    } else if (event.target.value === 'ch4') {
+        chart.showSlider(chart.getDataCH4(),"ppb")
         zingchart.exec('myChart', 'setseriesdata', {
             graphid: 0,
             data: [
-                { values: chart.dataCH4, lineColor: '#af0932',text: 'CH4 (ppb)' },
+                {values: chart.dataCH4, lineColor: '#af0932', text: 'CH4 (ppb)'},
             ]
 
         });
-    } else if(event.target.value == '') {
+    } else if (event.target.value === '') {
         zingchart.exec('myChart', 'setseriesdata', {
             graphid: 0,
             data: [
-                { values: [] },
+                {values: []},
             ]
 
         });
@@ -140,35 +145,43 @@ const chart = {
         return this.avg;
     },
     // Lay mang du lieu cua H2O
-    getDataH2O: function (){
+    getDataH2O: function () {
         this.dataH2O = [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6];
         return this.dataH2O;
     },
     // Lay mang du lieu cua O3
-    getDataO3: function (){
+    getDataO3: function () {
         this.dataO3 = [7.0, 6.9, 9.5, 14.5, 20.2, 16.5, 12.2];
         return this.dataO3;
     },
     // Lay mang du lieu cua CO2
-    getDataCO2: function (){
+    getDataCO2: function () {
         this.dataCO2 = [10, 9, 8, 10.5, 11.2, 14.5, 16.2];
         return this.dataCO2;
     },
     // Lay mang du lieu cua CO
-    getDataCO: function (){
+    getDataCO: function () {
         this.dataCO = [8, 7, 10, 12.5, 18.2, 10.5, 13.2];
         return this.dataCO;
     },
     // Lay mang du lieu cua CH4
-    getDataCH4: function (){
+    getDataCH4: function () {
         this.dataCH4 = [12, 10, 9.5, 5.5, 6.2, 10.5, 13.2];
         return this.dataCH4;
     },
     getTime: function () {
-        this.time = [today, 1563800400000, 1563804000000, 1563807600000,1563907600000,1564807600000 ];
+        this.time = [today, 1563800400000, 1563804000000, 1563807600000, 1563907600000, 1564807600000];
         return this.time;
-    }
+    },
+    showSlider: function (data, unit) {
+        let valueAVG= document.getElementsByClassName("value_avg");
+        let valueMIN = document.getElementsByClassName("value_min");
+        let valueMAX = document.getElementsByClassName("value_max");
+        valueAVG[0].innerHTML = this.getAverage(data) + " "+ unit;
+        valueMIN[0].innerHTML = this.getMin(data)+ " "+ unit;
+        valueMAX[0].innerHTML = this.getMax(data) + " "+ unit;
 
+    }
 
 };
 //Lấy dữ liệu test
@@ -178,6 +191,8 @@ chart.getDataO3();
 chart.getDataCO2();
 chart.getDataCO();
 chart.getDataCH4();
+
+
 
 ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9", "b55b025e438fa8a98e32482b5f768ff5"];
 let chartConfig = {
@@ -198,7 +213,7 @@ let chartConfig = {
     crosshairX: {},
     type: 'line',
     plot: {
-        animation:{
+        animation: {
             effect: 4,
             method: 0,
             speed: 500,
@@ -214,7 +229,7 @@ let chartConfig = {
         // labels: chart.time,
         transform: {
             type: 'date',
-            "all":"%dd/%mm/%Y"+"<br>"+"%h:%i %A"
+            "all": "%dd/%mm/%Y" + "<br>" + "%h:%i %A"
         },
     },
     series: [

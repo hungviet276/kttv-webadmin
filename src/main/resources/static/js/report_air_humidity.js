@@ -58,10 +58,11 @@ function validateSearch() {
     return true;
 }
 
-// Chart
+// chart
+
 const chart = {
     time: [],
-    dataSalinity: [],
+    dataAirHumidity: [],
     min: undefined,
     max: undefined,
     avg: undefined,
@@ -79,9 +80,9 @@ const chart = {
         return this.avg;
     },
     // Lấy dữ liệu độ mặn
-    getDataSalinity: function () {
-        this.dataSalinity = [10, 26, 44, 63, 74, 33, 20, 47];
-        return this.dataSalinity;
+    getDataAirHumidity: function () {
+        this.dataAirHumidity = [10, 26, 44, 63, 74, 33, 20, 47];
+        return this.dataAirHumidity;
     },
     // lấy thời gian
     getTime: function () {
@@ -92,20 +93,22 @@ const chart = {
         let valueAVG = document.getElementsByClassName("value_avg");
         let valueMIN = document.getElementsByClassName("value_min");
         let valueMAX = document.getElementsByClassName("value_max");
-        valueAVG[0].innerHTML = this.getAverage(this.dataSalinity) + ' ‰';
-        valueMIN[0].innerHTML = this.getMin(this.dataSalinity) + ' ‰';
-        valueMAX[0].innerHTML = this.getMax(this.dataSalinity) + ' ‰';
+        valueAVG[0].innerHTML = this.getAverage(this.dataAirHumidity) + ' %';
+        valueMIN[0].innerHTML = this.getMin(this.dataAirHumidity) + ' %';
+        valueMAX[0].innerHTML = this.getMax(this.dataAirHumidity) + ' %';
+
     }
 };
 chart.getTime();
-chart.getDataSalinity();
+chart.getDataAirHumidity();
 chart.showSlider();
 
+ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9", "b55b025e438fa8a98e32482b5f768ff5"];
 let chartConfig = {
     type: 'area',
     stacked: true,
     title: {
-        text: 'Biểu Đồ Biến Đổi Độ Mặn',
+        text: 'Biểu Đồ Biến Đổi Độ Ẩm Không Khí',
         adjustLayout: true,
         marginTop: '15px',
         fontColor: '#424242'
@@ -145,7 +148,7 @@ let chartConfig = {
     },
     scaleY: {
         // đơn vị trục Y
-        format: "%v‰",
+        format: "%v%",
         guide: {
             lineColor: '#AAA5A5',
             lineStyle: 'dotted'
@@ -155,7 +158,7 @@ let chartConfig = {
             fontColor: '#616161'
         },
         label: {
-            text: 'Độ Mặn (‰)',
+            text: 'Độ Ẩm (%)',
             fontColor: '#616161'
         },
         lineColor: '#AAA5A5',
@@ -185,11 +188,11 @@ let chartConfig = {
     },
     series: [
         {
-            text: 'Độ Mặn',
+            text: 'Độ Ẩm',
             // Hiển thị dữ liệu độ mặn
-            values: chart.dataSalinity,
+            values: chart.dataAirHumidity,
             backgroundColor: 'white',
-            lineColor: '#4CAF50',
+            lineColor: '#af5321',
             // marker: {
             //     backgroundColor: '#4CAF50',
             //     borderColor: '#4CAF50'
@@ -204,5 +207,3 @@ zingchart.render({
     height: '100%',
     width: '100%'
 });
-
-
