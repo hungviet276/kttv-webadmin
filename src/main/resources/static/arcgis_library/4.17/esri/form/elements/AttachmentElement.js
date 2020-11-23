@@ -1,0 +1,6 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../../core/accessorSupport/decorators ./Element ./inputs/AttachmentInput".split(" "),function(h,k,b,c,f,g){return function(e){function a(a){a=e.call(this,a)||this;a.attachmentKeyword=null;a.editable=!0;a.input=null;a.type="attachment";return a}b.__extends(a,e);d=a;a.prototype.clone=function(){return new d({attachmentKeyword:this.attachmentKeyword,description:this.description,editable:this.editable,input:this.input,label:this.label,visibilityExpression:this.visibilityExpression})};
+var d;b.__decorate([c.property({type:String,json:{write:!0}})],a.prototype,"attachmentKeyword",void 0);b.__decorate([c.property({type:Boolean,json:{default:!0,write:!0}})],a.prototype,"editable",void 0);b.__decorate([c.property({type:g,json:{read:{source:"inputType"},write:{target:"inputType"}}})],a.prototype,"input",void 0);b.__decorate([c.property({type:["attachment"],json:{read:!1,write:!0}})],a.prototype,"type",void 0);return a=d=b.__decorate([c.subclass("esri.form.elements.AttachmentElement")],
+a)}(f.Element)});

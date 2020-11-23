@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports"],function(d,a){function c(b,a){return Math.sqrt(b*b+a*a)}Object.defineProperty(a,"__esModule",{value:!0});a.isPolygon=a.isPolyline=a.isPoint=a.isMultipoint=a.isExtent=a.getLimitCosine=a.isFunction=a.dist=a.normalize=a.len=a.sub=void 0;a.sub=function(b,a,c){b[0]=a[0]-c[0];b[1]=a[1]-c[1];return b};a.len=c;a.normalize=function(b){var a=c(b[0],b[1]);b[0]/=a;b[1]/=a};a.dist=function(b,a){return c(b[0]-a[0],b[1]-a[1])};a.isFunction=function(a){return"function"===typeof a};a.getLimitCosine=
+function(a){return 1/Math.max(a,1)};a.isExtent=function(a){return void 0!==a.xmin&&void 0!==a.ymin&&void 0!==a.xmax&&void 0!==a.ymax};a.isMultipoint=function(a){return void 0!==a.points};a.isPoint=function(a){return void 0!==a.x&&void 0!==a.y};a.isPolyline=function(a){return void 0!==a.paths};a.isPolygon=function(a){return void 0!==a.rings}});

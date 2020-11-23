@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../../../core/JSONSupport ../../../core/screenUtils ../../../core/accessorSupport/decorators".split(" "),function(h,k,b,f,g,c){return function(e){function a(a){a=e.call(this,a)||this;a.label=null;a.size=null;a.value=null;return a}b.__extends(a,e);d=a;a.prototype.clone=function(){return new d({label:this.label,size:this.size,value:this.value})};var d;b.__decorate([c.property({type:String,json:{write:!0}})],a.prototype,"label",void 0);b.__decorate([c.property({type:Number,
+cast:g.toPt,json:{write:!0}})],a.prototype,"size",void 0);b.__decorate([c.property({type:Number,json:{write:!0}})],a.prototype,"value",void 0);return a=d=b.__decorate([c.subclass("esri.renderers.visualVariables.support.SizeStop")],a)}(f.JSONSupport)});

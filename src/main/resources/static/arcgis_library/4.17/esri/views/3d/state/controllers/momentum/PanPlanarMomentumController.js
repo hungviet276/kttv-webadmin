@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../../../../../core/accessorSupport/decorators ../../../../../core/libs/gl-matrix-2/vec3 ../../../../../core/libs/gl-matrix-2/vec3f64 ./MomentumController".split(" "),function(f,a,d,g,e,h,k){Object.defineProperty(a,"__esModule",{value:!0});a.PanPlanarMomentumController=void 0;f=function(a){function c(b){b=a.call(this,b)||this;b.interactionType=4;b.tmpPan=h.vec3f64.create();return b}d.__extends(c,a);c.prototype.momentumStep=function(b,a){b=this.momentum.value(b);e.vec3.scale(this.tmpPan,
+this.momentum.direction,b);e.vec3.subtract(a.eye,a.eye,this.tmpPan);e.vec3.subtract(a.center,a.center,this.tmpPan);a.markViewDirty();this.constraintOptions.interactionDirection=this.tmpPan};d.__decorate([g.property({constructOnly:!0})],c.prototype,"momentum",void 0);return c=d.__decorate([g.subclass("esri.views.3d.state.controllers.momentum.PanPlanarMomentumController")],c)}(k.MomentumController);a.PanPlanarMomentumController=f});

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:replace="layout_header.html :: head_tag"/>
+    <link rel="stylesheet" href="/css/report_salinity.css" type="text/css">
+    <script src="/admin_lte/plugins/zingchart/zingchart.min.js"></script>
+</head>
+<style>
+    html,
+    body {
+        height: 100%;
+        width: 100%;
+    }
+
+    #myChart {
+        height: 100%;
+        width: 100%;
+        min-height: 150px;
+    }
+
+    .zc-ref {
+        display: none;
+    }
+</style>
+<body >
+<div id='myChart'></div>
+<script src="/admin_lte/plugins/jquery/jquery.min.js"></script>
+<script th:inline="javascript">
+
+    /*<![CDATA[*/
+    const DATA_CHART = /*[[${data}]]*/;
+    const chartName = /*[[${parameterTypeName}]]*/;
+    const unitCode = /*[[${unitCode}]]*/;
+    /*]]>*/
+
+    var labelData = [];
+    var dataShow = [];
+    DATA_CHART.forEach(item => {
+        if (item.value > -99) {
+            labelData.push(item.timestamp);
+            dataShow.push(item.value);
+        }
+    });
+    window.formatAxis  = function (v) {
+        return v + unitCode;
+    }
+    var myConfig = {
+        "type": "area",
+        "utc": true,
+        "title": {
+            "text": "",
+            "font-size": "24px",
+            "adjust-layout": true
+        },
+        "plotarea": {
+            "margin": "dynamic 45 60 dynamic",
+        },
+        "legend": {
+            "layout": "float",
+            "background-color": "none",
+            "border-width": 0,
+            "shadow": 0,
+            "align": "center",
+            "adjust-layout": true,
+            "toggle-action": "remove",
+            "item": {
+                "padding": 7,
+                "marginRight": 17,
+                "cursor": "hand"
+            }
+        },
+        scaleX: {
+            item: {
+                paddingTop: '5px',
+                fontColor: '#616161'
+            },
+            label: {
+                text: '',
+                fontColor: '#616161'
+            },
+            labels: labelData,
+            lineColor: '#AAA5A5',
+            // format time
+            transform: {
+                type: 'date',
+                "all": "%dd/%mm/%Y" + "<br>" + "%h:%i %A"
+            },
+            tick: {
+                lineColor: '#AAA5A5'
+            }
+        },
+        scaleY: {
+            // đơn vị trục Y
+            format: "formatAxis()",
+            guide: {
+                lineColor: '#AAA5A5',
+                lineStyle: 'dotted'
+            },
+            item: {
+                paddingRight: '5px',
+                fontColor: '#616161'
+            },
+            label: {
+                text:  unitCode,
+                fontColor: '#616161'
+            },
+            lineColor: '#AAA5A5',
+            short: true,
+            tick: {
+                lineColor: '#AAA5A5'
+            }
+        },
+        crosshairX: {
+            lineColor: '#AAA5A5',
+            plotLabel: {
+                backgroundColor: '#EBEBEC',
+                borderColor: '#AAA5A5',
+                borderRadius: '2px',
+                borderWidth: '2px',
+                fontColor: '#616161',
+                thousandsSeparator: ','
+            },
+            scaleLabel: {
+                backgroundColor: '#EBEBEC',
+                borderColor: '#AAA5A5',
+                fontColor: '#424242'
+            }
+        },
+        tooltip: {
+            visible: false
+        },
+        series: [
+            {
+                text: chartName,
+                // Hiển thị dữ liệu nhiet do
+                values: dataShow,
+                backgroundColor: 'white',
+                lineColor: '#4CAF50',
+                // marker: {
+                //     backgroundColor: '#4CAF50',
+                //     borderColor: '#4CAF50'
+                // }
+            }
+        ]
+    };
+
+    zingchart.render({
+        id: 'myChart',
+        data: myConfig,
+        height: '100%',
+        width: '100%'
+    });
+</script>
+</body>
+</html>

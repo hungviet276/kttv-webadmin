@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","../../../../core/libs/gl-matrix-2/vec3","../stack","./vector"],function(m,a,h,k,l){function e(c){void 0===c&&(c=a.UP);return[c[0],c[1],c[2],c[3]]}function g(c,a,b,g,f){void 0===f&&(f=e());f[0]=c;f[1]=a;f[2]=b;f[3]=g;return f}Object.defineProperty(a,"__esModule",{value:!0});a.UP=a.axis=a.fromPoints=a.fromAxisAndAngle=a.fromValues=a.copy=a.wrapAxisAngle=a.wrap=a.create=void 0;a.create=e;a.wrap=function(c,a,b,e){return g(c,a,b,e,k.sv4d.get())};a.wrapAxisAngle=function(c,
+a){return g(c[0],c[1],c[2],a,k.sv4d.get())};a.copy=function(a,d){void 0===d&&(d=e());return g(a[0],a[1],a[2],a[3],d)};a.fromValues=g;a.fromAxisAndAngle=function(a,d,b){void 0===b&&(b=e());h.vec3.copy(b,a);b[3]=d;return b};a.fromPoints=function(a,d,b){void 0===b&&(b=e());h.vec3.cross(b,a,d);h.vec3.normalize(b,b);b[3]=l.angle(a,d);return b};a.axis=function(a){return a};a.UP=[0,0,1,0]});

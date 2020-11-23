@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","../../../../core/mathUtils","../../../../core/libs/gl-matrix-2/vec3"],function(k,b,g,e){Object.defineProperty(b,"__esModule",{value:!0});b.interactionDirectionTowardsConstraintMinimization=b.defaultApplyOptions=b.adjustRangeForInteraction=b.hasConstraintType=void 0;b.hasConstraintType=function(b,c){return 0!==(b&c)};b.adjustRangeForInteraction=function(b,c,e,d,f,a){0!==b&&(e?(a.min=Math.min(a.min,c),a.max=Math.max(a.max,c)):null!=d?(a.min-=Math.max(0,(c-a.min)*(1-d)),
+a.max+=Math.max(0,(c-a.max)*(1-d))):f&&(a.min-=Math.max(0,c-a.min-f),a.max+=Math.max(0,c-a.max-f)))};b.defaultApplyOptions={selection:0,interactionType:0,interactionFactor:0,interactionStartCamera:null,interactionDirection:null,tiltMode:0};b.interactionDirectionTowardsConstraintMinimization=function(b,c,h,d){c=c||b.viewForward;e.vec3.copy(d,c);e.vec3.scale(d,d,g.sign(e.vec3.dot(c,h)));return d}});

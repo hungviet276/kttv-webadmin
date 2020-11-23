@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../request ../geometry/support/normalizeUtils ./utils ../tasks/operations/identify ../tasks/support/IdentifyParameters ../tasks/support/IdentifyResult".split(" "),function(r,c,d,k,l,f,m,g,n){function p(a){a=a.data;a.results=a.results||[];var b={results:[]};b.results=a.results.map(function(a){return n.fromJSON(a)});return b}function q(a){return a=g.from(a)}Object.defineProperty(c,"__esModule",{value:!0});c.identify=void 0;c.identify=function(a,b,c){return d.__awaiter(this,
+void 0,void 0,function(){var h,e;return d.__generator(this,function(g){b=q(b);h=b.geometry?[b.geometry]:[];e=f.parseUrl(a);e.path+="/identify";return[2,l.normalizeCentralMeridian(h).then(function(a){a=m.identifyToIdentifyRESTParameters(b,{geometry:a&&a[0]});a=f.encode(d.__assign(d.__assign(d.__assign({},e.query),{f:"json"}),a));a=f.asValidOptions(a,c);return k(e.path,a).then(p)})]})})}});

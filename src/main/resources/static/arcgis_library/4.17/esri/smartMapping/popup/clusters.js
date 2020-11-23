@@ -1,0 +1,6 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../../core/Error ../../core/maybe ../../core/promiseUtils ../../intl/messages ./support/clusterUtils ../../views/2d/layers/support/clusterUtils".split(" "),function(u,c,a,l,m,n,p,q,r){function t(g){return a.__awaiter(this,void 0,void 0,function(){var b,d,e;return a.__generator(this,function(f){switch(f.label){case 0:return b=g.layer,d=g.renderer,[4,b.load()];case 1:f.sent();e=d||b.renderer;if(!r.isClusterCompatibleRenderer(e))throw new l("clusters-popup:invalid-parameters",
+"'renderer' is not valid");return[2,{layer:b,renderer:e}]}})})}Object.defineProperty(c,"__esModule",{value:!0});c.getTemplates=void 0;c.getTemplates=function(g){return a.__awaiter(this,void 0,void 0,function(){var b,d,e,f,c,h,k;return a.__generator(this,function(a){switch(a.label){case 0:return[4,n.all([t(g),p.loadMessageBundle("esri/smartMapping/t9n/smartMapping")])];case 1:return b=a.sent(),d=b[0],e=d.renderer,f=d.layer,c=b[1],[4,q.createPopupTemplate(f,e)];case 2:h=a.sent();k=null;if(m.isSome(h))k=
+{name:"clusters",title:c.clusters.templateTitle,value:h};else return[2,null];return[2,{primaryTemplate:k,secondaryTemplates:[]}]}})})}});

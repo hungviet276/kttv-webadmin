@@ -1,0 +1,6 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../core/Collection ../core/collectionUtils ../core/Logger ../core/accessorSupport/decorators".split(" "),function(n,c,e,h,k,l,f){Object.defineProperty(c,"__esModule",{value:!0});c.TablesMixin=void 0;var m=l.getLogger("esri.support.TablesMixin");c.TablesMixin=function(c){return function(c){function a(){for(var g=[],d=0;d<arguments.length;d++)g[d]=arguments[d];var a=c.apply(this,g)||this;a.tables=new h;a.tables.on("after-add",function(b){b=b.item;b.parent&&b.parent!==a&&
+"tables"in b.parent&&b.parent.tables.remove(b);b.parent=a;"feature"!==b.type&&m.error("Layer 'title:"+b.title+", id:"+b.id+"' of type '"+b.type+"' is not supported as a table and will therefore be ignored.")});a.tables.on("after-remove",function(b){b.item.parent=null});return a}e.__extends(a,c);a.prototype.destroy=function(){for(var a=0,c=this.tables.removeAll();a<c.length;a++)c[a].destroy();this.tables.destroy()};Object.defineProperty(a.prototype,"tables",{set:function(a){this._set("tables",k.referenceSetter(a,
+this._get("tables")))},enumerable:!1,configurable:!0});e.__decorate([f.property()],a.prototype,"tables",null);return a=e.__decorate([f.subclass("esri.support.TablesMixin")],a)}(c)}});

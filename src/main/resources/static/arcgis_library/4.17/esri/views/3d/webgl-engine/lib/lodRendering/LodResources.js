@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","../../../../../core/arrayUtils"],function(e,a,c){function d(a){var b=[];a.components.forEach(function(a){b.push(a.geometry)});return c.unique(b)}Object.defineProperty(a,"__esModule",{value:!0});a.computeFaceCount=a.geometriesFromLodResources=a.geometriesFromLodLevelResources=a.texturesFromLodResources=a.materialsFromLodResources=void 0;a.materialsFromLodResources=function(a){var b=[];a.levels.forEach(function(a){a.components.forEach(function(a){b.push(a.material)})});
+return c.unique(b)};a.texturesFromLodResources=function(a){var b=[];a.levels.forEach(function(a){a.components.forEach(function(a){a.textures&&b.push.apply(b,a.textures)})});return c.unique(b)};a.geometriesFromLodLevelResources=d;a.geometriesFromLodResources=function(a){var b=[];a.levels.forEach(function(a){a.components.forEach(function(a){b.push(a.geometry)})});return c.unique(b)};a.computeFaceCount=function(a){var b=0;d(a).forEach(function(a){b+=a.data.indexCount/3});return b}});

@@ -65,13 +65,11 @@ $('#btncancer').click(function () {
     $("#btnResetUpdate").css("display", "none");
     $("#btncancer").css("display", "none");
     $("#btnDonew").attr("disabled", false);
-    validWarningThreshold.resetForm();
-    validator.resetForm();
+    //validWarningThreshold.resetForm();
+    //validator.resetForm();
     $("#formWarningThreshold").get(0).reset();
     $("#thresholdWarning").empty();
     $("#cancelWarning").empty();
-    addSelect2CancelWarning();
-    addSelect2ThresholdWarning();
 
     //var rowDt = tableConfigValueType.rows('.selected').data()[0];
     show_search();
@@ -118,7 +116,7 @@ $('#station').select2({
     minimumInputLength: 0,
     delay: 350,
     templateSelection: function (data) {
-        if (data.id === '' || data.id == null || data.id == undefined) {
+        if (data.id === ' ' || data.id == null || data.id == undefined) {
             return '---- hãy chọn ----';
         }
 
@@ -140,7 +138,7 @@ $('#station').select2({
 
         },
         processResults: function (data) {
-            data = [{id: -1,text : '----hãy chọn----'}].concat(data);
+            data = [{id: " ",text : '----hãy chọn----'}].concat(data);
             return {
                 results: $.map(data, function (item) {
                     return {
@@ -315,7 +313,8 @@ var table = $('#tableGroupMailReceive').DataTable({
         }
     }
 });
-$("#userReceiveInsite").select2({
+
+$("#userReceiveOutSite").select2({
     minimumInputLength: 0,
     delay: 350,
     templateSelection: function (data) {
@@ -331,14 +330,14 @@ $("#userReceiveInsite").select2({
         headers: {
             'Authorization': token
         },
-        "url":apiUrl + "user-info/get-name-user",
+        "url":apiUrl + "user-expand/get-name-user-out-site",
         dataType: 'json',
-        type: "GET",
+        type: "POST",
         quietMillis: 50,
         data: function (term) {
             let rowDt = table.rows('.selected').data()[0];
             if(rowDt == undefined)
-            term.idGroup = "";
+                term.idGroup = "";
             return term;
 
         },
@@ -356,7 +355,49 @@ $("#userReceiveInsite").select2({
         }
     }
 });
-var tableUserReceveiMailInSite = $('#tableUserReceveiMailInSite').DataTable({
+$("#userReceiveInsite").select2({
+    minimumInputLength: 0,
+    delay: 350,
+    templateSelection: function (data) {
+        if (data.id === ' ' || data.id == null || data.id == undefined) {
+            return '---- hãy chọn ----';
+        }
+
+        return data.text;
+    },
+    minimumInputLength: 0,
+    delay: 350,
+    ajax: {
+        headers: {
+            'Authorization': token
+        },
+        "url":apiUrl + "user-info/get-name-user",
+        dataType: 'json',
+        type: "POST",
+        quietMillis: 50,
+        data: function (term) {
+            let rowDt = table.rows('.selected').data()[0];
+            if(rowDt == undefined)
+                term.idGroup = "";
+            else
+                term.idGroup = rowDt.id;
+            return term;
+        },
+        processResults: function (data) {
+            var datas =  $('#detail-receive-mail').val();
+            return {
+                results: $.map(data, function (item) {
+                    return {
+                        text:item.id + "---"+ item.name +"---"+ item.email,
+                        id: item.id,
+                        data: item
+                    }
+                })
+            };
+        }
+    }
+});
+var tableUserReceiveMailInSite = $('#tableUserReceveiMailInSite').DataTable({
     columns: [
         {"data": "id"},
         {"data": "name"},
@@ -364,12 +405,25 @@ var tableUserReceveiMailInSite = $('#tableUserReceveiMailInSite').DataTable({
         {
             data: null,
             className: "center",
-            defaultContent: '<a href="" class="editor_remove">Delete</a>'
+            defaultContent: '<a href="" class="editor_remove"><i class="fa fa-trash" aria-hidden="true"></a>'
+        }
+    ]
+});
+
+var tableUserReceiveMailOutSite = $('#tableUserReceiveMailOutSite').DataTable({
+    columns: [
+        {"data": "id"},
+        {"data": "name"},
+        {"data": "email"},
+        {
+            data: null,
+            className: "center",
+            defaultContent: '<a href="" class="editor_remove"><i class="fa fa-trash" aria-hidden="true"></a>'
         }
     ]
 });
 $("#btnSaveUserInsite").click(function () {
-    var formData  = tableUserReceveiMailInSite.rows().data();
+    var formData  = tableUserReceiveMailInSite.rows().data();
     let insert = true;
     $.each( formData, function( key, value ) {
         if($('#userReceiveInsite').select2('data')[0].id == value.id){
@@ -383,7 +437,12 @@ $("#btnSaveUserInsite").click(function () {
     tableUserReceveiMailInSite.row.add($('#userReceiveInsite').select2('data')[0].data).draw(true);
 
 });
-tableUserReceveiMailInSite.on('click', 'a.editor_remove', function (e) {
+tableUserReceiveMailInSite.on('click', 'a.editor_remove', function (e) {
+    if(confirm("Bạn có muốn xóa bản ghi")){
+
+    } else {
+        return;
+    }
     e.preventDefault();
     var table = $('#tableUserReceveiMailInSite').DataTable();
     table
@@ -402,8 +461,411 @@ $("#btnsave").click(function () {
         userInsite.push(value);
     });
     object.userInsite  = userInsite;
-    console.log(object.userInsite);
 });
+
+$('#stationWarning').select2({
+    minimumInputLength: 0,
+    delay: 350,
+    templateSelection: function (data) {
+        if (data.id === ' ' || data.id == null || data.id == undefined) {
+            return '---- hãy chọn ----';
+        }
+
+        return data.text;
+    },
+    ajax: {
+        headers: {
+            'Authorization': token
+        },
+        url: apiUrl + "station/station-select",
+        contentType: 'application/json',
+        method: "POST",
+        quietMillis: 50,
+        data: function (term) {
+            if(term.term==null || term.term== undefined){
+                term.term = null;
+            }
+            return JSON.stringify(term);
+
+        },
+        processResults: function (data) {
+            data = [{id: " ",text : '----hãy chọn----'}].concat(data);
+            return {
+                results: $.map(data, function (item) {
+                    return {
+                        text: item.text,
+                        id: item.id,
+                        data: item
+                    }
+                })
+            };
+        }
+    }
+});
+$('#warningCode').select2({
+    minimumInputLength: 0,
+    delay: 350,
+    templateSelection: function (data) {
+        if (data.id === ' ' || data.id == null || data.id == undefined) {
+            return '---- hãy chọn ----';
+        }
+
+        return data.text;
+    },
+    ajax: {
+        headers: {
+            'Authorization': token
+        },
+        url: apiUrl + "warning-manager-station/warning-manager-select",
+        contentType: 'application/json',
+        method: "POST",
+        quietMillis: 50,
+        data: function (term) {
+            if(term.term==null || term.term== undefined){
+                term.term = null;
+            }
+            let data = $('#stationWarning').select2('data')[0];
+            if(data != undefined){
+                term.id = data.id.trim();
+            } else{
+                term.id = "";
+            }
+            return JSON.stringify(term);
+
+        },
+        processResults: function (data) {
+            data = [{id: " ",text : '----hãy chọn----'}].concat(data);
+            return {
+                results: $.map(data, function (item) {
+                    return {
+                        text: item.text,
+                        id: item.id,
+                        data: item
+                    }
+                })
+            };
+        }
+    }
+});
+//config table mới
+var tableWarningConfig = $('#tableWarningConfig').DataTable({
+    columns: [
+        {"data": "id"},
+        {"data": "stationId"},
+        {"data": "stationName"},
+        {"data": "warningManagerId"},
+        {"data": "warningManagerCode"},
+        {
+            data: null,
+            className: "center",
+            defaultContent: '<a href="" class="editor_remove"><i class="fa fa-trash" aria-hidden="true"></a>'
+        }
+    ]
+});
+// end config table mới
+$("#btnSaveWarning").click(function(){
+    let data = {};
+    data.id = "";
+    data.stationId = $("#stationWarning").select2('data')[0].id;
+    data.stationName = $("#stationWarning").select2('data')[0].text;
+    data.warningManagerId = $("#warningCode").select2('data')[0].id;
+    data.warningManagerCode = $("#warningCode").select2('data')[0].text;
+    tableWarningConfig.row.add(data).draw(true);
+});
+//config tbale người dùng ngoài hệ thống
+var tableUserOutSite = $('#tableUserOutSite').DataTable({
+    columns: [
+        {"data": "id"},
+        {"data": "nameOutSite"},
+        {"data": "phoneOutSite"},
+        {"data": "codeUserOutSite"},
+        {"data": "emailOutSite"},
+        {"data": "sexOutSite"},
+        {"data": "statusOutSite"},
+        {"data": "idOutSite"},
+        {"data": "positionOutSite"},
+        {
+            data: null,
+            className: "center",
+            defaultContent: '<a href="" class="editor_remove"><i class="fa fa-trash" aria-hidden="true"></a>'
+        }
+    ]
+});
+$("#btnSaveUserOutSite").click(function(){
+   var object = {};
+    object.id = "";
+    object.nameOutSite = $("#nameOutSite").val();
+    object.phoneOutSite =  $("#phoneOutSite").val();
+    object.codeUserOutSite =  $("#codeUserOutSite").val();
+    object.emailOutSite =  $("#emailOutSite").val();
+    object.sexOutSite =  $("#sexOutSite").val();
+    object.statusOutSite =  $("#statusOutSite").val();
+    object.idOutSite =  $("#idOutSite").val();
+    object.positionOutSite =  $("#positionOutSite").val();
+    tableUserOutSite.row.add(object).draw(true);
+
+});
+tableUserOutSite.on('click', 'a.editor_remove', function (e) {
+    if(confirm("Bạn có muốn xóa bản ghi")){
+
+    } else {
+        return;
+    }
+    e.preventDefault();
+    var table = $('#tableUserOutSite').DataTable();
+    table
+        .row( $(this).parents('tr') )
+        .remove().draw();
+});
+var formInSite = $("#formInSite").validate({
+    rules : {
+        code : {
+            required : true,
+            validUtf8 : true,
+            maxlength : 50
+        },
+        name : {
+            required : true,
+            maxlength : 100
+        },
+        description : {
+            maxlength : 500
+        },
+        status : {
+            required : true,
+        }
+    },
+    messages: {
+        code: {
+            required: "Hãy nhập mã nhóm nhận cảnh báo",
+            maxlength  : "Mã nhóm  nhận cảnh báo vượt quá 50 ký tự"
+        },
+        name : {
+            required: "Hãy nhập tên nhóm nhận cảnh báo",
+            maxlength  : "Tên nhóm nhận cảnh báo vượt quá độ dài 150 ký tự"
+        },
+        description : {
+            maxlength : "Độ dài mô tả không được dài quá 500 ký tự"
+        },
+        status : {
+            required :"Trạng thái không được để trống"
+        }
+    },
+    errorPlacement : function(error, element) {
+        error.insertAfter(element.parents("div.insertError"));
+    }
+});
+jQuery.validator.addMethod("validUtf8", function(value, element){
+    var myRe = /[A-Z,0-9]+$/;
+    var myArray = myRe.test(value);
+    return myArray;
+}, "Mã cảnh báo phải viết hoa không được chứa ký tự đặc biệt hoặc số hoặc các chữ cái có dấu");
+$("#btnsave").click(function(){
+    var submit = $("#formInSite").valid();
+    if(submit==false){
+        return;
+    }
+    let object = {};
+    object.id = "";
+    object.code = $("#code").val();
+    object.name = $("#name").val();
+    object.description = $("#description").val();
+    object.status = $("#status").val();
+    let userInSiteTmps  = tableUserReceveiMailInSite.rows().data();
+    let userInSites = [];
+    for(let i = 0; i < userInSiteTmps.length ; i++){
+        userInSites.push(userInSiteTmps[i].id);
+    }
+
+    let warningConfigTmp = tableWarningConfig.rows().data();
+    let warningConfig = [];
+    for(let i =0 ; i<warningConfigTmp.length; i++){
+        warningConfig.push(warningConfigTmp[i].warningManagerId)
+    }
+    let userOutSiteTmp = tableUserReceiveMailOutSite.rows().data();
+    let userOutSite = [];
+    for(let i =0; i< userOutSiteTmp.length ; i++){
+        userOutSite.push(userOutSiteTmp[i].id);
+    }
+    object.userInSites = userInSites;
+    object.warningConfig = warningConfig;
+    object.userOutSite = userOutSite;
+    object.user = username;
+    console.log(object);
+    $.ajax({
+        headers: {
+            'Authorization': token
+        },
+        "url": apiUrl + "group-mail-config",
+        "method": "POST",
+        "contentType": "application/json",
+        "data" : JSON.stringify(object),
+        "success": function (response) {
+            console.log(response)
+        },
+        "error": function (error) {
+           console.log(error);
+        }
+    });
+
+});
+
+$("#btnSaveUserOutSiteInTbl").click(function(){
+    let data = $('#userReceiveOutSite').select2('data')[0].data;
+    let formData  = tableUserReceiveMailOutSite.rows().data();
+    let insert = true;
+    $.each( formData, function( key, value ) {
+       if(data.id == value.id){
+           insert = false;
+       }
+    });
+     if(insert){
+        tableUserReceiveMailOutSite.row.add(data).draw(true);
+     } else{
+         toastr.error('Lỗi', "Bản ghi đã tồn tại");
+     }
+});
+
+tableUserReceiveMailOutSite.on('click', 'a.editor_remove', function (e) {
+    if(confirm("Bạn có muốn xóa bản ghi")){
+
+    } else {
+        return;
+    }
+    e.preventDefault();
+    var table = $('#tableUserReceiveMailOutSite').DataTable();
+    table
+        .row( $(this).parents('tr') )
+        .remove().draw();
+});
+tableWarningConfig.on('click', 'a.editor_remove', function (e) {
+    if(confirm("Bạn có muốn xóa bản ghi")){
+
+    } else {
+        return;
+    }
+    e.preventDefault();
+    var tableWarningConfig = $('#tableWarningConfig').DataTable();
+    tableWarningConfig
+        .row( $(this).parents('tr') )
+        .remove().draw();
+});
+
+table
+    .on('select', rowSelect)
+    .on('deselect', rowDeselect);
+function rowSelect(e, dt, type, indexes) { // load các thông tin của những cái bên trái ra
+    $("#btnDonew").prop( "disabled", true );
+    $("#btnDetail").prop( "disabled", false );
+}
+function rowDeselect(e, dt, type, indexes) { // khóa các form bên trái
+    // var rowDt = table.rows('.selected').data()
+    //console.log(rowDt);
+
+    $("#btnDonew").prop( "disabled", false );
+    $("#btnDetail").prop( "disabled", true );
+}
+$("#btnDetail").click(function(){
+    var rowDt = table.rows('.selected').data()[0];
+    $("#btnDelete").prop( "disabled", false );
+    $("#id").val(rowDt.id);
+    togle_search();
+    $("#btnsave").css("display", "none");
+    $("#btnDelete").css("display", "inline");
+    $("#btnResetUpdate").css("display", "inline");
+    $("#btncancer").css("display", "inline");
+    $("#btnDonew").attr("disabled", true);
+    $('.nav-tabs a[href="#menu2"]').tab('show');
+    $("#btnsaveEdit").css("display", "inline");
+    $("#btnResetNew").css("display", "none");
+
+    console.log(rowDt);
+    $("#code").val(rowDt.code);
+    $("#name").val(rowDt.name);
+    $("#description").val(rowDt.description);
+    $("#status").val(rowDt.status);
+    $('#status').trigger('change');
+    //validatorhorizontal.resetForm();
+    showDetailData(rowDt);
+});
+ function showDetailData(rowDt){
+     $.ajax({
+         headers: {
+             'Authorization': token
+         },
+         "url": apiUrl + "group-mail-config/get-info?id="+rowDt.id,
+         "method": "GET",
+         "contentType": "application/json",
+         "success": function (response) {
+             let userInSite = response[0];
+             let userOuSite = response[1];
+             let warning = response[2];
+
+             for(let i = 0 ; i <userInSite.length ; i++){
+                 tableUserReceiveMailInSite.row.add(userInSite[i]).draw(true);
+             }
+
+             for(let i = 0 ; i <userOuSite.length ; i++){
+                 tableUserReceiveMailOutSite.row.add(userOuSite[i]).draw(true);
+             }
+
+             for(let i = 0 ; i <warning.length ; i++){
+                 tableWarningConfig.row.add(warning[i]).draw(true);
+             }
+         },
+         "error": function (error) {
+             console.log(error);
+         }
+     });
+ }
+ $("#btnsaveEdit").click(function(){
+     var submit = $("#formInSite").valid();
+     if(submit==false){
+         return;
+     }
+     let object = {};
+     object.id = $("#id").val();
+     object.code = $("#code").val();
+     object.name = $("#name").val();
+     object.description = $("#description").val();
+     object.status = $("#status").val();
+     let userInSiteTmps  = tableUserReceveiMailInSite.rows().data();
+     let userInSites = [];
+     for(let i = 0; i < userInSiteTmps.length ; i++){
+         userInSites.push(userInSiteTmps[i].id);
+     }
+
+     let warningConfigTmp = tableWarningConfig.rows().data();
+     let warningConfig = [];
+     for(let i =0 ; i<warningConfigTmp.length; i++){
+         warningConfig.push(warningConfigTmp[i].warningManagerId)
+     }
+     let userOutSiteTmp = tableUserReceiveMailOutSite.rows().data();
+     let userOutSite = [];
+     for(let i =0; i< userOutSiteTmp.length ; i++){
+         userOutSite.push(userOutSiteTmp[i].id);
+     }
+     object.userInSites = userInSites;
+     object.warningConfig = warningConfig;
+     object.userOutSite = userOutSite;
+     object.user = username;
+     console.log(object);
+     $.ajax({
+         headers: {
+             'Authorization': token
+         },
+         "url": apiUrl + "group-mail-config",
+         "method": "POST",
+         "contentType": "application/json",
+         "data" : JSON.stringify(object),
+         "success": function (response) {
+             console.log(response)
+         },
+         "error": function (error) {
+             console.log(error);
+         }
+     });
+ });
 //
 // $('#valueTypeSpatial').select2({
 //

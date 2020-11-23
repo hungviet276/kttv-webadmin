@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../../request ../../core/urlUtils ../../geometry/support/jsonUtils".split(" "),function(t,b,c,m,n,f){function p(a){return{geometryType:f.getJsonType(a[0]),geometries:a.map(function(a){return a.toJSON()})}}function q(a,c,b){var d=f.getGeometryType(c);return a.map(function(a){a=d.fromJSON(a);a.spatialReference=b;return a})}Object.defineProperty(b,"__esModule",{value:!0});b.simplify=void 0;b.simplify=function(a,b,r){return c.__awaiter(this,void 0,void 0,function(){var d,
+e,g,h,k;return c.__generator(this,function(l){switch(l.label){case 0:return d="string"===typeof a?n.urlToObject(a):a,e=b[0].spatialReference,g=f.getJsonType(b[0]),h=c.__assign(c.__assign({},r),{query:c.__assign(c.__assign({},d.query),{f:"json",sr:e.wkid?e.wkid:JSON.stringify(e),geometries:JSON.stringify(p(b))})}),[4,m(d.path+"/simplify",h)];case 1:return k=l.sent(),[2,q(k.data,g,e)]}})})}});

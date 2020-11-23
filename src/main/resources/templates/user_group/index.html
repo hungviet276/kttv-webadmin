@@ -57,13 +57,15 @@
                                     <table id="uGroupTable" class="table table-bordered table-hover">
                                         <thead>
                                         <tr>
-                                            <th></th>
+<!--                                            <th></th>-->
                                             <th>#</th>
+                                            <th>Thao tác</th>
                                             <th data-id="s_Tram">Trạm</th>
                                             <th data-id="s_TenNhom">Tên nhóm</th>
                                             <th data-id="s_level">Cấp</th>
                                             <th data-id="s_QuanLy">Nhóm cha</th>
                                             <th data-id="s_Trangthai"  is_select="1">Trạng thái</th>
+                                            <th style="display: none"></th>
                                             <th style="display: none"></th>
                                         </tr>
                                         </thead>
@@ -107,7 +109,7 @@
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="cap">Cấp</label>
-                                                    <input type="text" disabled value="1" class="form-control" id="cap"
+                                                    <input type="text" disabled value="0" class="form-control" id="cap"
                                                            placeholder="">
                                                     <span id="cap_error" class="help-block" style="color: red"></span>
                                                 </div>
@@ -157,6 +159,7 @@
                                             <button class="btn btn-primary btn-100" id="btn-add-user">
                                                 <i class="fas fa-plus"></i> Thêm
                                             </button>
+
                                         </div>
 
                                         <table id="tableDataParameter" class="table table-bordered table-hover"
@@ -181,12 +184,12 @@
                                                 style="display:none;">
                                             <i class="fas fa-edit"></i> Cập nhật
                                         </button>
+                                        <button class="btn btn-primary btn-100" id="btn-reset" style="display:none;">
+                                            <i class="fas fa-redo-alt"></i> Làm mới
+                                        </button>
                                         <button class="btn btn-primary btn-100" id="btn-delete"
                                                 style="display:none;">
                                             <i class="far fa-trash-alt"></i> Xoá
-                                        </button>
-                                        <button class="btn btn-primary btn-100" id="btn-reset" style="display:none;">
-                                            <i class="fas fa-redo-alt"></i> Làm mới
                                         </button>
                                         <button class="btn btn-primary btn-100" id="btn-cancle"
                                                 style="display:none;">

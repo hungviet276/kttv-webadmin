@@ -1,0 +1,4 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","tslib","./TileAgent"],function(b,c,d,e){Object.defineProperty(c,"__esModule",{value:!0});b=function(b){function a(){var a=b.call(this)||this;a._scaleRangeEnabled=!0;return a}d.__extends(a,b);Object.defineProperty(a.prototype,"_desiredMinLevelDelta",{get:function(){return 0},enumerable:!1,configurable:!0});Object.defineProperty(a.prototype,"_loadingLevelDelta",{get:function(){return 8},enumerable:!1,configurable:!0});return a}(e.TileAgent);c.default=b});

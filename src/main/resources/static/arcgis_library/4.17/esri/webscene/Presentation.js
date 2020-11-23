@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../core/Collection ../core/collectionUtils ../core/JSONSupport ../core/accessorSupport/decorators ./Slide".split(" "),function(m,n,c,h,f,k,d,l){var e=h.ofType(l);return function(g){function b(a){a=g.call(this,a)||this;a.slides=new e;return a}c.__extends(b,g);b.prototype.destroy=function(){this.slides.forEach(function(a){return a.destroy()});this.slides.removeAll()};Object.defineProperty(b.prototype,"slides",{set:function(a){a&&(a=a.filter(function(a){return!!a.viewpoint}));
+this._set("slides",f.referenceSetter(a,this._get("slides"),e))},enumerable:!1,configurable:!0});b.prototype.clone=function(){return new this.constructor({slides:this.slides.clone()})};c.__decorate([d.property({type:e,nonNullable:!0,json:{write:!0}}),d.cast(f.castForReferenceSetter)],b.prototype,"slides",null);return b=c.__decorate([d.subclass("esri.webscene.Presentation")],b)}(k.JSONSupport)});

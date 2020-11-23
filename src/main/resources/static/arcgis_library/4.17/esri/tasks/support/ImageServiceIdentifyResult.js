@@ -1,0 +1,6 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../../core/JSONSupport ../../core/accessorSupport/decorators ../../geometry/Point ./FeatureSet".split(" "),function(h,k,b,e,c,f,g){return function(d){function a(){var a=null!==d&&d.apply(this,arguments)||this;a.catalogItemVisibilities=null;a.catalogItems=null;a.location=null;a.name=null;a.objectId=null;a.processedValues=null;a.properties=null;a.value=null;return a}b.__extends(a,d);b.__decorate([c.property({json:{write:!0}})],a.prototype,"catalogItemVisibilities",void 0);
+b.__decorate([c.property({type:g,json:{write:!0}})],a.prototype,"catalogItems",void 0);b.__decorate([c.property({type:f,json:{write:!0}})],a.prototype,"location",void 0);b.__decorate([c.property({json:{write:!0}})],a.prototype,"name",void 0);b.__decorate([c.property({json:{write:!0}})],a.prototype,"objectId",void 0);b.__decorate([c.property({json:{write:!0}})],a.prototype,"processedValues",void 0);b.__decorate([c.property({json:{write:!0}})],a.prototype,"properties",void 0);b.__decorate([c.property({json:{write:!0}})],
+a.prototype,"value",void 0);return a=b.__decorate([c.subclass("esri.tasks.support.ImageServiceIdentifyResult")],a)}(e.JSONSupport)});

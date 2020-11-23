@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports"],function(c,b){Object.defineProperty(b,"__esModule",{value:!0});b.EmptyPlacementCursor=b.Placement=void 0;c=function(){function a(){this.setIdentity()}a.prototype.getAngle=function(){if(null==this.rz||0===this.rz&&1!==this.rz_c&&0!==this.rz_s)this.rz=Math.atan2(this.rz_s,this.rz_c);return this.rz};a.prototype.setIdentity=function(){this.tz=this.ty=this.tx=0;this.s=1;this.rz=this.ry=this.rx=0;this.rz_c=1;this.rz_s=0};a.prototype.setTranslate=function(a,b){this.tx=a;this.ty=
+b};a.prototype.setTranslateZ=function(a){this.tz=a};a.prototype.setRotateCS=function(a,b){this.rz=void 0;this.rz_c=a;this.rz_s=b};a.prototype.setRotate=function(a){this.rz=a;this.rz_s=this.rz_c=void 0};a.prototype.setRotateY=function(a){this.ry=a};a.prototype.setScale=function(a){this.s=a};a.prototype.setMeasure=function(a){this.m=a};return a}();b.Placement=c;c=function(){function a(){}a.prototype.next=function(){return null};return a}();b.EmptyPlacementCursor=c});

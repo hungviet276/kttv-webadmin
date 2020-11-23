@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","../../../../core/Accessor"],function(k,a,f){function g(b){for(var a=[],c=1;c<arguments.length;c++)a[c-1]=arguments[c];if(b instanceof f&&b.destroyed)try{throw Error("instance is already destroyed");}catch(h){console.warn(h.stack)}else for(c=0;c<a.length;c++){var e=a[c];if(!(e in b))throw Error("Property '"+e+"' does not exist and cannot be disposed");var d=b[e];d&&("function"===typeof d.destroy?d.destroy():"function"===typeof d.dispose?d.dispose():"function"===typeof d.remove&&
+d.remove());b instanceof f&&e in b.__accessor__.metadatas?b._set(e,null):b[e]=null}}Object.defineProperty(a,"__esModule",{value:!0});a.disposeMembers=void 0;a.disposeMembers=g;a.default=g});

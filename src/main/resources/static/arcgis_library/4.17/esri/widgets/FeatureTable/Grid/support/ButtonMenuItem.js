@@ -1,0 +1,6 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../../../../core/Accessor ../../../../core/accessorSupport/decorators ../../../../core/accessorSupport/decorators/cast".split(" "),function(h,k,b,f,c,g){return function(e){function a(a){a=e.call(this,a)||this;a.autoCloseMenu=!1;a.iconClass=null;a.items=null;a.label=null;a.open=!1;a.selected=!1;a.selectionEnabled=!1;a.clickFunction=null;return a}b.__extends(a,e);d=a;a.prototype.castItems=function(a){return a?a.map(function(a){return a instanceof d?a:new d(a)}):null};var d;
+b.__decorate([c.property()],a.prototype,"autoCloseMenu",void 0);b.__decorate([c.property()],a.prototype,"iconClass",void 0);b.__decorate([c.property()],a.prototype,"items",void 0);b.__decorate([g.cast("items")],a.prototype,"castItems",null);b.__decorate([c.property()],a.prototype,"label",void 0);b.__decorate([c.property()],a.prototype,"open",void 0);b.__decorate([c.property()],a.prototype,"selected",void 0);b.__decorate([c.property()],a.prototype,"selectionEnabled",void 0);b.__decorate([c.property()],
+a.prototype,"clickFunction",void 0);return a=d=b.__decorate([c.subclass("esri.widgets.FeatureTable.Grid.support.ButtonMenuItem")],a)}(f)});

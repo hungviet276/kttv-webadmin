@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports ../../../../core/libs/gl-matrix-2/mat4f64 ../../../../core/libs/gl-matrix-2/vec3f64 ../../../../geometry/support/geodesicConstants ../../support/projectionUtils".split(" "),function(r,a,l,m,n,p){function g(c,q,b){var d=m.vec3f64.create(),f=Math.pow(2,Math.ceil(Math.log(c[3])*Math.LOG2E/h)*h+k);if(b.isGeographic){var e=f/n.earthRadius*180/Math.PI;b=Math.round(c[1]/e);b=Math.max(-90,Math.min(90,b*e));var a=e/Math.cos((Math.abs(b)-e/2)/180*Math.PI),e=Math.round(c[0]/a);d[0]=e*
+a;d[1]=b}else e=Math.round(c[0]/f),b=Math.round(c[1]/f),d[0]=e*f,d[1]=b*f;d[2]=Math.round((c[2]+q)/f)*f;return d}Object.defineProperty(a,"__esModule",{value:!0});a.getLocalOrigin=a.computeGlobalTransformation=void 0;a.computeGlobalTransformation=function(c,a,b,d){c=g(c,a,b);a=l.mat4f64.create();p.computeLinearTransformation(b,c,a,d);return a};var k=1,h=5-k;a.getLocalOrigin=g});

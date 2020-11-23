@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports","tslib","@dojo/framework/shim/Promise"],function(c,a,d){Object.defineProperty(a,"__esModule",{value:!0});a.createOrReuseTileRenderer=void 0;a.createOrReuseTileRenderer=function(a,e){return d.__awaiter(this,void 0,void 0,function(){var f,g,h;return d.__generator(this,function(b){switch(b.label){case 0:if(!a)return[2,null];f=a.type;switch(f){case "class-breaks":return[3,1];case "simple":return[3,1];case "unique-value":return[3,1];case "dot-density":return[3,1];case "dictionary":return[3,
+1];case "heatmap":return[3,3]}return[3,5];case 1:return[4,new Promise(function(a,b){c(["./tileRenderers/SymbolTileRenderer"],a,b)})];case 2:return g=b.sent(),[2,new g.default(e)];case 3:return[4,new Promise(function(a,b){c(["./tileRenderers/HeatmapTileRenderer"],a,b)})];case 4:return h=b.sent(),[2,new h.default(e)];case 5:return[2]}})})}});

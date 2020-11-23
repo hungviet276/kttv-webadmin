@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ./core/accessorSupport/ensureType ./geometry/Extent ./geometry/Geometry ./geometry/Multipoint ./geometry/Point ./geometry/Polygon ./geometry/Polyline ./geometry/SpatialReference ./geometry/support/typeUtils ./geometry/support/jsonUtils".split(" "),function(p,a,h,k,c,b,d,e,f,g,l,m,n){Object.defineProperty(a,"__esModule",{value:!0});a.ensureType=a.geometryTypes=a.isGeometry=a.SpatialReference=a.Polyline=a.Polygon=a.Point=a.Multipoint=a.BaseGeometry=a.Extent=void 0;a.Extent=
+c;a.BaseGeometry=b;a.Multipoint=d;a.Point=e;a.Polygon=f;a.Polyline=g;a.SpatialReference=l;h.__exportStar(m,a);a.isGeometry=function(a){return a instanceof b};Object.defineProperty(a,"fromJSON",{enumerable:!0,get:function(){return n.fromJSON}});a.geometryTypes={base:b,key:"type",typeMap:{extent:c,multipoint:d,point:e,polyline:g,polygon:f}};a.ensureType=k.ensureOneOfType(a.geometryTypes)});

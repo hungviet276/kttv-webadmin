@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../../core/JSONSupport ../../core/accessorSupport/decorators ../../core/accessorSupport/ensureType".split(" "),function(h,k,b,f,c,g){return function(e){function a(a){a=e.call(this,a)||this;a.level=0;a.levelValue=null;a.resolution=0;a.scale=0;return a}b.__extends(a,e);d=a;a.prototype.clone=function(){return new d({level:this.level,levelValue:this.levelValue,resolution:this.resolution,scale:this.scale})};var d;b.__decorate([c.property({type:g.Integer,json:{write:!0}})],
+a.prototype,"level",void 0);b.__decorate([c.property({type:String,json:{write:!0}})],a.prototype,"levelValue",void 0);b.__decorate([c.property({type:Number,json:{write:!0}})],a.prototype,"resolution",void 0);b.__decorate([c.property({type:Number,json:{write:!0}})],a.prototype,"scale",void 0);return a=d=b.__decorate([c.subclass("esri.layers.support.LOD")],a)}(f.JSONSupport)});

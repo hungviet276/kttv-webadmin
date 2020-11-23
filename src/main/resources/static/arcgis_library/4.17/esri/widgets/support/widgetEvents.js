@@ -1,0 +1,4 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["require","exports"],function(d,a){Object.defineProperty(a,"__esModule",{value:!0});a.isVNodeEvent=a.domEvents=void 0;var b="blur change click dblclick focus input keydown keypress keyup load mousedown mouseenter mouseleave mousemove mouseout mouseover mouseup mousewheel scroll submit touchcancel touchend touchmove touchstart".split(" ");a.domEvents=function(a){var c={};b.forEach(function(b){c["on"+b]=function(c){a.emit.call(a,b,c)}});return c};a.isVNodeEvent=function(a){return!!b[a]}});

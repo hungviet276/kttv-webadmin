@@ -1,0 +1,4 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define(["../Logger","../deprecate"],function(b,f){f.deprecated(b.getLogger("esri.core.tsSupport.assignHelper"),"helpers from esri.core.tsSupport are no longer required",{replacement:"use helpers from TSLib by enabling the TypeScript compiler importHelpers option",version:"4.16",see:"https://github.com/Microsoft/tslib#readme"});return Object.assign||function(e){for(var a,c=1,b=arguments.length;c<b;c++){a=arguments[c];for(var d in a)Object.prototype.hasOwnProperty.call(a,d)&&(e[d]=a[d])}return e}});

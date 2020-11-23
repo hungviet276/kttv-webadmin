@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports ./renderers/PointCloudClassBreaksRenderer ./renderers/PointCloudRenderer ./renderers/PointCloudRGBRenderer ./renderers/PointCloudStretchRenderer ./renderers/PointCloudUniqueValueRenderer".split(" "),function(g,a,c,b,d,e,f){Object.defineProperty(a,"__esModule",{value:!0});a.isPointCloudRenderer=a.PointCloudUniqueValueRenderer=a.PointCloudStretchRenderer=a.PointCloudRGBRenderer=a.BasePointCloudRenderer=a.PointCloudClassBreaksRenderer=void 0;a.PointCloudClassBreaksRenderer=c;
+a.BasePointCloudRenderer=b;a.PointCloudRGBRenderer=d;a.PointCloudStretchRenderer=e;a.PointCloudUniqueValueRenderer=f;a.isPointCloudRenderer=function(a){return a instanceof b}});

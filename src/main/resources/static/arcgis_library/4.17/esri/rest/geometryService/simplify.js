@@ -1,0 +1,5 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../../request ../../core/urlUtils ../../geometry/support/jsonUtils ./utils".split(" "),function(r,a,b,m,n,p,f){Object.defineProperty(a,"__esModule",{value:!0});a.simplify=void 0;a.simplify=function(a,d,q){return b.__awaiter(this,void 0,void 0,function(){var e,c,g,h,k;return b.__generator(this,function(l){switch(l.label){case 0:return e="string"===typeof a?n.urlToObject(a):a,c=d[0].spatialReference,g=p.getJsonType(d[0]),h=b.__assign(b.__assign({},q),{query:b.__assign(b.__assign({},
+e.query),{f:"json",sr:c.wkid?c.wkid:JSON.stringify(c),geometries:JSON.stringify(f.encodeGeometries(d))})}),[4,m(e.path+"/simplify",h)];case 1:return k=l.sent().data,[2,f.decodeGeometries(k.geometries,g,c)]}})})}});

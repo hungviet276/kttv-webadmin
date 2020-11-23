@@ -1,0 +1,6 @@
+// All material copyright ESRI, All Rights Reserved, unless otherwise specified.
+// See https://js.arcgis.com/4.17/esri/copyright.txt for details.
+//>>built
+define("require exports tslib ../../../core/Accessor ../../../core/Handles ../../../core/accessorSupport/decorators ../camera/constraintUtils ../camera/intersectionUtils".split(" "),function(d,c,e,g,h,f,k,l){Object.defineProperty(c,"__esModule",{value:!0});c.SurfaceCollisionConstraint=void 0;d=function(c){function a(b){b=c.call(this,b)||this;b.handles=new h;return b}e.__extends(a,c);a.prototype.initialize=function(){var b=this;this.handles.add(this.view.basemapTerrain.on("elevation-change",function(a){return b.handleElevationChangeEvent(a)}))};
+a.prototype.destroy=function(){this.handles&&(this.handles.destroy(),this.handles=null)};a.prototype.handleElevationChangeEvent=function(b){this.view.state.cameraController||l.eyeWithinExtent(this.view,this.view.state.camera,b.extent,b.spatialReference)&&this.applyToCurrentCamera()};a.prototype.applyToCurrentCamera=function(){var b=this;this.view.state.updateCamera(function(a){k.applySurfaceCollisionConstraint(b.view,a,1)})};e.__decorate([f.property({constructOnly:!0})],a.prototype,"view",void 0);
+return a=e.__decorate([f.subclass("esri.views.3d.state.ElevationCollisionConstraint")],a)}(g);c.SurfaceCollisionConstraint=d;c.default=d});
