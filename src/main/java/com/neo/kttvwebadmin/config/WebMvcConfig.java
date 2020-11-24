@@ -24,6 +24,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		registry.addResourceHandler("/img/**").addResourceLocations("classpath:/static/img/");
 		registry.addResourceHandler("/admin_lte/**").addResourceLocations("classpath:/static/admin_lte/");
 		registry.addResourceHandler("/data_map/**").addResourceLocations("classpath:/static/data_map/");
+		registry.addResourceHandler("/arcgis_library/**").addResourceLocations("classpath:/static/arcgis_library/");
 	}
 
 	@Bean
