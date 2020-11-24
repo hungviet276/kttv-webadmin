@@ -83,7 +83,7 @@ public class ReportController {
         return "report/report_tides";
     }
 
-    @GetMapping("/station")
+    @GetMapping("/station-3h")
     public String getStationReportPage(@RequestParam String stationCode, HttpServletRequest httpServletRequest, Model model) throws JsonProcessingException {
         String[] listParameterTypeId = reportService.getListParameterTypeIdDisplayChart(stationCode, String.valueOf(httpServletRequest.getSession().getAttribute("token")));
         model.addAttribute("listParameterTypeId", listParameterTypeId);
@@ -92,6 +92,6 @@ public class ReportController {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_YEAR, - 7);
         model.addAttribute("startDate", DateUtils.getStringDateFormat(calendar.getTime(), "dd/MM/yyyy HH:mm"));
-        return "report/station_report";
+        return "report/station_report_quick_view";
     }
 }
