@@ -132,7 +132,7 @@ input[type="submit"],.wthree_footer_copy p a{
     display:block;
 }
 .w3l_main_grid_text h3{
-    font-size: 1.5em;
+    font-size: 1em;
     color: #fff;
     padding: 2em 0 0.5em;
     position:relative;
@@ -291,13 +291,17 @@ html[xmlns] .slides {display: block;}
 /* FlexSlider Default Theme
 *********************************/
 .flexslider {
+    width: 100%;
     height: 200px;
     border: 0px;
     position: relative;
     zoom: 1;
     overflow: hidden;
     padding-bottom: 3em;
-    background:url(/img/earth.jpg) no-repeat 0px 0px;
+    background:url(/img/earth.jpg) ;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 .flex-viewport {max-height: 200px; -webkit-transition: all 1s ease; -moz-transition: all 1s ease; transition: all 1s ease;}
 .loading .flex-viewport {max-height: 300px;}
@@ -367,32 +371,32 @@ html[xmlns] .slides {display: block;}
 .flex-control-thumbs .flex-active {opacity: 1; cursor: default;}
 
 
-/*@media screen and (max-width: 800px) {*/
-/*    .flex-control-nav {*/
-/*        left: 47%;*/
-/*    }*/
-/*}*/
-/*@media screen and (max-width: 568px) {*/
-/*    .flex-control-nav {*/
-/*        left: 46%;*/
-/*    }*/
-/*}*/
-/*@media screen and (max-width: 480px) {*/
-/*    section.slider {*/
-/*        padding-top: 0%;*/
-/*    }*/
-/*    .flex-control-nav {*/
-/*        left: 44.5%;*/
-/*    }*/
-/*}*/
-/*@media screen and (max-width: 375px){*/
-/*    .flex-control-nav {*/
-/*        left: 43.5%;*/
-/*    }*/
-/*}*/
-/*@media screen and (max-width: 320px) {*/
-/*    section.slider {*/
-/*        padding-top: 0%;*/
-/*    }*/
+@media screen and (max-width: 800px) {
+    .flex-control-nav {
+        left: 47%;
+    }
+}
+@media screen and (max-width: 568px) {
+    .flex-control-nav {
+        left: 46%;
+    }
+}
+@media screen and (max-width: 480px) {
+    section.slider {
+        padding-top: 0%;
+    }
+    .flex-control-nav {
+        left: 44.5%;
+    }
+}
+@media screen and (max-width: 375px){
+    .flex-control-nav {
+        left: 43.5%;
+    }
+}
+@media screen and (max-width: 320px) {
+    section.slider {
+        padding-top: 0%;
+    }
 
-/*}*/
+}

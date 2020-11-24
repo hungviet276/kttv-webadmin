@@ -4,7 +4,29 @@
     <th:block th:replace="layout_header.html :: head_tag" />
     <link rel="stylesheet" href="/css/manager_of_outputs.css" type="text/css">
     <title>Quản lý Các kết quả đầu ra của các yếu tố theo trạm</title>
+    <style>
+        .legend-normal {
+            margin-left: 1em;
+            padding: 5px;
+            width: auto;
+            font-size: inherit;
+            font-weight: bold;
+        }
+
+        .fieldset-normal {
+            border: 1px gray solid;
+            padding: 10px;
+        }
+
+        .btn-100 {
+            width: 100px;
+        }
+        .hide-col {
+            display: none;
+        }
+    </style>
 </head>
+
 <body  class="hold-transition sidebar-mini layout-fixed text-sm">
 <div class="wrapper">
 
@@ -88,23 +110,68 @@
                                         <thead>
                                         <tr>
                                             <th></th>
-                                            <th>#</th>
+                                            <th data-id="s_stt" is_select ="1">#</th>
+                                            <th data-id="s_action" is_select ="1">Thao tác</th>
+                                            <th data-id="s_warning" is_select ="1">Cảnh báo</th>
+                                            <th data-id="s_area">Khu vực</th>
                                             <th data-id="s_station_type">Loại trạm</th>
                                             <th data-id="s_stations_no">Mã trạm</th>
                                             <th data-id="s_stations" >Trạm</th>
                                             <th data-id="s_valuetype_id">Yếu tố</th>
                                             <th data-id="s_reponse">Kết quả đo</th>
-                                            <th data-id="s_area">Khu vực</th>
-                                            <th data-id="s_warning">Cảnh báo</th>
-                                            <th data-id="s_user_create">Người cập nhật</th>
                                             <th data-id="s_timereponse" is_select ="1">Thời gian đo</th>
-                                            <th data-id="s_action" is_select ="1">Hành động</th>
+                                            <th data-id="s_user_create">Người cập nhật</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         </tbody>
                                     </table>
                                 </div>
+                    </div>
+                    <div class="col-sm-12" id="box_edit" style="display: none">
+                        <div style="width: 100%;float: right">
+                            <fieldset class="fieldset-normal">
+                                <legend class="legend-normal">Chỉnh sửa dữ liệu đầu ra</legend>
+                                <div class="form-horizontal" id="form_input">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="arial">Khu vực</label>
+                                            <input disabled="true" type="text" class="form-control" id="arial"  maxlength="100" placeholder="">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="station_type">Loại trạm</label>
+                                            <input disabled="true" type="text" class="form-control" id="station_type"  maxlength="100" placeholder="">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="tram">Trạm</label>
+                                            <input disabled="true" type="text" class="form-control" id="tram"  maxlength="100" placeholder="">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="parameter">Yếu tố</label>
+                                            <input disabled="true" type="text" class="form-control" id="parameter"  maxlength="100" placeholder="">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-md-6">
+                                            <label for="value">Kết quả đầu ra <span style="color: red;">*</span></label>
+                                            <input type="number"  class="form-control" id="value" placeholder="">
+                                            <span id="cap_error" class="help-block" style="color: red"></span>
+                                        </div>
+                                        <div class="form-group col-md-6"></div>
+                                    </div>
+                                </div>
+                                <div class="wrap-button-control" id="div-btn" style="margin-top: 15px;">
+                                    <button class="btn btn-primary btn-100" id="btn-save">
+                                        <i class="fas fa-plus"></i> Lưu
+                                    </button>
+                                    <button class="btn btn-primary btn-100" id="btn-cancle">
+                                        <i class="fas fa-times"></i> Hủy
+                                    </button>
+                                </div>
+                            </fieldset>
+                        </div>
                     </div>
                 </div>
 

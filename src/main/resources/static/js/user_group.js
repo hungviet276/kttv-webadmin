@@ -65,7 +65,7 @@ let uGroup = {
         $("#ten_nhom_nsd").val("");
         $("#nhom_nsd_cha").html("<option>--Hãy chọn nhóm NSD cha--</option>");
         $("#nhom_nsd_cha").select2();
-        $("#cap").val("1");
+        $("#cap").val("0");
         $("#trangthai").val("1");
         $("#nguoi_dung").val("");
         $("#nguoi_dung").select2();
@@ -505,7 +505,7 @@ let uGroup = {
             // }
             console.log("Vao day");
             let level = $(this.options[this.selectedIndex]).attr("level");
-            let nextLevel = level == null ? 1 : parseInt(level) + 1;
+            let nextLevel = level == null ? 0 : parseInt(level) + 1;
             $("#cap").val(nextLevel);
         });
 

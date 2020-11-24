@@ -25,40 +25,7 @@
                     <div class="container-fluid">
                         <div class="row content" style="width: 100%">
                             <div class="col-sm-12 col-md-12 col-lg-12" id="box_search">
-                                <!--                                <div class="card-header">-->
-                                <!--                                    <h3 style="text-align: center"><b>Tìm kiếm trạm</b></h3>-->
-                                <!--                                </div>-->
-                                <!--                                <div class="form-horizontal" id="form_data">-->
-                                <!--                                    <div class="form-row">-->
-                                <!--                                        <div class="form-group col-md-6 col-sm-6 col-lg-6">-->
-                                <!--                                            <label for="stationType">Loại trạm</label>-->
-                                <!--                                            <select id="stationType" class="form-control" style="width: 100%;">-->
-
-                                <!--                                            </select>-->
-                                <!--                                        </div>-->
-                                <!--                                        <div class="form-group col-md-6 col-sm-6 col-lg-6">-->
-                                <!--                                            <label for="stationNameSearch">Tên trạm</label>-->
-                                <!--                                            <input type="text" class="form-control" id="stationNameSearch"-->
-                                <!--                                                   placeholder="Tên trạm">-->
-                                <!--                                        </div>-->
-                                <!--                                    </div>-->
-
-                                <!--                                    <div class="form-row">-->
-                                <!--                                        <div class="form-group col-md-6 col-sm-6 col-lg-6">-->
-                                <!--                                            <label for="status">Trạng thái</label>-->
-                                <!--                                            <select id="status" class="form-control" style="width: 100%;">-->
-                                <!--                                                <option value="-1">Tất cả</option>-->
-                                <!--                                                <option value="1">Hoạt động</option>-->
-                                <!--                                                <option value="0">Không hoạt động</option>-->
-                                <!--                                            </select>-->
-                                <!--                                        </div>-->
-                                <!--                                    </div>-->
-
-                                <!--                                </div>-->
                                 <div class="mt-1">
-                                    <!--                                    <button class="btn btn-primary" id="btnSearch" style="width:100px;">-->
-                                    <!--                                        <i class="fas fa-search"></i> Tìm kiếm-->
-                                    <!--                                    </button>-->
                                     <button class="btn btn-primary" id="btnDonew" style="width:100px;">
                                         <i class="fas fa-plus"></i> Thêm
                                     </button>
@@ -74,21 +41,8 @@
                                             <th data-id="s_parameter">Tên yếu tố</th>
                                             <th data-id="s_parameterDesc">Mô tả</th>
                                             <th data-id="s_unit">Đơn vị</th>
+                                            <th>Storage</th>
                                             <th data-id="s_timeseries">Time series</th>
-                                            <!--                                            <th data-id="s_longtitude">Kinh độ</th>-->
-                                            <!--                                            <th data-id="s_latitude">Vĩ độ</th>-->
-                                            <!--                                            <th data-id="s_provinceName">Tỉnh</th>-->
-                                            <!--                                            <th data-id="s_districtName">Quận/Huyện</th>-->
-                                            <!--                                            <th data-id="s_wardName">Xã</th>-->
-                                            <!--                                            <th data-id="s_address">Địa chỉ</th>-->
-                                            <!--                                            <th data-id="s_riverName">Thuộc sông</th>-->
-                                            <!--                                            <th data-id="s_stationHeight">Độ cao của trạm</th>-->
-                                            <!--                                            <th data-id="s_status" is_select="1">Trạng thái</th>-->
-                                            <!--                                            <th data-id="s_parameterTypeName">Yếu tố</th>-->
-                                            <!--                                            <th data-id="s_unitName">Đơn vị tính</th>-->
-                                            <!--                                            <th data-id="s_device">Thiết bị đo</th>-->
-                                            <!--                                            <th data-id="s_measure">Tần số đo</th>-->
-                                            <!--                                            <th data-id="s_note">Ghi chú</th>-->
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -101,20 +55,6 @@
                                 <div style="width: 100%;float: right">
 
                                     <div class="form-horizontal" id="form_input">
-                                        <!--                                        <div class="form-row">-->
-                                        <!--                                            <div class="form-group col-md-6">-->
-                                        <!--                                                <label for="stationTypeId">Loại trạm <span style="color: red;">*</span></label>-->
-                                        <!--                                                <select id="stationTypeId" class="form-control" style="width: 100%;" onchange="station.checkStationType(this)">-->
-                                        <!--                                                </select>-->
-                                        <!--                                            </div>-->
-                                        <!--                                            <div class="form-group col-md-6">-->
-                                        <!--                                                <label for="modeStationType">Chế độ điều khiển <span style="color: red;">*</span></label>-->
-                                        <!--                                                <select id="modeStationType" class="form-control" style="width: 100%;">-->
-                                        <!--                                                    <option value="1">Qua API</option>-->
-                                        <!--                                                    <option value="2">Lệnh điều khiển hỗ trợ</option>-->
-                                        <!--                                                </select>-->
-                                        <!--                                            </div>-->
-                                        <!--                                        </div>-->
                                         <fieldset class="fieldset-normal" style="margin-top: 15px;">
                                             <legend class="legend-normal">Thông tin yếu tố</legend>
                                             <div class="form-row">
@@ -126,11 +66,11 @@
                                                     <span id="parameter_error" class="help-block"
                                                           style="color: red"></span>
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <label for="parameterCode">Mã yếu tố </label>
-                                                    <input type="text" class="form-control" id="parameterCode"
-                                                           placeholder="">
-                                                </div>
+<!--                                                <div class="col-md-6">-->
+<!--                                                    <label for="parameterCode">Mã yếu tố </label>-->
+<!--                                                    <input type="text" class="form-control" id="parameterCode"-->
+<!--                                                           placeholder="">-->
+<!--                                                </div>-->
                                             </div>
                                             <div class="form-row">
                                                 <div class="col-md-6">
@@ -178,35 +118,43 @@
                                                         <select class="form-control" id="storage"
                                                                 placeholder="Bảng lưu trữ giá trị product">
                                                             <option value="-1">Lựa chọn</option>
-                                                            <option value="RAINFALL">Bảng RAINFALL</option>
-                                                            <option value="TEMPERATURE">Bảng TEMPERATURE</option>
-                                                            <option value="TEMPERATURE_MIN">Bảng TEMPERATURE_MIN</option>
-                                                            <option value="TEMPERATURE_MAX">Bảng TEMPERATURE_MAX</option>
-                                                            <option value="HUMIDITY">Bảng HUMIDITY</option>
-                                                            <option value="HUMIDITY_MIN">Bảng HUMIDITY_MIN</option>
-                                                            <option value="RADIATION">Bảng RADIATION</option>
-                                                            <option value="DIRECT_RADIATION">Bảng DIRECT_RADIATION</option>
-                                                            <option value="PRESSURE">Bảng PRESSURE</option>
-                                                            <option value="PRESSURE_MAX">Bảng PRESSURE_MAX</option>
-                                                            <option value="PRESSURE_MIN">Bảng PRESSURE_MIN</option>
-                                                            <option value="TOTAL_SUNSHINE">Bảng TOTAL_SUNSHINE</option>
-                                                            <option value="VISION">Bảng VISION</option>
-                                                            <option value="WIND_DIRECTION">Bảng WIND_DIRECTION</option>
-                                                            <option value="AVG_WIND_DIRECTION">Bảng AVG_WIND_DIRECTION</option>
-                                                            <option value="WIND_DIRECTION_MAX">Bảng WIND_DIRECTION_MAX</option>
-                                                            <option value="WIND_SPEED_MAX">Bảng WIND_SPEED_MAX</option>
-                                                            <option value="WIND_DIRECTION_MAX2S">Bảng WIND_DIRECTION_MAX2S</option>
-                                                            <option value="WIND_SPEED_MAX2S">Bảng WIND_SPEED_MAX2S</option>
-                                                            <option value="WPOSITION">Bảng WPOSITION</option>
-                                                            <option value="WATER_LEVEL">Bảng WATER_LEVEL</option>
-                                                            <option value="WATER_HEIGHT">Bảng WATER_HEIGHT</option>
-                                                            <option value="WATER_PERIOD">Bảng WATER_PERIOD</option>
-                                                            <option value="WAVE_LEN">Bảng WAVE_LEN</option>
-                                                            <option value="WAVE_SPEED">Bảng WAVE_SPEED</option>
-                                                            <option value="FLOW_RATE">Bảng FLOW_RATE</option>
-                                                            <option value="WATER_TEMPERATURE">Bảng WATER_TEMPERATURE</option>
-                                                            <option value="SALINITY">Bảng SALINITY</option>
-                                                            <option value="CONDUCTIVITY">Bảng CONDUCTIVITY</option>
+                                                            <option value="RAINFALL">Bảng rainfall</option>
+                                                            <option value="temperature">Bảng temperature</option>
+                                                            <option value="temperature_min">Bảng temperature_min</option>
+                                                            <option value="temperature_max">Bảng temperature_max</option>
+                                                            <option value="water_temperature">Bảng water_temperature</option>
+                                                            <option value="conductivity">Bảng conductivity</option>
+                                                            <option value="salinity">Bảng salinity</option>
+
+                                                            <option value="humidity">Bảng humidity</option>
+                                                            <option value="humidity_min">Bảng humidity_min</option>
+                                                            <option value="radiation">Bảng radiation</option>
+                                                            <option value="direct_radiation">Bảng direct_radiation</option>
+
+                                                            <option value="presure">Bảng presure</option>
+                                                            <option value="pressure_max">Bảng pressure_max</option>
+                                                            <option value="pressure_min">Bảng pressure_min</option>
+                                                            <option value="total_sunshine">Bảng total_sunshine</option>
+
+                                                            <option value="vision">Bảng vision</option>
+                                                            <option value="wind_direction">Bảng wind_direction</option>
+                                                            <option value="Avg_wind_direction">Bảng Avg_wind_direction</option>
+                                                            <option value="wind_direction_max">Bảng wind_direction_max</option>
+
+                                                            <option value="wind_speed_max">Bảng wind_speed_max</option>
+                                                            <option value="wind_direction_max2s">Bảng wind_direction_max2s</option>
+                                                            <option value="wind_speed_max2s">Bảng wind_speed_max2s</option>
+                                                            <option value="WPosition">Bảng WPosition</option>
+
+                                                            <option value="water_level">Bảng water_level</option>
+                                                            <option value="water_Height">Bảng water_Height</option>
+                                                            <option value="wave_period">Bảng wave_period</option>
+                                                            <option value="wave_len">Bảng wave_len</option>
+
+                                                            <option value="wave_speed">Bảng wave_speed</option>
+                                                            <option value="flow_rate">Bảng flow_rate</option>
+                                                            <option value="wave_period">Bảng wave_period</option>
+                                                            <option value="water_temperature">Bảng water_temperature</option>
                                                         </select>
                                                         <span id="storage_error" class="help-block"
                                                               style="color: red"></span>
@@ -233,9 +181,9 @@
                                                             <tr>
                                                                 <th>#</th>
                                                                 <!--                                                    <th data-id="s_stationParamterId">Time series Id</th>-->
-                                                                <th data-id="s_parameterName">Time series Name</th>
-                                                                <th data-id="s_tsConfigName">Time series config name
-                                                                </th>
+                                                                <th data-id="s_parameterName">Tần suất</th>
+                                                                <th data-id="s_tsConfigName">Time series config name</th>
+                                                                <th>Storage</th>
                                                                 <th data-id="">Tác động</th>
                                                             </tr>
                                                             </thead>

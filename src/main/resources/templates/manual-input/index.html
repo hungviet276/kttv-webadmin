@@ -136,14 +136,15 @@
                                                 <div class="form-group col-md-6">
                                                     <label for="timeStart">Thời gian bắt đầu <span
                                                             style="color: red;">*</span></label>
-                                                    <input name="timeStart" id="timeStart" class="form-control" style="width: 100%;" onchange="station.timeStartOnchange()">
+                                                    <input name="timeStart" id="timeStart" class="form-control" style="width: 100%;"
+                                                           onchange="station.timeStartOnchange()" autocomplete="off">
                                                     <span id="timeStart_error" class="help-block"
                                                           style="color: red"></span>
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label for="waterLevelStart">Mực nước bắt đầu <span
                                                             style="color: red;">*</span></label>
-                                                    <input th:type="number" name="waterLevelStart" id="waterLevelStart" class="form-control"
+                                                    <input onkeypress="return station.onKeyPress(event,this)" th:type="number" th:min="0" name="waterLevelStart" id="waterLevelStart" class="form-control"
                                                             style="width: 100%;" onchange="station.waterLevelStartOnchange()">
                                                     <span id="waterLevelStart_error" class="help-block"
                                                           style="color: red"></span>
@@ -154,15 +155,15 @@
                                                     <label for="timeEnd">Thời gian kết thúc <span
                                                             style="color: red;">*</span></label>
                                                     <input type="text" class="form-control" name="timeEnd" id="timeEnd"
-                                                           placeholder="" onchange="station.timeEndOnchange()">
+                                                           placeholder="" onchange="station.timeEndOnchange()" autocomplete="off">
                                                     <span id="timeEnd_error" class="help-block"
                                                           style="color: red"></span>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="waterLevelEnd">Mực nước kết thúc <span
                                                             style="color: red;">*</span></label>
-                                                    <input th:type="number" class="form-control" name="waterLevelEnd" id="waterLevelEnd"
-                                                           placeholder="" onchange="station.waterLevelEndOnchange()">
+                                                    <input onkeypress="return station.onKeyPress(event,this)" th:type="number" class="form-control" name="waterLevelEnd" id="waterLevelEnd"
+                                                           placeholder="" onchange="station.waterLevelEndOnchange()" min="0">
                                                     <span id="waterLevelEnd_error" class="help-block"
                                                           style="color: red"></span>
                                                 </div>
@@ -179,7 +180,7 @@
                                                 <div class="form-group col-md-6">
                                                     <label for="waterLevelAvg">Mực nước trung bình <span
                                                             style="color: red;">*</span></label>
-                                                    <input th:type="number" class="form-control" name="waterLevelAvg" id="waterLevelAvg"
+                                                    <input onkeypress="return station.onKeyPress(event,this)" th:type="number" class="form-control" name="waterLevelAvg" id="waterLevelAvg"
                                                            placeholder="" disabled>
                                                     <span id="waterLevelAvg_error" class="help-block"
                                                           style="color: red"></span>
@@ -191,37 +192,37 @@
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                     <label for="speedAvg">Tốc độ trung bình</label>
-                                                    <input th:type="number" name="speedAvg" id="speedAvg" class="form-control" style="width: 100%;">
+                                                    <input onkeypress="return station.onKeyPress(event,this)" th:type="number" name="speedAvg" id="speedAvg" class="form-control" style="width: 100%;">
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label for="speedMax">Tốc độ lớn nhất</label>
-                                                    <input th:type="number" name="speedMax" id="speedMax" class="form-control" style="width: 100%;">
+                                                    <input onkeypress="return station.onKeyPress(event,this)" th:type="number" name="speedMax" id="speedMax" class="form-control" style="width: 100%;">
                                                 </div>
                                             </div>
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                     <label for="deepAvg">Độ sâu trung bình</label>
-                                                    <input th:type="number" name="deepAvg" id="deepAvg" class="form-control" style="width: 100%;">
+                                                    <input onkeypress="return station.onKeyPress(event,this)" th:type="number" name="deepAvg" id="deepAvg" class="form-control" style="width: 100%;">
                                                 </div>
                                                 <div class="form-group col-md-6">
-                                                    <label for="deepMax">Độ sau lớn nhất</label>
+                                                    <label for="deepMax">Độ sâu lớn nhất</label>
                                                     <input th:type="number" name="deepMax" id="deepMax" class="form-control" style="width: 100%;">
                                                 </div>
                                             </div>
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                     <label for="squareRiver">Diện tích sông</label>
-                                                    <input th:type="number" name="squareRiver" id="squareRiver" class="form-control" style="width: 100%;">
+                                                    <input onkeypress="return station.onKeyPress(event,this)" th:type="number" name="squareRiver" id="squareRiver" class="form-control" style="width: 100%;">
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label for="widthRiver">Độ rộng sông</label>
-                                                    <input th:type="number" name="widthRiver" class="form-control" id="widthRiver" placeholder="">
+                                                    <input onkeypress="return station.onKeyPress(event,this)" th:type="number" name="widthRiver" class="form-control" id="widthRiver" placeholder="">
                                                 </div>
                                             </div>
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                     <label for="waterFlow">Lưu lượng</label>
-                                                    <input th:type="number" name="waterFlow" id="waterFlow" class="form-control" style="width: 100%;">
+                                                    <input onkeypress="return station.onKeyPress(event,this)" th:type="number" name="waterFlow" id="waterFlow" class="form-control" style="width: 100%;">
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label for="note">Ghi chú</label>

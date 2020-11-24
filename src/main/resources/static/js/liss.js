@@ -6,7 +6,7 @@ const station =
         numOfInputSearch: 0,
         oldValue: undefined,
         keyUpTime: undefined,
-        totalValue: 0,
+        totalTurb: 0,
         numTT: 1,
         dataRow:[[{"deep":undefined,"value":undefined,"turbidity":undefined,"speed":undefined}]],
         dataRowAvg:[{"deep":undefined,"value":undefined,"turbidity":undefined,"speed":undefined}],
@@ -187,7 +187,7 @@ const station =
                 }
             }
             strHead1 +='<th style="min-width: 70px !important;"><i class="fa fa-plus" onclick="station.addTT()"></i>\n' +
-                '  &nbsp;<i class="fa fa-trash" onclick="station.subTT()"></i></th></tr>';
+                '  &nbsp;<i class="fa fa-minus" onclick="station.subTT()"></i></th></tr>';
             strHead2 += '</tr>';
             strHead3 += '</tr>';
             strHead4 += '</tr>';
@@ -225,17 +225,17 @@ const station =
 
             strBody += '<tr><td style="font-weight: bold">Trung bình</td>';
             for(let j = 0 ; j < station.dataRowAvg.length ; j++){
-                if(station.dataRowAvg[j].value === undefined){
+                if(station.dataRowAvg[j].turbidity === undefined){
                     strBody += '<td style="background-color: #dee2e6"></td><td style="background-color: #dee2e6"></td><td style="background-color: #dee2e6"></td><td style="background-color: #dee2e6"></td>';
                 }else{
-                    strBody += '<td style="background-color: #dee2e6"></td><td style="background-color: #dee2e6"></td><td style="background-color: #dee2e6"></td><td style="background-color: #dee2e6">'+station.dataRowAvg[j].value+'</td>';
+                    strBody += '<td style="background-color: #dee2e6"></td><td style="background-color: #dee2e6"></td><td style="background-color: #dee2e6">'+station.dataRowAvg[j].turbidity+'</td><td style="background-color: #dee2e6"></td>';
                 }
             }
             strBody += '</tr>';
-            strBody += '<tr><td style="font-weight: bold" colspan="'+station.dataRowAvg.length*2+'">Độ đục toàn bộ sông</td><td colspan="'+(station.dataRowAvg.length*2 + 1)+'">'+station.totalValue+'</td> </tr>';
+            strBody += '<tr><td style="font-weight: bold" colspan="'+station.dataRowAvg.length*2+'">Độ đục toàn bộ sông</td><td colspan="'+(station.dataRowAvg.length*2 + 1)+'">'+station.totalTurb+'</td> </tr>';
 
             strBody += '<tr><td><i class="fa fa-plus" onclick="station.addRow()"></i>\n' +
-                '&nbsp;<i class="fa fa-trash" onclick="station.subRow()"></i></td></tr>';
+                '&nbsp;<i class="fa fa-minus" onclick="station.subRow()"></i></td></tr>';
             $("#tBodyTT").html(strBody);
         },
         addTT:function (){
@@ -282,11 +282,14 @@ const station =
                     let d = station.dataTotalDeep[j];
                     if(!isNaN(d) && d !== NaN) {
                         station.dataRow[i][j].value = Math.round(val * d * 100) / 100;
+                        station.calculateAvg(j);
                         station.drawTableTT();
                     }
                 }
                 else if (t === 3) {
                     station.dataRow[i][j].turbidity = val;
+                    station.calculateAvg(j);
+                    station.drawTableTT();
                 }
                 else if (t === -1) {
                     station.dataTotalDeep[j] = val;
@@ -326,6 +329,8 @@ const station =
             }
             let l = slots.length;
             switch (l) {
+                case 0:
+                    break;
                 case 1:
                     if(slots[0].deep === 0.5){
                         avg =slots[0].turbidity * 0.1;
@@ -335,23 +340,40 @@ const station =
                     break;
                 case 2:
                     if(slots[0].deep === 0.2 && slots[1].deep === 0.8){
-                        avg = (slots[0].turbidity * slots[0].speed + slots[1].turbidity * slots[1].speed)
+                        avg = (slots[0].turbidity * slots[0].speed + slots[1].turbidity * slots[1].speed)/(slots[0].speed + slots[1].speed);
+                    }else{
+                        avg = (slots[0].turbidity + slots[1].turbidity) /2;
                     }
                     break;
                 case 3:
+                    if(slots[0].deep === 0.2 && slots[1].deep === 0.6 && slots[2].deep === 0.8){
+                        avg = (slots[0].turbidity * slots[0].speed + slots[1].turbidity * slots[1].speed + slots[2].turbidity * slots[2].speed)/(slots[0].speed + slots[1].speed + slots[2].speed);
+                    }else{
+                        avg = (slots[0].turbidity + slots[1].turbidity + slots[2].turbidity) /3;
+                    }
                     break;
                 case 5:
+                    if(slots[0].deep === 0 && slots[1].deep === 0.2 && slots[2].deep === 0.6 && slots[3].deep === 0.8 && slots[4].deep === 1){
+                        avg = (slots[0].turbidity * slots[0].speed + 3 * slots[1].turbidity * slots[1].speed +
+                                3 * slots[2].turbidity * slots[2].speed + 2 * slots[3].turbidity * slots[3].speed + slots[4].turbidity * slots[4].speed)
+                            /(slots[0].speed + slots[1].speed + slots[2].speed);
+                    }else{
+                        avg = (slots[0].turbidity + slots[1].turbidity + slots[2].turbidity + slots[4].turbidity + slots[5].turbidity) /5;
+                    }
                     break;
                 default:
+                    for(let i = 0 ; i < slots.length;i++){
+                        avg += slots[i].turbidity;
+                    }
+                    avg = avg/slots.length;
                     break;
             }
-            // let row = station.dataRow.length;
-            // let col = station.dataRow[0].length;
-            // for(let i = 0 ; i < col; i ++){
-            //     for(let j = 0 ; j < row;j++){
-            //         // if()
-            //     }
-            // }
+            station.dataRowAvg[j].turbidity = avg;
+            let total = 0 ;
+            for(let i = 0 ; i < station.dataRowAvg.length ; i++){
+                total += station.dataRowAvg[i].turbidity;
+            }
+            station.totalTurb = total/station.dataRowAvg.length;
         },
         btnSave: function (e) {
             e.preventDefault();
@@ -366,13 +388,15 @@ const station =
             let data = new FormData(form);
             data.append("username", global.username);
             data.append("timeAvg", $("#timeAvg").val());
-            data.append("waterLevelAvg", $("#waterLevelAvg").val());
+            data.append("data", JSON.stringify(station.dataRow));
+            data.append("dataAvg", JSON.stringify(station.dataRowAvg));
+            data.append("totalTurb",station.totalTurb);
 
             $.ajax({
                 headers: {
                     'Authorization': token
                 },
-                url: apiUrl + "manual-input/create-adcp",
+                url: apiUrl + "manual-input/create-liss",
                 type: "POST",
                 enctype: 'multipart/form-data',
                 method: "POST",
@@ -425,7 +449,7 @@ const station =
                 headers: {
                     'Authorization': token
                 },
-                url: apiUrl + "manual-input/update-adcp",
+                url: apiUrl + "manual-input/update-liss",
                 type: "POST",
                 enctype: 'multipart/form-data',
                 method: "POST",
@@ -484,7 +508,7 @@ const station =
                 headers: {
                     'Authorization': token
                 },
-                url: apiUrl + "manual-input/delete-adcp",
+                url: apiUrl + "manual-input/delete-liss",
                 method: "POST",
                 // contentType: "application/json",
                 data: jQuery.param({id: station.parameter.id}),
@@ -547,26 +571,29 @@ const station =
                 $('#timeStart').val(rowData[0].timeStart);
                 $('#timeEnd').val(rowData[0].timeEnd);
                 $('#timeAvg').val(rowData[0].timeAvg);
-                $('#waterLevelStart').val(rowData[0].waterLevelStart);
-                $('#waterLevelEnd').val(rowData[0].waterLevelEnd);
-                $('#waterLevelAvg').val(rowData[0].waterLevelAvg);
 
-                $('#speedMax').val(rowData[0].speedMax);
-                $('#speedAvg').val(rowData[0].speedAvg);
+                // $('#waterLevelStart').val(rowData[0].waterLevelStart);
+                // $('#waterLevelEnd').val(rowData[0].waterLevelEnd);
+                // $('#waterLevelAvg').val(rowData[0].waterLevelAvg);
+                //
+                // $('#speedMax').val(rowData[0].speedMax);
+                // $('#speedAvg').val(rowData[0].speedAvg);
+                //
+                // $('#deepAvg').val(rowData[0].deepAvg);
+                // $('#deepMax').val(rowData[0].deepMax);
+                //
+                // $('#squareRiver').val(rowData[0].squareRiver);
+                // $('#widthRiver').val(rowData[0].widthRiver);
+                //
+                // $('#waterFlow').val(rowData[0].waterFlow);
+                // $('#note').val(rowData[0].note);
 
-                $('#deepAvg').val(rowData[0].deepAvg);
-                $('#deepMax').val(rowData[0].deepMax);
-
-                $('#squareRiver').val(rowData[0].squareRiver);
-                $('#widthRiver').val(rowData[0].widthRiver);
-
-                $('#waterFlow').val(rowData[0].waterFlow);
-                $('#note').val(rowData[0].note);
-
-
+                station.dataRow = JSON.parse(rowData[0].data);
+                station.totalTurb = rowData[0].totalTurb;
                 station.parameter.stationId = rowData[0].stationId;
                 station.parameter.riverId = rowData[0].riverId;
                 station.parameter.id = rowData[0].id;
+                station.drawTableTT();
             }
         },
         rowDeselect: function (e, dt, type, indexes) {
@@ -628,18 +655,18 @@ const station =
             if (!station.validateElement('timeEnd', 'input', 'Thời gian kết thúc không được để trống')) {
                 return false;
             }
-            if (!station.validateElement('waterLevelStart', 'input', 'Mực nước bắt đầu không được để trống')) {
-                return false;
-            }
-            if (!station.validateElement('waterLevelEnd', 'input', 'Mực nước kết thúc không được để trống')) {
-                return false;
-            }
-            if (!station.waterLevelStartOnchange()) {
-                return false;
-            }
-            if (!station.waterLevelEndOnchange()) {
-                return false;
-            }
+            // if (!station.validateElement('waterLevelStart', 'input', 'Mực nước bắt đầu không được để trống')) {
+            //     return false;
+            // }
+            // if (!station.validateElement('waterLevelEnd', 'input', 'Mực nước kết thúc không được để trống')) {
+            //     return false;
+            // }
+            // if (!station.waterLevelStartOnchange()) {
+            //     return false;
+            // }
+            // if (!station.waterLevelEndOnchange()) {
+            //     return false;
+            // }
             if (!station.timeStartOnchange()) {
                 return false;
             }
@@ -908,17 +935,17 @@ $(document).ready(function () {
             {"data": "timeStart", "render": $.fn.dataTable.render.text()},
             {"data": "timeEnd", "render": $.fn.dataTable.render.text()},
             {"data": "timeAvg", "render": $.fn.dataTable.render.text()},
-            {"data": "waterFlow", "render": $.fn.dataTable.render.text()},
-            {"data": "squareRiver", "render": $.fn.dataTable.render.text()},
-            {"data": "widthRiver", "render": $.fn.dataTable.render.text()},
-            {"data": "speedAvg"},
-            {"data": "speedMax"},
-            {"data": "deepAvg"},
-            {"data": "deepMax"},
-            {"data": "waterLevelStart"},
-            {"data": "waterLevelEnd"},
-            {"data": "waterLevelAvg"},
-            {"data": "note"},
+            {"data": "totalTurb", "render": $.fn.dataTable.render.text()},
+            // {"data": "squareRiver", "render": $.fn.dataTable.render.text()},
+            // {"data": "widthRiver", "render": $.fn.dataTable.render.text()},
+            // {"data": "speedAvg"},
+            // {"data": "speedMax"},
+            // {"data": "deepAvg"},
+            // {"data": "deepMax"},
+            // {"data": "waterLevelStart"},
+            // {"data": "waterLevelEnd"},
+            // {"data": "waterLevelAvg"},
+            // {"data": "note"},
             {"data": "linkFile"},
         ],
         initComplete: function () {
@@ -963,7 +990,7 @@ $(document).ready(function () {
             headers: {
                 'Authorization': token
             },
-            "url": apiUrl + "manual-input/get-list-adcp-pagination",
+            "url": apiUrl + "manual-input/get-list-liss-pagination",
             "method": "POST",
             "contentType": "application/json",
             "data": function (d) {
@@ -993,28 +1020,28 @@ $(document).ready(function () {
                         "indexCount": i + 1,
                         "control": "<span class='fa fa-edit' title='Cập nhật'  onclick='station.preEdit(" + i + ")' style='cursor: pointer'></span>",
                         "createdAt": responseJson.content[i].createdAt,
-                        "deepAvg": responseJson.content[i].deepAvg,
-                        "deepMax": responseJson.content[i].deepMax,
+                        // "deepAvg": responseJson.content[i].deepAvg,
+                        // "deepMax": responseJson.content[i].deepMax,
                         "id": responseJson.content[i].id,
                         "objectType": responseJson.content[i].objectType,
                         "objectName": responseJson.content[i].objectName,
                         "linkFile": "<i class='fa fa-download' onclick='station.downloadFile('"+responseJson.content[i].linkFile+"')'></i>",
-                        "note": responseJson.content[i].note,
+                        // "note": responseJson.content[i].note,
                         "riverName": responseJson.content[i].riverName,
-                        "speedAvg": responseJson.content[i].speedAvg,
-                        "speedMax": responseJson.content[i].speedMax,
-                        "squareRiver": responseJson.content[i].squareRiver,
+                        // "speedAvg": responseJson.content[i].speedAvg,
+                        // "speedMax": responseJson.content[i].speedMax,
+                        // "squareRiver": responseJson.content[i].squareRiver,
                         "stationId": responseJson.content[i].stationId,
                         "stationCode": responseJson.content[i].stationCode,
                         "stationName": responseJson.content[i].stationName,
                         "timeAvg": responseJson.content[i].timeAvg,
                         "timeEnd": responseJson.content[i].timeEnd,
                         "timeStart": responseJson.content[i].timeStart,
-                        "waterFlow": responseJson.content[i].waterFlow,
-                        "waterLevelAvg": responseJson.content[i].waterLevelAvg,
-                        "waterLevelEnd": responseJson.content[i].waterLevelEnd,
-                        "waterLevelStart": responseJson.content[i].waterLevelStart,
-                        "widthRiver": responseJson.content[i].widthRiver,
+                        "data": responseJson.content[i].data,
+                        "totalTurb": responseJson.content[i].totalTurb,
+                        // "waterLevelEnd": responseJson.content[i].waterLevelEnd,
+                        // "waterLevelStart": responseJson.content[i].waterLevelStart,
+                        // "widthRiver": responseJson.content[i].widthRiver,
                     })
                 }
 
