@@ -28,33 +28,35 @@
         $('#view_chart_body').append(divWrap);
     }
     // lay du lieu hien thi len view
-    for (let i = 0; i < listParameterTypeId.length; i++) {
-        let parameterData = listParameterTypeId[i].split('_');
-        let parameterTypeId = parameterData[0];
-        let type = parameterData.length > 1 ? parameterData[1]: "";
-        let dataReq = {
-            stationCode: stationCode,
-            parameterTypeId: parameterTypeId,
-            type: type,
-            startDate: startDate,
-            endDate: endDate
-        };
-        $.ajax({
-            headers: {
-                'Authorization': token
-            },
-            url: apiUrl + "report/get-parameter-chart-mapping-and-data",
-            method: 'POST',
-            async: false,
-            contentType: 'application/json',
-            data: JSON.stringify(dataReq),
-            success: function (data) {
-                displayChart(data, type);
-            },
-            error: function (e) {
-                console.log(e)
-            }
-        })
+    if (listParameterTypeId != null && listParameterTypeId != undefined) {
+        for (let i = 0; i < listParameterTypeId.length; i++) {
+            let parameterData = listParameterTypeId[i].split('_');
+            let parameterTypeId = parameterData[0];
+            let type = parameterData.length > 1 ? parameterData[1]: "";
+            let dataReq = {
+                stationCode: stationCode,
+                parameterTypeId: parameterTypeId,
+                type: type,
+                startDate: startDate,
+                endDate: endDate
+            };
+            $.ajax({
+                headers: {
+                    'Authorization': token
+                },
+                url: apiUrl + "report/get-parameter-chart-mapping-and-data",
+                method: 'POST',
+                async: false,
+                contentType: 'application/json',
+                data: JSON.stringify(dataReq),
+                success: function (data) {
+                    displayChart(data, type);
+                },
+                error: function (e) {
+                    console.log(e)
+                }
+            })
+        }
     }
 </script>
 </html>
