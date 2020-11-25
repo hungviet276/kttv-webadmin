@@ -1,4 +1,12 @@
 $(function () {
+    // slide
+    $('.salinity').flexslider({
+        animation: "slide",
+        start: function (slider) {
+            $('body').removeClass('loading');
+        }
+    });
+    //date
     $("#start_date").daterangepicker({
         "singleDatePicker": true,
         "linkedCalendars": false,

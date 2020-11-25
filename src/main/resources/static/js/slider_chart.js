@@ -7,6 +7,7 @@ function hideURLbar() {
 }
 
 // window
+
 $(window).on('load',function () {
 
 });
