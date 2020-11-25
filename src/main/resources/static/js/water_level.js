@@ -528,7 +528,12 @@ $.ajax({
         console.log(response);
         let str = ""
         for(let i =0 ; i < response.length ; i++){
-            str = response[i].fileName + "     " + response[i].modifyDate + '     <button type="button" class="btn btn-primary" onclick ="download('+ response[i].fileName+')" >Tải xuống</button> <br>0';
+            str +=response[i].fileName ;
+            str+="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+            var date = new Date(response[i].modifyDate);
+            str+=date ;
+            str+="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+            str+='<button type="button" class="btn btn-primary" onclick ="download('+ response[i].fileName+')" >Tải xuống</button> <br>';
         }
         document.getElementById("detailFile").innerHTML =str;
 
