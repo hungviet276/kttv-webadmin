@@ -530,12 +530,12 @@ function showFileInfo(){
             console.log(response);
             let str = ""
             for(let i =0 ; i < response.length ; i++){
-                str += '<p style="min-width: 250px">'+response[i].fileName +'</p>';
+                str += '<p style="min-width: 250px; display: inline-block">'+response[i].fileName +'</p>';
                 str+="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
                 var date = new Date(response[i].modifyDate);
                 str+=date ;
                 str+="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-                str+= '<a class="btn btn-primary" href="/download/water-level?filename='+response[i].fileName+'" role="button">Tải xuống</a> <br><br>';
+                str+= '<a class="btn btn-primary" href="'+apiUrl+'/download/water-level?filename='+response[i].fileName+'" role="button">Tải xuống</a> <br><br>';
             }
             document.getElementById("detailFile").innerHTML =str;
 
