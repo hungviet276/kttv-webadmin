@@ -1,62 +1,3 @@
-// $(function () {
-//     $("#start_date").daterangepicker({
-//         "singleDatePicker": true,
-//         "linkedCalendars": false,
-//         "showCustomRangeLabel": false,
-//         "alwaysShowCalendars": true,
-//         "autoUpdateInput": false,
-//         locale: {
-//             cancelLabel: 'Clear',
-//             format: 'DD/MM/YYYY'
-//         }
-//     }, function (start, end, label) {
-//     });
-//     $('#start_date').on('cancel.daterangepicker', function (ev, picker) {
-//         $(this).val('');
-//     });
-//
-//     $('#start_date').on('apply.daterangepicker', function (ev, picker) {
-//         $("#start_date").val(picker.startDate.format('DD/MM/YYYY'));
-//     });
-//
-//     $('#end_date').daterangepicker({
-//         "singleDatePicker": true,
-//         "linkedCalendars": false,
-//         "showCustomRangeLabel": false,
-//         "alwaysShowCalendars": true,
-//         "autoUpdateInput": false,
-//         locale: {
-//             cancelLabel: 'Clear',
-//             format: 'DD/MM/YYYY'
-//         }
-//     }, function (start, end, label) {
-//     });
-//     $('#end_date').on('cancel.daterangepicker', function (ev, picker) {
-//         $(this).val('');
-//
-//     });
-//
-//     $('#end_date').on('apply.daterangepicker', function (ev, picker) {
-//         $("#end_date").val(picker.startDate.format('DD/MM/YYYY'));
-//     });
-// });
-//
-// function validateSearch() {
-//     var patt = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/;
-//     if ($('#start_date').val() != '' && !patt.test($.trim($('#start_date').val()))) {
-//         toastr.error('Điều kiện tìm kiếm Từ ngày không đúng định dạng dd/mm/yyyy');
-//         $('#start_date').focus();
-//         return;
-//     }
-//
-//     var patt = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/;
-//     if ($('#end_date').val() != '' && !patt.test($.trim($('#end_date').val()))) {
-//         toastr.error('Điều kiện tìm kiếm đến ngày không đúng định dạng dd/mm/yyyy');
-//         $('#end_date').focus();
-//         return;
-//     }
-//     return true;
-// }
 
 // chart
 
@@ -151,6 +92,9 @@ const chartSpringTides = {
     }
 };
 //Get dữ liệu test
+$(document).ready(function(){
+
+});
 chartSpringTides.getTime();
 chartSpringTides.getTimeGuess();
 chartSpringTides.getTimeSeries();
@@ -159,6 +103,7 @@ chartSpringTides.getDataSpringTidesGuess();
 chartSpringTides.getDataSeriesOne();
 chartSpringTides.getDataSeriesTwo();
 chartSpringTides.showSlider();
+
 ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9", "b55b025e438fa8a98e32482b5f768ff5"]; // CHART CONFIG
 // -----------------------------
 let chartSpringTidesConfig = {
@@ -169,7 +114,7 @@ let chartSpringTidesConfig = {
     },
     backgroundColor: '#fff',
     title: {
-        text: 'Biểu Đồ Theo Dõi Triều Cường',
+        text: 'Biểu Đồ Xu Thế Biến Đổi Mực Nước Thủy Triều Thiên Văn ',
         padding: '15px 15px',
         backgroundColor: 'transparent',
         fontColor: '#5f5f5f',
