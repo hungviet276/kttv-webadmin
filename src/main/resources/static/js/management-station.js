@@ -1015,7 +1015,7 @@ const station =
                     'Authorization': token
                 },
                 url: apiUrl + 'station-type/export',
-                data: JSON.stringify(station.objSearch),
+                data: JSON.stringify({"search" : JSON.stringify(station.objSearch)}),
                 method: 'POST',
                 contentType: "application/json",
                 xhrFields: {
