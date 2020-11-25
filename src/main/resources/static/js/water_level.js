@@ -525,7 +525,13 @@ $.ajax({
     "method": "GET",
     "contentType": "application/json",
     "success": function (response) {
-        console.log(response)
+        console.log(response);
+        let str = ""
+        for(let i =0 ; i < response.length ; i++){
+            str = response[i].fileName + "     " + response[i].modifyDate + '     <button type="button" class="btn btn-primary" onclick ="download('+ response[i].fileName+')" >Tải xuống</button> <br>0';
+        }
+        document.getElementById("detailFile").innerHTML =str;
+
     },
     "error": function (error) {
     }
