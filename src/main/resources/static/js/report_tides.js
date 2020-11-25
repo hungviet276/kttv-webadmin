@@ -67,37 +67,45 @@ $("#box_info_sunny_time").css('display','none');
 
 var select = document.querySelector('select[name="chart-selector"]');
 select.addEventListener('change', function () {
-    console.log(event.target.value);
     if (event.target.value === 'spring_tides') {
         $("#box_info_tides").css('display','none');
         $("#box_info_spring_tides").css('display','inline');
         $("#box_info_temperature_rainfall").css('display','none');
         $("#box_info_sunny_time").css('display','none');
+       loadSlide()
+
+
     } else if (event.target.value === 'tides') {
         $("#box_info_tides").css('display','inline');
         $("#box_info_spring_tides").css('display','none');
         $("#box_info_temperature_rainfall").css('display','none');
         $("#box_info_sunny_time").css('display','none');
+        loadSlide()
 
     } else if (event.target.value === 'sunny_time') {
         $("#box_info_tides").css('display','none');
         $("#box_info_spring_tides").css('display','none');
         $("#box_info_temperature_rainfall").css('display','none');
         $("#box_info_sunny_time").css('display','inline');
+        loadSlide()
 
     } else if (event.target.value === 'temperature_rainfall') {
         $("#box_info_tides").css('display','none');
         $("#box_info_spring_tides").css('display','none');
         $("#box_info_temperature_rainfall").css('display','inline');
         $("#box_info_sunny_time").css('display','none');
+        loadSlide()
 
     } else {
         $("#box_info_tides").css('display','none');
         $("#box_info_spring_tides").css('display','none');
         $("#box_info_temperature_rainfall").css('display','none');
         $("#box_info_sunny_time").css('display','none');
+        loadSlide()
     }
 });
+
+
 
 
 
