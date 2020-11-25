@@ -506,7 +506,8 @@ $("#btnExec").click(function(){
         "success": function (response) {
             let str = response.message;
             var res =  str.replace(" ", "&nbsp;");
-            $("#innertText").text(res);
+            document.getElementById("innertText").innerHTML = res;
+            // $("#innertText").text(res);
             $('#modelResponse').modal('show');
         },
         "error": function (error) {
