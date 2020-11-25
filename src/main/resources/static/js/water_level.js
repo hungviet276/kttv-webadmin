@@ -505,9 +505,9 @@ $("#btnExec").click(function(){
         "data" : JSON.stringify(data),
         "success": function (response) {
             let str = response.message;
-            var res =  str.replace(" ", "&nbsp;");
+            var res =  str.replaceAll(" ", "&nbsp;");
             document.getElementById("innertText").innerHTML = res;
-            // $("#innertText").text(res);
+
             $('#modelResponse').modal('show');
         },
         "error": function (error) {
