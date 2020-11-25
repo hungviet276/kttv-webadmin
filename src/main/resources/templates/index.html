@@ -83,520 +83,61 @@
                 <!-- /.row -->
                 <!-- Main row -->
                 <div class="row">
-                    <!-- Left col -->
-                    <section class="col-lg-7 connectedSortable">
-                        <!-- Custom tabs (Charts with tabs)-->
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">
-                                    <i class="fas fa-chart-pie mr-1"></i>
-                                    Biểu đồ báo cáo yếu tố các trạm đo
-                                </h3>
-                                <div class="card-tools">
-                                    <select>
-                                        <option value="" disabled>-- Chọn trạm --</option>
-                                        <option value="1">Trạm đo hải văn Thuỷ Tiên</option>
-                                        <option value="2">Trạm đo hải văn Tràng Giang</option>
-                                    </select>
-                                    <select>
-                                        <option value="" disabled>Chọn yếu tố</option>
-                                        <option value="1">Yếu tố 1</option>
-                                        <option value="2">Yếu tố 2</option>
-                                    </select>
-                                    <input type="datetime-local" placeholder="Từ ngày">
-                                    <input type="datetime-local" placeholder="Đến ngày">
-                                </div>
-                            </div><!-- /.card-header -->
-                            <div class="card-body box-chart">
-                                <div class="wrap-iframe-chart">
-                                    <iframe src="/report/parameter?stationCode=KTHVPQ&parameterTypeId=23&startDate=30%2F10%2F2020%2000%3A00&endDate=30%2F10%2F2020%2023%3A59"
-                                            width="100%" height="100%"></iframe>
-                                </div>
-                            </div><!-- /.card-body -->
-                        </div>
-                        <!-- /.card -->
-
-                        <!-- DIRECT CHAT -->
-                        <div class="card direct-chat direct-chat-primary">
-                            <div class="card-header">
-                                <h3 class="card-title">Direct Chat</h3>
-
-                                <div class="card-tools">
-                                    <span data-toggle="tooltip" title="3 New Messages"
-                                          class="badge badge-primary">3</span>
-                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-tool" data-toggle="tooltip" title="Contacts"
-                                            data-widget="chat-pane-toggle">
-                                        <i class="fas fa-comments"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-tool" data-card-widget="remove"><i
-                                            class="fas fa-times"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <!-- /.card-header -->
-                            <div class="card-body">
-                                <!-- Conversations are loaded here -->
-                                <div class="direct-chat-messages">
-                                    <!-- Message. Default to the left -->
-                                    <div class="direct-chat-msg">
-                                        <div class="direct-chat-infos clearfix">
-                                            <span class="direct-chat-name float-left">Alexander Pierce</span>
-                                            <span class="direct-chat-timestamp float-right">23 Jan 2:00 pm</span>
-                                        </div>
-                                        <!-- /.direct-chat-infos -->
-                                        <img class="direct-chat-img" src="dist/img/user1-128x128.jpg"
-                                             alt="message user image">
-                                        <!-- /.direct-chat-img -->
-                                        <div class="direct-chat-text">
-                                            Is this template really for free? That's unbelievable!
-                                        </div>
-                                        <!-- /.direct-chat-text -->
-                                    </div>
-                                    <!-- /.direct-chat-msg -->
-
-                                    <!-- Message to the right -->
-                                    <div class="direct-chat-msg right">
-                                        <div class="direct-chat-infos clearfix">
-                                            <span class="direct-chat-name float-right">Sarah Bullock</span>
-                                            <span class="direct-chat-timestamp float-left">23 Jan 2:05 pm</span>
-                                        </div>
-                                        <!-- /.direct-chat-infos -->
-                                        <img class="direct-chat-img" src="dist/img/user3-128x128.jpg"
-                                             alt="message user image">
-                                        <!-- /.direct-chat-img -->
-                                        <div class="direct-chat-text">
-                                            You better believe it!
-                                        </div>
-                                        <!-- /.direct-chat-text -->
-                                    </div>
-                                    <!-- /.direct-chat-msg -->
-
-                                    <!-- Message. Default to the left -->
-                                    <div class="direct-chat-msg">
-                                        <div class="direct-chat-infos clearfix">
-                                            <span class="direct-chat-name float-left">Alexander Pierce</span>
-                                            <span class="direct-chat-timestamp float-right">23 Jan 5:37 pm</span>
-                                        </div>
-                                        <!-- /.direct-chat-infos -->
-                                        <img class="direct-chat-img" src="dist/img/user1-128x128.jpg"
-                                             alt="message user image">
-                                        <!-- /.direct-chat-img -->
-                                        <div class="direct-chat-text">
-                                            Working with AdminLTE on a great new app! Wanna join?
-                                        </div>
-                                        <!-- /.direct-chat-text -->
-                                    </div>
-                                    <!-- /.direct-chat-msg -->
-
-                                    <!-- Message to the right -->
-                                    <div class="direct-chat-msg right">
-                                        <div class="direct-chat-infos clearfix">
-                                            <span class="direct-chat-name float-right">Sarah Bullock</span>
-                                            <span class="direct-chat-timestamp float-left">23 Jan 6:10 pm</span>
-                                        </div>
-                                        <!-- /.direct-chat-infos -->
-                                        <img class="direct-chat-img" src="dist/img/user3-128x128.jpg"
-                                             alt="message user image">
-                                        <!-- /.direct-chat-img -->
-                                        <div class="direct-chat-text">
-                                            I would love to.
-                                        </div>
-                                        <!-- /.direct-chat-text -->
-                                    </div>
-                                    <!-- /.direct-chat-msg -->
-
-                                </div>
-                                <!--/.direct-chat-messages-->
-
-                                <!-- Contacts are loaded here -->
-                                <div class="direct-chat-contacts">
-                                    <ul class="contacts-list">
-                                        <li>
-                                            <a href="#">
-                                                <img class="contacts-list-img" src="dist/img/user1-128x128.jpg">
-
-                                                <div class="contacts-list-info">
-                          <span class="contacts-list-name">
-                            Count Dracula
-                            <small class="contacts-list-date float-right">2/28/2015</small>
-                          </span>
-                                                    <span class="contacts-list-msg">How have you been? I was...</span>
-                                                </div>
-                                                <!-- /.contacts-list-info -->
-                                            </a>
-                                        </li>
-                                        <!-- End Contact Item -->
-                                        <li>
-                                            <a href="#">
-                                                <img class="contacts-list-img" src="dist/img/user7-128x128.jpg">
-
-                                                <div class="contacts-list-info">
-                          <span class="contacts-list-name">
-                            Sarah Doe
-                            <small class="contacts-list-date float-right">2/23/2015</small>
-                          </span>
-                                                    <span class="contacts-list-msg">I will be waiting for...</span>
-                                                </div>
-                                                <!-- /.contacts-list-info -->
-                                            </a>
-                                        </li>
-                                        <!-- End Contact Item -->
-                                        <li>
-                                            <a href="#">
-                                                <img class="contacts-list-img" src="dist/img/user3-128x128.jpg">
-
-                                                <div class="contacts-list-info">
-                          <span class="contacts-list-name">
-                            Nadia Jolie
-                            <small class="contacts-list-date float-right">2/20/2015</small>
-                          </span>
-                                                    <span class="contacts-list-msg">I'll call you back at...</span>
-                                                </div>
-                                                <!-- /.contacts-list-info -->
-                                            </a>
-                                        </li>
-                                        <!-- End Contact Item -->
-                                        <li>
-                                            <a href="#">
-                                                <img class="contacts-list-img" src="dist/img/user5-128x128.jpg">
-
-                                                <div class="contacts-list-info">
-                          <span class="contacts-list-name">
-                            Nora S. Vans
-                            <small class="contacts-list-date float-right">2/10/2015</small>
-                          </span>
-                                                    <span class="contacts-list-msg">Where is your new...</span>
-                                                </div>
-                                                <!-- /.contacts-list-info -->
-                                            </a>
-                                        </li>
-                                        <!-- End Contact Item -->
-                                        <li>
-                                            <a href="#">
-                                                <img class="contacts-list-img" src="dist/img/user6-128x128.jpg">
-
-                                                <div class="contacts-list-info">
-                          <span class="contacts-list-name">
-                            John K.
-                            <small class="contacts-list-date float-right">1/27/2015</small>
-                          </span>
-                                                    <span class="contacts-list-msg">Can I take a look at...</span>
-                                                </div>
-                                                <!-- /.contacts-list-info -->
-                                            </a>
-                                        </li>
-                                        <!-- End Contact Item -->
-                                        <li>
-                                            <a href="#">
-                                                <img class="contacts-list-img" src="dist/img/user8-128x128.jpg">
-
-                                                <div class="contacts-list-info">
-                          <span class="contacts-list-name">
-                            Kenneth M.
-                            <small class="contacts-list-date float-right">1/4/2015</small>
-                          </span>
-                                                    <span class="contacts-list-msg">Never mind I found...</span>
-                                                </div>
-                                                <!-- /.contacts-list-info -->
-                                            </a>
-                                        </li>
-                                        <!-- End Contact Item -->
-                                    </ul>
-                                    <!-- /.contacts-list -->
-                                </div>
-                                <!-- /.direct-chat-pane -->
-                            </div>
-                            <!-- /.card-body -->
-                            <div class="card-footer">
-                                <form action="#" method="post">
-                                    <div class="input-group">
-                                        <input type="text" name="message" placeholder="Type Message ..."
-                                               class="form-control">
-                                        <span class="input-group-append">
-                      <button type="button" class="btn btn-primary">Send</button>
-                    </span>
-                                    </div>
-                                </form>
-                            </div>
-                            <!-- /.card-footer-->
-                        </div>
-                        <!--/.direct-chat -->
-
-                        <!-- TO DO List -->
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">
-                                    <i class="ion ion-clipboard mr-1"></i>
-                                    To Do List
-                                </h3>
-
-                                <div class="card-tools">
-                                    <ul class="pagination pagination-sm">
-                                        <li class="page-item"><a href="#" class="page-link">&laquo;</a></li>
-                                        <li class="page-item"><a href="#" class="page-link">1</a></li>
-                                        <li class="page-item"><a href="#" class="page-link">2</a></li>
-                                        <li class="page-item"><a href="#" class="page-link">3</a></li>
-                                        <li class="page-item"><a href="#" class="page-link">&raquo;</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- /.card-header -->
-                            <div class="card-body">
-                                <ul class="todo-list" data-widget="todo-list">
-                                    <li>
-                                        <!-- drag handle -->
-                                        <span class="handle">
-                      <i class="fas fa-ellipsis-v"></i>
-                      <i class="fas fa-ellipsis-v"></i>
-                    </span>
-                                        <!-- checkbox -->
-                                        <div class="icheck-primary d-inline ml-2">
-                                            <input type="checkbox" value="" name="todo1" id="todoCheck1">
-                                            <label for="todoCheck1"></label>
-                                        </div>
-                                        <!-- todo text -->
-                                        <span class="text">Design a nice theme</span>
-                                        <!-- Emphasis label -->
-                                        <small class="badge badge-danger"><i class="far fa-clock"></i> 2 mins</small>
-                                        <!-- General tools such as edit or delete-->
-                                        <div class="tools">
-                                            <i class="fas fa-edit"></i>
-                                            <i class="fas fa-trash-o"></i>
-                                        </div>
+                    <section class="wrapper-station">
+                        <div class="card card-primary card-tabs">
+                            <div class="card-header p-0 pt-1">
+                                <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="pill" href="#KTTD" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">
+                                            Khí tượng
+                                        </a>
                                     </li>
-                                    <li>
-                    <span class="handle">
-                      <i class="fas fa-ellipsis-v"></i>
-                      <i class="fas fa-ellipsis-v"></i>
-                    </span>
-                                        <div class="icheck-primary d-inline ml-2">
-                                            <input type="checkbox" value="" name="todo2" id="todoCheck2" checked>
-                                            <label for="todoCheck2"></label>
-                                        </div>
-                                        <span class="text">Make the theme responsive</span>
-                                        <small class="badge badge-info"><i class="far fa-clock"></i> 4 hours</small>
-                                        <div class="tools">
-                                            <i class="fas fa-edit"></i>
-                                            <i class="fas fa-trash-o"></i>
-                                        </div>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="pill" href="#TV" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">
+                                            Thuỷ văn
+                                        </a>
                                     </li>
-                                    <li>
-                    <span class="handle">
-                      <i class="fas fa-ellipsis-v"></i>
-                      <i class="fas fa-ellipsis-v"></i>
-                    </span>
-                                        <div class="icheck-primary d-inline ml-2">
-                                            <input type="checkbox" value="" name="todo3" id="todoCheck3">
-                                            <label for="todoCheck3"></label>
-                                        </div>
-                                        <span class="text">Let theme shine like a star</span>
-                                        <small class="badge badge-warning"><i class="far fa-clock"></i> 1 day</small>
-                                        <div class="tools">
-                                            <i class="fas fa-edit"></i>
-                                            <i class="fas fa-trash-o"></i>
-                                        </div>
+                                    <li class="nav-item">
+                                        <a class="nav-link"  data-toggle="pill" href="#KTHV" role="tab" aria-controls="custom-tabs-one-messages" aria-selected="false">
+                                            Hải văn
+                                        </a>
                                     </li>
-                                    <li>
-                    <span class="handle">
-                      <i class="fas fa-ellipsis-v"></i>
-                      <i class="fas fa-ellipsis-v"></i>
-                    </span>
-                                        <div class="icheck-primary d-inline ml-2">
-                                            <input type="checkbox" value="" name="todo4" id="todoCheck4">
-                                            <label for="todoCheck4"></label>
-                                        </div>
-                                        <span class="text">Let theme shine like a star</span>
-                                        <small class="badge badge-success"><i class="far fa-clock"></i> 3 days</small>
-                                        <div class="tools">
-                                            <i class="fas fa-edit"></i>
-                                            <i class="fas fa-trash-o"></i>
-                                        </div>
-                                    </li>
-                                    <li>
-                    <span class="handle">
-                      <i class="fas fa-ellipsis-v"></i>
-                      <i class="fas fa-ellipsis-v"></i>
-                    </span>
-                                        <div class="icheck-primary d-inline ml-2">
-                                            <input type="checkbox" value="" name="todo5" id="todoCheck5">
-                                            <label for="todoCheck5"></label>
-                                        </div>
-                                        <span class="text">Check your messages and notifications</span>
-                                        <small class="badge badge-primary"><i class="far fa-clock"></i> 1 week</small>
-                                        <div class="tools">
-                                            <i class="fas fa-edit"></i>
-                                            <i class="fas fa-trash-o"></i>
-                                        </div>
-                                    </li>
-                                    <li>
-                    <span class="handle">
-                      <i class="fas fa-ellipsis-v"></i>
-                      <i class="fas fa-ellipsis-v"></i>
-                    </span>
-                                        <div class="icheck-primary d-inline ml-2">
-                                            <input type="checkbox" value="" name="todo6" id="todoCheck6">
-                                            <label for="todoCheck6"></label>
-                                        </div>
-                                        <span class="text">Let theme shine like a star</span>
-                                        <small class="badge badge-secondary"><i class="far fa-clock"></i> 1
-                                            month</small>
-                                        <div class="tools">
-                                            <i class="fas fa-edit"></i>
-                                            <i class="fas fa-trash-o"></i>
-                                        </div>
+                                    <li class="nav-item">
+                                        <a class="nav-link"  data-toggle="pill" href="#DM" role="tab" aria-controls="custom-tabs-one-settings" aria-selected="false">
+                                            Độ mặn
+                                        </a>
                                     </li>
                                 </ul>
                             </div>
-                            <!-- /.card-body -->
-                            <div class="card-footer clearfix">
-                                <button type="button" class="btn btn-info float-right"><i class="fas fa-plus"></i> Add
-                                    item
-                                </button>
-                            </div>
-                        </div>
-                        <!-- /.card -->
-                    </section>
-                    <!-- /.Left col -->
-                    <!-- right col (We are only adding the ID to make the widgets sortable)-->
-                    <section class="col-lg-5 connectedSortable">
-
-                        <!-- Map card -->
-                        <div class="card">
-                            <div class="card-header border-0">
-                                <h3 class="card-title">
-                                    <i class="fas fa-map-marker-alt mr-1"></i>
-                                    Bản đồ các trạm đo toàn quốc
-                                </h3>
-                                <div class="card-tools">
-									<a target="_blank" href="/demo-arcgis/station" type="button"
-											class="btn btn-primary btn-sm daterange"
-											data-toggle="tooltip"
-											title="Mở rộng">
-										<i class="fas fa-expand"></i>
-									</a>
-                                    <button type="button"
-                                            class="btn btn-primary btn-sm"
-                                            data-card-widget="collapse"
-                                            data-toggle="tooltip"
-                                            title="Collapse">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                </div>
-                                <!-- /.card-tools -->
-                            </div>
                             <div class="card-body">
-                                <div id="world-map" style="height: 450px; width: 100%;">
-									<div class="wrap-iframe-map">
-										<iframe sandbox="allow-same-origin allow-scripts allow-popups allow-forms" src="/demo-arcgis/station-embedded"
-												style="overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px" height="100%" width="100%" frameborder="0"
-												allowfullscreen>
-										</iframe>
-									</div>
-								</div>
-                            </div>
-                            <!-- /.card-body-->
-                        </div>
-                        <!-- /.card -->
-
-                        <!-- solid sales graph -->
-                        <div class="card bg-gradient-info">
-                            <div class="card-header border-0">
-                                <h3 class="card-title">
-                                    <i class="fas fa-th mr-1"></i>
-                                    Sales Graph
-                                </h3>
-
-                                <div class="card-tools">
-                                    <button type="button" class="btn bg-info btn-sm" data-card-widget="collapse">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <button type="button" class="btn bg-info btn-sm" data-card-widget="remove">
-                                        <i class="fas fa-times"></i>
-                                    </button>
+                                <div class="tab-content">
+                                    <div class="tab-pane fade show active wrap-map" id="KTTD" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
+                                        <iframe sandbox="allow-same-origin allow-scripts allow-popups allow-forms" src="/report/station-embedded?type=KTTD"
+                                                style="overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px" height="100%" width="100%" frameborder="0"
+                                                allowfullscreen>
+                                        </iframe>
+                                    </div>
+                                    <div class="tab-pane fade box-chart wrap-map" id="TV" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
+                                        <iframe sandbox="allow-same-origin allow-scripts allow-popups allow-forms" src="/report/station-embedded?type=TV"
+                                                style="overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px" height="100%" width="100%" frameborder="0"
+                                                allowfullscreen>
+                                        </iframe>
+                                    </div>
+                                    <div class="tab-pane fade box-chart wrap-map" id="KTHV" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
+                                        <iframe sandbox="allow-same-origin allow-scripts allow-popups allow-forms" src="/report/station-embedded?type=KTHV"
+                                                style="overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px" height="100%" width="100%" frameborder="0"
+                                                allowfullscreen>
+                                        </iframe>
+                                    </div>
+                                    <div class="tab-pane fade box-chart wrap-map" id="DM" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
+                                        <iframe sandbox="allow-same-origin allow-scripts allow-popups allow-forms" src="/report/station-embedded?type=DM"
+                                                style="overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px" height="100%" width="100%" frameborder="0"
+                                                allowfullscreen>
+                                        </iframe>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="card-body">
-                                <canvas class="chart" id="line-chart"
-                                        style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-                            </div>
-                            <!-- /.card-body -->
-                            <div class="card-footer bg-transparent">
-                                <div class="row">
-                                    <div class="col-4 text-center">
-                                        <input type="text" class="knob" data-readonly="true" value="20" data-width="60"
-                                               data-height="60"
-                                               data-fgColor="#39CCCC">
-
-                                        <div class="text-white">Mail-Orders</div>
-                                    </div>
-                                    <!-- ./col -->
-                                    <div class="col-4 text-center">
-                                        <input type="text" class="knob" data-readonly="true" value="50" data-width="60"
-                                               data-height="60"
-                                               data-fgColor="#39CCCC">
-
-                                        <div class="text-white">Online</div>
-                                    </div>
-                                    <!-- ./col -->
-                                    <div class="col-4 text-center">
-                                        <input type="text" class="knob" data-readonly="true" value="30" data-width="60"
-                                               data-height="60"
-                                               data-fgColor="#39CCCC">
-
-                                        <div class="text-white">In-Store</div>
-                                    </div>
-                                    <!-- ./col -->
-                                </div>
-                                <!-- /.row -->
-                            </div>
-                            <!-- /.card-footer -->
-                        </div>
-                        <!-- /.card -->
-
-                        <!-- Calendar -->
-                        <div class="card bg-gradient-success">
-                            <div class="card-header border-0">
-
-                                <h3 class="card-title">
-                                    <i class="far fa-calendar-alt"></i>
-                                    Calendar
-                                </h3>
-                                <!-- tools card -->
-                                <div class="card-tools">
-                                    <!-- button with a dropdown -->
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-success btn-sm dropdown-toggle"
-                                                data-toggle="dropdown" data-offset="-52">
-                                            <i class="fas fa-bars"></i></button>
-                                        <div class="dropdown-menu" role="menu">
-                                            <a href="#" class="dropdown-item">Add new event</a>
-                                            <a href="#" class="dropdown-item">Clear events</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a href="#" class="dropdown-item">View calendar</a>
-                                        </div>
-                                    </div>
-                                    <button type="button" class="btn btn-success btn-sm" data-card-widget="collapse">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-success btn-sm" data-card-widget="remove">
-                                        <i class="fas fa-times"></i>
-                                    </button>
-                                </div>
-                                <!-- /. tools -->
-                            </div>
-                            <!-- /.card-header -->
-                            <div class="card-body pt-0">
-                                <!--The calendar -->
-                                <div id="calendar" style="width: 100%"></div>
-                            </div>
-                            <!-- /.card-body -->
-                        </div>
-                        <!-- /.card -->
-                    </section>
-                    <!-- right col -->
+                        </div></section>
                 </div>
                 <!-- /.row (main row) -->
             </div><!-- /.container-fluid -->

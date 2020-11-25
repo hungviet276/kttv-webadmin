@@ -1,5 +1,6 @@
 package com.neo.kttvwebadmin.services;
 
+import com.neo.kttvwebadmin.dto.ParameterDisplayChartDTO;
 import com.neo.kttvwebadmin.entity.ParameterChartMappingAndData;
 import com.neo.kttvwebadmin.exception.KTTVException;
 import com.neo.kttvwebadmin.utils.TimeSeriesDataDTO;
@@ -15,5 +16,5 @@ public interface ReportService {
 
     List<TimeSeriesDataDTO> getStationReportData(String stationCode, String token);
 
-    String[] getListParameterTypeIdDisplayChart(String stationCode, String token);
+    List<ParameterDisplayChartDTO> getListParameterTypeIdDisplayChart(String stationCode, String token);
 }

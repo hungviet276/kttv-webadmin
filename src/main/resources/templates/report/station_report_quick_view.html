@@ -11,51 +11,32 @@
     /*<![CDATA[*/
     const listParameterTypeId = /*[[${listParameterTypeId}]]*/;
     const stationCode = /*[[${stationCode}]]*/;
-    const startDate = /*[[${startDate}]]*/;
-    const endDate = /*[[${endDate}]]*/;
+    const apiUrl = /*[[${session.apiUrl}]]*/;
+    const token = /*[[${session.token}]]*/;
     /*]]>*/
-    var apiUrl = /*[[${session.apiUrl}]]*/;
-    var token = /*[[${session.token}]]*/;
+    // get startDate from amountDay
     // ve chart
-    function displayChart(data, type) {
+    function displayChart(parameterTypeId, type, startDate, endDate) {
         let divWrap = $('<div style="position: relative; width: 100%; height: 500px; min-height: 500px;">');
         let iframe = $('<iframe>');
         let urlChart = '/report/parameter';
-        iframe.attr('src', encodeURI(urlChart + '?stationCode=' + stationCode + '&parameterTypeId=' + data.chartMapping.parameterTypeId  + '&type='+ type + '&startDate=' + startDate + '&endDate=' + endDate));
+        iframe.attr('src', encodeURI(urlChart + '?stationCode=' + stationCode + '&parameterTypeId=' + parameterTypeId  + '&type='+ type + '&startDate=' + startDate + '&endDate=' + endDate));
         iframe.attr('width', '100%');
         iframe.attr('height', '500');
         divWrap.append(iframe);
         $('#view_chart_body').append(divWrap);
     }
     // lay du lieu hien thi len view
-    if (listParameterTypeId != null && listParameterTypeId != undefined) {
+    if (listParameterTypeId != null) {
         for (let i = 0; i < listParameterTypeId.length; i++) {
-            let parameterData = listParameterTypeId[i].split('_');
-            let parameterTypeId = parameterData[0];
-            let type = parameterData.length > 1 ? parameterData[1]: "";
             let dataReq = {
                 stationCode: stationCode,
-                parameterTypeId: parameterTypeId,
-                type: type,
-                startDate: startDate,
-                endDate: endDate
+                parameterTypeId: listParameterTypeId[i].parameterTypeId,
+                type: listParameterTypeId[i].type,
+                startDate: listParameterTypeId[i].startDate,
+                endDate: listParameterTypeId[i].endDate
             };
-            $.ajax({
-                headers: {
-                    'Authorization': token
-                },
-                url: apiUrl + "report/get-parameter-chart-mapping-and-data",
-                method: 'POST',
-                async: false,
-                contentType: 'application/json',
-                data: JSON.stringify(dataReq),
-                success: function (data) {
-                    displayChart(data, type);
-                },
-                error: function (e) {
-                    console.log(e)
-                }
-            })
+            displayChart(listParameterTypeId[i].parameterTypeId, listParameterTypeId[i].type, listParameterTypeId[i].startDate, listParameterTypeId[i].endDate);
         }
     }
 </script>

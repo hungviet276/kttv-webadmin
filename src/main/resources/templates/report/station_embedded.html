@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="utf-8">
@@ -36,12 +36,15 @@
 
     <link rel="stylesheet" href="/arcgis_library/4.17/esri/css/main.css">
     <script src="/arcgis_library/4.17/dojo/dojo.js"></script>
-    <script type="text/javascript">
-        var apiUrl = "[[${session.apiUrl}]]";
-        var userBO = "[[${session.userBO}]]";
-        var token = "[[${session.token}]]";
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+            const apiUrl = /*[[${session.apiUrl}]]*/;
+            const userBO = /*[[${session.userBO}]]*/;
+            const token = /*[[${session.token}]]*/;
+            const objectType = /*[[${objectType}]]*/;
+        /*]]>*/
     </script>
-    <script>
+    <script type="text/javascript">
 
         require([
             "esri/Map",
@@ -368,7 +371,7 @@
             openSpacesRenderer.addUniqueValueInfo("1", cimSymbol);
 
             var csvLayer = new CSVLayer({
-                url: urlStationCsv,
+                url: urlStationCsv + "?type=" + (objectType == null ? "" : objectType),
                 copyright: "Trung tâm Khí tượng thủy văn Quốc Gia",
                 renderer: openSpacesRenderer,
                 popupTemplate: template,
@@ -424,37 +427,37 @@
             geojsonLayer2.labelingInfo = [statesLabelClass];
             geojsonLayer3.labelingInfo = [statesLabelClass2];
 
-            var initialExtent = new Extent({
-                "xmin": 97, "ymin": 12, "xmax": 117, "ymax": 20,
-                "spatialReference": { "wkid": 4326 }
-            });
+            // var initialExtent = new Extent({
+            //     "xmin": 97, "ymin": 12, "xmax": 117, "ymax": 20,
+            //     "spatialReference": { "wkid": 4326 }
+            // });
 
             var map = new Map({
-                extent: initialExtent
+                // extent: initialExtent
             });
 
-            map.layers.add(geojsonLayer3)
-            map.layers.add(geojsonLayer2)
-            map.layers.add(csvLayer)
+            map.layers.add(geojsonLayer3);
+            map.layers.add(geojsonLayer2);
+            map.layers.add(csvLayer);
 
             var view = new MapView({
                 container: "viewDiv",
                 center: centerPoint,
-                zoom: 3,
-                map: map,
-                extent: initialExtent
+                zoom: 2,
+                map: map
+                // ,extent: initialExtent
             });
 
-            var maxExtent = view.extent;
-
-            view.watch("extent", function (newValue, oldValue) {
-                // xmin:9790772.379932635, xmax:14059016.039375741, ymin:887464.1510032088, ymax:2729290.784562326
-                //console.log('xmin:' + newValue.xmin + ", xmax:" + newValue.xmax + ", ymin:" + newValue.ymin + ", ymax:" + newValue.ymax);
-                if ((newValue.xmin < 9790772.379932635) || (newValue.ymin < 887464.1510032088) || (newValue.xmax > 14059016.039375741) || (newValue.ymax > 2729290.784562326)) {
-                    //  console.log('here')
-                    map.extent = initialExtent;
-                }
-            });
+            // var maxExtent = view.extent;
+            //
+            // view.watch("extent", function (newValue, oldValue) {
+            //     // xmin:9790772.379932635, xmax:14059016.039375741, ymin:887464.1510032088, ymax:2729290.784562326
+            //     //console.log('xmin:' + newValue.xmin + ", xmax:" + newValue.xmax + ", ymin:" + newValue.ymin + ", ymax:" + newValue.ymax);
+            //     if ((newValue.xmin < 9790772.379932635) || (newValue.ymin < 887464.1510032088) || (newValue.xmax > 14059016.039375741) || (newValue.ymax > 2729290.784562326)) {
+            //         //  console.log('here')
+            //         map.extent = initialExtent;
+            //     }
+            // });
 
         });
     </script>

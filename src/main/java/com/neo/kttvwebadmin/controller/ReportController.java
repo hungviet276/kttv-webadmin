@@ -1,23 +1,19 @@
 package com.neo.kttvwebadmin.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.neo.kttvwebadmin.dto.ParameterDisplayChartDTO;
 import com.neo.kttvwebadmin.entity.ParameterChartMapping;
 import com.neo.kttvwebadmin.entity.ParameterChartMappingAndData;
 import com.neo.kttvwebadmin.exception.KTTVException;
 import com.neo.kttvwebadmin.services.ReportService;
-import com.neo.kttvwebadmin.utils.DateUtils;
-import com.neo.kttvwebadmin.utils.TimeSeriesDataDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -46,6 +42,11 @@ public class ReportController {
                 return parameterChartMapping.getTemplateDir();
         }
         return "page_not_found";
+    }
+
+    @GetMapping("/column-chart")
+    public String getColumnChartPage() {
+        return "report/report_column_chart";
     }
 
     @GetMapping("/report_spring_tides")
@@ -85,13 +86,16 @@ public class ReportController {
 
     @GetMapping("/station-3h")
     public String getStationReportPage(@RequestParam String stationCode, HttpServletRequest httpServletRequest, Model model) throws JsonProcessingException {
-        String[] listParameterTypeId = reportService.getListParameterTypeIdDisplayChart(stationCode, String.valueOf(httpServletRequest.getSession().getAttribute("token")));
+        List<ParameterDisplayChartDTO> listParameterTypeId = reportService.getListParameterTypeIdDisplayChart(stationCode, String.valueOf(httpServletRequest.getSession().getAttribute("token")));
+        System.out.println(listParameterTypeId);
         model.addAttribute("listParameterTypeId", listParameterTypeId);
         model.addAttribute("stationCode", stationCode);
-        model.addAttribute("endDate", DateUtils.getStringDateFormat("dd/MM/yyyy HH:mm"));
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DAY_OF_YEAR, - 7);
-        model.addAttribute("startDate", DateUtils.getStringDateFormat(calendar.getTime(), "dd/MM/yyyy HH:mm"));
         return "report/station_report_quick_view";
+    }
+
+    @GetMapping("/station-embedded")
+    public String stationEmbedded(@RequestParam(required = false, name = "type") String objectType, Model model) {
+        model.addAttribute("objectType", objectType);
+        return "report/station_embedded";
     }
 }

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:replace="layout_header.html :: head_tag"/>
+    <link rel="stylesheet" href="/css/report_salinity.css" type="text/css">
+    <script src="/admin_lte/plugins/zingchart/zingchart.min.js"></script>
+</head>
+<style>
+    html,
+    body {
+        height: 100%;
+        width: 100%;
+    }
+
+    #myChart {
+        height: 100%;
+        width: 100%;
+        min-height: 150px;
+    }
+
+    .zc-ref {
+        display: none;
+    }
+</style>
+<body >
+<div id='myChart'></div>
+<script src="/admin_lte/plugins/jquery/jquery.min.js"></script>
+<script th:inline="javascript">
+
+    /*<![CDATA[*/
+    const DATA_CHART = /*[[${data}]]*/;
+    const chartName = /*[[${parameterTypeName}]]*/;
+    const unitCode = /*[[${unitCode}]]*/;
+    /*]]>*/
+
+    var labelData = [];
+    var dataShow = [];
+    DATA_CHART.forEach(item => {
+        if (item.value > -99) {
+            labelData.push(item.timestamp);
+            dataShow.push(item.value);
+        }
+    });
+    window.formatAxis  = function (v) {
+        return v + unitCode;
+    }
+    var myConfig = {
+        "graphset": [
+            {
+                "type": "bar",
+                "title": {
+                    "text": "",
+                    "font-size": "24px",
+                    "adjust-layout": true
+                },
+                "plotarea": {
+                    "margin": "dynamic 45 60 dynamic"
+                },
+                "legend": {
+                    "layout": "float",
+                    "background-color": "none",
+                    "border-width": 0,
+                    "shadow": 0,
+                    "align": "center",
+                    "adjust-layout": true,
+                    "toggle-action": "remove",
+                    "item": {
+                        "padding": 7,
+                        "marginRight": 17,
+                        "cursor": "hand"
+                    }
+                },
+                "scale-y": {
+                    format: "formatAxis()",
+                    "line-color": "#7E7E7E",
+                    "item": {
+                        "font-color": "#7e7e7e"
+                    },
+                    "values": "0:60:10",
+                    "guide": {
+                        "visible": true
+                    },
+                    label: {
+                        text:  unitCode,
+                        fontColor: '#616161'
+                    },
+                },
+                "scaleX":{
+                    "values": labelData,
+                    "placement":"default",
+                    "tick":{
+                        "size":58,
+                        "placement":"cross"
+                    },
+                    // format time
+                    transform: {
+                        type: 'date',
+                        "all": "%dd/%mm/%Y" + "<br>" + "%h:%i %A"
+                    },
+                    "itemsOverlap":true,
+                    "item":{
+                        "offsetY":-55
+                    }
+                },
+                "tooltip": {
+                    "visible": false
+                },
+                "crosshair-x":{
+                    "line-width":"100%",
+                    "alpha":0.18,
+                    "plot-label":{
+                        "header-text":"%kv Sales"
+                    }
+                },
+                "series": [
+                    {
+                        "values": dataShow,
+                        "alpha": 0.95,
+                        "background-color": "#b3e5fc",
+                        "text": chartName,
+                    }
+                ]
+            }
+        ]
+    };
+
+    zingchart.render({
+        id : 'myChart',
+        data : myConfig,
+        height: '100%',
+        width: '100%'
+    });
+</script>
+</body>
+</html>

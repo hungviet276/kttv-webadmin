@@ -1,5 +1,6 @@
 package com.neo.kttvwebadmin.services;
 
+import com.neo.kttvwebadmin.dto.ParameterDisplayChartDTO;
 import com.neo.kttvwebadmin.entity.ParameterChartMappingAndData;
 import com.neo.kttvwebadmin.exception.KTTVException;
 import com.neo.kttvwebadmin.utils.*;
@@ -87,7 +88,7 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public String[] getListParameterTypeIdDisplayChart(String stationCode, String token) {
+    public List<ParameterDisplayChartDTO> getListParameterTypeIdDisplayChart(String stationCode, String token) {
         // call api get data
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", token);
@@ -100,12 +101,12 @@ public class ReportServiceImpl implements ReportService {
 
         HttpEntity<GetStationDataReportVM> entity = new HttpEntity<>(request, headers);
         UriComponentsBuilder urlRequestBuilder = UriComponentsBuilder.fromHttpUrl(apiUrl + Constants.REPORT.URL_REQ_REPORT_GET_LIST_PARAMETER_TYPE_ID_DISPLAY);
-        ResponseEntity<String[]> responseEntity = restTemplate
+        ResponseEntity<List<ParameterDisplayChartDTO>> responseEntity = restTemplate
                 .exchange(
                         urlRequestBuilder.toUriString(),
                         HttpMethod.POST,
                         entity,
-                        new ParameterizedTypeReference<String[]>(){});
+                        new ParameterizedTypeReference<List<ParameterDisplayChartDTO>>(){});
         return responseEntity.getBody();
     }
 
