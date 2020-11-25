@@ -17,127 +17,135 @@
 		</div>
         <section class="content">
             <div class="container-fluid">
-                <!-- Small boxes (Stat box) -->
-                <div class="row">
-                    <div class="col-lg-3 col-6">
-                        <!-- small box -->
-                        <div class="small-box bg-info">
-                            <div class="inner">
-                                <h3>Nhiệt độ 45 độ</h3>
-
-                                <p>Hôm nay thời tiết mát mẻ</p>
-                            </div>
-                            <div class="icon">
-                                <i class="ion ion-bag"></i>
-                            </div>
-                            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div>
-                    <!-- ./col -->
-                    <div class="col-lg-3 col-6">
-                        <!-- small box -->
-                        <div class="small-box bg-success">
-                            <div class="inner">
-                                <h3>53<sup style="font-size: 20px">%</sup></h3>
-
-                                <p>Pin điện thoại tốt</p>
-                            </div>
-                            <div class="icon">
-                                <i class="ion ion-stats-bars"></i>
-                            </div>
-                            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div>
-                    <!-- ./col -->
-                    <div class="col-lg-3 col-6">
-                        <!-- small box -->
-                        <div class="small-box bg-warning">
-                            <div class="inner">
-                                <h3>10.000</h3>
-
-                                <p>Mai chị Ánh đi muộn</p>
-                            </div>
-                            <div class="icon">
-                                <i class="ion ion-person-add"></i>
-                            </div>
-                            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div>
-                    <!-- ./col -->
-                    <div class="col-lg-3 col-6">
-                        <!-- small box -->
-                        <div class="small-box bg-danger">
-                            <div class="inner">
-                                <h3>65</h3>
-
-                                <p>Unique Visitors</p>
-                            </div>
-                            <div class="icon">
-                                <i class="ion ion-pie-graph"></i>
-                            </div>
-                            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div>
-                    <!-- ./col -->
-                </div>
-                <!-- /.row -->
                 <!-- Main row -->
                 <div class="row">
-                    <section class="wrapper-station">
-                        <div class="card card-primary card-tabs">
-                            <div class="card-header p-0 pt-1">
-                                <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" data-toggle="pill" href="#KTTD" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">
-                                            Khí tượng
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-toggle="pill" href="#TV" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">
-                                            Thuỷ văn
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link"  data-toggle="pill" href="#KTHV" role="tab" aria-controls="custom-tabs-one-messages" aria-selected="false">
-                                            Hải văn
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link"  data-toggle="pill" href="#DM" role="tab" aria-controls="custom-tabs-one-settings" aria-selected="false">
-                                            Độ mặn
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
+                    <div class="col-sm-12 col-md-12 col-lg-9">
+                        <section class="wrapper-station">
+                            <div class="card card-primary card-tabs card-map">
+                                <div class="card-header p-0 pt-1">
+                                    <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" data-toggle="pill" href="#KTTD" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">
+                                                Khí tượng
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-toggle="pill" href="#TV" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">
+                                                Thuỷ văn
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link"  data-toggle="pill" href="#KTHV" role="tab" aria-controls="custom-tabs-one-messages" aria-selected="false">
+                                                Hải văn
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link"  data-toggle="pill" href="#DM" role="tab" aria-controls="custom-tabs-one-settings" aria-selected="false">
+                                                Độ mặn
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="card-body">
+                                    <div class="tab-content">
+                                        <div class="tab-pane fade show active wrap-map" id="KTTD" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
+                                            <iframe sandbox="allow-same-origin allow-scripts allow-popups allow-forms" src="/report/station-embedded?type=KTTD"
+                                                    style="overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px" height="100%" width="100%" frameborder="0"
+                                                    allowfullscreen>
+                                            </iframe>
+                                        </div>
+                                        <div class="tab-pane fade box-chart wrap-map" id="TV" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
+                                            <iframe sandbox="allow-same-origin allow-scripts allow-popups allow-forms" src="/report/station-embedded?type=TV"
+                                                    style="overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px" height="100%" width="100%" frameborder="0"
+                                                    allowfullscreen>
+                                            </iframe>
+                                        </div>
+                                        <div class="tab-pane fade box-chart wrap-map" id="KTHV" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
+                                            <iframe sandbox="allow-same-origin allow-scripts allow-popups allow-forms" src="/report/station-embedded?type=KTHV"
+                                                    style="overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px" height="100%" width="100%" frameborder="0"
+                                                    allowfullscreen>
+                                            </iframe>
+                                        </div>
+                                        <div class="tab-pane fade box-chart wrap-map" id="DM" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
+                                            <iframe sandbox="allow-same-origin allow-scripts allow-popups allow-forms" src="/report/station-embedded?type=DM"
+                                                    style="overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px" height="100%" width="100%" frameborder="0"
+                                                    allowfullscreen>
+                                            </iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div></section>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-3">
+                        <div class="card card-primary card-tabs card-news-feed">
                             <div class="card-body">
                                 <div class="tab-content">
-                                    <div class="tab-pane fade show active wrap-map" id="KTTD" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
-                                        <iframe sandbox="allow-same-origin allow-scripts allow-popups allow-forms" src="/report/station-embedded?type=KTTD"
-                                                style="overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px" height="100%" width="100%" frameborder="0"
-                                                allowfullscreen>
-                                        </iframe>
-                                    </div>
-                                    <div class="tab-pane fade box-chart wrap-map" id="TV" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
-                                        <iframe sandbox="allow-same-origin allow-scripts allow-popups allow-forms" src="/report/station-embedded?type=TV"
-                                                style="overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px" height="100%" width="100%" frameborder="0"
-                                                allowfullscreen>
-                                        </iframe>
-                                    </div>
-                                    <div class="tab-pane fade box-chart wrap-map" id="KTHV" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
-                                        <iframe sandbox="allow-same-origin allow-scripts allow-popups allow-forms" src="/report/station-embedded?type=KTHV"
-                                                style="overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px" height="100%" width="100%" frameborder="0"
-                                                allowfullscreen>
-                                        </iframe>
-                                    </div>
-                                    <div class="tab-pane fade box-chart wrap-map" id="DM" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
-                                        <iframe sandbox="allow-same-origin allow-scripts allow-popups allow-forms" src="/report/station-embedded?type=DM"
-                                                style="overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px" height="100%" width="100%" frameborder="0"
-                                                allowfullscreen>
-                                        </iframe>
+                                    <div class="row wrap-news-feed">
+                                        <div class="col-sm-12">
+                                            <!-- small box -->
+                                            <div class="small-box bg-info">
+                                                <div class="inner">
+                                                    <h3>Nhiệt độ 45 độ</h3>
+
+                                                    <p>Hôm nay thời tiết mát mẻ</p>
+                                                </div>
+                                                <div class="icon">
+                                                    <i class="ion ion-bag"></i>
+                                                </div>
+                                                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                            </div>
+                                        </div>
+                                        <!-- ./col -->
+                                        <div class="col-sm-12">
+                                            <!-- small box -->
+                                            <div class="small-box bg-success">
+                                                <div class="inner">
+                                                    <h3>53<sup style="font-size: 20px">%</sup></h3>
+
+                                                    <p>Pin điện thoại tốt</p>
+                                                </div>
+                                                <div class="icon">
+                                                    <i class="ion ion-stats-bars"></i>
+                                                </div>
+                                                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                            </div>
+                                        </div>
+                                        <!-- ./col -->
+                                        <div class="col-sm-12">
+                                            <!-- small box -->
+                                            <div class="small-box bg-warning">
+                                                <div class="inner">
+                                                    <h3>10.000</h3>
+
+                                                    <p>Mai chị Ánh đi muộn</p>
+                                                </div>
+                                                <div class="icon">
+                                                    <i class="ion ion-person-add"></i>
+                                                </div>
+                                                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                            </div>
+                                        </div>
+                                        <!-- ./col -->
+                                        <div class="col-sm-12">
+                                            <!-- small box -->
+                                            <div class="small-box bg-danger">
+                                                <div class="inner">
+                                                    <h3>65</h3>
+
+                                                    <p>Unique Visitors</p>
+                                                </div>
+                                                <div class="icon">
+                                                    <i class="ion ion-pie-graph"></i>
+                                                </div>
+                                                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div></section>
+                        </div>
+                        <!-- ./col -->
+                    </div>
                 </div>
                 <!-- /.row (main row) -->
             </div><!-- /.container-fluid -->
