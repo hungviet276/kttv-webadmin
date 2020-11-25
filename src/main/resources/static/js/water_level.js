@@ -504,7 +504,7 @@ $("#btnExec").click(function(){
         "contentType": "application/json",
         "data" : JSON.stringify(data),
         "success": function (response) {
-            $("#innertText").val(response.message);
+            $("#innertText").text(response.message);
             $('#modelResponse').modal('show');
         },
         "error": function (error) {
