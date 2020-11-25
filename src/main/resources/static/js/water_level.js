@@ -513,32 +513,35 @@ $("#btnExec").click(function(){
         "error": function (error) {
             console.log(error)
             toastr.error('Sửa', error.responseJSON.message);
-            
+
         }
     });
 });
 
-$.ajax({
-    headers: {
-        'Authorization': token
-    },
-    "url": apiUrl + "water-level/file-out-put-info",
-    "method": "GET",
-    "contentType": "application/json",
-    "success": function (response) {
-        console.log(response);
-        let str = ""
-        for(let i =0 ; i < response.length ; i++){
-            str +=response[i].fileName ;
-            str+="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-            var date = new Date(response[i].modifyDate);
-            str+=date ;
-            str+="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-            str+='<button type="button" class="btn btn-primary" onclick ="download('+ response[i].fileName+')" >Tải xuống</button> <br>';
-        }
-        document.getElementById("detailFile").innerHTML =str;
+function showFileInfo(){
+    $.ajax({
+        headers: {
+            'Authorization': token
+        },
+        "url": apiUrl + "water-level/file-out-put-info",
+        "method": "GET",
+        "contentType": "application/json",
+        "success": function (response) {
+            console.log(response);
+            let str = ""
+            for(let i =0 ; i < response.length ; i++){
+                str += '<p style="min-width: 250px">'+response[i].fileName +'</p>';
+                str+="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+                var date = new Date(response[i].modifyDate);
+                str+=date ;
+                str+="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+                str+= '<a class="btn btn-primary" href="/download/water-level?filename='+response[i].fileName+'" role="button">Tải xuống</a> <br><br>';
+            }
+            document.getElementById("detailFile").innerHTML =str;
 
-    },
-    "error": function (error) {
-    }
-});
+        },
+        "error": function (error) {
+        }
+    });
+}
+showFileInfo();
