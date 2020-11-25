@@ -46,7 +46,7 @@ var station =
                 method: "GET",
                 contentType: "application/json",
                 success: function (data) {
-                    console.log(data);
+                    //console.log(data);
                     $("#parameter").select2({data: data});
                     global.disableLoading();
                 },
@@ -67,7 +67,7 @@ var station =
                 // contentType: "application/json",
                 // data : data,
                 success: function (data) {
-                    console.log(data);
+                    //console.log(data);
                     $("#timeSeries").empty();
                     $("#timeSeries").select2({data: data});
                     global.disableLoading();
@@ -88,7 +88,7 @@ var station =
                 method: "GET",
                 contentType: "application/json",
                 success: function (data) {
-                    console.log(data);
+                    //console.log(data);
                     $("#unitId").select2({data: data});
                     global.disableLoading();
                 },
@@ -127,7 +127,8 @@ var station =
                         toastr.error('', data.message);
                     }
                     //station.table.ajax.reload();
-                    station.objParameterSearch['s_stationId'] = station.parameter.stationId;
+                    //station.objParameterSearch['s_stationId'] = station.parameter.stationId;
+                    station.objParameterSearch['s_stationId'] = '';
                     station.objParameterSearch['s_uuid'] = station.uuid;
                     station.searchSeries();
                     station.btnRefreshParameter();
@@ -370,7 +371,7 @@ var station =
                         "method": "POST",
                         "contentType": "application/json",
                         "data": function (d) {
-                            console.log(d);
+                            //console.log(d);
                             draw = d.draw;
                             return JSON.stringify({
                                 "draw": d.draw,
@@ -435,7 +436,7 @@ var station =
         fillDataToForm: function (rowData) {
             $('.help-block').html('');
             if (rowData != null && rowData != undefined && rowData.length > 0) {
-                console.log(rowData);
+                //console.log(rowData);
                 station.enabled_right();
                 $("#btnSave").css("display", "none");
                 $("#btnDelete").css("display", "inline");
@@ -449,13 +450,14 @@ var station =
                 //lay thong tin list parameter
                 station.parameter.stationId = rowData[0].parameterTypeId;
                 station.objParameterSearch['s_stationId'] = rowData[0].parameterTypeId;
+                station.objParameterSearch['s_storage'] = rowData[0].storage;
                 station.objParameterSearch['s_uuid'] = null;
                 // station.uuid = rowData[0].uuid;
 
                 $('#parameter').val(rowData[0].parameterTypeName);
                 $('#parameterDesc').val(rowData[0].parameterTypeDescription);
                 $('#unitId').val(rowData[0].unitId).trigger('change');
-                station.objParameterSearch['s_uuid'] = null;
+                //station.objParameterSearch['s_uuid'] = null;
                 if (station.tableParameter === undefined) {
                     station.searchSeries();
                 } else {
@@ -565,7 +567,7 @@ var station =
             $("#commandControl").prop('disabled', false);
             //lay thong tin cua row data dang tuong tac
             let rowData = station.table.rows(index).data().toArray();
-            console.log(JSON.stringify(rowData));
+            //console.log(JSON.stringify(rowData));
             $("#management-station-control").modal();
             $("#stationTypeIdControl").val(rowData[0].stationTypeId).trigger('change');
             $("#stationCodeControl").val(rowData[0].stationCode);
@@ -762,7 +764,7 @@ $(document).ready(function () {
             "method": "POST",
             "contentType": "application/json",
             "data": function (d) {
-                console.log(d);
+                //console.log(d);
                 draw = d.draw;
                 return JSON.stringify({
                     "draw": d.draw,
