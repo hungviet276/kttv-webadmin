@@ -9,12 +9,7 @@ function hideURLbar() {
 // window
 
 $(window).on('load',function () {
-    $('.flexslider').flexslider({
-        animation: "slide",
-        start: function (slider) {
-            $('body').removeClass('loading');
-        }
-    });
+
 });
 
 // slider

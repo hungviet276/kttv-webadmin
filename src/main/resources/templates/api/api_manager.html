@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:replace="layout_header.html :: head_tag"/>
+    <title>Quản lý Api</title>
+    <link rel="stylesheet" href="css/api_manager.css" type="text/css">
+
+</head>
+<body class="hold-transition sidebar-mini layout-fixed text-sm">
+<div class="wrapper">
+
+    <th:block th:replace="layout_menu.html :: menu_tag"/>
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="container-fluid">
+                <div class="card card-default">
+                    <div class="container-fluid">
+                        <div class="row content" style="width: 100%">
+                            <div class="col-sm-5" id="box_search">
+                                <div class="card-header">
+                                    <h3 style="text-align: center"><b>Tìm kiếm api</b></h3>
+                                </div>
+                                <br/>
+                                <form class="form-horizontal" id="form_data">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="inputUsers">User</label>
+                                            <select id="inputUsers"
+                                                    class="select2bs4 form-control">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-md-6">
+                                            <label>URL</label>
+                                            <input type="text" class="form-control" id="inputUrl"
+                                                   placeholder="Nhập đường dẫn">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="inputPublish">Method</label>
+                                            <select id="inputPublish" class="form-control">
+                                                <option value="POST">POST</option>
+                                                <option value="GET">GET</option>
+                                                <option value="PUT">PUT</option>
+                                                <option value="DELETE">DELETE</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="wrap-button-control">
+                                    <button class="btn btn-primary" id="btnSearch" style="width:100px;">
+                                        <i class="fas fa-search"></i> Tìm kiếm
+                                    </button>
+                                    <button class="btn btn-primary" id="btnUpdate" style="width:100px;">
+                                        <i class="fas fa-search"></i> update
+                                    </button>
+                                </div>
+
+                                <!--                            <p th:text="${a}"></p>-->
+                                <div><input style="display:none" type="text" class="form-control" name="action_info"
+                                            id="action_info" value="0"></div>
+                                <div class="card-body" style="width: 100%;overflow: auto">
+                                    <table id="tableDataView" class="table table-bordered table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>#</th>
+                                            <th data-id="api">Api</th>
+                                            <th data-id="method">Method</th>
+                                            <th data-id="user">user</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<!-- Control Sidebar -->
+<aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+</aside>
+<th:block th:replace="layout_footer.html :: footer_tag"/>
+<script type="text/javascript">
+    var apiUrl = "[[${session.apiUrl}]]";
+    var userBO = "[[${session.userBO}]]";
+    var username = "[[${session.userBO.Username}]]";
+    var token = "[[${session.token}]]";
+</script>
+<script src="js/api_manager.js"></script>
+</html>
