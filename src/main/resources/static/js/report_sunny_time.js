@@ -1,66 +1,66 @@
-$(function () {
-    $("#start_date").daterangepicker({
-        "singleDatePicker": true,
-        "linkedCalendars": false,
-        "showCustomRangeLabel": false,
-        "alwaysShowCalendars": true,
-        "autoUpdateInput": false,
-        locale: {
-            cancelLabel: 'Clear',
-            format: 'DD/MM/YYYY'
-        }
-    }, function (start, end, label) {
-    });
-    $('#start_date').on('cancel.daterangepicker', function (ev, picker) {
-        $(this).val('');
-    });
-
-    $('#start_date').on('apply.daterangepicker', function (ev, picker) {
-        $("#start_date").val(picker.startDate.format('DD/MM/YYYY'));
-    });
-
-    $('#end_date').daterangepicker({
-        "singleDatePicker": true,
-        "linkedCalendars": false,
-        "showCustomRangeLabel": false,
-        "alwaysShowCalendars": true,
-        "autoUpdateInput": false,
-        locale: {
-            cancelLabel: 'Clear',
-            format: 'DD/MM/YYYY'
-        }
-    }, function (start, end, label) {
-    });
-    $('#end_date').on('cancel.daterangepicker', function (ev, picker) {
-        $(this).val('');
-
-    });
-
-    $('#end_date').on('apply.daterangepicker', function (ev, picker) {
-        $("#end_date").val(picker.startDate.format('DD/MM/YYYY'));
-    });
-});
-
-function validateSearch() {
-    var patt = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/;
-    if ($('#start_date').val() != '' && !patt.test($.trim($('#start_date').val()))) {
-        toastr.error('Điều kiện tìm kiếm Từ ngày không đúng định dạng dd/mm/yyyy');
-        $('#start_date').focus();
-        return;
-    }
-
-    var patt = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/;
-    if ($('#end_date').val() != '' && !patt.test($.trim($('#end_date').val()))) {
-        toastr.error('Điều kiện tìm kiếm đến ngày không đúng định dạng dd/mm/yyyy');
-        $('#end_date').focus();
-        return;
-    }
-    return true;
-}
+// $(function () {
+//     $("#start_date").daterangepicker({
+//         "singleDatePicker": true,
+//         "linkedCalendars": false,
+//         "showCustomRangeLabel": false,
+//         "alwaysShowCalendars": true,
+//         "autoUpdateInput": false,
+//         locale: {
+//             cancelLabel: 'Clear',
+//             format: 'DD/MM/YYYY'
+//         }
+//     }, function (start, end, label) {
+//     });
+//     $('#start_date').on('cancel.daterangepicker', function (ev, picker) {
+//         $(this).val('');
+//     });
+//
+//     $('#start_date').on('apply.daterangepicker', function (ev, picker) {
+//         $("#start_date").val(picker.startDate.format('DD/MM/YYYY'));
+//     });
+//
+//     $('#end_date').daterangepicker({
+//         "singleDatePicker": true,
+//         "linkedCalendars": false,
+//         "showCustomRangeLabel": false,
+//         "alwaysShowCalendars": true,
+//         "autoUpdateInput": false,
+//         locale: {
+//             cancelLabel: 'Clear',
+//             format: 'DD/MM/YYYY'
+//         }
+//     }, function (start, end, label) {
+//     });
+//     $('#end_date').on('cancel.daterangepicker', function (ev, picker) {
+//         $(this).val('');
+//
+//     });
+//
+//     $('#end_date').on('apply.daterangepicker', function (ev, picker) {
+//         $("#end_date").val(picker.startDate.format('DD/MM/YYYY'));
+//     });
+// });
+//
+// function validateSearch() {
+//     var patt = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/;
+//     if ($('#start_date').val() != '' && !patt.test($.trim($('#start_date').val()))) {
+//         toastr.error('Điều kiện tìm kiếm Từ ngày không đúng định dạng dd/mm/yyyy');
+//         $('#start_date').focus();
+//         return;
+//     }
+//
+//     var patt = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/;
+//     if ($('#end_date').val() != '' && !patt.test($.trim($('#end_date').val()))) {
+//         toastr.error('Điều kiện tìm kiếm đến ngày không đúng định dạng dd/mm/yyyy');
+//         $('#end_date').focus();
+//         return;
+//     }
+//     return true;
+// }
 
 // chart
 
-const chart = {
+const chartSunnyTime = {
     time: [],
     dataSunnyTime: [],
     min: undefined,
@@ -90,20 +90,20 @@ const chart = {
         return this.time;
     },
     showSlider: function () {
-        let valueAVG = document.getElementsByClassName("value_avg");
-        let valueMIN = document.getElementsByClassName("value_min");
-        let valueMAX = document.getElementsByClassName("value_max");
+        let valueAVG = document.getElementsByClassName("value_avg_sunny_time");
+        let valueMIN = document.getElementsByClassName("value_min_sunny_time");
+        let valueMAX = document.getElementsByClassName("value_max_sunny_time");
         valueAVG[0].innerHTML = this.getAverage(this.dataSunnyTime) + ' phút';
         valueMIN[0].innerHTML = this.getMin(this.dataSunnyTime) + ' phút';
         valueMAX[0].innerHTML = this.getMax(this.dataSunnyTime) + ' phút';
     }
 };
-chart.getTime();
-chart.getDataSunnyTime();
-chart.showSlider();
+chartSunnyTime.getTime();
+chartSunnyTime.getDataSunnyTime();
+chartSunnyTime.showSlider();
 
 ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9", "b55b025e438fa8a98e32482b5f768ff5"];
-let chartConfig = {
+let chartSunnyTimeConfig = {
     type: 'area',
     stacked: true,
     title: {
@@ -134,7 +134,7 @@ let chartConfig = {
             text: '',
             fontColor: '#616161'
         },
-        labels: chart.time,
+        labels: chartSunnyTime.time,
         lineColor: '#AAA5A5',
         // format time
         transform: {
@@ -189,7 +189,7 @@ let chartConfig = {
         {
             text: 'Thời gian',
             // Hiển thị dữ liệu độ mặn
-            values: chart.dataSunnyTime,
+            values: chartSunnyTime.dataSunnyTime,
             backgroundColor: 'white',
             lineColor: '#ff8e07',
             // marker: {
@@ -201,8 +201,8 @@ let chartConfig = {
 };
 
 zingchart.render({
-    id: 'myChart',
-    data: chartConfig,
+    id: 'myChartSunnyTime',
+    data: chartSunnyTimeConfig,
     height: '100%',
     width: '100%'
 });

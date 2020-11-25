@@ -1,4 +1,5 @@
 $(function () {
+
     $("#start_date").daterangepicker({
         "singleDatePicker": true,
         "linkedCalendars": false,
@@ -58,8 +59,50 @@ function validateSearch() {
     return true;
 }
 
+
+$("#box_info_tides").css('display','none');
+$("#box_info_spring_tides").css('display','none');
+$("#box_info_temperature_rainfall").css('display','none');
+$("#box_info_sunny_time").css('display','none');
+
+var select = document.querySelector('select[name="chart-selector"]');
+select.addEventListener('change', function () {
+    console.log(event.target.value);
+    if (event.target.value === 'spring_tides') {
+        $("#box_info_tides").css('display','none');
+        $("#box_info_spring_tides").css('display','inline');
+        $("#box_info_temperature_rainfall").css('display','none');
+        $("#box_info_sunny_time").css('display','none');
+    } else if (event.target.value === 'tides') {
+        $("#box_info_tides").css('display','inline');
+        $("#box_info_spring_tides").css('display','none');
+        $("#box_info_temperature_rainfall").css('display','none');
+        $("#box_info_sunny_time").css('display','none');
+
+    } else if (event.target.value === 'sunny_time') {
+        $("#box_info_tides").css('display','none');
+        $("#box_info_spring_tides").css('display','none');
+        $("#box_info_temperature_rainfall").css('display','none');
+        $("#box_info_sunny_time").css('display','inline');
+
+    } else if (event.target.value === 'temperature_rainfall') {
+        $("#box_info_tides").css('display','none');
+        $("#box_info_spring_tides").css('display','none');
+        $("#box_info_temperature_rainfall").css('display','inline');
+        $("#box_info_sunny_time").css('display','none');
+
+    } else {
+        $("#box_info_tides").css('display','none');
+        $("#box_info_spring_tides").css('display','none');
+        $("#box_info_temperature_rainfall").css('display','none');
+        $("#box_info_sunny_time").css('display','none');
+    }
+});
+
+
+
 // Chart
-const chart = {
+const chartTides = {
     dataHmax: [],
     time: [],
     min: undefined,
@@ -87,20 +130,20 @@ const chart = {
         return this.time;
     },
     showSlider: function () {
-        let valueAVG = document.getElementsByClassName("value_avg");
-        let valueMIN = document.getElementsByClassName("value_min");
-        let valueMAX = document.getElementsByClassName("value_max");
+        let valueAVG = document.getElementsByClassName("value_avg_tides");
+        let valueMIN = document.getElementsByClassName("value_min_tides");
+        let valueMAX = document.getElementsByClassName("value_max_tides");
         valueAVG[0].innerHTML = this.getAverage(this.dataHmax) + ' cm';
         valueMIN[0].innerHTML = this.getMin(this.dataHmax) + ' cm';
         valueMAX[0].innerHTML = this.getMax(this.dataHmax) + ' cm';
     }
 };
 // lấy dữ liệu test
-chart.getTime();
-chart.getDataHmax();
-chart.showSlider();
+chartTides.getTime();
+chartTides.getDataHmax();
+chartTides.showSlider();
 // Chart
-let chartConfig = {
+let chartTidesConfig = {
     type: 'area',
     stacked: true,
     title: {
@@ -133,7 +176,7 @@ let chartConfig = {
             fontColor: '#616161'
         },
         // Thời gian trục X
-        labels: chart.time,
+        labels: chartTides.time,
         lineColor: '#AAA5A5',
         transform: {
             type: 'date',
@@ -188,7 +231,7 @@ let chartConfig = {
     series: [
         {
             text: 'Mực nước',
-            values: chart.dataHmax,
+            values: chartTides.dataHmax,
             backgroundColor: '#4490bd',
             lineColor: '#0306af',
             marker: {
@@ -200,10 +243,9 @@ let chartConfig = {
 };
 
 zingchart.render({
-    id: 'myChart',
-    data: chartConfig,
+    id: 'myChartTides',
+    data: chartTidesConfig,
     height: '100%',
     width: '100%'
 });
-
 

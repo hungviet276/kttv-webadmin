@@ -1,65 +1,64 @@
-$(function () {
-    $("#start_date").daterangepicker({
-        "singleDatePicker": true,
-        "linkedCalendars": false,
-        "showCustomRangeLabel": false,
-        "alwaysShowCalendars": true,
-        "autoUpdateInput": false,
-        locale: {
-            cancelLabel: 'Clear',
-            format: 'DD/MM/YYYY'
-        }
-    }, function (start, end, label) {
-    });
-    $('#start_date').on('cancel.daterangepicker', function (ev, picker) {
-        $(this).val('');
-    });
-
-    $('#start_date').on('apply.daterangepicker', function (ev, picker) {
-        $("#start_date").val(picker.startDate.format('DD/MM/YYYY'));
-    });
-
-    $('#end_date').daterangepicker({
-        "singleDatePicker": true,
-        "linkedCalendars": false,
-        "showCustomRangeLabel": false,
-        "alwaysShowCalendars": true,
-        "autoUpdateInput": false,
-        locale: {
-            cancelLabel: 'Clear',
-            format: 'DD/MM/YYYY'
-        }
-    }, function (start, end, label) {
-    });
-    $('#end_date').on('cancel.daterangepicker', function (ev, picker) {
-        $(this).val('');
-
-    });
-
-    $('#end_date').on('apply.daterangepicker', function (ev, picker) {
-        $("#end_date").val(picker.startDate.format('DD/MM/YYYY'));
-    });
-});
-
-function validateSearch() {
-    var patt = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/;
-    if ($('#start_date').val() != '' && !patt.test($.trim($('#start_date').val()))) {
-        toastr.error('Điều kiện tìm kiếm Từ ngày không đúng định dạng dd/mm/yyyy');
-        $('#start_date').focus();
-        return;
-    }
-
-    var patt = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/;
-    if ($('#end_date').val() != '' && !patt.test($.trim($('#end_date').val()))) {
-        toastr.error('Điều kiện tìm kiếm đến ngày không đúng định dạng dd/mm/yyyy');
-        $('#end_date').focus();
-        return;
-    }
-    return true;
-}
+// $(function () {
+//     $("#start_date").daterangepicker({
+//         "singleDatePicker": true,
+//         "linkedCalendars": false,
+//         "showCustomRangeLabel": false,
+//         "alwaysShowCalendars": true,
+//         "autoUpdateInput": false,
+//         locale: {
+//             cancelLabel: 'Clear',
+//             format: 'DD/MM/YYYY'
+//         }
+//     }, function (start, end, label) {
+//     });
+//     $('#start_date').on('cancel.daterangepicker', function (ev, picker) {
+//         $(this).val('');
+//     });
+//
+//     $('#start_date').on('apply.daterangepicker', function (ev, picker) {
+//         $("#start_date").val(picker.startDate.format('DD/MM/YYYY'));
+//     });
+//
+//     $('#end_date').daterangepicker({
+//         "singleDatePicker": true,
+//         "linkedCalendars": false,
+//         "showCustomRangeLabel": false,
+//         "alwaysShowCalendars": true,
+//         "autoUpdateInput": false,
+//         locale: {
+//             cancelLabel: 'Clear',
+//             format: 'DD/MM/YYYY'
+//         }
+//     }, function (start, end, label) {
+//     });
+//     $('#end_date').on('cancel.daterangepicker', function (ev, picker) {
+//         $(this).val('');
+//
+//     });
+//
+//     $('#end_date').on('apply.daterangepicker', function (ev, picker) {
+//         $("#end_date").val(picker.startDate.format('DD/MM/YYYY'));
+//     });
+// });
+//
+// function validateSearch() {
+//     var patt = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/;
+//     if ($('#start_date').val() != '' && !patt.test($.trim($('#start_date').val()))) {
+//         toastr.error('Điều kiện tìm kiếm Từ ngày không đúng định dạng dd/mm/yyyy');
+//         $('#start_date').focus();
+//         return;
+//     }
+//
+//     var patt = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/;
+//     if ($('#end_date').val() != '' && !patt.test($.trim($('#end_date').val()))) {
+//         toastr.error('Điều kiện tìm kiếm đến ngày không đúng định dạng dd/mm/yyyy');
+//         $('#end_date').focus();
+//         return;
+//     }
+//     return true;
+// }
 
 // Chart
-let today = Date.parse(new Date());
 const chart = {
     time: [],
     dataRainfall: [],
@@ -89,7 +88,7 @@ const chart = {
         return this.dataTemperature;
     },
     getTime: function () {
-        this.time = [today, 1563800400000, 1563804000000, 1563807600000, 1563907600000, 1564807600000];
+        this.time = [1563600400000, 1563800400000, 1563804000000, 1563807600000, 1563907600000, 1564807600000];
         return this.time;
     },
     showSlider: function () {
