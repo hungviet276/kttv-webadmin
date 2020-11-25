@@ -504,7 +504,10 @@ $("#btnExec").click(function(){
         "contentType": "application/json",
         "data" : JSON.stringify(data),
         "success": function (response) {
-            $("#innertText").val(response.message);
+            let str = response.message;
+            var res =  str.replaceAll(" ", "&nbsp;");
+            document.getElementById("innertText").innerHTML = res;
+
             $('#modelResponse').modal('show');
         },
         "error": function (error) {
@@ -512,4 +515,24 @@ $("#btnExec").click(function(){
             toastr.error('Sửa', error.responseJSON.message);
         }
     });
+});
+
+$.ajax({
+    headers: {
+        'Authorization': token
+    },
+    "url": apiUrl + "water-level/file-out-put-info",
+    "method": "GET",
+    "contentType": "application/json",
+    "success": function (response) {
+        console.log(response);
+        let str = ""
+        for(let i =0 ; i < response.length ; i++){
+            str = response[i].fileName + "     " + response[i].modifyDate + '     <button type="button" class="btn btn-primary" onclick ="download('+ response[i].fileName+')" >Tải xuống</button> <br>0';
+        }
+        document.getElementById("detailFile").innerHTML =str;
+
+    },
+    "error": function (error) {
+    }
 });
