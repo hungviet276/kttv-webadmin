@@ -40,6 +40,35 @@ $(function () {
     $('#end_date').on('apply.daterangepicker', function (ev, picker) {
         $("#end_date").val(picker.startDate.format('DD/MM/YYYY'));
     });
+    $('.spring_tides').flexslider({
+        animation: "slide",
+        start: function (slider) {
+            $("#box_info_spring_tides").css('display','none');
+            $('body').removeClass('loading');
+        }
+    });
+
+    $('.temperature_rainfall').flexslider({
+        animation: "slide",
+        start: function (slider) {
+            $("#box_info_temperature_rainfall").css('display','none');
+            $('body').removeClass('loading');
+        }
+    });
+    $('.sunny_time').flexslider({
+        animation: "slide",
+        start: function (slider) {
+            $("#box_info_sunny_time").css('display','none');
+            $('body').removeClass('loading');
+        }
+    });
+    $('.tides').flexslider({
+        animation: "slide",
+        start: function (slider) {
+            $("#box_info_tides").css('display','none');
+            $('body').removeClass('loading');
+        }
+    });
 });
 
 function validateSearch() {
@@ -59,15 +88,12 @@ function validateSearch() {
     return true;
 }
 
-
-$("#box_info_tides").css('display','none');
-$("#box_info_spring_tides").css('display','none');
-$("#box_info_temperature_rainfall").css('display','none');
-$("#box_info_sunny_time").css('display','none');
+// $("#sliderAll").css('display','none');
 
 var select = document.querySelector('select[name="chart-selector"]');
 select.addEventListener('change', function () {
     console.log(event.target.value);
+    $("#sliderAll").css('display','');
     if (event.target.value === 'spring_tides') {
         $("#box_info_tides").css('display','none');
         $("#box_info_spring_tides").css('display','inline');
