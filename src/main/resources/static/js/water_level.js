@@ -532,10 +532,9 @@ function showFileInfo(){
             for(let i =0 ; i < response.length ; i++){
                 str += '<p style="min-width: 150px; display: inline-block">'+response[i].fileName +'</p>';
                 str+="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-                var date = new Date(response[i].modifyDate);
-                str+=date ;
+                str+=response[i].modifyDate;
                 str+="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-                str+='<button type="button" class="btn btn-primary" onclick ="downloadFile("'+ response[i].fileName+'")" >Tải xuống</button> <br><br>';
+                str+='<button type="button" class="btn btn-primary" onclick ="downloadFile("'+response[i].fileName.trim()+'")" >Tải xuống</button> <br><br>';
             }
             document.getElementById("detailFile").innerHTML =str;
 
@@ -546,47 +545,49 @@ function showFileInfo(){
 }
 showFileInfo();
 function downloadFile(fileName){
-    $.ajax({
-        headers: {
-            'Authorization': token
-        },
-        url: apiUrl + 'download/water-level?filename='+fileName.trim(),
-        method: 'GET',
-        xhr: function () {
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState == 2) {
-                    if (xhr.status == 200) {
-                        xhr.responseType = "blob";
-                    } else {
-                        xhr.responseType = "text";
-                    }
-                }
-            };
-            return xhr;
-        },
-        success: function (data, status, xhr) {
-            let filename = "";
-            let disposition = xhr.getResponseHeader('Content-Disposition');
-            if (disposition && disposition.indexOf('attachment') !== -1) {
-                let filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
-                let matches = filenameRegex.exec(disposition);
-                if (matches != null && matches[1]) filename = matches[1].replace(/['"]/g, '');
-            }
-            let a = document.createElement('a');
-            let url = window.URL.createObjectURL(data);
-            a.href = url;
-            a.download = filename.replace('UTF-8', '');;
-            document.body.append(a);
-            a.click();
-            a.remove();
-            window.URL.revokeObjectURL(url);
-            $("#overlay").fadeOut(300);
-        },
-        error: function (xhr) {
-            // console.log(xhr.responseText); -> output is blob
-            $("#overlay").fadeOut(300);
-            $.notify("Có lỗi sảy ra", 'error');
-        }
-    });
+    console.log("aaaaaaaaaaaa");
+    console.log(fileName);
+    // $.ajax({
+    //     headers: {
+    //         'Authorization': token
+    //     },
+    //     url: apiUrl + 'download/water-level?filename='+fileName.trim(),
+    //     method: 'GET',
+    //     xhr: function () {
+    //         var xhr = new XMLHttpRequest();
+    //         xhr.onreadystatechange = function () {
+    //             if (xhr.readyState == 2) {
+    //                 if (xhr.status == 200) {
+    //                     xhr.responseType = "blob";
+    //                 } else {
+    //                     xhr.responseType = "text";
+    //                 }
+    //             }
+    //         };
+    //         return xhr;
+    //     },
+    //     success: function (data, status, xhr) {
+    //         let filename = "";
+    //         let disposition = xhr.getResponseHeader('Content-Disposition');
+    //         if (disposition && disposition.indexOf('attachment') !== -1) {
+    //             let filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+    //             let matches = filenameRegex.exec(disposition);
+    //             if (matches != null && matches[1]) filename = matches[1].replace(/['"]/g, '');
+    //         }
+    //         let a = document.createElement('a');
+    //         let url = window.URL.createObjectURL(data);
+    //         a.href = url;
+    //         a.download = filename.replace('UTF-8', '');;
+    //         document.body.append(a);
+    //         a.click();
+    //         a.remove();
+    //         window.URL.revokeObjectURL(url);
+    //         $("#overlay").fadeOut(300);
+    //     },
+    //     error: function (xhr) {
+    //         // console.log(xhr.responseText); -> output is blob
+    //         $("#overlay").fadeOut(300);
+    //         $.notify("Có lỗi sảy ra", 'error');
+    //     }
+    // });
 }
