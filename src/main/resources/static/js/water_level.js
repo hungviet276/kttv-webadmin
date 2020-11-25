@@ -516,3 +516,17 @@ $("#btnExec").click(function(){
         }
     });
 });
+
+$.ajax({
+    headers: {
+        'Authorization': token
+    },
+    "url": apiUrl + "water-level/file-out-put-info",
+    "method": "POST",
+    "contentType": "application/json",
+    "success": function (response) {
+        console.log(response)
+    },
+    "error": function (error) {
+    }
+});
