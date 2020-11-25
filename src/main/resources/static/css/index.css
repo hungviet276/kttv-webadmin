@@ -1,3 +1,6 @@
+* {
+    font-family: 'Open Sans', sans-serif;
+}
 .wrap-iframe-map, .wrap-iframe-chart  {
     position: relative;
     width: 100%;
