@@ -535,7 +535,7 @@ function showFileInfo(){
                 var date = new Date(response[i].modifyDate);
                 str+=date ;
                 str+="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-                str+='<button type="button" class="btn btn-primary" onclick ="downloadFile('+ response[i].fileName+')" >Tải xuống</button> <br><br>';
+                str+='<button type="button" class="btn btn-primary" onclick ="downloadFile("'+ response[i].fileName+'")" >Tải xuống</button> <br><br>';
             }
             document.getElementById("detailFile").innerHTML =str;
 
