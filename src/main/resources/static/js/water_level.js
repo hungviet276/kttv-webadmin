@@ -550,7 +550,7 @@ function downloadFile(fileName){
         headers: {
             'Authorization': token
         },
-        url: apiUrl + 'download/water-level?filename='+fileName,
+        url: apiUrl + 'download/water-level?filename='+fileName.trim(),
         method: 'GET',
         xhr: function () {
             var xhr = new XMLHttpRequest();
