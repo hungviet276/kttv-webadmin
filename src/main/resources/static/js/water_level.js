@@ -534,7 +534,7 @@ function showFileInfo(){
                 str+="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
                 str+=response[i].modifyDate;
                 str+="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-                str+='<button type="button" class="btn btn-primary" onclick ="downloadFile('+response[i]+')" >Tải xuống</button> <br><br>';
+                str+='<button type="button" class="btn btn-primary" onclick ="downloadFile(\"'+"aaaaaa"+'\")" >Tải xuống</button> <br><br>';
             }
             document.getElementById("detailFile").innerHTML =str;
 
