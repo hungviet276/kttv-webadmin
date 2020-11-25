@@ -522,7 +522,7 @@ $.ajax({
         'Authorization': token
     },
     "url": apiUrl + "water-level/file-out-put-info",
-    "method": "POST",
+    "method": "GET",
     "contentType": "application/json",
     "success": function (response) {
         console.log(response)
