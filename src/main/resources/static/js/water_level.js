@@ -513,6 +513,7 @@ $("#btnExec").click(function(){
         "error": function (error) {
             console.log(error)
             toastr.error('Sửa', error.responseJSON.message);
+            
         }
     });
 });
