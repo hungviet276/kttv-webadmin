@@ -33,7 +33,6 @@
     overflow-y: scroll;
 }
 
-/*config upload file*/
 /* width */
 ::-webkit-scrollbar {
     width: 0;
@@ -55,4 +54,32 @@
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
     opacity: 0;
+}
+.description-waring {
+    font-size: 0.8em !important;
+}
+.warning-name {
+    font-size: 0.9em !important;
+    font-weight: 600 !important;
+    margin-bottom: 0 !important
+}
+.warning-desc {
+    font-size: 0.8em !important;
+    color: #999 !important;
+    margin-bottom: 0 !important
+}
+.warning-content {
+    font-size: 0.6em !important;
+    padding: 0.4em !important;
+    margin-bottom: 0 !important
+}
+.warning-date {
+    font-style: italic !important;
+    font-size: 0.6em !important;
+    text-align: right !important;
+    margin-bottom: 0 !important;
+    color: #999 !important;
+}
+.small-box {
+    padding: 0.5em 1em;
 }
