@@ -77,7 +77,7 @@ public class ReportController {
     @GetMapping("/station-3h")
     public String getStationReportPage(@RequestParam String stationCode, HttpServletRequest httpServletRequest, Model model) throws JsonProcessingException {
         List<ParameterDisplayChartDTO> listParameterTypeId = reportService.getListParameterTypeIdDisplayChart(stationCode, String.valueOf(httpServletRequest.getSession().getAttribute("token")));
-        System.out.println(listParameterTypeId);
+//        System.out.println(listParameterTypeId);
         model.addAttribute("listParameterTypeId", listParameterTypeId);
         model.addAttribute("stationCode", stationCode);
         return "report/station_report_quick_view";
