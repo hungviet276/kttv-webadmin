@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:replace="layout_header.html :: head_tag" />
+    <link rel="stylesheet" href="/css/notification_detail.css" type="text/css">
+    <title>Cảnh báo</title>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed text-sm">
+<div class="wrapper">
+
+    <th:block th:replace="layout_menu.html :: menu_tag" />
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                </div>
+            </div>
+        </div>
+        <section class="content" th:if="${notify == null}">
+            <h3>Không tìm thấy cảnh báo</h3>
+        </section>
+        <section class="content" th:if="${notify != null}">
+            <div class="container-fluid">
+                <div class="card card-default">
+                    <div class="card-header">
+                        <h3 class="card-title notify-name">Chi tiết cảnh báo</h3>
+                    </div>
+                </div>
+                <!-- Main content -->
+                <section class="content">
+                    <p>
+                        <span class="notify-title">Tên cảnh báo: </span>
+                        <span  th:text="${notify.name}"></span>
+                    </p>
+                    <p>
+                        <span class="notify-title">Mã cảnh báo: </span>
+                        <span  th:text="${notify.code}"></span>
+                    </p>
+                    <p>
+                        <span class="notify-title">Màu sắc: </span>
+                        <span>
+                            <i class="fas fa-circle" th:style="'color:' + ${notify.color}"></i>
+                        </span>
+                    </p>
+                    <p>
+                        <span class="notify-title">Ngày tạo: </span>
+                        <span  th:text="${notify.createdAt}"></span>
+                    </p>
+                    <p>
+                        <span class="notify-title">Mô tả cảnh báo: </span>
+                        <span th:text="${notify.description}"></span>
+                    </p>
+                    <p>
+                        <span class="notify-title">Tên trạm: </span>
+                        <span th:text="${notify.stationName}"></span>
+                    </p>
+                   <div>
+                       <span class="notify-title">Nội dung: </span>
+                       <div th:utext="${notify.content}">
+
+                       </div>
+                   </div>
+                </section>
+            </div>
+        </section>
+    </div>
+    <th:block th:replace="layout_footer.html :: footer_tag" />
+    <script type="text/javascript">
+        var apiUrl = "[[${session.apiUrl}]]";
+        var userBO = "[[${session.userBO}]]";
+        var token = "[[${session.token}]]";
+        console.log(apiUrl + "|" + JSON.stringify(userBO) + "|" + token);
+    </script>
+</div>
+</body>
+</html>

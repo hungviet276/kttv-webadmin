@@ -1,0 +1,10 @@
+.notify-title {
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.content {
+    background-color: white;
+    padding: 2em;
+    border-radius: 0.1em;
+}

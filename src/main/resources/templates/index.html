@@ -20,7 +20,7 @@
                 <!-- Main row -->
                 <div class="row">
                     <div class="col-sm-12 col-md-12 col-lg-9">
-                        <p>Dữ liệu bản đồ</p>
+                        <p>Dữ liệu trạm đo</p>
                         <section class="wrapper-station">
                             <div class="card card-primary card-tabs card-map">
                                 <div class="card-header p-0 pt-1">
@@ -78,36 +78,34 @@
                             </div></section>
                     </div>
                     <div class="col-sm-12 col-md-12 col-lg-3">
-                        <p>Thông tin tổng hợp</p>
+                        <p>Thông tin cảnh báo</p>
                         <div class="card card-primary card-tabs card-news-feed">
                             <div class="card-body">
                                 <div class="tab-content">
                                     <div class="row wrap-news-feed">
                                         <div class="col-sm-12">
                                             <!-- small box -->
-                                            <div class="small-box bg-light container">
+                                            <div th:each="notify : ${listNotify}" class="small-box bg-light container">
                                                 <div class="row">
-                                                    <div class="col-sm-3 icon-warning">
-                                                        <i class="fas fa-smog"></i>
+                                                    <div class="col-sm-2 icon-warning" th:utext="${notify.icon}">
+
                                                     </div>
-                                                    <div class="col-sm-9 description-waring">
+                                                    <div class="col-sm-10 description-waring">
                                                         <p class="warning-name">
-                                                            <i class="fas fa-circle" style="color: #de2900;"></i>
-                                                            Cảnh báo dữ liệu sai
-                                                        </p>
-                                                        <p class="warning-desc">
-                                                            Mô tả cảnh báo xxxx
+                                                            <i class="fas fa-circle" th:style="'color:' + ${notify.color}"></i>
+                                                            <a target="_blank" th:href="'/notification/detail?id=' + ${notify.id}" th:text="${notify.name}">
+                                                            </a>
                                                         </p>
                                                     </div>
                                                 </div>
                                                 <div>
-                                                    <p class="warning-content">
-                                                        Dữ liệu sai ở nhiều chỗ chưa được chỉnh sửa, vui lòng chỉnh sửa lại cho nó xịn thêm một tí
+                                                    <p class="warning-desc" th:text="${notify.description}">
+
                                                     </p>
                                                 </div>
                                                 <div>
-                                                    <p class="warning-date">
-                                                        Ngày 27/10/2020
+                                                    <p class="warning-date" th:text="'Ngày ' + ${notify.createdAt}">
+
                                                     </p>
                                                 </div>
                                             </div>
