@@ -6,14 +6,19 @@ import com.neo.kttvwebadmin.entity.ParameterChartMapping;
 import com.neo.kttvwebadmin.entity.ParameterChartMappingAndData;
 import com.neo.kttvwebadmin.exception.KTTVException;
 import com.neo.kttvwebadmin.services.ReportService;
+import com.neo.kttvwebadmin.utils.DateUtils;
+import com.neo.kttvwebadmin.utils.TimeSeriesDataDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -49,14 +54,9 @@ public class ReportController {
         return "report/report_column_chart";
     }
 
-    @GetMapping("/report_spring_tides")
+    @GetMapping("/report_oceanographic")
     public String getReportSpringTides(){
-        return "report/report_spring_tides";
-    }
-
-    @GetMapping("/report_air_humidity")
-    public String getReportAirHumidity(){
-        return "report/report_air_humidity";
+        return "report/report_oceanographic";
     }
 
     @GetMapping("/report_ozone")
@@ -69,19 +69,9 @@ public class ReportController {
         return "report/report_salinity";
     }
 
-    @GetMapping("/report_sunny_time")
-    public String getReportSunnyTime(){
-        return "report/report_sunny_time";
-    }
-
-    @GetMapping("/report_temperature_rainfall")
-    public String getReportTemperatureRainfall(){
-        return "report/report_temperature_rainfall";
-    }
-
-    @GetMapping("/report_tides")
-    public String getReportTides(){
-        return "report/report_tides";
+    @GetMapping("/report_hydrological")
+    public String getReportHydrological(){
+        return "report/report_hydrological";
     }
 
     @GetMapping("/station-3h")

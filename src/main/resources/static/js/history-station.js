@@ -48,7 +48,7 @@ var station =
                 method: "GET",
                 contentType: "application/json",
                 success: function (data) {
-                    console.log(data);
+                    //console.log(data);
                     // $("#stationTypeIdP").select2({data: data});
                     // $("#stationTypeIdC").select2({data: data});
                     $("#stationTypeId").select2({data: data});
@@ -68,7 +68,7 @@ var station =
                 method: "GET",
                 contentType: "application/json",
                 success: function (data) {
-                    console.log(data);
+                    //console.log(data);
                     $("#areaIdP").empty();
                     $("#areaIdP").select2({data: data});
 
@@ -90,7 +90,7 @@ var station =
                 method: "GET",
                 contentType: "application/json",
                 success: function (data) {
-                    console.log(data);
+                    //console.log(data);
                     $("#provinceIdP").empty();
                     $("#provinceIdP").select2({data: data});
 
@@ -120,7 +120,7 @@ var station =
                 method: "GET",
                 contentType: "application/json",
                 success: function (data) {
-                    console.log(data);
+                    //console.log(data);
                     $("#districtIdP").empty();
                     $("#districtIdP").select2({data: data});
                     $("#districtIdC").empty();
@@ -152,7 +152,7 @@ var station =
                 method: "GET",
                 contentType: "application/json",
                 success: function (data) {
-                    console.log(data);
+                    //console.log(data);
                     $("#wardIdP").empty();
                     $("#wardIdP").select2({data: data});
                     $("#wardIdC").empty();
@@ -175,7 +175,7 @@ var station =
                 method: "GET",
                 contentType: "application/json",
                 success: function (data) {
-                    console.log(data);
+                    //console.log(data);
                     $("#riverIdP").empty();
                     $("#riverIdP").select2({data: data});
                     $("#riverIdC").empty();
@@ -200,7 +200,7 @@ var station =
                 async:false,
                 contentType: "application/json",
                 success: function (data) {
-                    console.log(data);
+                    //console.log(data);
                     station.objStation['address'] = data[0].address;
                     station.objStation['areaId'] = data[0].areaId;
                     station.objStation['areaName'] = data[0].areaName;
@@ -223,11 +223,11 @@ var station =
                     station.objStation['stationLongName'] = data[0].stationLongName;
                     station.objStation['stationName'] = data[0].stationName;
                     station.objStation['stationTypeId'] = data[0].stationTypeId;
-                    station.objStation['status'] = data[0].status;
+                    station.objStation['status'] = data[0].is_active;
                     station.objStation['trans_miss'] = data[0].trans_miss;
                     station.objStation['wardId'] = data[0].wardId;
                     station.objStation['wardName'] = data[0].wardName;
-                    console.log(station.objStation);
+                    //console.log(station.objStation);
 
                     $('#stationTypeIdC').val(station.objStation.objectTypeName);
                     $('#modeStationTypeC').val(station.objStation.modeStationType);
@@ -252,7 +252,7 @@ var station =
             $("#management-station-control").modal();
             let rowData = station.table.rows(index).data().toArray();
             if (rowData != null && rowData != undefined && rowData.length > 0) {
-                console.log(rowData);
+                //console.log(rowData);
 
                 // $('#stationTypeIdP').val(rowData[0].stationTypeId).trigger('change');
                 $('#stationTypeIdP').val(rowData[0].objectTypeName);
@@ -269,7 +269,7 @@ var station =
                 $('#addressP').val(rowData[0].address);
                 // $('#riverIdP').val(rowData[0].riverId).trigger('change');
                 $('#riverIdP').val(rowData[0].riverName);
-                $('#statusP').val(rowData[0].status);
+                $('#statusP').val(rowData[0].is_active);
 
                 station.getStation(rowData[0].stationId);
 
@@ -311,10 +311,10 @@ var station =
                 },
                 success: function (data, textStatus, xhr) {
                     global.disableLoading();
-                    console.log(textStatus + "| " + xhr.getAllResponseHeaders());
+                    //console.log(textStatus + "| " + xhr.getAllResponseHeaders());
                     var a = document.createElement('a');
                     var url = window.URL.createObjectURL(data);
-                    console.log("url: " + url);
+                    //console.log("url: " + url);
                     a.href = url;
                     a.download = xhr.getResponseHeader("content-disposition");
                     document.body.append(a);
@@ -464,7 +464,7 @@ $(document).ready(function () {
             "method": "POST",
             "contentType": "application/json",
             "data": function (d) {
-                console.log(d);
+                //console.log(d);
                 draw = d.draw;
                 return JSON.stringify({
                     "draw": d.draw,
@@ -507,7 +507,7 @@ $(document).ready(function () {
                         "address": responseJson.content[i].address,
                         "riverName": responseJson.content[i].riverName,
                         "stationHeight": responseJson.content[i].stationHeight,
-                        "status": responseJson.content[i].status,
+                        "is_active": responseJson.content[i].is_active,
                         "riverId": (responseJson.content[i].riverId === null || responseJson.content[i].riverId === 0) ? -1 : responseJson.content[i].riverId,
                         "stationTypeId": responseJson.content[i].objectTypeId,
                         "districtId": responseJson.content[i].districtId,

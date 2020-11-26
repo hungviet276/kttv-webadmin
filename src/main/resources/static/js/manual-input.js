@@ -50,7 +50,7 @@ var station =
                 method: "GET",
                 contentType: "application/json",
                 success: function (data) {
-                    console.log(data);
+                    //console.log(data);
                     $("#stationTypeIdP").select2({data: data});
                     $("#stationTypeIdC").select2({data: data});
                     $("#stationTypeId").select2({data: data});
@@ -68,7 +68,7 @@ var station =
                 method: "GET",
                 contentType: "application/json",
                 success: function (data) {
-                    console.log(data);
+                    //console.log(data);
                     $("#stationCode").select2({data: data});
                     $("#stationCodeN").select2({data: data});
                     global.disableLoading();
@@ -93,7 +93,7 @@ var station =
                 async:false,
                 contentType: "application/json",
                 success: function (data) {
-                    console.log(data);
+                    //console.log(data);
                     station.objStation['address'] = data[0].address;
                     station.objStation['areaId'] = data[0].areaId;
                     station.objStation['countryId'] = data[0].countryId;
@@ -119,7 +119,7 @@ var station =
                     station.objStation['trans_miss'] = data[0].trans_miss;
                     station.objStation['wardId'] = data[0].wardId;
                     station.objStation['wardName'] = data[0].wardName;
-                    console.log(station.objStation);
+                    //console.log(station.objStation);
 
                     $('#stationTypeIdC').val(station.objStation.stationTypeId).trigger('change');
                     $('#modeStationTypeC').val(station.objStation.modeStationType);
@@ -144,7 +144,7 @@ var station =
             $("#management-station-control").modal();
             let rowData = station.table.rows(index).data().toArray();
             if (rowData != null && rowData != undefined && rowData.length > 0) {
-                console.log(rowData);
+                //console.log(rowData);
 
                 $('#stationTypeIdP').val(rowData[0].stationTypeId).trigger('change');
                 $('#modeStationTypeP').val(rowData[0].modeStationType);
@@ -208,10 +208,10 @@ var station =
                 },
                 success: function (data, textStatus, xhr) {
                     global.disableLoading();
-                    console.log(textStatus + "| " + xhr.getAllResponseHeaders());
+                    //console.log(textStatus + "| " + xhr.getAllResponseHeaders());
                     var a = document.createElement('a');
                     var url = window.URL.createObjectURL(data);
-                    console.log("url: " + url);
+                    //console.log("url: " + url);
                     a.href = url;
                     a.download = xhr.getResponseHeader("content-disposition");
                     document.body.append(a);
@@ -323,7 +323,7 @@ var station =
         fillDataToForm: function (rowData) {
             $('.help-block').html('');
             if (rowData != null && rowData != undefined && rowData.length > 0) {
-                console.log(rowData);
+                //console.log(rowData);
                 station.enabled_right();
                 $("#btnSave").css("display", "none");
                 $("#btnDelete").css("display", "inline");
@@ -605,7 +605,7 @@ $(document).ready(function () {
             "method": "POST",
             "contentType": "application/json",
             "data": function (d) {
-                console.log(d);
+                //console.log(d);
                 draw = d.draw;
                 return JSON.stringify({
                     "draw": d.draw,

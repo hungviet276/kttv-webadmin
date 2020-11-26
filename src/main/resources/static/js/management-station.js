@@ -67,7 +67,7 @@ const station =
                 method: "GET",
                 contentType: "application/json",
                 success: function (data) {
-                    console.log(data);
+                    //console.log(data);
                     $("#stationType").select2({data: data});
                     $("#stationTypeId").select2({data: data});
                     $("#stationTypeIdControl").select2({data: data});
@@ -87,7 +87,7 @@ const station =
                 method: "GET",
                 contentType: "application/json",
                 success: function (data) {
-                    console.log(data);
+                    //console.log(data);
                     $("#areaId").empty();
                     $("#areaId").select2({data: data});
                     global.disableLoading();
@@ -106,7 +106,7 @@ const station =
                 method: "GET",
                 contentType: "application/json",
                 success: function (data) {
-                    console.log(data);
+                    //console.log(data);
                     let emptyOptions = new Option("Lựa chọn", "-1", true, false);
                     $("#provinceId").empty();
                     $("#districtId").empty();
@@ -137,7 +137,7 @@ const station =
                 method: "GET",
                 contentType: "application/json",
                 success: function (data) {
-                    console.log(data);
+                    //console.log(data);
                     let emptyOptions = new Option("Lựa chọn", "-1", true, false);
                     $("#wardId").empty();
                     $("#wardId").append(emptyOptions).trigger('change');
@@ -169,7 +169,7 @@ const station =
                 method: "GET",
                 contentType: "application/json",
                 success: function (data) {
-                    console.log(data);
+                    //console.log(data);
                     $("#wardId").empty();
                     $("#wardId").select2({data: data});
                     if (station.clientAction === 'update') {
@@ -189,7 +189,7 @@ const station =
                 method: "GET",
                 contentType: "application/json",
                 success: function (data) {
-                    console.log(data);
+                    //console.log(data);
                     $("#riverId").empty();
                     $("#riverId").select2({data: data});
                     if (station.clientAction === 'update') {
@@ -209,7 +209,7 @@ const station =
                 method: "GET",
                 contentType: "application/json",
                 success: function (data) {
-                    console.log(data);
+                    //console.log(data);
                     $("#parameter").select2({data: data});
                     global.disableLoading();
                 }
@@ -225,7 +225,7 @@ const station =
                 method: "GET",
                 contentType: "application/json",
                 success: function (data) {
-                    console.log(data);
+                    //console.log(data);
                     $("#unit").select2({data: data});
                     global.disableLoading();
                 }
@@ -241,7 +241,7 @@ const station =
                 method: "GET",
                 contentType: "application/json",
                 success: function (data) {
-                    console.log(data);
+                    //console.log(data);
                     $("#staffStation").select2({data: data});
                     global.disableLoading();
                 }
@@ -250,7 +250,7 @@ const station =
         checkStationType: function (obj) {
             let stationTypeText = obj.options[obj.selectedIndex].text;
             let stationTypeId = obj.options[obj.selectedIndex].value;
-            console.log(stationTypeText);
+            //console.log(stationTypeText);
             if (stationTypeText.startsWith("HV") || stationTypeText.startsWith("TV") || stationTypeId == -1) {
                 $("#riverId").prop("disabled", false);
                 station.getRiver();
@@ -681,7 +681,7 @@ const station =
                         "method": "POST",
                         "contentType": "application/json",
                         "data": function (d) {
-                            console.log(d);
+                            //console.log(d);
                             draw = d.draw;
                             return JSON.stringify({
                                 "draw": d.draw,
@@ -743,7 +743,7 @@ const station =
         fillDataToForm: function (rowData) {
             $('.help-block').html('');
             if (rowData != null && rowData != undefined && rowData.length > 0) {
-                console.log(rowData);
+                //console.log(rowData);
                 station.enabled_right();
                 $("#btnSave").css("display", "none");
                 $("#btnDelete").css("display", "inline");
@@ -912,7 +912,7 @@ const station =
             $("#commandControl").prop('disabled', false);
             //lay thong tin cua row data dang tuong tac
             let rowData = station.table.rows(index).data().toArray();
-            console.log(JSON.stringify(rowData));
+            //console.log(JSON.stringify(rowData));
             $("#management-station-control").modal();
             $("#stationTypeIdControl").val(rowData[0].stationTypeId).trigger('change');
             $("#stationCodeControl").val(rowData[0].stationCode);
@@ -1015,7 +1015,7 @@ const station =
                     'Authorization': token
                 },
                 url: apiUrl + 'station-type/export',
-                data: JSON.stringify(station.objSearch),
+                data: JSON.stringify({"search" : JSON.stringify(station.objSearch)}),
                 method: 'POST',
                 contentType: "application/json",
                 xhrFields: {
@@ -1023,10 +1023,10 @@ const station =
                 },
                 success: function (data, textStatus, xhr) {
                     global.disableLoading();
-                    console.log(textStatus + "| " + xhr.getAllResponseHeaders());
+                    //console.log(textStatus + "| " + xhr.getAllResponseHeaders());
                     var a = document.createElement('a');
                     var url = window.URL.createObjectURL(data);
-                    console.log("url: " + url);
+                    //console.log("url: " + url);
                     a.href = url;
                     a.download = xhr.getResponseHeader("content-disposition");
                     document.body.append(a);
@@ -1035,6 +1035,13 @@ const station =
                     // window.URL.revokeObjectURL(url);
                 }
             });
+        },
+        showControl:function (i,isAuto){
+            let s = "<span class='fa fa-edit' title='Cập nhật'  onclick='station.preEdit(" + i + ")' style='cursor: pointer'></span> &nbsp;";
+            if(isAuto){
+                s += "<span class='fa fa-wrench' title='Điều khiển'  onclick='station.preControl(" + i + ")' style='cursor: pointer'></span>";
+            }
+            return s;
         }
     }
 
@@ -1178,7 +1185,7 @@ $(document).ready(function () {
             "method": "POST",
             "contentType": "application/json",
             "data": function (d) {
-                console.log(d);
+                //console.log(d);
                 draw = d.draw;
                 return JSON.stringify({
                     "draw": d.draw,
@@ -1200,7 +1207,7 @@ $(document).ready(function () {
                     dataRes.data.push({
                         "": "",
                         "indexCount": i + 1,
-                        "control": "<span class='fa fa-edit' title='Cập nhật'  onclick='station.preEdit(" + i + ")' style='cursor: pointer'></span> &nbsp;<span class='fa fa-wrench' title='Điều khiển'  onclick='station.preControl(" + i + ")' style='cursor: pointer'></span>",
+                        "control": station.showControl(i,responseJson.content[i].isAuto),
                         "stationLongName": responseJson.content[i].stationLongName,
                         "objectType": responseJson.content[i].objectType,
                         "objectTypeName": responseJson.content[i].objectTypeName,
@@ -1225,6 +1232,7 @@ $(document).ready(function () {
                         "districtId": responseJson.content[i].districtId,
                         "wardId": responseJson.content[i].wardId,
                         "siteId": responseJson.content[i].siteId,
+                        "isAuto": responseJson.content[i].isAuto,
                         "modeStationType": responseJson.content[i].modeStationType,
                     })
                 }

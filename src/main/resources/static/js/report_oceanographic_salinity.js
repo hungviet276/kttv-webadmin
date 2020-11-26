@@ -1,10 +1,8 @@
 
-
-// chart
-
-const chartSunnyTime = {
+// Chart
+const chartSalinity = {
     time: [],
-    dataSunnyTime: [],
+    dataSalinity: [],
     min: undefined,
     max: undefined,
     avg: undefined,
@@ -22,9 +20,9 @@ const chartSunnyTime = {
         return this.avg;
     },
     // Lấy dữ liệu độ mặn
-    getDataSunnyTime: function () {
-        this.dataSunnyTime = [10, 26, 44, 63, 74, 33, 20, 47];
-        return this.dataSunnyTime;
+    getDataSalinity: function () {
+        this.dataSalinity = [10, 26, 44, 63, 74, 33, 20, 47];
+        return this.dataSalinity;
     },
     // lấy thời gian
     getTime: function () {
@@ -32,25 +30,23 @@ const chartSunnyTime = {
         return this.time;
     },
     showSlider: function () {
-        let valueAVG = document.getElementsByClassName("value_avg_sunny_time");
-        let valueMIN = document.getElementsByClassName("value_min_sunny_time");
-        let valueMAX = document.getElementsByClassName("value_max_sunny_time");
-        valueAVG[0].innerHTML = this.getAverage(this.dataSunnyTime) + ' phút';
-        valueMIN[0].innerHTML = this.getMin(this.dataSunnyTime) + ' phút';
-        valueMAX[0].innerHTML = this.getMax(this.dataSunnyTime) + ' phút';
+        let valueAVG = document.getElementsByClassName("value_avg_salinity");
+        let valueMIN = document.getElementsByClassName("value_min_salinity");
+        let valueMAX = document.getElementsByClassName("value_max_salinity");
+        valueAVG[0].innerHTML = this.getAverage(this.dataSalinity) + ' ‰';
+        valueMIN[0].innerHTML = this.getMin(this.dataSalinity) + ' ‰';
+        valueMAX[0].innerHTML = this.getMax(this.dataSalinity) + ' ‰';
     }
 };
-chartSunnyTime.getTime();
-chartSunnyTime.getDataSunnyTime();
-chartSunnyTime.showSlider();
+chartSalinity.getTime();
+chartSalinity.getDataSalinity();
+chartSalinity.showSlider();
 
-
-ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9", "b55b025e438fa8a98e32482b5f768ff5"];
-let chartSunnyTimeConfig = {
+let chartSalinityConfig = {
     type: 'area',
     stacked: true,
     title: {
-        text: 'Biểu Đồ Thể Hiện Thời Gian Nắng',
+        text: 'Biểu Đồ Biến Đổi Độ Mặn',
         adjustLayout: true,
         marginTop: '15px',
         fontColor: '#424242'
@@ -77,12 +73,12 @@ let chartSunnyTimeConfig = {
             text: '',
             fontColor: '#616161'
         },
-        labels: chartSunnyTime.time,
+        labels: chartSalinity.time,
         lineColor: '#AAA5A5',
         // format time
         transform: {
             type: 'date',
-            "all": "%dd/%mm/%Y"
+            "all": "%dd/%mm/%Y" + "<br>" + "%h:%i %A"
         },
         tick: {
             lineColor: '#AAA5A5'
@@ -90,7 +86,7 @@ let chartSunnyTimeConfig = {
     },
     scaleY: {
         // đơn vị trục Y
-        format: "%v phút",
+        format: "%v‰",
         guide: {
             lineColor: '#AAA5A5',
             lineStyle: 'dotted'
@@ -100,7 +96,7 @@ let chartSunnyTimeConfig = {
             fontColor: '#616161'
         },
         label: {
-            text: 'Thời gian nắng',
+            text: 'Độ Mặn (‰)',
             fontColor: '#616161'
         },
         lineColor: '#AAA5A5',
@@ -130,11 +126,11 @@ let chartSunnyTimeConfig = {
     },
     series: [
         {
-            text: 'Thời gian',
+            text: 'Độ Mặn',
             // Hiển thị dữ liệu độ mặn
-            values: chartSunnyTime.dataSunnyTime,
+            values: chartSalinity.dataSalinity,
             backgroundColor: 'white',
-            lineColor: '#ff8e07',
+            lineColor: '#4CAF50',
             // marker: {
             //     backgroundColor: '#4CAF50',
             //     borderColor: '#4CAF50'
@@ -144,8 +140,10 @@ let chartSunnyTimeConfig = {
 };
 
 zingchart.render({
-    id: 'myChartSunnyTime',
-    data: chartSunnyTimeConfig,
+    id: 'myChartOceanographicSalinity',
+    data: chartSalinityConfig,
     height: '100%',
     width: '100%'
 });
+
+

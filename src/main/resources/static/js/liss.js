@@ -60,7 +60,8 @@ const station =
                 headers: {
                     'Authorization': token
                 },
-                url: apiUrl + "station-type/get-list-select-station",
+                // url: apiUrl + "station-type/get-list-select-station",
+                url: apiUrl + "station-type/get-list-station",
                 method: "GET",
                 contentType: "application/json",
                 success: function (data) {
@@ -106,7 +107,6 @@ const station =
                     break;
                 }
             }
-            console.log(rId);
             $("#riverId").val(rId).trigger('change');
             $("#riverId").prop('disabled', true);
         },
@@ -278,11 +278,17 @@ const station =
             let val = parseFloat($(obj).html());
             if(!isNaN(val) && val !== NaN) {
                 if (t === 1) {
+                    if (val < 0 || val > 1.0) {
+                        val = undefined;
+                        station.dataRow[i][j].value = undefined;
+                    }
                     station.dataRow[i][j].deep = val;
                     let d = station.dataTotalDeep[j];
                     if(!isNaN(d) && d !== NaN) {
                         station.dataRow[i][j].value = Math.round(val * d * 100) / 100;
                         station.calculateAvg(j);
+                        station.drawTableTT();
+                    } else {
                         station.drawTableTT();
                     }
                 }
@@ -307,16 +313,26 @@ const station =
                     station.drawTableTT();
                 } else {
                     station.dataRow[i][j].speed = val;
+                    station.calculateAvg(j);
+                    station.drawTableTT();
                 }
             }
         },
         isNumber(e){
-            // console.log(String.fromCharCode(e.which));
             if (String.fromCharCode(e.which) !== '.' && isNaN(String.fromCharCode(e.which))) {
                 e.preventDefault();
                 return false;
             }
             return true;
+        },
+        resetTable: function() {
+            console.log('resetTable');
+            station.dataRow=[[{"deep":undefined,"value":undefined,"turbidity":undefined,"speed":undefined}]];
+            station.dataRowAvg=[{"deep":undefined,"value":undefined,"turbidity":undefined,"speed":undefined}];
+            station.dataTotalDeep=[];
+            station.dataDistance=[];
+            station.totalTurb = 0;
+            station.drawTableTT();
         },
         calculateAvg:function (j){
             //tinh trung binh cua moi thuy truc
@@ -332,33 +348,45 @@ const station =
                 case 0:
                     break;
                 case 1:
-                    if(slots[0].deep === 0.5){
+                    if(slots[0].deep === 0.5 && station.checkValue(slots)){
                         avg =slots[0].turbidity * 0.1;
                     }else{
                         avg =slots[0].turbidity;
                     }
                     break;
                 case 2:
-                    if(slots[0].deep === 0.2 && slots[1].deep === 0.8){
-                        avg = (slots[0].turbidity * slots[0].speed + slots[1].turbidity * slots[1].speed)/(slots[0].speed + slots[1].speed);
-                    }else{
+                    if(slots[0].deep === 0.2 && slots[1].deep === 0.8 ){
+                        let resultCheck = station.checkValue(slots);
+                        if (resultCheck) {
+                            avg = (slots[0].turbidity * slots[0].speed + slots[1].turbidity * slots[1].speed)/(slots[0].speed + slots[1].speed);
+                        }
+                        else if (slots[0].turbidity && slots[1].turbidity) {
+                            avg = (slots[0].turbidity + slots[1].turbidity) /2;
+                        }
+                    }
+                    else if (slots[0].turbidity && slots[1].turbidity) {
                         avg = (slots[0].turbidity + slots[1].turbidity) /2;
                     }
                     break;
                 case 3:
-                    if(slots[0].deep === 0.2 && slots[1].deep === 0.6 && slots[2].deep === 0.8){
+                    if(slots[0].deep === 0.2 && slots[1].deep === 0.6 && slots[2].deep === 0.8 && station.checkValue(slots)){
                         avg = (slots[0].turbidity * slots[0].speed + slots[1].turbidity * slots[1].speed + slots[2].turbidity * slots[2].speed)/(slots[0].speed + slots[1].speed + slots[2].speed);
                     }else{
                         avg = (slots[0].turbidity + slots[1].turbidity + slots[2].turbidity) /3;
                     }
                     break;
                 case 5:
-                    if(slots[0].deep === 0 && slots[1].deep === 0.2 && slots[2].deep === 0.6 && slots[3].deep === 0.8 && slots[4].deep === 1){
-                        avg = (slots[0].turbidity * slots[0].speed + 3 * slots[1].turbidity * slots[1].speed +
-                                3 * slots[2].turbidity * slots[2].speed + 2 * slots[3].turbidity * slots[3].speed + slots[4].turbidity * slots[4].speed)
-                            /(slots[0].speed + slots[1].speed + slots[2].speed);
+                    if(slots[0].deep === 0 && slots[1].deep === 0.2 && slots[2].deep === 0.6 && slots[3].deep === 0.8 && slots[4].deep === 1 && station.checkValue(slots)){
+                        let v1 = slots[0].turbidity * slots[0].speed;
+                        let v2 = 3 * slots[1].turbidity * slots[1].speed;
+                        let v3 = 3 * slots[2].turbidity * slots[2].speed;
+                        let v4 = 2 * slots[3].turbidity * slots[3].speed;
+                        let v5 = slots[4].turbidity * slots[4].speed;
+                        let speedAvg = (slots[0].speed + slots[1].speed + slots[2].speed+ slots[3].speed+ slots[4].speed) /5;
+                        avg = (v1 + v2 + v3 + v4 + v5)
+                            /(speedAvg * 10);
                     }else{
-                        avg = (slots[0].turbidity + slots[1].turbidity + slots[2].turbidity + slots[4].turbidity + slots[5].turbidity) /5;
+                        avg = (slots[0].turbidity + slots[1].turbidity + slots[2].turbidity + slots[3].turbidity + slots[4].turbidity) /5;
                     }
                     break;
                 default:
@@ -368,12 +396,23 @@ const station =
                     avg = avg/slots.length;
                     break;
             }
+            avg = Math.round(avg * 100) / 100;
+
             station.dataRowAvg[j].turbidity = avg;
             let total = 0 ;
             for(let i = 0 ; i < station.dataRowAvg.length ; i++){
                 total += station.dataRowAvg[i].turbidity;
             }
             station.totalTurb = total/station.dataRowAvg.length;
+        },
+        checkValue: function (slots) {
+            for (let i = 0; i < slots.length; i++) {
+                let data = slots[i];
+                if(data.deep < 0 || data.deep > 1 || !data.turbidity || !data.speed){
+                    return false;
+                }
+            }
+            return true;
         },
         btnSave: function (e) {
             e.preventDefault();
@@ -386,10 +425,29 @@ const station =
 
             // Create an FormData object
             let data = new FormData(form);
-            data.append("username", global.username);
-            data.append("timeAvg", $("#timeAvg").val());
-            data.append("data", JSON.stringify(station.dataRow));
-            data.append("dataAvg", JSON.stringify(station.dataRowAvg));
+            let username = global.username;
+            let avgValue = $("#timeAvg").val();
+            let dataRow = station.dataRow;
+            let dataRowAvg = station.dataRowAvg;
+            console.log('dataRowAvg : ', dataRowAvg);
+            if (!username && !username !== "" && !avgValue && !avgValue > 0 && !dataRow  && !dataRow > 0 && !dataRowAvg && !dataRowAvg > 0) {
+                global.disableLoading();
+                toastr.error("", "Chưa nhập đủ dữ liệu");
+                return;
+            }
+            for (let i = 0; i < dataRowAvg.length; i++) {
+                let dataRow = dataRowAvg[i];
+                if (!dataRow.deep && !dataRow.speed && !dataRow.turbidity) {
+                    global.disableLoading();
+                    toastr.error("", "Chưa nhập đủ dữ liệu");
+                    return;
+                }
+            }
+
+            data.append("username", username);
+            data.append("timeAvg", avgValue);
+            data.append("data", JSON.stringify(dataRow));
+            data.append("dataAvg", JSON.stringify(dataRowAvg));
             data.append("totalTurb",station.totalTurb);
 
             $.ajax({
@@ -498,6 +556,7 @@ const station =
             $("#address").val('');
             $("#riverId").val('-1').trigger('change');
             $("#status").val('1').trigger('change');
+            station.resetTable();
         },
         btnDelete: function () {
             if (!confirm('Bạn thực sự muốn xóa ?')) {
